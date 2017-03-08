@@ -94,7 +94,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/sign_up_btn"
+                    android:id="@+id/sign_in_btn"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
@@ -103,7 +103,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/edit_text_back"
                     android:gravity="center"
-                    android:text="Sign up"
+                    android:text="Sign in"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/header_txt"
                     android:textStyle="bold" />
@@ -194,7 +194,7 @@
                         android:textSize="10dp" />
 
                     <TextView
-                        android:id="@+id/sign_in_btn"
+                        android:id="@+id/sign_up_btn"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
 

@@ -54,7 +54,7 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
         get_started_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(WalkThroughtOneActivity.this, ShoppingcartActivity.class);
+                Intent i = new Intent(WalkThroughtOneActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }

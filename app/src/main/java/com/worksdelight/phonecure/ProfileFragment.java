@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 
 public class ProfileFragment extends Fragment {
 
-    /*@Override
+   /* @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 View v=inflater.inflate(R.layout.technicians_profile_layout, container, false);
         MainActivity parentActivity = (MainActivity) getActivity();
@@ -16,5 +16,4 @@ View v=inflater.inflate(R.layout.technicians_profile_layout, container, false);
 
         return v;
     }
-*/
-}
+*/}

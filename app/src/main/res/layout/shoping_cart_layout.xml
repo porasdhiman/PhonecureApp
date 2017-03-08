@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5">
+    android:background="#fff">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -58,12 +58,12 @@
 
         <TextView
             android:id="@+id/first_count_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/count_white_back"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:text="1"
             android:textColor="@color/main_color"
             android:textSize="16dp"
@@ -77,8 +77,8 @@
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/second_count_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/count_back"
             android:textColor="#f5f5f5"
             android:layout_centerInParent="true"
@@ -96,12 +96,12 @@
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/third_count_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/count_back"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
             android:text="3"
             android:textSize="16dp"
 
@@ -147,7 +147,7 @@
         android:background="@android:color/darker_gray"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:weightSum="2">
         <TextView
@@ -197,6 +197,23 @@
     android:layout_width="match_parent"
     android:layout_height="0.5dp"
     android:background="@android:color/darker_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/green_btn"
+                android:text="Checkout"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textAllCaps="true"
+                android:textSize="@dimen/header_txt"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
         </LinearLayout>
 
 

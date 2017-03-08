@@ -77,6 +77,12 @@
             android:windowSoftInputMode="stateHidden"
 
             />
+        <activity
+            android:name=".AlmostdoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
+
+            />
     </application>
 
 </manifest>
