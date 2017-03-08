@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.daimajia.swipe.SwipeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe">
+    <LinearLayout
+        android:id="@+id/setting_call_layout"
+        android:layout_width="120dp"
+        android:layout_height="110dp"
+        android:orientation="horizontal"
+
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:weightSum="4"
+
+
+        >
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#6F6F6F">
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/call"
+            android:padding="6dp"
+android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="#6F6F6F"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/main_color">
+        <ImageView
+            android:id="@+id/chat"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/chat"
+            android:padding="6dp"
+
+            android:layout_gravity="center_vertical"
+            android:background="@color/main_color"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#6F6F6F">
+        <ImageView
+            android:id="@+id/message"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/message"
+            android:padding="6dp"
+
+            android:layout_gravity="center_vertical"
+            android:background="#6F6F6F"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#6F6F6F">
+        <ImageView
+            android:id="@+id/cancel"
+
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:src="@drawable/cancel"
+            android:padding="7dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="#6F6F6F"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f5f5f5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/item_back"
+            android:padding="5dp"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <ImageView
+                    android:id="@+id/user_view"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/user_back"/>
+              <!--  <ImageView
+                    android:id="@+id/dot_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="40dp"
+                    android:src="@drawable/red_dot"
+
+
+                    />-->
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/user_view"
+                    android:layout_marginLeft="20dp"
+                    android:text="iFaxihat"
+                    android:textSize="@dimen/sab_txt"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#000"/>
+                <TextView
+                    android:id="@+id/specilist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/user_view"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="iPhone specialist"
+                    android:textSize="@dimen/main_txt"
+                    android:textColor="#d1d1d1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/user_view"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/loc_shape"/>
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/user_view"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:text="0.9 Km Away"
+                        android:textSize="@dimen/main_txt"
+                        android:textColor="@android:color/darker_gray"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_alignParentRight="true">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/star"/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/user_view"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:text="5.0"
+                        android:textSize="@dimen/main_txt"
+                        android:textColor="@color/main_color"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/setting_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/setting"/>
+
+                </LinearLayout>
+               <!-- <LinearLayout
+                    android:id="@+id/setting_call_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:weightSum="4"
+                    android:background="@drawable/setting_click_back"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/call"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/call"
+                        android:padding="6dp"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/chat"
+
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/chat"
+                        android:padding="6dp"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/message"
+
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/message"
+                        android:padding="6dp"
+                        android:layout_weight="1"/>
+                    <ImageView
+                        android:id="@+id/cancel"
+
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/cancel"
+                        android:padding="7dp"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>-->
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/header_view"
+        android:background="#000"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+
+
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/white_back"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Technicians profile"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            />
+       <!-- <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+
+
+            android:layout_alignParentRight="true"
+            android:src="@drawable/heart_img"/>-->
+    </RelativeLayout>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+           <!-- <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/green_calling_btn"
+                android:src="@drawable/white_call_btn"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                />-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp">
+
+
+                <ImageView
+                    android:id="@+id/user_view"
+                    android:layout_width="140dp"
+                    android:layout_height="140dp"
+                    android:background="@drawable/user_back"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <ImageView
+                    android:id="@+id/dot_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="90dp"
+                    android:src="@drawable/red_dot"
+
+
+                    />
+
+            </RelativeLayout>
+           <!-- <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/chat_circle"
+                android:src="@drawable/chat_blcak_btn"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                />-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Techrepair"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Technicians"
+
+        android:textSize="@dimen/header_txt"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/star"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5.0"
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/header_txt"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(234 reviewer)"
+              android:textColor="#373737"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/header_txt"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:background="@drawable/green_btn"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="Bokk appointment"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/item_back">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/personal_img"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal information"
+            android:textColor="#373737"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/header_txt"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/forward"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/item_back">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/working_img"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Working address"
+            android:textColor="#373737"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/header_txt"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/forward"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/item_back">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/insights_logo"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insights"
+            android:textColor="#373737"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/header_txt"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/forward"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

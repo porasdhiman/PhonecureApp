@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PhoneCure</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="user_sign_up_xt">Don\'t have an account? <u>Sign Up</u></string>
+    <string name="tech_sign_up_xt"> Register as technicians <u>Sign Up</u></string>
+</resources>

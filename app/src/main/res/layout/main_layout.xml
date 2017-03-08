@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@color/black">
+
+            <Button
+                android:id="@+id/title_bar_left_menu"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/titlebar_menu_selector"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/header_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/message_img"
+                android:layout_toRightOf="@+id/title_bar_left_menu"
+                android:gravity="center"
+                android:text="PhoneCure"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                />
+
+            <ImageView
+                android:id="@+id/notification_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/notification" />
+
+            <ImageView
+                android:id="@+id/message_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/notification_img"
+                android:src="@drawable/message_img" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></FrameLayout>
+
+</LinearLayout>

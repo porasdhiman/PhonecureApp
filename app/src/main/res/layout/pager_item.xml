@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/back_color">
+    <TextView
+        android:id="@+id/tech_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TECHNICIANS"
+        android:textColor="@android:color/black"
+
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:paddingTop="10dp"
+        android:textSize="@dimen/header_txt"
+        />
+    <TextView
+        android:id="@+id/exper_info_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find your nearby expert"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@+id/tech_txt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="16dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/exper_info_txt"
+        android:layout_marginTop="2dp"
+        >
+        <TextView
+            android:id="@+id/exper_info_txt_two"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="They have the right "
+            android:textColor="@android:color/darker_gray"
+
+            android:textSize="16dp"
+            />
+       <!-- <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cure"
+            android:textColor="@color/main_color"
+
+            android:textSize="@dimen/main_txt"
+            />-->
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/first_scrren_log"
+        android:layout_width="220dp"
+        android:layout_height="230dp"
+        android:src="@drawable/courier"
+        android:layout_above="@+id/tech_txt"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

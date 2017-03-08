@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/header_view"
+        android:background="#fff"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+
+
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="Skip"
+
+            android:src="@drawable/skip"/>
+
+    </RelativeLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/header_view"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/view">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your birthday"
+            android:textAllCaps="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#000"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/edit_text_back"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp">
+
+            <ImageView
+                android:id="@+id/user_img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/calendar"/>
+            <TextView
+                android:id="@+id/dob_txtView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:layout_toRightOf="@+id/user_img"
+                android:layout_marginLeft="10dp"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/main_txt"
+                android:gravity="center_vertical"
+                android:textColorHint="@android:color/darker_gray"
+                android:hint="Dob"/>
+        </RelativeLayout>
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="submit"
+            android:background="@drawable/btn_back"
+            android:textSize="@dimen/header_txt"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_marginTop="30dp"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
