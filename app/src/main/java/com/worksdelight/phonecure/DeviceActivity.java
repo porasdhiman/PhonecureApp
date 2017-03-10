@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -27,6 +29,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     int imgArray[] = {R.drawable.apple_big_logo, R.drawable.android_logo, R.drawable.windows_logo, R.drawable.tablet_logo, R.drawable.portable_logo, R.drawable.game_logo};
     RelativeLayout type_view_include;
     String txtArray[] = {"Apple Device", "Android Device", "Window Device", "Tablet Device", "Portable Device", "Game Console"};
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +48,19 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
         type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+        back = (ImageView) findViewById(R.id.back);
         device_listView.setAdapter(new DeviceAdapter(DeviceActivity.this, imgArray, txtArray));
         getListViewSize(device_listView);
         device_txtView.setOnClickListener(this);
         types_txtView.setOnClickListener(this);
+        back.setOnClickListener(this);
+        device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent iPhone=new Intent(DeviceActivity.this,iPhoneServiceActivity.class);
+                startActivity(iPhone);
+            }
+        });
     }
 
     @Override
@@ -70,6 +82,9 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 types_txtView.setBackgroundResource(R.drawable.green_btn);
                 types_txtView.setTextColor(Color.parseColor("#ffffff"));
                 device_txtView.setTextColor(Color.parseColor("#FFE6E4E4"));
+                break;
+            case R.id.back:
+                finish();
                 break;
         }
 
@@ -162,7 +177,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             return null;
         }
     }
-//----------------------------------ListView scrolloing method----------
+
+    //----------------------------------ListView scrolloing method----------
     public void getListViewSize(ListView myListView) {
         ListAdapter myListAdapter = myListView.getAdapter();
         if (myListAdapter == null) {

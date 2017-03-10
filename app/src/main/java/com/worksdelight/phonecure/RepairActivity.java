@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import static com.worksdelight.phonecure.R.id.setting_layout;
 
@@ -22,14 +23,16 @@ public class RepairActivity extends Activity {
     ListView repair_listView;
 
 
-
+TextView top_txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iphone_repaire_layout);
         repair_listView = (ListView) findViewById(R.id.repair_listView);
 
-        repair_listView.setAdapter(new RepairAdapter(this));
+        repair_listView.setAdapter(new ListViewAdapter(this));
+        top_txt=(TextView)findViewById(R.id.top_txt);
+        top_txt.setVisibility(View.GONE);
 
     }
 

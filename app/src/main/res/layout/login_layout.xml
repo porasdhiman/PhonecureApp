@@ -182,6 +182,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/sign_up_user"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
 

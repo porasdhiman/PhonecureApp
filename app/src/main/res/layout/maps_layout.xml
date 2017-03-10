@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5">
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -21,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="iPhone service"
+            android:text="Maps"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#fff"
@@ -40,14 +41,23 @@
             android:src="@drawable/search_img"/>
     </RelativeLayout>
 
-    <ListView
-       android:id="@+id/service_list"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:divider="#f5f5f5"
-       android:dividerHeight="10dp"
-       android:layout_marginTop="10dp"
-       android:layout_marginRight="10dp"
-       android:layout_marginLeft="10dp"
-       android:scrollbars="none"></ListView>
-</LinearLayout>
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_view"
+         />
+
+    <org.lucasr.twowayview.TwoWayView
+
+        android:id="@+id/horizontal_view_list"
+        style="@style/TwoWayView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:drawSelectorOnTop="false"
+        android:layout_alignParentBottom="true"
+
+        />
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
@@ -24,6 +26,7 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 public class ShoppingcartActivity extends Activity {
     ListView cart_list;
     ScrollView main_scrollView;
+    TextView checkout_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,14 @@ public class ShoppingcartActivity extends Activity {
         cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this));
         getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
+        checkout_btn=(TextView)findViewById(R.id.checkout_btn);
+        checkout_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(ShoppingcartActivity.this,AlmostdoneActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 

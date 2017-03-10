@@ -41,12 +41,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.facebook_layout:
-                Intent f=new Intent(this,MainActivity.class);
+                Intent f=new Intent(this,WalkThroughtOneActivity.class);
                 startActivity(f);
                 finish();
                 break;
             case R.id.twiter_layout:
-                Intent t=new Intent(this,MainActivity.class);
+                Intent t=new Intent(this,WalkThroughtOneActivity.class);
                 startActivity(t);
                 finish();
 

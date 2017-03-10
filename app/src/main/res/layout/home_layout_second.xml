@@ -97,7 +97,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/apple_logo"
+                            android:src="@drawable/android_logo"
                             android:layout_centerInParent="true"/>
                     </RelativeLayout>
 
@@ -195,7 +195,7 @@
                 </RelativeLayout>
             </RelativeLayout>
             <LinearLayout
-
+android:id="@+id/select_device_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -213,7 +213,7 @@
 
 
                     />
-                <view
+                <View
                     android:layout_width="150dp"
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray"/>

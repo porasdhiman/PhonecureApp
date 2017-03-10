@@ -36,15 +36,15 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
     private ImageView[] dots;
     ArrayList<String> list = new ArrayList<>();
     CutomePagerAdapter adapter;
+    Global global;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
+        global = (Global) getApplicationContext();
         setContentView(R.layout.walkthrought_one_layout);
         init();
-        Log.e("device info",getDeviceName()+" , "+getAndroidVersion()+" "+getDeviceId());
     }
 
     public void init() {
@@ -65,9 +65,12 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
                 finish();
             }
         });
+        global.setDeviceName(getDeviceName());
+        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
 
 
     }
+
 
     public void pagerAdapterMethod() {
 
@@ -112,7 +115,7 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
         if (position == 2) {
             bottom_back_started_layout.setVisibility(View.VISIBLE);
 
-        }else{
+        } else {
             bottom_back_started_layout.setVisibility(View.GONE);
 
         }
@@ -127,6 +130,7 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
     public void onPageScrollStateChanged(int state) {
 
     }
+
     //-------device info---------------
     public String getDeviceName() {
 

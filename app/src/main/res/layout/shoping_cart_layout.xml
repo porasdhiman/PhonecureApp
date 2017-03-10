@@ -189,6 +189,7 @@
     android:background="@android:color/darker_gray"/>
 
             <TextView
+                android:id="@+id/checkout_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/green_btn"

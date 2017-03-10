@@ -1,10 +1,13 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -23,6 +26,7 @@ import java.util.Calendar;
 public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener {
     MaterialCalendarView mcv;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    TextView book_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +35,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        book_btn=(TextView)findViewById(R.id.book_btn);
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
 
@@ -51,6 +56,13 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 .setMaximumDate(CalendarDay.from(2023, 12, 31))
 
                 .commit();
+        book_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(BookAppoinmentActivity.this,ShoppingcartActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

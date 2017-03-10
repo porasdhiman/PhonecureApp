@@ -2,12 +2,14 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,7 +23,7 @@ public class iPhoneServiceActivity extends Activity {
     ListView service_list;
     int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone,R.drawable.ios_txt};
     String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone","Software"};
-
+ImageView search_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +38,15 @@ public class iPhoneServiceActivity extends Activity {
 
         service_list = (ListView) findViewById(R.id.service_list);
         service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this,imgArray,txtArray));
+        search_img=(ImageView)findViewById(R.id.search_img);
 
-
+        service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent map=new Intent(iPhoneServiceActivity.this,MapsActivity.class);
+                startActivity(map);
+            }
+        });
     }
 
     //--------------------Adapter class-----------------
