@@ -43,8 +43,7 @@ ImageView search_img;
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent map=new Intent(iPhoneServiceActivity.this,MapsActivity.class);
-                startActivity(map);
+
             }
         });
     }
@@ -88,18 +87,47 @@ ImageView search_img;
                 view = inflator.inflate(R.layout.iphone_service_list_item, null);
                 holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
-
+                holder.select_img = (ImageView) view.findViewById(R.id.select_img);
+                holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
                 view.setTag(holder);
+                holder.select_img.setTag(holder);
+                holder.unselect_img.setTag(holder);
+                holder.device_name.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
             }
             holder.device_image.setImageResource(img[i]);
             holder.device_name.setText(text[i]);
+            holder.select_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder = (Holder) v.getTag();
+                    holder.select_img.setVisibility(View.GONE);
+                    holder.unselect_img.setVisibility(View.VISIBLE);
+                }
+            });
+            holder.unselect_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder = (Holder) v.getTag();
+                    holder.select_img.setVisibility(View.VISIBLE);
+                    holder.unselect_img.setVisibility(View.GONE);
+                }
+            });
+            holder.device_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder = (Holder) v.getTag();
+                    Intent map=new Intent(iPhoneServiceActivity.this,MapsActivity.class);
+                    startActivity(map);
+                }
+            });
+
             return view;
         }
 
         class Holder {
-            ImageView device_image;
+            ImageView device_image,select_img,unselect_img;
             TextView device_name;
         }
     }

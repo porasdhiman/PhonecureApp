@@ -59,7 +59,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(BookAppoinmentActivity.this,ShoppingcartActivity.class);
+                Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
                 startActivity(i);
             }
         });
