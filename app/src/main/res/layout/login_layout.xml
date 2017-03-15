@@ -136,7 +136,17 @@
                         android:text="Sign in with facebook"
                         android:textColor="#fff"
                         android:textStyle="bold" />
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/Fb_Login"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
 
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:visibility="invisible"
+
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout

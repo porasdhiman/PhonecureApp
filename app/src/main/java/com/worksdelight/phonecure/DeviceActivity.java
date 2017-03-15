@@ -3,7 +3,6 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,16 +42,16 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     }
 
     public void init() {
-        device_txtView = (TextView) findViewById(R.id.device_txtView);
-        types_txtView = (TextView) findViewById(R.id.types_txtView);
+        //device_txtView = (TextView) findViewById(R.id.device_txtView);
+       // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
         type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
         device_listView.setAdapter(new DeviceAdapter(DeviceActivity.this, imgArray, txtArray));
         getListViewSize(device_listView);
-        device_txtView.setOnClickListener(this);
-        types_txtView.setOnClickListener(this);
+        //device_txtView.setOnClickListener(this);
+        //types_txtView.setOnClickListener(this);
         back.setOnClickListener(this);
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,7 +64,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+       /* switch (v.getId()) {
             case R.id.device_txtView:
                 device_listView.setVisibility(View.VISIBLE);
                 type_view_include.setVisibility(View.GONE);
@@ -87,7 +86,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
         }
-
+*/
     }
 
     //------------------------Device adapter--------------------------------

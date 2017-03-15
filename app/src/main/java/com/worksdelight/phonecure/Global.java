@@ -16,4 +16,34 @@ public class Global extends Application {
     }
 
     String deviceName;
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
+    String deviceToken;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    String lat;
+
+    public String getLong() {
+        return Long;
+    }
+
+    public void setLong(String aLong) {
+        Long = aLong;
+    }
+
+    String Long;
 }
