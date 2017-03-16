@@ -57,6 +57,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent iPhone=new Intent(DeviceActivity.this,iPhoneServiceActivity.class);
+                iPhone.putExtra("device_type",txtArray[i]);
                 startActivity(iPhone);
             }
         });

@@ -60,12 +60,14 @@
 
 
             <EditText
+                android:id="@+id/name_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
 
                 android:background="@null"
-                android:text="Name"
+                android:hint="Name"
+                android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/main_txt" />
         </RelativeLayout>
@@ -81,13 +83,15 @@
 
 
             <EditText
+                android:id="@+id/email_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
 
                 android:background="@null"
                 android:inputType="textEmailAddress"
-                android:text="Email"
+                android:hint="Email"
+                android:textColorHint="@android:color/darker_gray"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/main_txt" />
         </RelativeLayout>
@@ -103,6 +107,7 @@
 
 
             <EditText
+                android:id="@+id/password_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"

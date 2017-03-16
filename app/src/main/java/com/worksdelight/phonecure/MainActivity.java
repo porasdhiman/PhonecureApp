@@ -20,7 +20,7 @@ import com.special.ResideMenu.ResideMenuItem;
  * Created by worksdelight on 28/02/17.
  */
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener{
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
     private ResideMenu resideMenu;
     private ResideMenuItem itemHome;
     private ResideMenuItem drug;
@@ -30,8 +30,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private ResideMenuItem dashboard;
     private ResideMenuItem logout;
     private ResideMenuItem itemProfile;
-TextView header_txt;
-    ImageView notification_img,message_img;
+    TextView header_txt;
+    ImageView notification_img, message_img;
+    Global global;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +43,18 @@ TextView header_txt;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global = (Global) getApplicationContext();
         setUpMenu();
-        if( savedInstanceState == null )
-            changeFragment(new HomeFragment(),"PhoneCure");
+        if (savedInstanceState == null)
+            changeFragment(new HomeFragment(), "PhoneCure");
     }
+
     private void setUpMenu() {
 
         // attach to current activity;
-        notification_img=(ImageView)findViewById(R.id.notification_img) ;
-        message_img=(ImageView)findViewById(R.id.message_img) ;
-        resideMenu = new ResideMenu(this,R.drawable.user_back,"PORAS DHIMAN","balance:$100000");
+        notification_img = (ImageView) findViewById(R.id.notification_img);
+        message_img = (ImageView) findViewById(R.id.message_img);
+        resideMenu = new ResideMenu(this, R.drawable.user_back, "PORAS DHIMAN", "balance:$100000");
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);
@@ -59,14 +63,14 @@ TextView header_txt;
         resideMenu.setScaleValue(0.6f);
 
         // create menu items;
-        itemHome     = new ResideMenuItem(this,"Home");
-        drug     = new ResideMenuItem(this,"Drug");
-        technicians     = new ResideMenuItem(this,"Technicians");
-        services     = new ResideMenuItem(this,"services");
-        dashboard     = new ResideMenuItem(this,"Dashboard");
-        itemProfile  = new ResideMenuItem(this,"profile");
-        new_cure  = new ResideMenuItem(this,"New cure");
-        logout  = new ResideMenuItem(this,"Logout");
+        itemHome = new ResideMenuItem(this, "Home");
+        drug = new ResideMenuItem(this, "Drug");
+        technicians = new ResideMenuItem(this, "Technicians");
+        services = new ResideMenuItem(this, "services");
+        dashboard = new ResideMenuItem(this, "Dashboard");
+        itemProfile = new ResideMenuItem(this, "profile");
+        new_cure = new ResideMenuItem(this, "New cure");
+        logout = new ResideMenuItem(this, "Logout");
 
 
         itemHome.setOnClickListener(this);
@@ -100,7 +104,7 @@ TextView header_txt;
             }
         });
 
-        header_txt=(TextView)findViewById(R.id.header_txt);
+        header_txt = (TextView) findViewById(R.id.header_txt);
 
     }
 
@@ -112,26 +116,24 @@ TextView header_txt;
     @Override
     public void onClick(View view) {
 
-        if (view == itemHome){
-            changeFragment(new HomeFragment(),"PhoneCure");
-        }else if (view == itemProfile){
-            changeFragment(new ProfileFragment(),"Profile");
-        }else if (view == drug){
-            changeFragment(new DrugFragment(),"Drug");
-        }else if (view == technicians){
-            changeFragment(new TechniciansFragment(),"Technicians");
-        }else if (view == services){
-            changeFragment(new ServiceFragment(),"Services");
-        }
-        else if (view == dashboard){
-            changeFragment(new DashBoradFragment(),"Dashboard");
-        }
+        if (view == itemHome) {
+            changeFragment(new HomeFragment(), "PhoneCure");
+        } else if (view == itemProfile) {
+            changeFragment(new ProfileFragment(), "Profile");
+        } else if (view == drug) {
+            changeFragment(new DrugFragment(), "Drug");
+        } else if (view == technicians) {
+            changeFragment(new TechniciansFragment(), "Technicians");
+        } else if (view == services) {
+            changeFragment(new ServiceFragment(), "Services");
+        } else if (view == dashboard) {
+            changeFragment(new DashBoradFragment(), "Dashboard");
+        } else if (view == new_cure) {
+            changeFragment(new NewCureFragment(), "New Cure");
+        } else if (view == logout) {
+            //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
 
-        else if (view == new_cure){
-            changeFragment(new NewCureFragment(),"New Cure");
-        }
-        else if (view == logout){
-            Intent i=new Intent(MainActivity.this,LoginActivity.class);
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
         }
@@ -152,7 +154,7 @@ TextView header_txt;
         }
     };
 
-    private void changeFragment(Fragment targetFragment,String titel){
+    private void changeFragment(Fragment targetFragment, String titel) {
         header_txt.setText(titel);
         resideMenu.clearIgnoredViewList();
         getSupportFragmentManager()
@@ -163,15 +165,17 @@ TextView header_txt;
     }
 
     // What good method is to access resideMenu？
-    public ResideMenu getResideMenu(){
+    public ResideMenu getResideMenu() {
 
         return resideMenu;
     }
-    public void visibilityMethod(){
+
+    public void visibilityMethod() {
         notification_img.setVisibility(View.GONE);
         message_img.setVisibility(View.GONE);
     }
-    public void homevisibilityMethod(){
+
+    public void homevisibilityMethod() {
         notification_img.setVisibility(View.VISIBLE);
         message_img.setVisibility(View.VISIBLE);
     }

@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +79,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
+import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
+
 /**
  * Created by worksdelight on 01/03/17.
  */
@@ -85,13 +89,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LoginActivity extends Activity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
         , ResultCallback<LocationSettingsResult> {
     RelativeLayout facebook_layout, twitter_layout;
-    TextView sign_in_btn, sign_up_btn, sign_up_user;
+    TextView sign_in_btn, sign_up_btn, sign_up_user, forgot_view;
+    EditText password_view,email_view;
     //--------------facebook variable--------------
     CallbackManager callbackManager;
     LoginButton Login_TV;
     String token;
     Button facebook_btn;
-    String username_mString, email_mString, id_mString;
+    String username_mString="", email_mString="", id_mString="";
     SocialAuthAdapter adapter;
     Profile profileMap;
 
@@ -121,6 +126,8 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
     Dialog dialog2;
+    SharedPreferences sp;
+    SharedPreferences.Editor ed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +139,8 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed = sp.edit();
         init();
     }
 
@@ -145,16 +153,22 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
         global = (Global) getApplicationContext();
+        password_view=(EditText)findViewById(R.id.password_view);
+
+
+        email_view=(EditText)findViewById(R.id.email_view);
         facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
         twitter_layout = (RelativeLayout) findViewById(R.id.twiter_layout);
         sign_in_btn = (TextView) findViewById(R.id.sign_in_btn);
         sign_up_btn = (TextView) findViewById(R.id.sign_up_btn);
         sign_up_user = (TextView) findViewById(R.id.sign_up_user);
+        forgot_view = (TextView) findViewById(R.id.forgot_view);
         facebook_layout.setOnClickListener(this);
         twitter_layout.setOnClickListener(this);
         sign_in_btn.setOnClickListener(this);
         sign_up_btn.setOnClickListener(this);
         sign_up_user.setOnClickListener(this);
+        forgot_view.setOnClickListener(this);
         buildGoogleApiClient();
         //----------Check play service---------------------------
         if (checkPlayServices()) {
@@ -212,7 +226,7 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
 
             } else {
 
-
+                locatioMethod();
                 // We already have permission, so handle as norma
                 //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
             }
@@ -250,7 +264,7 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                         perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
 
-
+                    locatioMethod();
                     // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -307,9 +321,9 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                             id_mString = object.getString("id");
                             //gender = object.getString("gender");
                             //birthday = object.getString("birthday");
-                            Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
-                            startActivity(f);
-                            finish();
+                            dialogWindow();
+                            FacebooksocialMethod();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -364,16 +378,24 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
 
                 break;
             case R.id.twiter_layout:
-
-
                 adapter.authorize(LoginActivity.this, SocialAuthAdapter.Provider.TWITTER);
 
                 break;
             case R.id.sign_in_btn:
+                if(email_view.getText().length()==0){
+                    Toast.makeText(LoginActivity.this,"Please enter email",Toast.LENGTH_SHORT).show();
 
-                Intent s = new Intent(this, WalkThroughtOneActivity.class);
-                startActivity(s);
-                finish();
+                }else if(password_view.getText().length()==0) {
+                    Toast.makeText(LoginActivity.this,"Please enter password",Toast.LENGTH_SHORT).show();
+
+                }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
+                    Toast.makeText(LoginActivity.this,"Please enter valid email",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    dialogWindow();
+                    loginMethod();
+                }
+
                 break;
             case R.id.sign_up_btn:
                 Intent su = new Intent(this, RegisterActivity.class);
@@ -385,6 +407,12 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                 Intent us = new Intent(this, RegisterActivity.class);
                 startActivity(us);
                 finish();
+
+                break;
+            case R.id.forgot_view:
+                Intent f = new Intent(this, ForgotActivity.class);
+                startActivity(f);
+
 
                 break;
         }
@@ -406,10 +434,11 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                     username_mString = profileMap.getFullName();
 
                     id_mString = profileMap.getValidatedId();
+                    global.setSocialAuthAdpater(adapter);
+                    dialogWindow();
+                    twittersocialMethod();
                     Log.e("info", email_mString + "," + username_mString + "," + id_mString);
-                    Intent i = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
-                    startActivity(i);
-                    finish();
+
                 }
 
                 @Override
@@ -591,6 +620,7 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
             // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             global.setLat(String.valueOf(mLastLocation.getLatitude()));
             global.setLong(String.valueOf(mLastLocation.getLongitude()));
+            Log.e("lat long",global.getLat()+" "+global.getLong());
 
 
         } else {
@@ -667,10 +697,27 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
         }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (mLastLocation != null) {
-            //Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             global.setLat(String.valueOf(mLastLocation.getLatitude()));
             global.setLong(String.valueOf(mLastLocation.getLongitude()));
+            Log.e("lat long",global.getLat()+" "+global.getLong());
 
+
+        } else {
+           /* mLocationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                buildAlertMessageNoGPS();
+            }*/
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(locationRequest);
+            builder.setAlwaysShow(true);
+            PendingResult<LocationSettingsResult> result =
+                    LocationServices.SettingsApi.checkLocationSettings(
+                            mGoogleApiClient,
+                            builder.build()
+                    );
+
+            result.setResultCallback(this);
 
         }
     }
@@ -688,11 +735,13 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                         try {
                             JSONObject obj = new JSONObject(response);
 
-                            String status = obj.getString("success");
+                            String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-
+                                Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(s);
+                                finish();
                             } else {
-                                Toast.makeText(LoginActivity.this, obj.getString("msg"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -714,7 +763,16 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("device_type", "android");
+
+                params.put(GlobalConstant.email, email_view.getText().toString());
+                params.put(GlobalConstant.password, password_view.getText().toString());
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+
+
 
                 Log.e("Parameter for Login", params.toString());
                 return params;
@@ -726,11 +784,11 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
         requestQueue.add(stringRequest);
     }
 
-    //--------------------Social api method---------------------------------
-    private void socialMethod() {
+    //--------------------Facebook Social api method---------------------------------
+    private void FacebooksocialMethod() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.LOGIN_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -740,11 +798,13 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
                         try {
                             JSONObject obj = new JSONObject(response);
 
-                            String status = obj.getString("success");
+                            String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-
+                                Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(f);
+                                finish();
                             } else {
-                                Toast.makeText(LoginActivity.this, obj.getString("msg"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -766,7 +826,76 @@ public class LoginActivity extends Activity implements OnClickListener, GoogleAp
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put("device_type", "android");
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, email_mString);
+                params.put(facebook_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    //--------------------Facebook Social api method---------------------------------
+    private void twittersocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.TWITTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(f);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, "");
+                params.put(twitter_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+
 
                 Log.e("Parameter for social", params.toString());
                 return params;

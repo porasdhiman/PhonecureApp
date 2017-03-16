@@ -2,6 +2,8 @@ package com.worksdelight.phonecure;
 
 import android.app.Application;
 
+import org.brickred.socialauth.android.SocialAuthAdapter;
+
 /**
  * Created by worksdelight on 10/03/17.
  */
@@ -46,4 +48,14 @@ public class Global extends Application {
     }
 
     String Long;
+
+    public SocialAuthAdapter getSocialAuthAdpater() {
+        return socialAuthAdpater;
+    }
+
+    public void setSocialAuthAdpater(SocialAuthAdapter socialAuthAdpater) {
+        this.socialAuthAdpater = socialAuthAdpater;
+    }
+
+    SocialAuthAdapter socialAuthAdpater;
 }

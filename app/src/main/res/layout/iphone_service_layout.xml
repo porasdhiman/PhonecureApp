@@ -19,6 +19,7 @@
             android:layout_alignParentLeft="true"
             android:src="@drawable/white_back"/>
         <TextView
+            android:id="@+id/service_txtView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="iPhone service"
@@ -39,7 +40,14 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/search_img"/>
     </RelativeLayout>
-
+<ScrollView
+    android:id="@+id/main_scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ListView
        android:id="@+id/service_list"
        android:layout_width="match_parent"
@@ -50,4 +58,26 @@
        android:layout_marginRight="10dp"
        android:layout_marginLeft="10dp"
        android:scrollbars="none"></ListView>
+    <TextView
+        android:id="@+id/submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/time_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/green_btn"
+        android:gravity="center"
+        android:text="Submit"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="@dimen/header_txt"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/book_btn" />
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -21,9 +22,12 @@ import android.widget.TextView;
 
 public class iPhoneServiceActivity extends Activity {
     ListView service_list;
-    int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone,R.drawable.ios_txt};
-    String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone","Software"};
-ImageView search_img;
+    int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
+    String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
+    ImageView search_img;
+    ScrollView main_scrollView;
+    TextView submit_btn, service_txtView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +38,16 @@ ImageView search_img;
         }
         init();
     }
-    public void init() {
 
+    public void init() {
+        submit_btn = (TextView) findViewById(R.id.submit_btn);
+        service_txtView = (TextView) findViewById(R.id.service_txtView);
+        main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
         service_list = (ListView) findViewById(R.id.service_list);
-        service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this,imgArray,txtArray));
-        search_img=(ImageView)findViewById(R.id.search_img);
+        service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this, imgArray, txtArray));
+        CommonUtils.getListViewSize(service_list);
+        main_scrollView.smoothScrollTo(0, 0);
+        search_img = (ImageView) findViewById(R.id.search_img);
 
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -46,6 +55,14 @@ ImageView search_img;
 
             }
         });
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent map = new Intent(iPhoneServiceActivity.this, MapsActivity.class);
+                startActivity(map);
+            }
+        });
+        service_txtView.setText(getIntent().getExtras().getString("device_type"));
     }
 
     //--------------------Adapter class-----------------
@@ -114,20 +131,13 @@ ImageView search_img;
                     holder.unselect_img.setVisibility(View.GONE);
                 }
             });
-            holder.device_name.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder = (Holder) v.getTag();
-                    Intent map=new Intent(iPhoneServiceActivity.this,MapsActivity.class);
-                    startActivity(map);
-                }
-            });
+
 
             return view;
         }
 
         class Holder {
-            ImageView device_image,select_img,unselect_img;
+            ImageView device_image, select_img, unselect_img;
             TextView device_name;
         }
     }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     RelativeLayout facebook_layout,twitter_layout;
     TextView sign_in_btn,sign_up_btn;
     Dialog dialog2;
+    EditText password_view,name_view,email_view;
+    Global global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +49,15 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         setContentView(R.layout.register_layout);
+        global=(Global)getApplicationContext();
         init();
     }
     public void init(){
+        password_view=(EditText)findViewById(R.id.password_view);
+        name_view=(EditText)findViewById(R.id.name_view);
+
+        email_view=(EditText)findViewById(R.id.email_view);
+
         facebook_layout=(RelativeLayout)findViewById(R.id.facebook_layout);
         twitter_layout=(RelativeLayout)findViewById(R.id.twiter_layout);
         sign_in_btn=(TextView) findViewById(R.id.sign_in_btn);
@@ -80,9 +89,23 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.sign_up_btn:
-                Intent su=new Intent(this,MainActivity.class);
-                startActivity(su);
-                finish();
+                if(email_view.getText().length()==0){
+                    Toast.makeText(RegisterActivity.this,"Please enter email",Toast.LENGTH_SHORT).show();
+
+                }else if(password_view.getText().length()==0) {
+                    Toast.makeText(RegisterActivity.this,"Please enter password",Toast.LENGTH_SHORT).show();
+
+                }else if(name_view.getText().length()==0) {
+                    Toast.makeText(RegisterActivity.this,"Please enter name",Toast.LENGTH_SHORT).show();
+                }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
+                    Toast.makeText(RegisterActivity.this,"Please enter valid email",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    dialogWindow();
+                    registerMethod();
+                }
+
+
 
                 break;
         }
@@ -90,7 +113,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
     private void registerMethod() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.LOGIN_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.SIGNUP_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -100,11 +123,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                         try {
                             JSONObject obj = new JSONObject(response);
 
-                            String status = obj.getString("success");
+                            String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-
+                                Intent su=new Intent(RegisterActivity.this,MainActivity.class);
+                                startActivity(su);
+                                finish();
                             } else {
-                                Toast.makeText(RegisterActivity.this, obj.getString("msg"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -125,8 +150,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put(GlobalConstant.name, name_view.getText().toString());
+                params.put(GlobalConstant.email, email_view.getText().toString());
+                params.put(GlobalConstant.password, password_view.getText().toString());
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
 
-                params.put("device_type", "android");
+
+
 
                 Log.e("Parameter for register", params.toString());
                 return params;

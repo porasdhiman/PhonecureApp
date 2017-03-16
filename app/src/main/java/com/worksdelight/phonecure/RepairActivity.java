@@ -2,10 +2,12 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,20 +25,23 @@ public class RepairActivity extends Activity {
     ListView repair_listView;
 
 
-TextView top_txt;
+    TextView top_txt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iphone_repaire_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+        }
         repair_listView = (ListView) findViewById(R.id.repair_listView);
 
         repair_listView.setAdapter(new ListViewAdapter(this));
-        top_txt=(TextView)findViewById(R.id.top_txt);
+        top_txt = (TextView) findViewById(R.id.top_txt);
         top_txt.setVisibility(View.GONE);
 
     }
-
-
 
 
     class RepairAdapter extends BaseAdapter {
@@ -48,6 +53,7 @@ TextView top_txt;
             this.c = c;
             inflatore = LayoutInflater.from(c);
         }
+
         @Override
         public int getViewTypeCount() {
             return 10;

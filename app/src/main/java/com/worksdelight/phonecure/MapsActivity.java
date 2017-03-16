@@ -32,6 +32,8 @@ import org.lucasr.twowayview.TwoWayView;
 
 import java.util.Hashtable;
 
+import static com.worksdelight.phonecure.R.id.map;
+
 public class MapsActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
     Marker marker;
@@ -79,7 +81,7 @@ ImageView search_img;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
 
 
 
@@ -149,9 +151,10 @@ ImageView search_img;
             lng = String.valueOf(mLastLocation.getLongitude());
             LatLng postion = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
             mark = mMap.addMarker(new MarkerOptions().position(postion).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin)));
-
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(postion, 10));
+
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+           // LatLng center = mMap.getCameraPosition().target;
 
 
         } else {
