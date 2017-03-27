@@ -176,7 +176,17 @@ android:id="@+id/sign_up_btn"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/facebook_txt"
                     android:src="@drawable/facebook" />
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/Fb_Login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
 
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:visibility="invisible"
+
+
+                    />
 
             </RelativeLayout>
 

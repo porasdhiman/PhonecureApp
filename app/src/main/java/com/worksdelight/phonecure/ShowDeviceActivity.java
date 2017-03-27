@@ -18,9 +18,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,74 +47,45 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 07/03/17.
+ * Created by worksdelight on 21/03/17.
  */
 
-public class iPhoneServiceActivity extends Activity {
-    ListView service_list;
-    //  int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
-    // String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
-    ImageView search_img;
-    ScrollView main_scrollView;
-    TextView submit_btn, service_txtView;
-    Dialog dialog2;
+public class ShowDeviceActivity extends Activity {
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
+    Dialog dialog2;
     DisplayImageOptions options;
-    String serviceID = "";
-Global global;
+    GridView device_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.iphone_service_layout);
+        setContentView(R.layout.show_device_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        init();
-        global=(Global)getApplicationContext();
-    }
-
-    public void init() {
-        submit_btn = (TextView) findViewById(R.id.submit_btn);
-        service_txtView = (TextView) findViewById(R.id.service_txtView);
-        main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
-        service_list = (ListView) findViewById(R.id.service_list);
-        submit_btn.setVisibility(View.GONE);
-
-        search_img = (ImageView) findViewById(R.id.search_img);
+        device_view=(GridView)findViewById(R.id.device);
         dialogWindow();
-        subcategoryMethod();
-        service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        showDeviceMethod();
+        device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
+                iPhone.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                iPhone.putExtra("device_id",getIntent().getExtras().getString("id"));
+                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
+
+                startActivity(iPhone);
             }
         });
-        submit_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(serviceID.equalsIgnoreCase("")){
-                    Toast.makeText(iPhoneServiceActivity.this,"Please select services",Toast.LENGTH_SHORT).show();
-                }else{
-                    Intent map = new Intent(iPhoneServiceActivity.this, MapsActivity.class);
-                    map.putExtra("device_id", getIntent().getExtras().getString("device_id"));
-                    map.putExtra("id", getIntent().getExtras().getString("id"));
-                    map.putExtra("selected_id", serviceID);
-
-                    startActivity(map);
-                }
-
-            }
-        });
-        service_txtView.setText(getIntent().getExtras().getString("device_type"));
     }
 
     //--------------------Category api method---------------------------------
-    private void subcategoryMethod() {
-
+    private void showDeviceMethod() {
+Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL +"device_model_id="+ getIntent().getExtras().getString("id"),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL+"category_id="+getIntent().getExtras().getString("id"),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -133,21 +103,16 @@ Global global;
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
+                                    map.put(GlobalConstant.category_id, arryObj.getString(GlobalConstant.category_id));
 
-                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     list.add(map);
                                 }
-                                if(list.size()!=0) {
-                                    service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this, list));
-                                    CommonUtils.getListViewSize(service_list);
-                                    main_scrollView.smoothScrollTo(0, 0);
-                                    submit_btn.setVisibility(View.VISIBLE);
-                                    global.setServiceList(list);
-                                }
+
+                                device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this,list));
                             } else {
-                                Toast.makeText(iPhoneServiceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShowDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -183,16 +148,14 @@ Global global;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+    //------------------------Device adapter--------------------------------
 
-
-    //--------------------Adapter class-----------------
     class DeviceAdapter extends BaseAdapter {
         Context c;
         LayoutInflater inflator;
         Holder holder = null;
         String url = "";
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
-
 
         DeviceAdapter(Context c, ArrayList<HashMap<String, String>> deviceList) {
             this.c = c;
@@ -207,7 +170,6 @@ Global global;
                     .cacheInMemory()
                     .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
             initImageLoader();
-
         }
 
         @Override
@@ -226,23 +188,19 @@ Global global;
         }
 
         @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
+        public View getView(int i, View view, ViewGroup viewGroup) {
             holder = new Holder();
             if (view == null) {
 
-                view = inflator.inflate(R.layout.iphone_service_list_item, null);
-                holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
-                holder.device_name = (TextView) view.findViewById(R.id.device_name);
-                holder.select_img = (ImageView) view.findViewById(R.id.select_img);
-                holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                view = inflator.inflate(R.layout.show_device_item_layout, null);
+                holder.device_image = (ImageView) view.findViewById(R.id.device_item);
+               holder.device_name = (TextView) view.findViewById(R.id.device_name);
+
                 view.setTag(holder);
-                holder.select_img.setTag(holder);
-                holder.unselect_img.setTag(holder);
-                holder.device_name.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.DEVICE_IMAGE_URL + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,
@@ -260,57 +218,14 @@ Global global;
             }
 
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
-            holder.select_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder = (Holder) v.getTag();
-                    holder.select_img.setVisibility(View.GONE);
-                    holder.unselect_img.setVisibility(View.VISIBLE);
-                    if (serviceID.equalsIgnoreCase("")) {
-                        serviceID = deviceList.get(i).get(GlobalConstant.id);
-                    } else {
-                        if (!serviceID.contains(deviceList.get(i).get(GlobalConstant.id))) {
-                            serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
-                        }
-                    }
-
-                }
-            });
-            holder.unselect_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder = (Holder) v.getTag();
-                    holder.select_img.setVisibility(View.VISIBLE);
-                    holder.unselect_img.setVisibility(View.GONE);
-                    String id = String.valueOf(serviceID.charAt(0));
-
-                    if (serviceID.contains(",")) {
-                        if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
-                            serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id) + ",", "");
-
-                        } else {
-                            serviceID = serviceID.replace("," + deviceList.get(i).get(GlobalConstant.id), "");
-
-                        }
-                    } else {
-                        serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id), "");
-
-                    }
-
-
-                }
-            });
-
-
             return view;
         }
 
         class Holder {
-            ImageView device_image, select_img, unselect_img;
+            ImageView device_image;
             TextView device_name;
         }
     }
-
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -334,4 +249,5 @@ Global global;
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
+
 }

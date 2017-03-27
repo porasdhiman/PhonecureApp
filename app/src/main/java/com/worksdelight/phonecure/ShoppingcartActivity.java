@@ -1,8 +1,10 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -18,6 +21,18 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by worksdelight on 08/03/17.
@@ -26,7 +41,13 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 public class ShoppingcartActivity extends Activity {
     ListView cart_list;
     ScrollView main_scrollView;
-    TextView checkout_btn;
+    TextView checkout_btn,total_price;
+    Global global;
+    List<String> selectList;
+    ArrayList<HashMap<String,String>> listing=new ArrayList<>();
+    com.nostra13.universalimageloader.core.ImageLoader imageLoader;
+    DisplayImageOptions options;
+    String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,14 +56,14 @@ public class ShoppingcartActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global=(Global)getApplicationContext();
         init();
+
     }
     public void init(){
         cart_list=(ListView)findViewById(R.id.cart_list);
         main_scrollView=(ScrollView)findViewById(R.id.main_scrollView);
-        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this));
-        getListViewSize(cart_list);
-        main_scrollView.smoothScrollTo(0, 0);
+
         checkout_btn=(TextView)findViewById(R.id.checkout_btn);
         checkout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,15 +72,61 @@ public class ShoppingcartActivity extends Activity {
                 startActivity(i);
             }
         });
+        total_price=(TextView)findViewById(R.id.total_price);
+        if(getIntent().getExtras().getString("selected_id").contains(",")) {
+            selectList = new ArrayList<>(Arrays.asList(getIntent().getExtras().getString("selected_id").split(",")));
+            for (int i = 0; i < global.getServiceList().size(); i++) {
+                if (global.getServiceList().get(i).get(GlobalConstant.id).equalsIgnoreCase(selectList.get(i))) {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(GlobalConstant.id, global.getServiceList().get(i).get(GlobalConstant.id));
+
+                    map.put(GlobalConstant.sub_category_id, global.getServiceList().get(i).get(GlobalConstant.sub_category_id));
+                    map.put(GlobalConstant.name, global.getServiceList().get(i).get(GlobalConstant.name));
+                    map.put(GlobalConstant.icon, global.getServiceList().get(i).get(GlobalConstant.icon));
+                    map.put(GlobalConstant.count, "0");
+                    listing.add(map);
+                }
+            }
+        }else{
+            for (int i = 0; i < global.getServiceList().size(); i++) {
+                if (global.getServiceList().get(i).get(GlobalConstant.id).equalsIgnoreCase(getIntent().getExtras().getString("selected_id"))) {
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(GlobalConstant.id, global.getServiceList().get(i).get(GlobalConstant.id));
+
+                    map.put(GlobalConstant.sub_category_id, global.getServiceList().get(i).get(GlobalConstant.sub_category_id));
+                    map.put(GlobalConstant.name, global.getServiceList().get(i).get(GlobalConstant.name));
+                    map.put(GlobalConstant.icon, global.getServiceList().get(i).get(GlobalConstant.icon));
+                    map.put(GlobalConstant.count, "0");
+                    listing.add(map);
+                }
+            }
+        }
+        Log.e("listing value",listing.toString());
+        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this,listing));
+        getListViewSize(cart_list);
+        main_scrollView.smoothScrollTo(0, 0);
     }
 
 
     public class ShoppingAdapter extends BaseSwipeAdapter {
 
         private Context mContext;
+        Holder h;
+        ArrayList<HashMap<String,String>> deviceListing=new ArrayList<>();
 
-        public ShoppingAdapter(Context mContext) {
+        public ShoppingAdapter(Context mContext,ArrayList<HashMap<String,String>> deviceListing) {
+
             this.mContext = mContext;
+            this.deviceListing=deviceListing;
+            imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+            options = new DisplayImageOptions.Builder()
+                    .imageScaleType(ImageScaleType.EXACTLY)
+
+                    .showStubImage(0)        //	Display Stub Image
+                    .showImageForEmptyUri(0)    //	If Empty image found
+                    .cacheInMemory()
+                    .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+            initImageLoader();
         }
 
         @Override
@@ -68,45 +135,222 @@ public class ShoppingcartActivity extends Activity {
         }
 
         @Override
-        public View generateView(int position, ViewGroup parent) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.cart_list_item, null);
+        public View generateView(final int position, ViewGroup parent) {
+            final View v = LayoutInflater.from(mContext).inflate(R.layout.cart_list_item, null);
             SwipeLayout swipeLayout = (SwipeLayout)v.findViewById(getSwipeLayoutResourceId(position));
 
-            /*swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
+            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
-                public void onDoubleClick(SwipeLayout layout, boolean surface) {
-                    Toast.makeText(mContext, "DoubleClick", Toast.LENGTH_SHORT).show();
+                public void onStartOpen(SwipeLayout layout) {
+
                 }
-            });*/
-            v.findViewById(R.id.delete_img).setOnClickListener(new View.OnClickListener() {
+
                 @Override
-                public void onClick(View view) {
-                    Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
+                public void onOpen(SwipeLayout layout) {
+                    v.findViewById(R.id.delete_img).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
+                            deviceListing.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
+
+                @Override
+                public void onStartClose(SwipeLayout layout) {
+
+                }
+
+                @Override
+                public void onClose(SwipeLayout layout) {
+
+                }
+
+                @Override
+                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+
+                }
+
+                @Override
+                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+
                 }
             });
+
+
             return v;
         }
 
         @Override
-        public void fillValues(int position, View convertView) {
-            /*TextView t = (TextView)convertView.findViewById(R.id.name);
-            t.setText((position + 1) + ".");*/
+        public void fillValues(final int position, View convertView) {
+
+           /* if(convertView==null){
+                h=new Holder();
+
+                h.name_view=(TextView)convertView.findViewById(R.id.name_view);
+                h.price=(TextView)convertView.findViewById(R.id.price);
+                h.person_count=(TextView)convertView.findViewById(R.id.person_count);
+                h.add_view=(ImageView) convertView.findViewById(R.id.add);
+                h.minus=(ImageView) convertView.findViewById(R.id.minus);
+                h.service_view=(ImageView) convertView.findViewById(R.id.service_view);
+                convertView.setTag(h);
+                h.add_view.setTag(h);
+                h.minus.setTag(h);
+                h.person_count.setTag(h);
+            }else{
+                h = (Holder) convertView.getTag();
+            }
+           // h.name_view.setText(deviceListing.get(position).get(GlobalConstant.name));
+            h.person_count.setText(deviceListing.get(position).get(GlobalConstant.count));
+            url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + deviceListing.get(position).get(GlobalConstant.icon);
+            if (url != null && !url.equalsIgnoreCase("null")
+                    && !url.equalsIgnoreCase("")) {
+                imageLoader.displayImage(url, h.service_view, options,
+                        new SimpleImageLoadingListener() {
+                            @Override
+                            public void onLoadingComplete(String imageUri,
+                                                          View view, Bitmap loadedImage) {
+                                super.onLoadingComplete(imageUri, view,
+                                        loadedImage);
+
+                            }
+                        });
+            } else {
+                h.service_view.setImageResource(0);
+            }
+
+
+            h.add_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    h=(Holder)view.getTag();
+                    int j=Integer.parseInt(h.person_count.getText().toString());
+
+                        j=j+1;
+                        h.person_count.setText(String.valueOf(j));
+                        deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+
+                }
+            });
+            h.minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    h=(Holder)view.getTag();
+                    int j=Integer.parseInt(h.person_count.getText().toString());
+                    if(j==0){
+                        h.person_count.setText(String.valueOf(0));
+                        Toast.makeText(mContext,"less then zero not allowed",Toast.LENGTH_SHORT).show();
+                        deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+                    }else{
+                        j=j-1;
+                        h.person_count.setText(String.valueOf(j));
+                        deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+                    }
+                }
+            });*/
+            TextView t = (TextView)convertView.findViewById(R.id.name_view);
+            final TextView person_count=(TextView)convertView.findViewById(R.id.person_count);
+            ImageView service_view=(ImageView) convertView.findViewById(R.id.service_view);
+            ImageView add_view=(ImageView) convertView.findViewById(R.id.plus);
+            ImageView minus=(ImageView) convertView.findViewById(R.id.minus);
+            t.setText(deviceListing.get(position).get(GlobalConstant.name));
+            person_count.setText(deviceListing.get(position).get(GlobalConstant.count));
+            url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + deviceListing.get(position).get(GlobalConstant.icon);
+            if (url != null && !url.equalsIgnoreCase("null")
+                    && !url.equalsIgnoreCase("")) {
+                imageLoader.displayImage(url, service_view, options,
+                        new SimpleImageLoadingListener() {
+                            @Override
+                            public void onLoadingComplete(String imageUri,
+                                                          View view, Bitmap loadedImage) {
+                                super.onLoadingComplete(imageUri, view,
+                                        loadedImage);
+
+                            }
+                        });
+            } else {
+                service_view.setImageResource(0);
+            }
+            add_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int j=Integer.parseInt(person_count.getText().toString());
+
+                    j=j+1;
+                    person_count.setText(String.valueOf(j));
+                    deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+
+                }
+            });
+            minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int j=Integer.parseInt(person_count.getText().toString());
+                    if(j==0){
+                        person_count.setText(String.valueOf(0));
+                        Toast.makeText(mContext,"less then zero not allowed",Toast.LENGTH_SHORT).show();
+                        deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+                    }else{
+                        j=j-1;
+                        person_count.setText(String.valueOf(j));
+                        deviceListing.get(position).put(GlobalConstant.count,String.valueOf(j));
+
+                    }
+                }
+            });
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return deviceListing.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return deviceListing.get(position);
         }
 
         @Override
         public long getItemId(int position) {
             return position;
         }
+
+        class Holder{
+            TextView name_view,price,person_count;
+            ImageView add_view,minus,service_view;
+        }
+    }
+
+    private void initImageLoader() {
+        int memoryCacheSize;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            int memClass = ((ActivityManager)
+                    getSystemService(Context.ACTIVITY_SERVICE))
+                    .getMemoryClass();
+            memoryCacheSize = (memClass / 8) * 1024 * 1024;
+        } else {
+            memoryCacheSize = 2 * 1024 * 1024;
+        }
+
+        final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                this).threadPoolSize(5)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCacheSize(memoryCacheSize)
+                .memoryCache(new FIFOLimitedMemoryCache(memoryCacheSize - 1000000))
+                .denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).enableLogging()
+                .build();
+
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
     //----------------------------------ListView scrolloing method----------
     public void getListViewSize(ListView myListView) {

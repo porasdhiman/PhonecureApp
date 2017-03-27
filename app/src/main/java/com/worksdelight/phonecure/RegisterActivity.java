@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,24 +24,51 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.android.DialogListener;
+import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
+import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
 
 /**
  * Created by worksdelight on 01/03/17.
  */
 
-public class RegisterActivity extends Activity implements View.OnClickListener{
-    RelativeLayout facebook_layout,twitter_layout;
-    TextView sign_in_btn,sign_up_btn;
+public class RegisterActivity extends Activity implements View.OnClickListener {
+    RelativeLayout facebook_layout, twitter_layout;
+    TextView sign_in_btn, sign_up_btn;
     Dialog dialog2;
-    EditText password_view,name_view,email_view;
+    EditText password_view, name_view, email_view;
     Global global;
+    //--------------facebook variable--------------
+    CallbackManager callbackManager;
+    LoginButton Login_TV;
+    String token;
+    Button facebook_btn;
+    String username_mString = "", email_mString = "", id_mString = "";
+    SocialAuthAdapter adapter;
+    Profile profileMap;
+    int REQUEST_CHECK_SETTINGS = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,19 +77,25 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         setContentView(R.layout.register_layout);
-        global=(Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         init();
     }
-    public void init(){
-        password_view=(EditText)findViewById(R.id.password_view);
-        name_view=(EditText)findViewById(R.id.name_view);
 
-        email_view=(EditText)findViewById(R.id.email_view);
+    public void init() {
+        adapter = new SocialAuthAdapter(new ResponseListener());
+        callbackManager = CallbackManager.Factory.create();
+        Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
+        Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
+        fbMethod();
+        password_view = (EditText) findViewById(R.id.password_view);
+        name_view = (EditText) findViewById(R.id.name_view);
 
-        facebook_layout=(RelativeLayout)findViewById(R.id.facebook_layout);
-        twitter_layout=(RelativeLayout)findViewById(R.id.twiter_layout);
-        sign_in_btn=(TextView) findViewById(R.id.sign_in_btn);
-        sign_up_btn=(TextView) findViewById(R.id.sign_up_btn);
+        email_view = (EditText) findViewById(R.id.email_view);
+
+        facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
+        twitter_layout = (RelativeLayout) findViewById(R.id.twiter_layout);
+        sign_in_btn = (TextView) findViewById(R.id.sign_in_btn);
+        sign_up_btn = (TextView) findViewById(R.id.sign_up_btn);
         facebook_layout.setOnClickListener(this);
         twitter_layout.setOnClickListener(this);
         sign_in_btn.setOnClickListener(this);
@@ -70,46 +104,162 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.facebook_layout:
-                Intent f=new Intent(this,WalkThroughtOneActivity.class);
-                startActivity(f);
-                finish();
+                Login_TV.performClick();
+
+
                 break;
             case R.id.twiter_layout:
-                Intent t=new Intent(this,WalkThroughtOneActivity.class);
-                startActivity(t);
-                finish();
+                adapter.authorize(RegisterActivity.this, SocialAuthAdapter.Provider.TWITTER);
+
 
                 break;
             case R.id.sign_in_btn:
 
-                Intent s=new Intent(this,LoginActivity.class);
+                Intent s = new Intent(this, LoginActivity.class);
                 startActivity(s);
                 finish();
                 break;
             case R.id.sign_up_btn:
-                if(email_view.getText().length()==0){
-                    Toast.makeText(RegisterActivity.this,"Please enter email",Toast.LENGTH_SHORT).show();
+                if (email_view.getText().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
 
-                }else if(password_view.getText().length()==0) {
-                    Toast.makeText(RegisterActivity.this,"Please enter password",Toast.LENGTH_SHORT).show();
+                } else if (password_view.getText().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
 
-                }else if(name_view.getText().length()==0) {
-                    Toast.makeText(RegisterActivity.this,"Please enter name",Toast.LENGTH_SHORT).show();
-                }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                    Toast.makeText(RegisterActivity.this,"Please enter valid email",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else if (name_view.getText().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                } else if (!CommonUtils.isEmailValid(email_view.getText().toString())) {
+                    Toast.makeText(RegisterActivity.this, "Please enter valid email", Toast.LENGTH_SHORT).show();
+                } else {
                     dialogWindow();
                     registerMethod();
                 }
 
 
-
                 break;
         }
     }
+
+    private final class ResponseListener implements DialogListener {
+        @Override
+        public void onComplete(Bundle values) {
+
+            token = adapter.getCurrentProvider().getAccessGrant().getKey();
+            Log.e("token", token);
+            adapter.getUserProfileAsync(new SocialAuthListener() {
+
+                @Override
+                public void onExecute(String s, Object o) {
+                    profileMap = adapter.getUserProfile();
+                    Log.e("info", profileMap.toString());
+                    email_mString = profileMap.getEmail();
+                    username_mString = profileMap.getFullName();
+
+                    id_mString = profileMap.getValidatedId();
+                    global.setSocialAuthAdpater(adapter);
+                    dialogWindow();
+                    twittersocialMethod();
+                    Log.e("info", email_mString + "," + username_mString + "," + id_mString);
+
+                }
+
+                @Override
+                public void onError(SocialAuthError socialAuthError) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onError(SocialAuthError socialAuthError) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onBack() {
+
+        }
+    }
+
+    //---------------------------facebook method------------------------------
+    public void fbMethod() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                token = loginResult.getAccessToken().getToken();
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object,
+                                            GraphResponse response) {
+                        // Application code
+
+                        Log.e("date", object.toString());
+                        try {
+                            username_mString = object.getString("name");
+                            if (object.has("email")) {
+                                email_mString = object.getString("email");
+                            } else {
+                                //  email = "";
+                            }
+                            id_mString = object.getString("id");
+                            //gender = object.getString("gender");
+                            //birthday = object.getString("birthday");
+                            dialogWindow();
+                            FacebooksocialMethod();
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "picture.type(large),bio,id,name,link,gender,email, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+
+            if (resultCode == RESULT_OK) {
+                finish();
+                Toast.makeText(getApplicationContext(), "GPS is enabled please restart app", Toast.LENGTH_LONG).show();
+
+            } else {
+
+                Toast.makeText(getApplicationContext(), "GPS is not enabled", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
     private void registerMethod() {
 
 
@@ -125,7 +275,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                Intent su=new Intent(RegisterActivity.this,MainActivity.class);
+                                Intent su = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(su);
                                 finish();
                             } else {
@@ -160,8 +310,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 params.put(GlobalConstant.device_type, "android");
 
 
-
-
                 Log.e("Parameter for register", params.toString());
                 return params;
             }
@@ -171,6 +319,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
     //--------------------Social api method---------------------------------
     private void socialMethod() {
 
@@ -212,6 +361,130 @@ public class RegisterActivity extends Activity implements View.OnClickListener{
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put("device_type", "android");
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    //--------------------Facebook Social api method---------------------------------
+    private void FacebooksocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                Intent f = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(f);
+                                finish();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, email_mString);
+                params.put(facebook_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    //--------------------Facebook Social api method---------------------------------
+    private void twittersocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.TWITTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                Intent f = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(f);
+                                finish();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, "");
+                params.put(twitter_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+
 
                 Log.e("Parameter for social", params.toString());
                 return params;

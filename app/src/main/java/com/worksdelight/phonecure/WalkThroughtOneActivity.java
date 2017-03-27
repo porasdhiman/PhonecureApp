@@ -3,12 +3,10 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,8 +63,6 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
                 finish();
             }
         });
-        global.setDeviceName(getDeviceName());
-        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
 
 
     }
@@ -131,18 +127,7 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
 
     }
 
-    //-------device info---------------
-    public String getDeviceName() {
 
-        String manufacturer = Build.MANUFACTURER;
-        String model = Build.MODEL;
-
-        if (model.startsWith(manufacturer)) {
-            return capitalize(model);
-        } else {
-            return capitalize(manufacturer) + " " + model;
-        }
-    }
 
     private String getAndroidVersion() {
         return android.os.Build.VERSION.RELEASE;

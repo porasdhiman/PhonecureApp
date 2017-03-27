@@ -5,12 +5,17 @@ android {
     buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.worksdelight.phonecure"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+    dexOptions
+            {
+                javaMaxHeapSize "2g"
+            }
     buildTypes {
         release {
             minifyEnabled false
@@ -28,6 +33,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
     compile project(':ResideMenu')
+
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.prolificinteractive:material-calendarview:1.4.2'
     compile 'com.google.android.gms:play-services:8.4.0'
@@ -40,4 +46,12 @@ dependencies {
     compile files('libs/volley.jar')
     compile files('libs/httpmime-4.0.1.jar')
     compile files('libs/apache-mime4j-0.6.jar')
+    compile files('libs/universal-image-loader-1.8.2-with-sources.jar')
+    compile files('libs/android-async-http-1.4.9.jar')
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+
+    compile "com.braintreepayments.api:braintree:2.+"
+    compile "com.braintreepayments.api:drop-in:2.+"
+    compile "com.google.android.gms:play-services-wallet:8.4.0"
+    compile 'com.loopj.android:android-async-http:1.4.9'
 }

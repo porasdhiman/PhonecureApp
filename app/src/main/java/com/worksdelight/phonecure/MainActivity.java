@@ -1,6 +1,8 @@
 package com.worksdelight.phonecure;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,6 +35,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     TextView header_txt;
     ImageView notification_img, message_img;
     Global global;
+    SharedPreferences sp;
+    SharedPreferences.Editor ed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed = sp.edit();
         global = (Global) getApplicationContext();
         setUpMenu();
         if (savedInstanceState == null)
@@ -92,7 +98,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
         resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
-        resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
+        //resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
         // You can disable a direction by setting ->
         // resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
 
@@ -133,9 +139,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         } else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
 
+            ed.clear();
+            ed.commit();
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();
+
         }
 
 

@@ -72,7 +72,8 @@
         android:textAllCaps="true"
         android:textColor="#fff"
         android:textSize="@dimen/header_txt"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <View
         android:layout_width="match_parent"
