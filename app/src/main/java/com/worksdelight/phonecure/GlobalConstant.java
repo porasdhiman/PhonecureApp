@@ -49,4 +49,7 @@ public class GlobalConstant {
     public static String average_rating="average_rating";
     public static String count="count";
     public static String image="image";
+    public static String dm_sub_category_id="dm_sub_category_id";
+    public static String price="price";
+    public static String service="service";
 }

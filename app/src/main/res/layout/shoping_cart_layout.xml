@@ -105,6 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
         <TextView
+            android:id="@+id/cart_value_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3 Item in Your Cart"
@@ -171,7 +172,7 @@
                 android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$30"
+                android:text=""
                 android:textColor="#000"
                 android:layout_alignParentRight="true"
                 android:paddingRight="20dp"

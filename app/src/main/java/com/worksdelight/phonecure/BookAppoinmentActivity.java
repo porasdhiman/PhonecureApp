@@ -30,7 +30,6 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-import com.prolificinteractive.materialcalendarview.spans.DotSpan;
 
 import java.sql.Time;
 import java.text.DateFormat;
@@ -137,7 +136,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     TextView time_txtView;
     String sendDate = "";
     CircleImageView user_img;
-
+    String pos;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     @Override
@@ -162,7 +161,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
         time_txtView = (TextView) findViewById(R.id.time_txtView);
-        String pos = getIntent().getExtras().getString("pos");
+        pos = getIntent().getExtras().getString("pos");
         technicians_name.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name));
         user_img=(CircleImageView)findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
@@ -211,6 +210,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 } else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
                     i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                    i.putExtra("pos",String.valueOf(pos));
                     startActivity(i);
                 }
 
@@ -236,7 +236,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
         }
 
-        mcv.addDecorators(new EventDecorator(getResources().getColor(R.color.un_available), calenderlist));
+        mcv.addDecorators(new EventDecorator(calenderlist));
 
         time_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,23 +292,27 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
     class EventDecorator implements DayViewDecorator {
 
-        private final int color;
+        //private final int color;
         private final HashSet<CalendarDay> dates;
 
-        public EventDecorator(int color, Collection<CalendarDay> dates) {
-            this.color = color;
+        public EventDecorator(/*int color, */Collection<CalendarDay> dates) {
+           // this.color = color;
             this.dates = new HashSet<>(dates);
         }
 
         @Override
         public boolean shouldDecorate(CalendarDay day) {
+
             return dates.contains(day);
         }
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.addSpan(new DotSpan(7, color));
+            view.setDaysDisabled(true);
+           // view.addSpan(new DotSpan(7, color));
+
         }
+
     }
 
     public void timePicker() {

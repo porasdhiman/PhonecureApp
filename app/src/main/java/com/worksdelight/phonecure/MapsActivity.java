@@ -49,7 +49,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -95,6 +94,8 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
 
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
+    ArrayList<HashMap<String, String>> serviceList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -105,7 +106,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
         technicians_name_txtView = (TextView) findViewById(R.id.technicians_name_txtView);
         average_rating_txt = (TextView) findViewById(R.id.average_rating_txt);
         book_appointment = (TextView) findViewById(R.id.book_appointment);
-        tech_img=(CircleImageView)findViewById(R.id.tech_img);
+        tech_img = (CircleImageView) findViewById(R.id.tech_img);
        /* mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
@@ -245,22 +246,6 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
                 average_rating_txt.setText(list.get(pos).get(GlobalConstant.average_rating));
 
 
-                String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(pos).get(GlobalConstant.image);
-                if (url != null && !url.equalsIgnoreCase("null")
-                        && !url.equalsIgnoreCase("")) {
-                    imageLoader.displayImage(url, tech_img, options,
-                            new SimpleImageLoadingListener() {
-                                @Override
-                                public void onLoadingComplete(String imageUri,
-                                                              View view, Bitmap loadedImage) {
-                                    super.onLoadingComplete(imageUri, view,
-                                            loadedImage);
-
-                                }
-                            });
-                } else {
-                    tech_img.setImageResource(R.drawable.user_back);
-                }
                 book_appointment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -343,10 +328,22 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
                                     map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
                                     map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
                                     map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
+                                    JSONArray servicesArr = objArr.getJSONArray("services");
+                                    for (int j = 0; j < servicesArr.length(); j++) {
+                                        JSONObject serviceObj = servicesArr.getJSONObject(j);
+                                        HashMap<String, String> serviceMap = new HashMap<>();
+                                        serviceMap.put(GlobalConstant.dm_sub_category_id, serviceObj.getString(GlobalConstant.dm_sub_category_id));
+                                        serviceMap.put(GlobalConstant.price, serviceObj.getString(GlobalConstant.price));
+                                        serviceList.add(serviceMap);
+                                    }
 
+
+                                    map.put(GlobalConstant.service, serviceList.toString());
+                                    serviceList.clear();
                                     list.add(map);
                                 }
                                 global.setDateList(list);
+                                Log.e("tech array", list.toString());
                                 eventLocOnMap();
                             } else {
                                 Toast.makeText(MapsActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -404,6 +401,7 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
