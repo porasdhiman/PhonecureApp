@@ -16,4 +16,11 @@
         android:onClick="onStartClick"
         android:id="@+id/btn_start"
          />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Android pay"
+        android:onClick="onStartClick"
+        android:id="@+id/android"
+        />
 </LinearLayout>

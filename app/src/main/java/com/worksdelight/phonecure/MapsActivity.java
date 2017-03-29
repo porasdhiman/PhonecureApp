@@ -49,6 +49,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -189,6 +190,12 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -205,8 +212,12 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
         if (mLastLocation != null) {
             lat = String.valueOf(mLastLocation.getLatitude());
             lng = String.valueOf(mLastLocation.getLongitude());
-            dialogWindow();
-            SearchMethod();
+            if(global.getDateList().size()==0) {
+                dialogWindow();
+                SearchMethod();
+            }else{
+                eventLocOnMap();
+            }
 
         } else {
             // Toast.makeText(this, "Please check GPS and restart App", Toast.LENGTH_LONG).show();
@@ -240,12 +251,27 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
 
                 book_layout.setVisibility(View.VISIBLE);
 
-                technicians_name_txtView.setText(cap(list.get(pos).get(GlobalConstant.name)));
+                technicians_name_txtView.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
 
 
-                average_rating_txt.setText(list.get(pos).get(GlobalConstant.average_rating));
+                average_rating_txt.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
 
+                String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
+                if (url != null && !url.equalsIgnoreCase("null")
+                        && !url.equalsIgnoreCase("")) {
+                    imageLoader.displayImage(url, tech_img, options,
+                            new SimpleImageLoadingListener() {
+                                @Override
+                                public void onLoadingComplete(String imageUri,
+                                                              View view, Bitmap loadedImage) {
+                                    super.onLoadingComplete(imageUri, view,
+                                            loadedImage);
 
+                                }
+                            });
+                } else {
+                    tech_img.setImageResource(R.drawable.user_back);
+                }
                 book_appointment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -273,12 +299,12 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
 
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
         // Add a marker in Sydney and move the camera
-        Log.e("event list value ", list.toString());
-        for (i = 0; i < list.size(); i++) {
-            Double lat = Double.parseDouble(list.get(i).get(GlobalConstant.latitude));
-            Double longt = Double.parseDouble(list.get(i).get(GlobalConstant.longitude));
+        Log.e("event list value ", global.getDateList().toString());
+        for (i = 0; i < global.getDateList().size(); i++) {
+            Double lat = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.latitude));
+            Double longt = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.longitude));
             LatLng postion = new LatLng(lat, longt);
-            mark = mMap.addMarker(new MarkerOptions().position(postion).title(list.get(i).get(GlobalConstant.name)).icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin)));
+            mark = mMap.addMarker(new MarkerOptions().position(postion).title(global.getDateList().get(i).get(GlobalConstant.name)).icon(BitmapDescriptorFactory.fromResource(R.drawable.location_pin)));
 
             // markers.put(mark.getId(), "http://envagoapp.com/uploads/" + global.getEvent_list().get(i).get(GlobalConstants.EVENT_IMAGES));
             map.put(mark.getId(), i);
@@ -288,8 +314,8 @@ public class MapsActivity extends FragmentActivity implements GoogleApiClient.On
         LatLng postion = new LatLng(parseDouble(lat), parseDouble(lng));
         // mark = mMap.addMarker(new MarkerOptions().position(postion).icon(BitmapDescriptorFactory.fromResource(R.drawable.oval)));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(postion, 3));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(3), 2000, null);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(postion, 10));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         openMarkerView();
 
 

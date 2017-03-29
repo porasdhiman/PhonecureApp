@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:padding="8dp"
 
-
+android:visibility="gone"
             android:layout_alignParentRight="true"
             android:src="@drawable/search_img"/>
     </RelativeLayout>

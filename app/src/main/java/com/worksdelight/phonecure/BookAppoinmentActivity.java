@@ -53,7 +53,7 @@ import static com.worksdelight.phonecure.R.id.calendarView;
  * Created by worksdelight on 02/03/17.
  */
 
-public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener {
+public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener ,TimePickerDialog.OnTimeSetListener {
     MaterialCalendarView mcv;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     TextView book_btn, technicians_name;
@@ -139,6 +139,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     String pos;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
+    String setTime,minTime,maxTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +217,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
             }
         });
+        setTime=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(" ")[0];
+        minTime=setTime.split("-")[0];
+        maxTime=setTime.split("-")[1];
 
         list = new ArrayList<String>(Arrays.asList(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(",")));
         Log.e("date list", String.valueOf(list));
@@ -290,6 +294,11 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         return FORMATTER.format(date1.getDate());
     }
 
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        time_txtView.setText(getTime(hourOfDay, minute));
+    }
+
     class EventDecorator implements DayViewDecorator {
 
         //private final int color;
@@ -322,17 +331,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         mMinute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        time_txtView.setText(getTime(hourOfDay, minute));
+        GaroodaTimePickerDialog timePickerDialog = new GaroodaTimePickerDialog(this,
+                this, mHour, mMinute, false);
 
 
-                    }
-                }, mHour, mMinute, false);
         timePickerDialog.show();
     }
 

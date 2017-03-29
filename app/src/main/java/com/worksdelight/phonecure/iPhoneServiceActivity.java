@@ -83,7 +83,7 @@ Global global;
         service_list = (ListView) findViewById(R.id.service_list);
         submit_btn.setVisibility(View.GONE);
 
-        search_img = (ImageView) findViewById(R.id.search_img);
+      //  search_img = (ImageView) findViewById(R.id.search_img);
         dialogWindow();
         subcategoryMethod();
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -273,6 +273,7 @@ Global global;
                             serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
                         }
                     }
+                    Log.e("service id minus",serviceID);
 
                 }
             });
@@ -293,10 +294,10 @@ Global global;
 
                         }
                     } else {
-                        serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id), "");
+                        serviceID = "";
 
                     }
-
+                    Log.e("service id",serviceID);
 
                 }
             });
