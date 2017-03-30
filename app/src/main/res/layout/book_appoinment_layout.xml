@@ -143,6 +143,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/forward" />
+
+
             </RelativeLayout>
 
             <TextView
@@ -166,5 +168,6 @@
                 android:layout_height="10dp"
                 android:layout_below="@+id/book_btn" />
         </RelativeLayout>
+
     </ScrollView>
 </RelativeLayout>

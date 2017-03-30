@@ -52,4 +52,12 @@ public class GlobalConstant {
     public static String dm_sub_category_id="dm_sub_category_id";
     public static String price="price";
     public static String service="service";
+    public static String opening_time="opening_time";
+    public static String closing_time="closing_time";
+
+
+    public static String WISHLIST_URL="http://worksdelight.com/phone_cure/index.php/api/wishlist/add";
+
+    public static String favorite_user_id="favorite_user_id";
+
 }

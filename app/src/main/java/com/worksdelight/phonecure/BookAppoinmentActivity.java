@@ -1,17 +1,23 @@
 package com.worksdelight.phonecure;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,6 +37,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.lang.reflect.Field;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.Format;
@@ -53,12 +60,13 @@ import static com.worksdelight.phonecure.R.id.calendarView;
  * Created by worksdelight on 02/03/17.
  */
 
-public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener ,TimePickerDialog.OnTimeSetListener {
+public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener ,TimePickerDialog.OnTimeSetListener  {
     MaterialCalendarView mcv;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     TextView book_btn, technicians_name;
     List<CalendarDay> calenderlist = new ArrayList<CalendarDay>();
     CalendarDay selectDate;
+    Dialog dialog2;
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private Collection<CalendarDay> calendarDays = new Collection<CalendarDay>() {
@@ -139,7 +147,13 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     String pos;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-    String setTime,minTime,maxTime;
+    String minTimehour,minTimeminute,maxTimehour,maxTimeminute;
+TimePickerDialog timePickerDialog;
+    int hour,minutes;
+
+    NumberPicker minutePicker;
+    private int TIME_PICKER_INTERVAL = 15;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +172,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+
         book_btn = (TextView) findViewById(R.id.book_btn);
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
@@ -217,9 +232,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
             }
         });
-        setTime=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(" ")[0];
-        minTime=setTime.split("-")[0];
-        maxTime=setTime.split("-")[1];
+        minTimehour=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[0];
+        minTimeminute=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[1];
+        maxTimehour=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[0];
+        maxTimeminute=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[1];
 
         list = new ArrayList<String>(Arrays.asList(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(",")));
         Log.e("date list", String.valueOf(list));
@@ -245,6 +261,8 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         time_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 timePicker();
             }
         });
@@ -294,9 +312,14 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         return FORMATTER.format(date1.getDate());
     }
 
+
+
+
+
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        time_txtView.setText(getTime(hourOfDay, minute));
+
+        time_txtView.setText(getTime(hourOfDay,minute));
     }
 
     class EventDecorator implements DayViewDecorator {
@@ -331,9 +354,8 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         mMinute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
-        GaroodaTimePickerDialog timePickerDialog = new GaroodaTimePickerDialog(this,
+         timePickerDialog = new TimePickerDialog(this,
                 this, mHour, mMinute, false);
-
 
         timePickerDialog.show();
     }
@@ -367,5 +389,59 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
+    //---------------------------Progrees Dialog-----------------------
+    public void dialogWindow() {
+        dialog2 = new Dialog(this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setCancelable(false);
+        dialog2.setContentView(R.layout.picker_timer);
+        TimePicker timePicker = (TimePicker)dialog2.findViewById(R.id.pickerView);
 
+        timePicker.setIs24HourView(true);
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        timePicker.setCurrentHour(mHour);
+        timePicker.setCurrentMinute(mMinute);
+
+        setTimePickerInterval(timePicker);
+
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+                time_txtView.setText(i + ":" + i1);
+                dialog2.dismiss();
+            }
+        });
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        dialog2.show();
+    }
+    @SuppressLint("NewApi")
+    private void setTimePickerInterval(TimePicker timePicker) {
+        try {
+            Class<?> classForid = Class.forName("com.android.internal.R$id");
+            // Field timePickerField = classForid.getField("timePicker");
+
+            Field field = classForid.getField("minute");
+            minutePicker = (NumberPicker) timePicker
+                    .findViewById(field.getInt(null));
+
+            minutePicker.setMinValue(Integer.parseInt(minTimehour));
+            minutePicker.setMaxValue(Integer.parseInt(maxTimehour));
+            ArrayList<String> displayedValues = new ArrayList<String>();
+            for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
+                displayedValues.add(String.format("%02d", i));
+            }
+            //  for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
+            //      displayedValues.add(String.format("%02d", i));
+            //  }
+            minutePicker.setDisplayedValues(displayedValues
+                    .toArray(new String[0]));
+            minutePicker.setWrapSelectorWheel(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

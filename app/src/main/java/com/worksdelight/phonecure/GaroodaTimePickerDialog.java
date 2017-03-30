@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.widget.NumberPicker;
 import android.widget.TimePicker;
 
 import java.lang.reflect.Field;
@@ -21,6 +22,7 @@ public class GaroodaTimePickerDialog extends TimePickerDialog {
 
     private Calendar calendar = Calendar.getInstance();
     //private DateFormat dateFormat;
+    NumberPicker minutePicker;
 
     public GaroodaTimePickerDialog(Context context, OnTimeSetListener callBack, int hour, int minute,
                                    boolean is24HourView) {
@@ -41,7 +43,6 @@ public class GaroodaTimePickerDialog extends TimePickerDialog {
         } catch (IllegalAccessException e) {
         }
     }
-
 
 
 

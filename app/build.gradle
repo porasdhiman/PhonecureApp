@@ -22,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -51,8 +54,12 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
     compile 'com.braintreepayments.api:drop-in:3.+'
-    compile "com.braintreepayments.api:drop-in:2.+"
+   // compile "com.braintreepayments.api:drop-in:2.+"
     compile "com.google.android.gms:play-services-wallet:8.4.0"
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'io.card:android-sdk:5.5.0'
+    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:5.0.1@aar') {
+        transitive=true
+    }
+    compile 'com.wdullaer:materialdatetimepicker:3.1.3'
 }

@@ -142,6 +142,7 @@ Button btn_start,android;
                }
            });
        }*/
+
     private void getToken() {
         client.get(SERVER_BASE + "/token", new TextHttpResponseHandler() {
             @Override
@@ -156,4 +157,6 @@ Button btn_start,android;
             }
         });
     }
+
+
 }

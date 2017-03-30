@@ -330,7 +330,11 @@ int priceValue;
             price.setText("$"+serviceListing.get(position).get(GlobalConstant.price));
             t.setText(deviceListing.get(position).get(GlobalConstant.name));
             person_count.setText(deviceListing.get(position).get(GlobalConstant.count));
-            priceValue=Integer.parseInt(serviceListing.get(position).get(GlobalConstant.price));
+
+
+                priceValue=Integer.parseInt(serviceListing.get(position).get(GlobalConstant.price));
+
+
             url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + deviceListing.get(position).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {

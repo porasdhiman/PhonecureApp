@@ -98,7 +98,7 @@ Global global;
                 if(serviceID.equalsIgnoreCase("")){
                     Toast.makeText(iPhoneServiceActivity.this,"Please select services",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent map = new Intent(iPhoneServiceActivity.this, MapsActivity.class);
+                    Intent map = new Intent(iPhoneServiceActivity.this, MapBoxActivity.class);
                     map.putExtra("device_id", getIntent().getExtras().getString("device_id"));
                     map.putExtra("id", getIntent().getExtras().getString("id"));
                     map.putExtra("selected_id", serviceID);

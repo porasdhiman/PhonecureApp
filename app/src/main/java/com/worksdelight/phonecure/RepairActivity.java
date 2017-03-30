@@ -3,6 +3,7 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,6 +69,15 @@ public class RepairActivity extends Activity {
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+        repair_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(RepairActivity.this,TechniciansDetailActivity.class);
+                intent.putExtra("pos", String.valueOf(i));
+                intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                startActivity(intent);
+            }
+        });
     }
 
 
