@@ -53,8 +53,8 @@ dependencies {
     compile files('libs/android-async-http-1.4.9.jar')
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
-    compile 'com.braintreepayments.api:drop-in:3.+'
-   // compile "com.braintreepayments.api:drop-in:2.+"
+    //compile 'com.braintreepayments.api:drop-in:3.+'
+    compile "com.braintreepayments.api:drop-in:2.+"
     compile "com.google.android.gms:play-services-wallet:8.4.0"
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'io.card:android-sdk:5.5.0'

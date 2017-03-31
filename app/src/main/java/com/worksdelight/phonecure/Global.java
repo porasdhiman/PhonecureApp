@@ -89,6 +89,26 @@ public class Global extends Application {
 
     String Long;
 
+    public ArrayList<HashMap<String, String>> getNewListing() {
+        return newListing;
+    }
+
+    public void setNewListing(ArrayList<HashMap<String, String>> newListing) {
+        this.newListing = newListing;
+    }
+
+    ArrayList<HashMap<String,String>> newListing=new ArrayList<>();
+
+    public ArrayList<HashMap<String, String>> getPrcieListing() {
+        return prcieListing;
+    }
+
+    public void setPrcieListing(ArrayList<HashMap<String, String>> prcieListing) {
+        this.prcieListing = prcieListing;
+    }
+
+    ArrayList<HashMap<String,String>> prcieListing=new ArrayList<>();
+
     public SocialAuthAdapter getSocialAuthAdpater() {
         return socialAuthAdpater;
     }
@@ -98,6 +118,24 @@ public class Global extends Application {
     }
 
     SocialAuthAdapter socialAuthAdpater;
+
+    public String getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(String sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public String getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    String sendDate,sendTime;
     @Override
     public void onCreate() {
         super.onCreate();

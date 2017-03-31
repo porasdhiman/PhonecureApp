@@ -60,7 +60,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // attach to current activity;
         notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
-        resideMenu = new ResideMenu(this, R.drawable.user_back, "PORAS DHIMAN", "balance:$100000");
+        resideMenu = new ResideMenu(this, R.drawable.user_back, "PORAS DHIMAN"/*, "balance:$100000"*/);
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);
@@ -70,19 +70,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         // create menu items;
         itemHome = new ResideMenuItem(this, "Home");
-        drug = new ResideMenuItem(this, "Drug");
-        technicians = new ResideMenuItem(this, "Technicians");
-        services = new ResideMenuItem(this, "services");
-        dashboard = new ResideMenuItem(this, "Dashboard");
-        itemProfile = new ResideMenuItem(this, "profile");
-        new_cure = new ResideMenuItem(this, "New cure");
+       // drug = new ResideMenuItem(this, "Drug");
+        //technicians = new ResideMenuItem(this, "Technicians");
+        services = new ResideMenuItem(this, "Services");
+        dashboard = new ResideMenuItem(this, "Privacy Policy");
+        itemProfile = new ResideMenuItem(this, "Profile");
+        new_cure = new ResideMenuItem(this, "About us");
         logout = new ResideMenuItem(this, "Logout");
 
 
         itemHome.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
-        drug.setOnClickListener(this);
-        technicians.setOnClickListener(this);
+       // drug.setOnClickListener(this);
+       // technicians.setOnClickListener(this);
         services.setOnClickListener(this);
         dashboard.setOnClickListener(this);
         new_cure.setOnClickListener(this);
@@ -90,11 +90,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
+        //resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
+       // resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(services, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
+
         resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
         resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
@@ -126,21 +127,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             changeFragment(new HomeFragment(), "PhoneCure");
         } else if (view == itemProfile) {
             changeFragment(new ProfileFragment(), "Profile");
-        } else if (view == drug) {
+        } /*else if (view == drug) {
             changeFragment(new DrugFragment(), "Drug");
-        } else if (view == technicians) {
+        }*/ /*else if (view == technicians) {
             changeFragment(new TechniciansFragment(), "Technicians");
-        } else if (view == services) {
+        }*/ else if (view == services) {
             changeFragment(new ServiceFragment(), "Services");
         } else if (view == dashboard) {
-            changeFragment(new DashBoradFragment(), "Dashboard");
+            changeFragment(new DashBoradFragment(), "Privacy Policy");
         } else if (view == new_cure) {
-            changeFragment(new NewCureFragment(), "New Cure");
+            changeFragment(new NewCureFragment(), "About us");
         } else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
 
             ed.clear();
             ed.commit();
+            global.setDateList(null);
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             finish();

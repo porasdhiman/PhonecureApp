@@ -84,7 +84,12 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
         //device_txtView.setOnClickListener(this);
         //types_txtView.setOnClickListener(this);
-        back.setOnClickListener(this);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         dialogWindow();
         categoryMethod();
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

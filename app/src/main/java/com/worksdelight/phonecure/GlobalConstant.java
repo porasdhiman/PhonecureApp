@@ -21,6 +21,7 @@ public class GlobalConstant {
     public static String SUB_CAETGORY_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/sub_categories/";
     public static String TECHNICIANS_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/users/";
 
+    public static String BOOKING_URL = "http://worksdelight.com/phone_cure/index.php/api/bookings/add";
 
 
     public static String email = "email";
@@ -60,4 +61,18 @@ public class GlobalConstant {
 
     public static String favorite_user_id="favorite_user_id";
 
+    public static String technician_id="technician_id";
+    public static String firstname="firstname";
+    public static String lastname="lastname";
+    public static String address="address";
+    public static String city="city";
+    public static String zip="zip";
+    public static String phone="phone";
+    public static String date="date";
+    public static String time="time";
+    public static String total_amount="total_amount";
+    public static String payment_method_nonce="payment_method_nonce";
+    public static String booking_items="booking_items";
+    public static String service_id="service_id";
+    public static String quantity="quantity";
 }

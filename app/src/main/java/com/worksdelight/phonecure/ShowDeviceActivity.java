@@ -56,6 +56,7 @@ public class ShowDeviceActivity extends Activity {
     Dialog dialog2;
     DisplayImageOptions options;
     GridView device_view;
+    ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +68,18 @@ public class ShowDeviceActivity extends Activity {
         device_view=(GridView)findViewById(R.id.device);
         dialogWindow();
         showDeviceMethod();
+        back=(ImageView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
-                iPhone.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                 iPhone.putExtra("device_id",getIntent().getExtras().getString("id"));
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 

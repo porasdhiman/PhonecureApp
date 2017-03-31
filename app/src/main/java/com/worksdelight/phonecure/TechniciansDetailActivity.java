@@ -57,7 +57,7 @@ public class TechniciansDetailActivity extends Activity {
     Dialog dialog2;
     int pos;
     String favorite;
-
+ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +82,13 @@ public class TechniciansDetailActivity extends Activity {
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+        back=(ImageView)findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         user_view = (CircleImageView) findViewById(R.id.user_view);
         favorite_img = (ImageView) findViewById(R.id.favorite_img);
         tech_name = (TextView) findViewById(R.id.tech_name);

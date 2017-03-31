@@ -55,7 +55,7 @@ public class iPhoneServiceActivity extends Activity {
     ListView service_list;
     //  int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
     // String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
-    ImageView search_img;
+    ImageView search_img,back;
     ScrollView main_scrollView;
     TextView submit_btn, service_txtView;
     Dialog dialog2;
@@ -77,12 +77,18 @@ Global global;
     }
 
     public void init() {
+        back=(ImageView)findViewById(R.id.back);
         submit_btn = (TextView) findViewById(R.id.submit_btn);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
         service_list = (ListView) findViewById(R.id.service_list);
         submit_btn.setVisibility(View.GONE);
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
       //  search_img = (ImageView) findViewById(R.id.search_img);
         dialogWindow();
         subcategoryMethod();

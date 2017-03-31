@@ -27,7 +27,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.BaseMarkerOptions;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -48,6 +50,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -60,7 +63,7 @@ import static com.worksdelight.phonecure.GlobalConstant.favorite;
 
 public class MapBoxActivity extends Activity {
     MapView mapView;
-    ImageView search_img;
+    ImageView search_img,back;
     Dialog dialog2;
     LinearLayout book_layout;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
@@ -94,7 +97,14 @@ public class MapBoxActivity extends Activity {
                 startActivity(i);
             }
         });
-
+        back = (ImageView) findViewById(R.id.back);
+back.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        global.setDateList(null);
+        finish();
+    }
+});
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         book_layout = (LinearLayout) findViewById(R.id.book_layout);
@@ -111,7 +121,10 @@ public class MapBoxActivity extends Activity {
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
         mapView = (MapView) findViewById(R.id.mapView);
+
         mapView.onCreate(savedInstanceState);
+        MarkerViewOptions opt=new MarkerViewOptions();
+
         dialogWindow();
         SearchMethod();
 
@@ -165,6 +178,8 @@ public class MapBoxActivity extends Activity {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
+                mapboxMap.removeAnnotations();
+                List<BaseMarkerOptions> markers = new ArrayList<>();
 
                 for (int i = 0; i < global.getDateList().size(); i++) {
                     Double lat = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.latitude));
@@ -173,17 +188,19 @@ public class MapBoxActivity extends Activity {
                             .target(new LatLng(lat, longt))
                             .zoom(10)
                             .build());
-                    mapboxMap.addMarker(new MarkerOptions()
+                    markers.add(new MarkerOptions()
                             .position(new LatLng(lat, longt))
                             .title(global.getDateList().get(i).get(GlobalConstant.name)));
+
 
                     map.put(String.valueOf(i), i);
 
                 }
-
+                mapboxMap.addMarkers(markers);
                 mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(@NonNull com.mapbox.mapboxsdk.annotations.Marker marker) {
+                        Log.e("marker id",String.valueOf(marker.getId()));
                         pos = map.get(String.valueOf(marker.getId()));
 
                         book_layout.setVisibility(View.VISIBLE);
@@ -255,52 +272,66 @@ public class MapBoxActivity extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray arr = obj.getJSONArray("data");
-                                for (int i = 0; i < arr.length(); i++) {
-                                    JSONObject objArr = arr.getJSONObject(i);
-                                    HashMap<String, String> map = new HashMap<>();
+                                if(arr.length()==0){
+                                    mapView.getMapAsync(new OnMapReadyCallback() {
+                                        @Override
+                                        public void onMapReady(MapboxMap mapboxMap) {
+                                            Double lat = Double.parseDouble(global.getLat());
+                                            Double longt = Double.parseDouble(global.getLong());
+                                            mapboxMap.addMarker(new MarkerOptions()
+                                                    .position(new LatLng(lat, longt)));
 
-                                    map.put(GlobalConstant.id, objArr.getString(GlobalConstant.id));
-                                    map.put(GlobalConstant.name, objArr.getString(GlobalConstant.name));
-                                    map.put(GlobalConstant.image, objArr.getString(GlobalConstant.image));
-
-                                    map.put(GlobalConstant.availability, objArr.getString(GlobalConstant.availability));
-                                    map.put(GlobalConstant.off_days, objArr.getString(GlobalConstant.off_days));
-                                    map.put(GlobalConstant.distance, objArr.getString(GlobalConstant.distance));
-
-                                    map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
-                                    map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
-
-                                    map.put(favorite, objArr.getString(favorite));
-                                    map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));
-                                    map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
-                                    map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
-                                    map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
-                                    JSONArray servicesArr = objArr.getJSONArray("services");
-                                    for (int j = 0; j < servicesArr.length(); j++) {
-                                        JSONObject serviceObj = servicesArr.getJSONObject(j);
-                                        HashMap<String, String> serviceMap = new HashMap<>();
-                                        serviceMap.put(GlobalConstant.dm_sub_category_id, serviceObj.getString(GlobalConstant.dm_sub_category_id));
-                                        if (serviceObj.getString(GlobalConstant.price).contains(".")) {
-
-                                            serviceMap.put(GlobalConstant.price, String.valueOf(Double.valueOf(serviceObj.getString(GlobalConstant.price)).intValue()));
-
-                                        } else {
-                                            serviceMap.put(GlobalConstant.price, serviceObj.getString(GlobalConstant.price));
 
                                         }
-                                        serviceList.add(serviceMap);
+                                    });
+                                }else {
+                                    for (int i = 0; i < arr.length(); i++) {
+                                        JSONObject objArr = arr.getJSONObject(i);
+                                        HashMap<String, String> map = new HashMap<>();
+
+                                        map.put(GlobalConstant.id, objArr.getString(GlobalConstant.id));
+                                        map.put(GlobalConstant.name, objArr.getString(GlobalConstant.name));
+                                        map.put(GlobalConstant.image, objArr.getString(GlobalConstant.image));
+
+                                        map.put(GlobalConstant.availability, objArr.getString(GlobalConstant.availability));
+                                        map.put(GlobalConstant.off_days, objArr.getString(GlobalConstant.off_days));
+                                        map.put(GlobalConstant.distance, objArr.getString(GlobalConstant.distance));
+
+                                        map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
+                                        map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
+
+                                        map.put(favorite, objArr.getString(favorite));
+                                        map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));
+                                        map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
+                                        map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
+                                        map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
+                                        JSONArray servicesArr = objArr.getJSONArray("services");
+                                        for (int j = 0; j < servicesArr.length(); j++) {
+                                            JSONObject serviceObj = servicesArr.getJSONObject(j);
+                                            HashMap<String, String> serviceMap = new HashMap<>();
+                                            serviceMap.put(GlobalConstant.dm_sub_category_id, serviceObj.getString(GlobalConstant.dm_sub_category_id));
+                                            if (serviceObj.getString(GlobalConstant.price).contains(".")) {
+
+                                                serviceMap.put(GlobalConstant.price, String.valueOf(Double.valueOf(serviceObj.getString(GlobalConstant.price)).intValue()));
+
+                                            } else {
+                                                serviceMap.put(GlobalConstant.price, serviceObj.getString(GlobalConstant.price));
+
+                                            }
+                                            serviceList.add(serviceMap);
+                                        }
+
+
+                                        map.put(GlobalConstant.service, serviceList.toString());
+
+
+                                        serviceList.clear();
+                                        list.add(map);
                                     }
-
-
-                                    map.put(GlobalConstant.service, serviceList.toString());
-
-
-                                    serviceList.clear();
-                                    list.add(map);
+                                    global.setDateList(list);
+                                    Log.e("tech array", list.toString());
+                                    eventLocOnMap();
                                 }
-                                global.setDateList(list);
-                                Log.e("tech array", list.toString());
-                                eventLocOnMap();
                             } else {
                                 Toast.makeText(MapBoxActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }

@@ -114,6 +114,7 @@ public class LoginActivity extends Activity implements OnClickListener{
         forgot_view = (TextView) findViewById(R.id.forgot_view);
         facebook_layout.setOnClickListener(this);
         twitter_layout.setOnClickListener(this);
+        twitter_layout.setVisibility(View.GONE);
         sign_in_btn.setOnClickListener(this);
         sign_up_btn.setOnClickListener(this);
         sign_up_user.setOnClickListener(this);

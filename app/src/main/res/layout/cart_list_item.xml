@@ -57,9 +57,10 @@
 
                 <ImageView
                     android:id="@+id/service_view"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/photo_icon"
+                    android:layout_marginTop="3dp"
                     />
                 <!--  <ImageView
                       android:id="@+id/dot_img"
@@ -75,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="2dp"
+
                     android:layout_toRightOf="@+id/service_view"
                     android:text="iPhone 5s Home button"
                     android:textColor="#000"
@@ -83,7 +84,7 @@
 
                 <RelativeLayout
                     android:layout_width="80dp"
-                    android:layout_height="35dp"
+                    android:layout_height="25dp"
                     android:layout_below="@+id/name_view"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"

@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ import static com.worksdelight.phonecure.R.id.calendarView;
  * Created by worksdelight on 02/03/17.
  */
 
-public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener ,TimePickerDialog.OnTimeSetListener  {
+public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener, TimePickerDialog.OnTimeSetListener {
     MaterialCalendarView mcv;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     TextView book_btn, technicians_name;
@@ -147,10 +148,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     String pos;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-    String minTimehour,minTimeminute,maxTimehour,maxTimeminute;
-TimePickerDialog timePickerDialog;
-    int hour,minutes;
-
+    String minTimehour, minTimeminute, maxTimehour, maxTimeminute;
+    TimePickerDialog timePickerDialog;
+    int hour, minutes;
+    ImageView back;
     NumberPicker minutePicker;
     private int TIME_PICKER_INTERVAL = 15;
 
@@ -172,14 +173,20 @@ TimePickerDialog timePickerDialog;
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
-
+        back = (ImageView) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         book_btn = (TextView) findViewById(R.id.book_btn);
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
         time_txtView = (TextView) findViewById(R.id.time_txtView);
         pos = getIntent().getExtras().getString("pos");
         technicians_name.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name));
-        user_img=(CircleImageView)findViewById(R.id.user_img);
+        user_img = (CircleImageView) findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")
                 && !url.equalsIgnoreCase("")) {
@@ -226,16 +233,16 @@ TimePickerDialog timePickerDialog;
                 } else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
                     i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                    i.putExtra("pos",String.valueOf(pos));
+                    i.putExtra("pos", String.valueOf(pos));
                     startActivity(i);
                 }
 
             }
         });
-        minTimehour=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[0];
-        minTimeminute=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[1];
-        maxTimehour=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[0];
-        maxTimeminute=global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[1];
+        minTimehour = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[0];
+        minTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[1];
+        maxTimehour = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[0];
+        maxTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[1];
 
         list = new ArrayList<String>(Arrays.asList(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(",")));
         Log.e("date list", String.valueOf(list));
@@ -278,6 +285,7 @@ TimePickerDialog timePickerDialog;
         } else {
             Toast.makeText(BookAppoinmentActivity.this, getSelectedDatesString(), Toast.LENGTH_SHORT).show();
             sendDate = getSelectedDatesString();
+            global.setSendDate(formatdate2(sendDate));
         }
 
 
@@ -313,13 +321,11 @@ TimePickerDialog timePickerDialog;
     }
 
 
-
-
-
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
 
-        time_txtView.setText(getTime(hourOfDay,minute));
+        time_txtView.setText(getTime(hourOfDay, minute));
+        global.setSendTime(time_txtView.getText().toString());
     }
 
     class EventDecorator implements DayViewDecorator {
@@ -328,7 +334,7 @@ TimePickerDialog timePickerDialog;
         private final HashSet<CalendarDay> dates;
 
         public EventDecorator(/*int color, */Collection<CalendarDay> dates) {
-           // this.color = color;
+            // this.color = color;
             this.dates = new HashSet<>(dates);
         }
 
@@ -341,7 +347,7 @@ TimePickerDialog timePickerDialog;
         @Override
         public void decorate(DayViewFacade view) {
             view.setDaysDisabled(true);
-           // view.addSpan(new DotSpan(7, color));
+            // view.addSpan(new DotSpan(7, color));
 
         }
 
@@ -354,7 +360,7 @@ TimePickerDialog timePickerDialog;
         mMinute = c.get(Calendar.MINUTE);
 
         // Launch Time Picker Dialog
-         timePickerDialog = new TimePickerDialog(this,
+        timePickerDialog = new TimePickerDialog(this,
                 this, mHour, mMinute, false);
 
         timePickerDialog.show();
@@ -366,6 +372,7 @@ TimePickerDialog timePickerDialog;
         formatter = new SimpleDateFormat("h:mm a");
         return formatter.format(tme);
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -389,6 +396,7 @@ TimePickerDialog timePickerDialog;
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
+
     //---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
         dialog2 = new Dialog(this);
@@ -397,7 +405,7 @@ TimePickerDialog timePickerDialog;
         dialog2.setCanceledOnTouchOutside(false);
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.picker_timer);
-        TimePicker timePicker = (TimePicker)dialog2.findViewById(R.id.pickerView);
+        TimePicker timePicker = (TimePicker) dialog2.findViewById(R.id.pickerView);
 
         timePicker.setIs24HourView(true);
         final Calendar c = Calendar.getInstance();
@@ -418,6 +426,7 @@ TimePickerDialog timePickerDialog;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     @SuppressLint("NewApi")
     private void setTimePickerInterval(TimePicker timePicker) {
         try {

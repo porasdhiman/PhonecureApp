@@ -86,11 +86,11 @@ public class ResideMenu extends FrameLayout {
     String name_txt;
     String balance;
     ImageView user_img;TextView user_name,user_balance;
-    public ResideMenu(Context context,int image,String name_txt,String balance) {
+    public ResideMenu(Context context,int image,String name_txt/*,String balance*/) {
         super(context);
         this.image=image;
         this.name_txt=name_txt;
-        this.balance=balance;
+       // this.balance=balance;
         initViews(context, -1, -1);
     }
 
@@ -122,7 +122,8 @@ public class ResideMenu extends FrameLayout {
             user_balance=(TextView) scrollViewLeftMenu.findViewById(R.id.balnce_txt);
             user_img.setImageResource(image);
             user_name.setText(name_txt);
-            user_balance.setText(balance);
+           // user_balance.setText(balance);
+            user_balance.setVisibility(View.GONE);
         }
 
         if (customRightMenuId >= 0) {

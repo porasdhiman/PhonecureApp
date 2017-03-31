@@ -46,7 +46,7 @@ public class RepairActivity extends Activity {
     Global global;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-
+ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,7 @@ public class RepairActivity extends Activity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
+        back=(ImageView)findViewById(R.id.back);
         repair_listView = (ListView) findViewById(R.id.repair_listView);
         repair_listView.setAdapter(new RepairAdapter(this, global.getDateList()));
         top_txt = (TextView) findViewById(R.id.top_txt);
@@ -76,6 +77,12 @@ public class RepairActivity extends Activity {
                 intent.putExtra("pos", String.valueOf(i));
                 intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                 startActivity(intent);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
