@@ -75,4 +75,6 @@ public class GlobalConstant {
     public static String booking_items="booking_items";
     public static String service_id="service_id";
     public static String quantity="quantity";
+    public static String color="color";
+    public static String COLORGET_URL="http://worksdelight.com/phone_cure/index.php/api/devicemodels/getColorsWithSlug?slug=iphone-5s";
 }

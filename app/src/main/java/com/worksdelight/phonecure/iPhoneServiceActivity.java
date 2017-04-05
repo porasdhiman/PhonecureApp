@@ -165,7 +165,7 @@ Global global;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                dialog2.dismiss();
             }
         });
 

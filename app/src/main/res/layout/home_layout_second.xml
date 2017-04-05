@@ -5,7 +5,14 @@
     android:background="@drawable/login_back"
     android:orientation="vertical">
 
+  <!--  <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header_view"
 
+        mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v9"
+        mapbox:mapbox_cameraZoom="10"/>-->
     <RelativeLayout
         android:id="@+id/blank_layout"
         android:layout_width="match_parent"
@@ -58,6 +65,7 @@
                 android:background="@drawable/home_selectore_back">
 
                 <RelativeLayout
+                    android:id="@+id/select_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
