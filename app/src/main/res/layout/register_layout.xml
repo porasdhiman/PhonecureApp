@@ -164,7 +164,7 @@ android:id="@+id/sign_up_btn"
                 android:id="@+id/facebook_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginRight="10dp"
+
                 android:layout_weight="1"
                 android:background="@drawable/facebook_view_back">
 

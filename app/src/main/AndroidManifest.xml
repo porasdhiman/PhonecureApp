@@ -172,6 +172,9 @@
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ServiceActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -135,7 +135,18 @@ public class Global extends Application {
         this.sendTime = sendTime;
     }
 
-    String sendDate,sendTime;
+    String sendDate;
+    String sendTime;
+
+    public String getLogoutValue() {
+        return logoutValue;
+    }
+
+    public void setLogoutValue(String logoutValue) {
+        this.logoutValue = logoutValue;
+    }
+
+    String logoutValue;
     @Override
     public void onCreate() {
         super.onCreate();

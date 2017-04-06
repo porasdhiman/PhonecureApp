@@ -2,7 +2,9 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -25,6 +27,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.braintreepayments.api.BraintreeFragment;
 import com.braintreepayments.api.PayPal;
@@ -50,6 +53,9 @@ import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.worksdelight.phonecure.GlobalConstant.phone;
+import static com.worksdelight.phonecure.GlobalConstant.zip;
+
 /**
  * Created by worksdelight on 08/03/17.
  */
@@ -68,6 +74,9 @@ public class AlmostdoneActivity extends Activity {
     String payment_method_nonce = "";
     ImageView back;
     TextView second_count_img, third_count_img;
+    SharedPreferences sp;
+    SharedPreferences.Editor ed;
+    ImageView second_line;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +88,8 @@ public class AlmostdoneActivity extends Activity {
         }
         global = (Global) getApplicationContext();
         // getToken();
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed = sp.edit();
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +99,7 @@ public class AlmostdoneActivity extends Activity {
         });
         second_count_img = (TextView) findViewById(R.id.second_count_img);
         third_count_img = (TextView) findViewById(R.id.third_count_img);
-
+        second_line = (ImageView) findViewById(R.id.second_line);
         first_name_ed = (EditText) findViewById(R.id.first_name_ed);
         last_name_ed = (EditText) findViewById(R.id.last_name_ed);
         address_ed = (EditText) findViewById(R.id.address_ed);
@@ -98,18 +109,24 @@ public class AlmostdoneActivity extends Activity {
         btn_start = (TextView) findViewById(R.id.btn_start);
         total_txt = (TextView) findViewById(R.id.total_txt);
         total_txt.setText("$" + getIntent().getExtras().getString("total_price"));
-        /*try {
-            mBraintreeFragment = BraintreeFragment.newInstance(this, "sandbox_g24f7nn3_yjyc9yf86snb9b5b");
-            // mBraintreeFragment is ready to use!
-        } catch (InvalidArgumentException e) {
-            // There was an issue with your authorization string.
+        if (!sp.getString("first name", "").equalsIgnoreCase("")) {
+            first_name_ed.setText(sp.getString("first name", ""));
         }
-        mBraintreeFragment.addListener(new PaymentMethodNonceCreatedListener() {
-            @Override
-            public void onPaymentMethodNonceCreated(PaymentMethodNonce paymentMethodNonce) {
-                String nonce = paymentMethodNonce.getNonce();
-            }
-        });*/
+        if (!sp.getString("last name", "").equalsIgnoreCase("")) {
+            last_name_ed.setText(sp.getString("last name", ""));
+        }
+        if (!sp.getString("address", "").equalsIgnoreCase("")) {
+            address_ed.setText(sp.getString("address", ""));
+        }
+        if (!sp.getString("city", "").equalsIgnoreCase("")) {
+            city_ed.setText(sp.getString("city", ""));
+        }
+        if (!sp.getString("zip", "").equalsIgnoreCase("")) {
+            zip_ed.setText(sp.getString("zip", ""));
+        }
+        if (!sp.getString("phone", "").equalsIgnoreCase("")) {
+            phone_ed.setText(sp.getString("phone", ""));
+        }
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,15 +191,17 @@ public class AlmostdoneActivity extends Activity {
                 // use the result to update your UI and send the payment method nonce to your server
                 payment_method_nonce = result.getPaymentMethodNonce().getNonce();
                 ViewGroup.LayoutParams params = second_count_img.getLayoutParams();
-                params.height = 35;
-                params.height = 35;
+                params.height = 50;
+                params.width = 50;
                 second_count_img.setLayoutParams(params);
                 second_count_img.setBackgroundResource(R.drawable.step_one_right_light);
-                ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
+                /*ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
                 params1.height = 50;
                 params1.height = 50;
-                third_count_img.setLayoutParams(params1);
-                third_count_img.setBackgroundResource(R.drawable.step_three_light);
+                third_count_img.setLayoutParams(params1);*/
+                third_count_img.setBackgroundResource(R.drawable.step_one_right_light);
+                second_line.setBackgroundResource(R.drawable.linew_white);
+
                 dialogWindow();
                 bookingMethod();
                 // Toast.makeText(AlmostdoneActivity.this,result.getPaymentMethodNonce().getNonce(),Toast.LENGTH_SHORT).show();
@@ -255,10 +274,10 @@ public class AlmostdoneActivity extends Activity {
     }
 
     //--------------------search api method---------------------------------
-   /* private void bookingMethod() {
+    private void profileMethod() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.BOOKING_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.PROFILE_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -271,9 +290,9 @@ public class AlmostdoneActivity extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 global.setDateList(null);
-                                Intent i = new Intent(AlmostdoneActivity.this, MainActivity.class);
-                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Intent i = new Intent(AlmostdoneActivity.this, AfterPaymentActivity.class);
                                 startActivity(i);
+
 
                             } else {
                                 Toast.makeText(AlmostdoneActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -298,59 +317,20 @@ public class AlmostdoneActivity extends Activity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put(GlobalConstant.USERID, CommonUtils.UserID(AlmostdoneActivity.this));
-                params.put(GlobalConstant.technician_id, global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.id));
+                params.put(GlobalConstant.id, CommonUtils.UserID(AlmostdoneActivity.this));
 
-                params.put(GlobalConstant.firstname, first_name_ed.getText().toString());
-                params.put(GlobalConstant.lastname, last_name_ed.getText().toString());
+                params.put(GlobalConstant.ship_firstname, first_name_ed.getText().toString());
+                params.put(GlobalConstant.ship_lastname, last_name_ed.getText().toString());
 
-                params.put(GlobalConstant.address, address_ed.getText().toString());
-                params.put(GlobalConstant.city, city_ed.getText().toString());
+                params.put(GlobalConstant.ship_address, address_ed.getText().toString());
+                params.put(GlobalConstant.ship_city, city_ed.getText().toString());
 
-                params.put(GlobalConstant.zip, zip_ed.getText().toString());
-                params.put(GlobalConstant.phone, phone_ed.getText().toString());
-
-                params.put(GlobalConstant.date, global.getSendDate());
-                params.put(GlobalConstant.time, global.getSendTime());
-                params.put(GlobalConstant.total_amount, getIntent().getExtras().getString("total_price"));
-                params.put(GlobalConstant.payment_method_nonce, payment_method_nonce);
-                JSONArray installedList = new JSONArray();
-
-                if (getIntent().getExtras().getString("selected_id").contains(",")) {
-                    ArrayList<String> selectList = new ArrayList<>(Arrays.asList(getIntent().getExtras().getString("selected_id").split(",")));
-                    for (int i = 0; i < selectList.size(); i++) {
-                        try {
-                            JSONObject installedPackage = new JSONObject();
-                            installedPackage.put(GlobalConstant.service_id, selectList.get(i));
-                            installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(i).get(GlobalConstant.count));
-                            installedPackage.put(GlobalConstant.price, global.getPrcieListing().get(i).get(GlobalConstant.price));
-                            installedList.put(installedPackage);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                params.put(GlobalConstant.ship_zip, zip_ed.getText().toString());
+                params.put(GlobalConstant.ship_phone, phone_ed.getText().toString());
 
 
-                    }
-                } else {
 
-                    try {
-                        JSONObject installedPackage = new JSONObject();
-                        installedPackage.put(GlobalConstant.service_id, getIntent().getExtras().getString("selected_id"));
-                        installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(0).get(GlobalConstant.count));
-                        installedPackage.put(GlobalConstant.price, global.getPrcieListing().get(0).get(GlobalConstant.price));
-                        installedList.put(installedPackage);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-                String dataToSend = installedList.toString();
-                params.put(GlobalConstant.booking_items, dataToSend);
-                Log.e("Parameter for booking", params.toString());
+                Log.e("Parameter for profile", params.toString());
                 return params;
             }
 
@@ -359,7 +339,6 @@ public class AlmostdoneActivity extends Activity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-*/
 
 
     //--------------------search api method---------------------------------
@@ -378,8 +357,8 @@ public class AlmostdoneActivity extends Activity {
             params.put(GlobalConstant.address, address_ed.getText().toString());
             params.put(GlobalConstant.city, city_ed.getText().toString());
 
-            params.put(GlobalConstant.zip, zip_ed.getText().toString());
-            params.put(GlobalConstant.phone, phone_ed.getText().toString());
+            params.put(zip, zip_ed.getText().toString());
+            params.put(phone, phone_ed.getText().toString());
 
             params.put(GlobalConstant.date, global.getSendDate());
             params.put(GlobalConstant.time, global.getSendTime());
@@ -443,9 +422,15 @@ public class AlmostdoneActivity extends Activity {
 
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
+                                ed.putString("first name", first_name_ed.getText().toString());
+                                ed.putString("last name", last_name_ed.getText().toString());
+                                ed.putString("address", address_ed.getText().toString());
+                                ed.putString("city", city_ed.getText().toString());
+                                ed.putString("zip", zip_ed.getText().toString());
+                                ed.putString("phone", phone_ed.getText().toString());
+                                ed.commit();
                                 global.setDateList(null);
-                                Intent i = new Intent(AlmostdoneActivity.this, AfterPaymentActivity.class);
-                                startActivity(i);
+                                profileMethod();
 
                             } else {
                                 Toast.makeText(AlmostdoneActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();

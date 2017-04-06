@@ -165,7 +165,7 @@ ImageView back;
         cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this,serviceList));
         getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
-        cart_value_info.setText(String.valueOf(listing.size()) + "Item in Your Cart");
+        cart_value_info.setText(String.valueOf(listing.size()) + " Item in Your Cart");
         int pricevalue=0;
         for (int k=0;k<serviceList.size();k++){
             pricevalue=pricevalue+Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));

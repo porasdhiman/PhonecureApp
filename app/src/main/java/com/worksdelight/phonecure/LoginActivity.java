@@ -300,6 +300,9 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 JSONObject data=obj.getJSONObject("data");
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","app");
+                                ed.putString("user name",data.getString(GlobalConstant.name));
+                                ed.putString("email",data.getString(GlobalConstant.email));
+
                                 ed.commit();
                                 Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
@@ -367,6 +370,8 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 JSONObject data=obj.getJSONObject("data");
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","facebook");
+                                ed.putString("user name",data.getString(GlobalConstant.name));
+                                ed.putString("email",data.getString(GlobalConstant.email));
                                 ed.commit();
                                 Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(f);

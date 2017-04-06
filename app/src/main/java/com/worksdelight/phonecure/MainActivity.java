@@ -15,6 +15,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -37,12 +40,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     Global global;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
-
+    CallbackManager callbackManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.main_layout);
+        callbackManager = CallbackManager.Factory.create();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
@@ -53,6 +58,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         setUpMenu();
         if (savedInstanceState == null)
             changeFragment(new HomeFragment(), "PhoneCure");
+
     }
 
     private void setUpMenu() {
@@ -60,7 +66,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // attach to current activity;
         notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
-        resideMenu = new ResideMenu(this, R.drawable.user_back, "PORAS DHIMAN"/*, "balance:$100000"*/);
+        resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString("user name",""));
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);
@@ -70,7 +76,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         // create menu items;
         itemHome = new ResideMenuItem(this, "Home");
-       // drug = new ResideMenuItem(this, "Drug");
+        // drug = new ResideMenuItem(this, "Drug");
         //technicians = new ResideMenuItem(this, "Technicians");
         services = new ResideMenuItem(this, "Services");
         dashboard = new ResideMenuItem(this, "Privacy Policy");
@@ -81,8 +87,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         itemHome.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
-       // drug.setOnClickListener(this);
-       // technicians.setOnClickListener(this);
+        // drug.setOnClickListener(this);
+        // technicians.setOnClickListener(this);
         services.setOnClickListener(this);
         dashboard.setOnClickListener(this);
         new_cure.setOnClickListener(this);
@@ -92,7 +98,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
         //resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
-       // resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
+        // resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(services, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
 
@@ -125,6 +131,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         if (view == itemHome) {
             changeFragment(new HomeFragment(), "PhoneCure");
+
         } else if (view == itemProfile) {
             changeFragment(new ProfileFragment(), "Profile");
         } /*else if (view == drug) {
@@ -139,13 +146,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             changeFragment(new NewCureFragment(), "About us");
         } else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
+            if (sp.getString("type", "app").equalsIgnoreCase("app")) {
+                ed.clear();
+                ed.commit();
+                global.setDateList(null);
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            } else {
+                ed.clear();
+                ed.commit();
+                global.setDateList(null);
+                LoginManager.getInstance().logOut();
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
 
-            ed.clear();
-            ed.commit();
-            global.setDateList(null);
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
 
         }
 
@@ -189,5 +206,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void homevisibilityMethod() {
         notification_img.setVisibility(View.VISIBLE);
         message_img.setVisibility(View.VISIBLE);
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+
     }
 }

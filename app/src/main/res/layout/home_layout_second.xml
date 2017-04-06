@@ -2,44 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/login_back"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/tools"
+
     android:orientation="vertical">
 
-  <!--  <com.mapbox.mapboxsdk.maps.MapView
+    <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header_view"
 
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v9"
-        mapbox:mapbox_cameraZoom="10"/>-->
-    <RelativeLayout
-        android:id="@+id/blank_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/ellipse_bcak">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ellipse_dot" />
-        </RelativeLayout>
-    </RelativeLayout>
+        />
 
 
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/blank_layout"
-        android:layout_marginTop="30dp"
+        android:layout_centerInParent="true"
         android:background="@drawable/form_back">
 
         <LinearLayout
@@ -232,5 +215,53 @@ android:id="@+id/select_device_layout"
         </LinearLayout>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/bottome_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:visibility="gone">
+        <RelativeLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cancel_txtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="@color/main_color"
+                android:textSize="14sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/done_txtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:textColor="@color/main_color"
+                android:textSize="14sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"/>
+        </RelativeLayout>
+    <com.bruce.pickerview.LoopView
+        android:id="@+id/loop_view"
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+   android:layout_below="@+id/top_layout"
+        android:layout_centerHorizontal="true"
+        app:canLoop="true"
+        app:centerTextColor="#ff000000"
+        app:drawItemCount="7"
+        app:initPosition="3"
+        app:lineColor="@color/colorPrimary"
+        app:textSize="25sp"
+        app:topBottomTextColor="#ffafafaf"
+
+        />
+    </RelativeLayout>
 </RelativeLayout>
 

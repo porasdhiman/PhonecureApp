@@ -22,7 +22,9 @@ public class GlobalConstant {
     public static String TECHNICIANS_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/users/";
 
     public static String BOOKING_URL = "http://worksdelight.com/phone_cure/index.php/api/bookings/add";
+    public static String ACCORDING_TO_NAME_URL= "http://worksdelight.com/phone_cure/index.php/api/devicemodels/onewithslug?slug=iphone-se";
 
+    public static String PROFILE_URL= "http://worksdelight.com/phone_cure/index.php/api/users/profile";
 
     public static String email = "email";
     public static String password = "password";
@@ -77,4 +79,10 @@ public class GlobalConstant {
     public static String quantity="quantity";
     public static String color="color";
     public static String COLORGET_URL="http://worksdelight.com/phone_cure/index.php/api/devicemodels/getColorsWithSlug?slug=iphone-5s";
+    public static String ship_firstname="ship_firstname";
+    public static String ship_lastname="ship_lastname";
+    public static String ship_address="ship_address";
+    public static String ship_city="ship_city";
+    public static String ship_zip="ship_zip";
+    public static String ship_phone="ship_phone";
 }

@@ -63,7 +63,7 @@ import static com.worksdelight.phonecure.GlobalConstant.favorite;
 
 public class MapBoxActivity extends Activity {
     MapView mapView;
-    ImageView search_img,back;
+    ImageView search_img, back;
     Dialog dialog2;
     LinearLayout book_layout;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
@@ -98,13 +98,13 @@ public class MapBoxActivity extends Activity {
             }
         });
         back = (ImageView) findViewById(R.id.back);
-back.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        global.setDateList(null);
-        finish();
-    }
-});
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                global.setDateList(null);
+                finish();
+            }
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         book_layout = (LinearLayout) findViewById(R.id.book_layout);
@@ -123,7 +123,7 @@ back.setOnClickListener(new View.OnClickListener() {
         mapView = (MapView) findViewById(R.id.mapView);
 
         mapView.onCreate(savedInstanceState);
-        MarkerViewOptions opt=new MarkerViewOptions();
+        MarkerViewOptions opt = new MarkerViewOptions();
 
         dialogWindow();
         SearchMethod();
@@ -200,7 +200,7 @@ back.setOnClickListener(new View.OnClickListener() {
                 mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(@NonNull com.mapbox.mapboxsdk.annotations.Marker marker) {
-                        Log.e("marker id",String.valueOf(marker.getId()));
+                        Log.e("marker id", String.valueOf(marker.getId()));
                         pos = map.get(String.valueOf(marker.getId()));
 
                         book_layout.setVisibility(View.VISIBLE);
@@ -242,11 +242,10 @@ back.setOnClickListener(new View.OnClickListener() {
             }
         });
         Log.e("hash map value", map.toString());
-      //  openMarkerView();
+        //  openMarkerView();
 
 
     }
-
 
 
     public String cap(String name) {
@@ -272,7 +271,7 @@ back.setOnClickListener(new View.OnClickListener() {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray arr = obj.getJSONArray("data");
-                                if(arr.length()==0){
+                                if (arr.length() == 0) {
                                     mapView.getMapAsync(new OnMapReadyCallback() {
                                         @Override
                                         public void onMapReady(MapboxMap mapboxMap) {
@@ -284,7 +283,7 @@ back.setOnClickListener(new View.OnClickListener() {
 
                                         }
                                     });
-                                }else {
+                                } else {
                                     for (int i = 0; i < arr.length(); i++) {
                                         JSONObject objArr = arr.getJSONObject(i);
                                         HashMap<String, String> map = new HashMap<>();

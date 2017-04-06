@@ -60,8 +60,8 @@
 
         <ImageView
             android:id="@+id/first_count_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@drawable/step_one_light"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
@@ -71,14 +71,14 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@drawable/line_img"
-            android:layout_marginLeft="-10dp"
+            android:layout_marginLeft="-5dp"
             android:layout_toRightOf="@+id/first_count_img"
             android:layout_toLeftOf="@+id/second_count_img"
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/second_count_img"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/step_two_dark"
             android:layout_centerInParent="true"
 
@@ -92,8 +92,8 @@
             android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/third_count_img"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:background="@drawable/step_three_dark"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
