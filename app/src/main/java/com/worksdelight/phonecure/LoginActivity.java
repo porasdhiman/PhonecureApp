@@ -214,7 +214,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
                 break;
             case R.id.sign_up_btn:
-                Intent su = new Intent(this, RegisterActivity.class);
+                Intent su = new Intent(this, TechniciansRegister.class);
                 startActivity(su);
                 finish();
 

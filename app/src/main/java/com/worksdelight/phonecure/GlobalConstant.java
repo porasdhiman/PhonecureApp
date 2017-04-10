@@ -25,6 +25,7 @@ public class GlobalConstant {
     public static String ACCORDING_TO_NAME_URL= "http://worksdelight.com/phone_cure/index.php/api/devicemodels/onewithslug?slug=iphone-se";
 
     public static String PROFILE_URL= "http://worksdelight.com/phone_cure/index.php/api/users/profile";
+    public static String CHANGEPASSWORD_URL= "http://worksdelight.com/phone_cure/index.php/api/users/changePassword";
 
     public static String email = "email";
     public static String password = "password";
@@ -58,6 +59,7 @@ public class GlobalConstant {
     public static String opening_time="opening_time";
     public static String closing_time="closing_time";
 
+    public static String VAT_INFO_URL="http://apilayer.net/api/validate?access_key=c7de04418ecfb37ef90a7c17892dedf7&vat_number=";
 
     public static String WISHLIST_URL="http://worksdelight.com/phone_cure/index.php/api/wishlist/add";
 
@@ -85,4 +87,7 @@ public class GlobalConstant {
     public static String ship_city="ship_city";
     public static String ship_zip="ship_zip";
     public static String ship_phone="ship_phone";
+    public static String old_password="old_password";
+    public static String new_password="new_password";
+    public static String confirm_password="confirm_password";
 }

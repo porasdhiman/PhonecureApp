@@ -3,12 +3,16 @@ package com.worksdelight.phonecure;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -183,7 +187,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     };
 
     private void changeFragment(Fragment targetFragment, String titel) {
-        header_txt.setText(titel);
+        if(titel.equalsIgnoreCase("PhoneCure")){
+            SpannableStringBuilder builder = new SpannableStringBuilder();
+
+            SpannableString str1= new SpannableString(titel);
+            str1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.main_color)), 5, str1.length(), str1.length()-1);
+            builder.append(str1);
+            header_txt.setText( builder, TextView.BufferType.SPANNABLE);
+            header_txt.setTextSize(22);
+        }else{
+            header_txt.setTextColor(Color.parseColor("#ffffff"));
+            header_txt.setText(titel);
+            header_txt.setTextSize(18);
+        }
+
         resideMenu.clearIgnoredViewList();
         getSupportFragmentManager()
                 .beginTransaction()

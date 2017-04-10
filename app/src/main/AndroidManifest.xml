@@ -173,8 +173,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ServiceActivity"
+        android:name=".ServiceActivity"
+        android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ChangePasswordActivity"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".AddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".TechniciansRegister"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".WebActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

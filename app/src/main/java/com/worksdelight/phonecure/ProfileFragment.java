@@ -21,7 +21,7 @@ import com.facebook.login.LoginManager;
 
 public class ProfileFragment extends Fragment {
     TextView user_name, user_phone, user_email, location_name_txtView;
-    RelativeLayout change_password_layout, sign_out_layout;
+    RelativeLayout change_password_layout, sign_out_layout,address_layout;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     Global global;
@@ -49,8 +49,8 @@ public class ProfileFragment extends Fragment {
 
         change_password_layout = (RelativeLayout) v.findViewById(R.id.change_password_layout);
         sign_out_layout = (RelativeLayout) v.findViewById(R.id.sign_out_layout);
-
-        user_name.setText(sp.getString("user name", ""));
+        address_layout=(RelativeLayout)v.findViewById(R.id.address_layout);
+        user_name.setText(cap(sp.getString("user name", "")));
 
 
         location_name_txtView.setText(sp.getString("address", ""));
@@ -58,10 +58,18 @@ public class ProfileFragment extends Fragment {
 
         user_phone.setText(sp.getString("phone", ""));
         user_email.setText(sp.getString("email", ""));
+        address_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), AddressActivity.class);
+                startActivity(i);
+            }
+        });
         change_password_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getActivity(), ChangePasswordActivity.class);
+                startActivity(i);
             }
         });
         sign_out_layout.setOnClickListener(new View.OnClickListener() {
@@ -91,5 +99,10 @@ public class ProfileFragment extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
 
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 }

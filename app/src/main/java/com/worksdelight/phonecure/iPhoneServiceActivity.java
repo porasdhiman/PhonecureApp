@@ -72,8 +72,9 @@ Global global;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        init();
         global=(Global)getApplicationContext();
+        init();
+
     }
 
     public void init() {

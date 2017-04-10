@@ -142,9 +142,7 @@ public class AlmostdoneActivity extends Activity {
                     zip_ed.setError("Please enter Zip");
                 } else if (phone_ed.length() == 0) {
                     phone_ed.setError("Please enter Phone number");
-                } else if (phone_ed.length() != 10) {
-                    phone_ed.setError("Please enter correct Phone number");
-                } else {
+                }  else {
 
                     DropInRequest dropInRequest = new DropInRequest()
                             .tokenizationKey("sandbox_dgtkrsvt_szxk5km2k4fmrx4t")
