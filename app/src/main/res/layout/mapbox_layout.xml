@@ -49,7 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 android:layout_below="@+id/header_view"
-
+        mapbox:mapbox_cameraTargetLat="30.7046"
+        mapbox:mapbox_cameraTargetLng="76.7179"
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v9"
         mapbox:mapbox_cameraZoom="10"
 

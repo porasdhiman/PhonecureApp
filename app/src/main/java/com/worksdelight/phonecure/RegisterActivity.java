@@ -2,7 +2,9 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -68,7 +70,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     SocialAuthAdapter adapter;
     Profile profileMap;
     int REQUEST_CHECK_SETTINGS = 100;
-
+SharedPreferences sp;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         setContentView(R.layout.register_layout);
+        sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed=sp.edit();
         global = (Global) getApplicationContext();
         init();
     }
@@ -123,15 +128,18 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.sign_up_btn:
                 if (email_view.getText().length() == 0) {
-                    Toast.makeText(RegisterActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
+                    email_view.setError("Please enter email");
 
                 } else if (password_view.getText().length() == 0) {
-                    Toast.makeText(RegisterActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
+                    password_view.setError("Please enter password");
+
 
                 } else if (name_view.getText().length() == 0) {
-                    Toast.makeText(RegisterActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                    name_view.setError("Please enter name");
+
                 } else if (!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                    Toast.makeText(RegisterActivity.this, "Please enter valid email", Toast.LENGTH_SHORT).show();
+                    email_view.setError("Please enter valid email");
+
                 } else {
                     dialogWindow();
                     registerMethod();
@@ -275,8 +283,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                Intent su = new Intent(RegisterActivity.this, MainActivity.class);
-                                startActivity(su);
+                                JSONObject data=obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
+                                ed.putString("type","app");
+                                ed.putString("user name",data.getString(GlobalConstant.name));
+                                ed.putString("email",data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+
+                                ed.commit();
+                                Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(s);
                                 finish();
                             } else {
                                 Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -388,8 +404,16 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                Intent f = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
-                                startActivity(f);
+                                JSONObject data=obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
+                                ed.putString("type","app");
+                                ed.putString("user name",data.getString(GlobalConstant.name));
+                                ed.putString("email",data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+
+                                ed.commit();
+                                Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(s);
                                 finish();
                             } else {
                                 Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

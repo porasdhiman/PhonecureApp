@@ -8,21 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by worksdelight on 28/02/17.
+ * Created by worksdelight on 12/04/17.
  */
 
-public class ServiceFragment extends Fragment {
+public class PandingFragment extends Fragment {
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.blank_layout, container, false);
-        MainActivity parentActivity = (MainActivity) getActivity();
-        parentActivity.visibilityMethod();
 
+return  v;
+    }
+    public static PandingFragment newInstance(String text) {
 
-        return v;
+        PandingFragment f = new PandingFragment();
+        Bundle b = new Bundle();
+        b.putString("msg", text);
+
+        f.setArguments(b);
+
+        return f;
     }
 
 }
-

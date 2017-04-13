@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     TextView current_device_name_txt, done_txtView, cancel_txtView;
     Global global;
-    LinearLayout select_device_layout;
+    RelativeLayout select_device_layout;
     MapView mapView;
     RelativeLayout select_color, bottome_layout;
     Dialog dialog2;
@@ -121,7 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mapboxMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(global.getLat()),Double.parseDouble(global.getLong()))).icon(icon));
 
-                mapboxMap.setPadding(0,0,0,measuredHeight/2+100);
+                mapboxMap.setPadding(0,0,0,measuredHeight/2+40);
 
 
             }
@@ -135,7 +134,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         cancel_txtView = (TextView) v.findViewById(R.id.cancel_txtView);
         done_txtView = (TextView) v.findViewById(R.id.done_txtView);
         current_device_name_txt.setText(global.getDeviceName());
-        select_device_layout = (LinearLayout) v.findViewById(R.id.select_device_layout);
+        select_device_layout = (RelativeLayout) v.findViewById(R.id.select_device_layout);
         select_device_layout.setOnClickListener(this);
         select_color = (RelativeLayout) v.findViewById(R.id.select_color);
         bottome_layout = (RelativeLayout) v.findViewById(R.id.bottome_layout);

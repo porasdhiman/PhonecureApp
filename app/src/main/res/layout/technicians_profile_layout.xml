@@ -43,19 +43,19 @@
 
             <ImageView
                 android:id="@+id/tech_img"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/img_click" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_back">
 
                 <ImageView
@@ -83,11 +83,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_back">
 
                 <ImageView
@@ -106,26 +106,103 @@
                     android:layout_marginLeft="16dp"
                     android:layout_toLeftOf="@+id/down_img3"
                     android:background="@null"
-                    android:hint="Email"
+                    android:hint="E-mail"
                     android:inputType="textEmailAddress"
                     android:textColor="#000"
                     android:textColorHint="@android:color/darker_gray"
                     android:textSize="@dimen/main_txt" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_back">
+
+                <ImageView
+                    android:id="@+id/down_img6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/down" />
+
+                <EditText
+                    android:id="@+id/password_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@+id/down_img6"
+                    android:background="@null"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textColor="#000"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="@dimen/main_txt" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_back">
+
+                <ImageView
+                    android:id="@+id/down_img"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/down" />
+
+                <EditText
+                    android:id="@+id/vat_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@+id/down_img"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="VAT - number"
+                    android:singleLine="true"
+                    android:textColor="#000"
+
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="@dimen/main_txt" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/see_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:text="Don't have an vat number?"
+                android:textColor="#0000ff"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_back"
 
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
 
                     >
@@ -140,13 +217,14 @@
                         android:src="@drawable/down" />
 
                     <EditText
-                        android:id="@+id/vat_ed"
+                        android:id="@+id/org_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
                         android:layout_toLeftOf="@+id/down_img1"
                         android:background="@null"
-                        android:hint="VAT - Number"
+                        android:hint="Your organization"
+                        android:singleLine="true"
                         android:textColor="#000"
                         android:textColorHint="@android:color/darker_gray"
 
@@ -154,118 +232,49 @@
                 </RelativeLayout>
 
 
-                <!-- <View
-                     android:layout_width="match_parent"
-                     android:layout_height="0.5dp"
-                     android:layout_marginRight="16dp"
-                     android:layout_marginLeft="16dp"
-                     android:background="#d1d1d1"/>
-                 <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="40dp"
-                     android:layout_gravity="center_horizontal"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="#d1d1d1" />
 
-                     >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
 
-                     <ImageView
-                         android:id="@+id/down_img4"
-                         android:layout_width="20dp"
-                         android:layout_height="20dp"
-                         android:layout_alignParentRight="true"
-                         android:layout_marginRight="16dp"
-                         android:layout_centerVertical="true"
-                         android:src="@drawable/down"/>
-                     <EditText
-                         android:layout_width="match_parent"
-                         android:layout_height="match_parent"
-                         android:background="@null"
-                         android:layout_toLeftOf="@+id/down_img4"
-                         android:layout_marginLeft="16dp"
-                         android:textColor="@android:color/darker_gray"
-                         android:textSize="@dimen/main_txt"
-                         android:textColorHint="@android:color/darker_gray"
+                    >
 
-                         android:hint="Unit"/>
-                 </RelativeLayout>-->
+                    <ImageView
+                        android:id="@+id/down_img4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/down" />
+
+                    <EditText
+                        android:id="@+id/address_ed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_toLeftOf="@+id/down_img4"
+                        android:background="@null"
+                        android:hint="Address"
+                        android:singleLine="true"
+                        android:textColor="#000"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="@dimen/main_txt" />
+                </RelativeLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/see_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:text="See this"
-                android:textColor="#0000ff"
-                android:textSize="12sp"
-                android:visibility="gone" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/edit_text_back">
-
-                <ImageView
-                    android:id="@+id/down_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/down" />
-
-                <TextView
-                    android:id="@+id/org_ed"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@+id/down_img"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:hint="Your organization"
-                    android:textColor="#000"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:textSize="@dimen/main_txt" />
-            </RelativeLayout>
-            <!-- <RelativeLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="40dp"
-                 android:background="@drawable/edit_text_back"
-                 android:layout_gravity="center_horizontal"
-                 android:layout_marginLeft="20dp"
-                 android:layout_marginRight="20dp"
-                 android:layout_marginTop="20dp">
-
-                 <ImageView
-                     android:id="@+id/down_img2"
-                     android:layout_width="20dp"
-                     android:layout_height="20dp"
-                     android:layout_alignParentRight="true"
-                     android:layout_marginRight="16dp"
-                     android:layout_centerVertical="true"
-                     android:src="@drawable/down"/>
-                 <EditText
-                     android:id="@+id/service_ed"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:background="@null"
-                     android:layout_toLeftOf="@+id/down_img2"
-                     android:layout_marginLeft="16dp"
-                     android:textColor="@android:color/darker_gray"
-                     android:textColorHint="@android:color/darker_gray"
-
-                     android:textSize="@dimen/main_txt"
-                     android:hint="Services"/>
-             </RelativeLayout>
-         -->
             <TextView
                 android:id="@+id/register_txtView"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -276,6 +285,10 @@
                 android:textColor="#fff"
                 android:textSize="@dimen/header_txt"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

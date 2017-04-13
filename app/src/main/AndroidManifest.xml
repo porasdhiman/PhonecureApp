@@ -190,6 +190,14 @@
             android:name=".WebActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".HistoryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".OtherDeviceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

@@ -62,7 +62,8 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-
+    ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
+Global global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global=(Global)getApplicationContext();
         init();
     }
 
@@ -95,12 +97,22 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent iPhone = new Intent(DeviceActivity.this, ShowDeviceActivity.class);
-                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
+                    Intent iPhone = new Intent(DeviceActivity.this, ShowDeviceActivity.class);
+                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
 
-                startActivity(iPhone);
+                    startActivity(iPhone);
+                } else {
+                    Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
+                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+
+                    iPhone.putExtra("pos", String.valueOf(i));
+
+
+                    startActivity(iPhone);
+                }
             }
         });
 
@@ -158,8 +170,34 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
+                                    if (arryObj.has(GlobalConstant.sub_category_id)) {
+                                        map.put(GlobalConstant.value, "true");
+                                    } else {
+                                        map.put(GlobalConstant.value, "false");
+
+                                    }
+                                    JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
+                                    if (sub_categories.length() > 0) {
+                                        for (int k = 0; k < sub_categories.length(); k++) {
+                                            JSONObject sub_categoriesObj = sub_categories.getJSONObject(k);
+
+                                            HashMap<String, String> sub_categoriesMap = new HashMap<>();
+                                            sub_categoriesMap.put(GlobalConstant.id, sub_categoriesObj.getString(GlobalConstant.id));
+                                            sub_categoriesMap.put(GlobalConstant.category_id, sub_categoriesObj.getString(GlobalConstant.category_id));
+                                            sub_categoriesMap.put(GlobalConstant.sub_category, sub_categoriesObj.getString(GlobalConstant.sub_category));
+                                            sub_categoriesMap.put(GlobalConstant.icon, sub_categoriesObj.getString(GlobalConstant.icon));
+                                            nextList.add(sub_categoriesMap);
+                                        }
+                                        map.put(GlobalConstant.sub_categories, nextList.toString());
+                                        nextList.clear();
+                                    } else {
+                                        map.put(GlobalConstant.sub_categories, nextList.toString());
+                                    }
+
                                     list.add(map);
                                 }
+                                global.setOtherDeviceList(list);
+                                Log.e("device_list", list.toString());
                                 device_listView.setAdapter(new DeviceAdapter(DeviceActivity.this, list));
                                 CommonUtils.getListViewSize(device_listView);
 
@@ -253,7 +291,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,

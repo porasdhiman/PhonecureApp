@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -57,6 +59,11 @@ public class ShowDeviceActivity extends Activity {
     DisplayImageOptions options;
     GridView device_view;
     ImageView back;
+    ArrayList<HashMap<String, String>> color_list = new ArrayList<>();
+    public int lastPos;
+    TextView next_txtView;
+    int valueof_selected_item;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,41 +72,55 @@ public class ShowDeviceActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        device_view=(GridView)findViewById(R.id.device);
+        device_view = (GridView) findViewById(R.id.device);
         dialogWindow();
         showDeviceMethod();
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
+        next_txtView = (TextView) findViewById(R.id.next_txtView);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        next_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(View view) {
                 Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
-                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                iPhone.putExtra("device_id",getIntent().getExtras().getString("id"));
-                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                iPhone.putExtra("device_type", list.get(valueof_selected_item).get(GlobalConstant.name));
+                iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                iPhone.putExtra("id", list.get(valueof_selected_item).get(GlobalConstant.id));
 
 
                 startActivity(iPhone);
+            }
+        });
+        device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+               /* Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
+                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+
+
+                startActivity(iPhone);*/
             }
         });
     }
 
     //--------------------Category api method---------------------------------
     private void showDeviceMethod() {
-Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
+        Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL+"category_id="+getIntent().getExtras().getString("id"),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         dialog2.dismiss();
-
+                        Log.e("complete url", GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"));
                         Log.e("response", response);
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -112,13 +133,30 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
                                     map.put(GlobalConstant.category_id, arryObj.getString(GlobalConstant.category_id));
+                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
 
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
-                                    list.add(map);
-                                }
 
-                                device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this,list));
+                                    JSONArray color_images = arryObj.getJSONArray(GlobalConstant.color_images);
+                                    if (color_images.length() > 0) {
+                                        for (int k = 0; k < color_images.length(); k++) {
+                                            JSONObject colorObj = color_images.getJSONObject(k);
+                                            HashMap<String, String> ColorMap = new HashMap<>();
+                                            ColorMap.put(GlobalConstant.color_id, colorObj.getString(GlobalConstant.color_id));
+                                            ColorMap.put(GlobalConstant.model_image, colorObj.getString(GlobalConstant.model_image));
+                                            ColorMap.put(GlobalConstant.color_image, colorObj.getString(GlobalConstant.color_image));
+                                            color_list.add(ColorMap);
+                                        }
+                                    }
+                                    map.put(GlobalConstant.color_images, color_list.toString());
+                                    list.add(map);
+                                    color_list.clear();
+                                }
+                                if(list.size()>0) {
+                                    Log.e("listing", list.toString());
+                                    device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this, list));
+                                }
                             } else {
                                 Toast.makeText(ShowDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -159,11 +197,16 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
     //------------------------Device adapter--------------------------------
 
     class DeviceAdapter extends BaseAdapter {
+        int j, l = -1;
         Context c;
         LayoutInflater inflator;
         Holder holder = null;
         String url = "";
+        String durl = "";
+        ArrayList<String> value = new ArrayList<>();
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
+        //ArrayList<HashMap<String, String>> color = new ArrayList<>();
+        //ArrayList<HashMap<String, String>> model_image = new ArrayList<>();
 
         DeviceAdapter(Context c, ArrayList<HashMap<String, String>> deviceList) {
             this.c = c;
@@ -178,6 +221,19 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
                     .cacheInMemory()
                     .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
             initImageLoader();
+            for (int p = 0; p < deviceList.size(); p++) {
+                value.add("false");
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return deviceList.size();
         }
 
         @Override
@@ -196,19 +252,105 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             holder = new Holder();
             if (view == null) {
 
                 view = inflator.inflate(R.layout.show_device_item_layout, null);
                 holder.device_image = (ImageView) view.findViewById(R.id.device_item);
-               holder.device_name = (TextView) view.findViewById(R.id.device_name);
+                holder.device_name = (TextView) view.findViewById(R.id.device_name);
+                holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
+                holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
 
-                view.setTag(holder);
+                holder.main_layout.setTag(holder);
+                ArrayList<HashMap<String, String>> color = convertToHashMap(deviceList.get(i).get(GlobalConstant.color_images));
+
+                holder.main_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder = (Holder) view.getTag();
+
+
+                    }
+                });
+                if (!deviceList.get(i).get(GlobalConstant.color_images).equalsIgnoreCase("[]")) {
+                    Log.e("postion", String.valueOf(i));
+                    for (j = 0; j < color.size(); j++) {
+                        holder.v = new ImageView(c);
+
+                        LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(50, 50);
+                        vp.setMargins(0, 10, 0, 0);
+                        holder.v.setLayoutParams(vp);
+
+                        holder.v.setMaxHeight(30);
+                        holder.v.setMaxWidth(30);
+                        holder.v.setId(j);
+                        holder.v.setTag(holder);
+                        holder.color_layout.addView(holder.v);
+                        holder.color_layout.setTag(holder);
+                        Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(j).get(GlobalConstant.color_image)).into(holder.v);
+                        Log.e("urljjjj", GlobalConstant.COLOR_IMAGE_URL + color.get(j).get(GlobalConstant.color_image));
+                        holder.v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                holder = (Holder) view.getTag();
+                                final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+
+                                for (int k = 0; k < model_image.size(); k++) {
+                                    if (view.getId() == k) {
+                                        valueof_selected_item=i;
+                                        next_txtView.setVisibility(View.VISIBLE);
+                                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(k).get(GlobalConstant.model_image));
+                                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+                                        ;
+                                        Log.e("url", url);
+                                        if (url != null && !url.equalsIgnoreCase("null")
+                                                && !url.equalsIgnoreCase("")) {
+                                            imageLoader.displayImage(url, holder.device_image, options,
+                                                    new SimpleImageLoadingListener() {
+                                                        @Override
+                                                        public void onLoadingComplete(String imageUri,
+                                                                                      View view, Bitmap loadedImage) {
+                                                            super.onLoadingComplete(imageUri, view,
+                                                                    loadedImage);
+
+                                                        }
+                                                    });
+                                        } else {
+                                            holder.device_image.setImageResource(0);
+                                        }
+                                        for (int p = 0; p < value.size(); p++) {
+                                            if (p == i) {
+                                                value.set(i, "true");
+                                            } else {
+                                                value.set(p, "false");
+
+                                            }
+                                        }
+
+                                    } else {
+
+                                    }
+                                }
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                    }
+                    color.clear();
+                    view.setTag(holder);
+                }
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.DEVICE_IMAGE_URL + deviceList.get(i).get(GlobalConstant.icon);
+            if (value.get(i).equalsIgnoreCase("true")) {
+                holder.main_layout.setBackgroundResource(R.drawable.list_selectore);
+            } else {
+                holder.main_layout.setBackgroundResource(R.drawable.calender_back);
+            }
+            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            Log.e("url", url);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,
@@ -230,10 +372,12 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
         }
 
         class Holder {
-            ImageView device_image;
+            ImageView device_image, v;
             TextView device_name;
+            LinearLayout color_layout, main_layout;
         }
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -258,4 +402,49 @@ Log.e("davice_id",String.valueOf(getIntent().getExtras().get("id")));
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
 
+    public ArrayList<HashMap<String, String>> convertToHashMap(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(0);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<HashMap<String, String>> convertToHashMapForModelImage(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(1);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

@@ -9,10 +9,6 @@ import android.widget.Button;
 
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.LineItem;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import cz.msebera.android.httpclient.Header;
 
 /*import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
@@ -25,14 +21,14 @@ import com.braintreepayments.api.dropin.DropInResult;*/
 public class PaymentInfoActivity extends Activity {
     private static final String SERVER_BASE = "http://worksdelight.com"; // Replace with your own server
     private static final int REQUEST_CODE = Menu.FIRST;
-    private AsyncHttpClient client = new AsyncHttpClient();
+   // private AsyncHttpClient client = new AsyncHttpClient();
     private String clientToken;
 Button btn_start,android;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_info_layout);
-        getToken();
+       // getToken();
         btn_start=(Button)findViewById(R.id.btn_start);
         android=(Button)findViewById(R.id.android);
         btn_start.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +139,7 @@ Button btn_start,android;
            });
        }*/
 
-    private void getToken() {
+    /*private void getToken() {
         client.get(SERVER_BASE + "/token", new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -156,7 +152,7 @@ Button btn_start,android;
                 //findViewById(R.id.btn_start).setEnabled(true);
             }
         });
-    }
+    }*/
 
 
 }

@@ -30,27 +30,37 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             />
-        <!-- <ImageView
-             android:layout_width="40dp"
-             android:layout_height="40dp"
+         <TextView
+             android:id="@+id/next_txtView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
              android:layout_centerVertical="true"
-             android:padding="8dp"
-
-
+android:textSize="18dp"
+             android:text="next"
+             android:textColor="#fff"
+             android:layout_marginRight="10dp"
              android:layout_alignParentRight="true"
-             android:src="@drawable/heart_img"/>-->
+             android:textStyle="bold"
+
+             android:src="@drawable/heart_img"
+             android:visibility="gone"/>
     </RelativeLayout>
+   <!-- android:listSelector="@drawable/list_selectore"
+    android:drawSelectorOnTop="true"
+    android:choiceMode="singleChoice"-->
+
     <GridView
         android:id="@+id/device"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
+        android:horizontalSpacing="5dp"
+        android:layout_marginTop="5dp"
+        android:verticalSpacing="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
 
-        android:horizontalSpacing="10dp"
-        android:layout_marginTop="10dp"
-        android:verticalSpacing="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+
         android:scrollbars="none"></GridView>
 </LinearLayout>

@@ -130,8 +130,20 @@ public class MapBoxActivity extends Activity {
         mapView.onCreate(savedInstanceState);
         MarkerViewOptions opt = new MarkerViewOptions();
 
-        dialogWindow();
-        SearchMethod();
+       /* mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(MapboxMap mapboxMap) {
+                Double lat = Double.parseDouble(global.getLat());
+                Double longt = Double.parseDouble(global.getLong());
+                mapboxMap.addMarker(new MarkerOptions()
+
+                        .position(new LatLng(lat, longt)));
+
+            }
+        });
+        */
+       /* dialogWindow();
+        SearchMethod();*/
 
     }
 

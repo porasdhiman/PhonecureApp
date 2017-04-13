@@ -1,9 +1,10 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,15 +28,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -51,7 +46,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 public class SplashActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
-        , ResultCallback<LocationSettingsResult> {
+         {
     // --------------code for gcm
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -64,6 +59,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
     Context context;
     String TAG = "Device Token Log";
     Global global;
+             AlertDialog alert;
 //--------------Location lat long variable---------
 
     private Location mLastLocation, myLocation;
@@ -142,14 +138,48 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                 requestPermissions(params, 0);
 
             } else {
+
+                if(checkGPSStatus()){
+
+                    locatioMethod();
+                    Handler splashhandler = new Handler();
+                    splashhandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+
+                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                finish();
+                            } else {
+                                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                finish();
+                            }
+                        }
+                    }, 3000);
+                }
                 global.setDeviceName(getDeviceName());
                 Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                locatioMethod();
+
+
+                // We already have permission, so handle as norma
+                //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if(checkGPSStatus()) {
+                global.setDeviceName(getDeviceName());
+                Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
                 Handler splashhandler = new Handler();
                 splashhandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
 
 
                         if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
@@ -168,36 +198,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         }
                     }
                 }, 3000);
-                // We already have permission, so handle as norma
-                //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
             }
-        } else {
-            global.setDeviceName(getDeviceName());
-            Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-            Handler splashhandler = new Handler();
-            splashhandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-
-
-                    if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
-
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                        finish();
-                    } else {
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                        finish();
-                    }
-                }
-            }, 3000);
-
             // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
         }
 
@@ -229,34 +230,34 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         perms.get(android.Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED &&
                         perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
-                    global.setDeviceName(getDeviceName());
-                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                    locatioMethod();
-                    Handler splashhandler = new Handler();
-                    splashhandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+                    if(checkGPSStatus()) {
+                        global.setDeviceName(getDeviceName());
+                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                        locatioMethod();
+                        Handler splashhandler = new Handler();
+                        splashhandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
 
 
+                                if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                            if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+                                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
+                                } else {
+                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                finish();
-                            } else {
-                                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                finish();
+                                    finish();
+                                }
                             }
-                        }
-                    }, 3000);
-                    // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
-
+                        }, 3000);
+                        // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     // Permission Denied
                     Toast.makeText(SplashActivity.this, "Some Permission is Denied", Toast.LENGTH_SHORT)
@@ -443,13 +444,86 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
-    }
 
-    @Override
+    }
+             public boolean checkGPSStatus() {
+                 LocationManager locationManager = null;
+                 boolean gps_enabled = false;
+                 boolean network_enabled = false;
+                 if (locationManager == null) {
+                     locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                 }
+                 try {
+                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                 } catch (Exception ex) {
+                 }
+                 try {
+                     network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                 } catch (Exception ex) {
+                 }
+                 if (!gps_enabled && !network_enabled) {
+                     AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+                     dialog.setMessage("Your Location Services are not enabled for PhoneCure");
+                     dialog.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             //this will navigate user to the device location settings screen
+                             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                             startActivityForResult(intent, 0);
+                         }
+                     });
+                     dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+                             alert.dismiss();
+                         }
+                     });
+                     alert = dialog.create();
+                     alert.show();
+                 }
+                 else{
+
+                 }
+                 return gps_enabled && network_enabled;
+             }
+
+             @Override
+             protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+                 super.onActivityResult(requestCode, resultCode, data);
+                 if(requestCode==0){
+                     locatioMethod();
+                     global.setDeviceName(getDeviceName());
+                     Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                     locatioMethod();
+                     Handler splashhandler = new Handler();
+                     splashhandler.postDelayed(new Runnable() {
+                         @Override
+                         public void run() {
+
+
+                             if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+
+                                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                 startActivity(intent);
+                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                 finish();
+                             } else {
+                                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                 startActivity(intent);
+                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                 finish();
+                             }
+                         }
+                     }, 1000);
+                 }else{
+
+                 }
+             }
+
+             @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
@@ -485,54 +559,12 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
 
         } else {
-           /* mLocationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-            if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                buildAlertMessageNoGPS();
-            }*/
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest);
-            builder.setAlwaysShow(true);
-            PendingResult<LocationSettingsResult> result =
-                    LocationServices.SettingsApi.checkLocationSettings(
-                            mGoogleApiClient,
-                            builder.build()
-                    );
 
-            result.setResultCallback(this);
 
         }
     }
 
-    @Override
-    public void onResult(@NonNull LocationSettingsResult locationSettingsResult) {
-        final Status status = locationSettingsResult.getStatus();
-        switch (status.getStatusCode()) {
-            case LocationSettingsStatusCodes.SUCCESS:
 
-                // NO need to show the dialog;
-
-                break;
-
-            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                //  Location settings are not satisfied. Show the user a dialog
-
-                try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result
-                    // in onActivityResult().
-
-                    status.startResolutionForResult(SplashActivity.this, REQUEST_CHECK_SETTINGS);
-
-                } catch (IntentSender.SendIntentException e) {
-
-                    //failed to show
-                }
-                break;
-
-            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                // Location settings are unavailable so not possible to show any dialog now
-                break;
-        }
-    }
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -569,16 +601,6 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 buildAlertMessageNoGPS();
             }*/
-            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest);
-            builder.setAlwaysShow(true);
-            PendingResult<LocationSettingsResult> result =
-                    LocationServices.SettingsApi.checkLocationSettings(
-                            mGoogleApiClient,
-                            builder.build()
-                    );
-
-            result.setResultCallback(this);
 
         }
     }

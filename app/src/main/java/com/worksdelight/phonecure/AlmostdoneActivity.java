@@ -36,9 +36,6 @@ import com.braintreepayments.api.dropin.DropInRequest;
 import com.braintreepayments.api.dropin.DropInResult;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.LineItem;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -51,10 +48,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
-
 import static com.worksdelight.phonecure.GlobalConstant.phone;
 import static com.worksdelight.phonecure.GlobalConstant.zip;
+
+//import com.loopj.android.http.AsyncHttpClient;
 
 /**
  * Created by worksdelight on 08/03/17.
@@ -63,7 +60,7 @@ import static com.worksdelight.phonecure.GlobalConstant.zip;
 public class AlmostdoneActivity extends Activity {
     private static final String SERVER_BASE = "http://worksdelight.com"; // Replace with your own server
     private static final int REQUEST_CODE = Menu.FIRST;
-    private AsyncHttpClient client = new AsyncHttpClient();
+   // private AsyncHttpClient client = new AsyncHttpClient();
     private String clientToken;
     TextView btn_start;
     EditText first_name_ed, last_name_ed, address_ed, city_ed, zip_ed, phone_ed;
@@ -237,7 +234,7 @@ public class AlmostdoneActivity extends Activity {
 
     }
 
-    private void getToken() {
+    /*private void getToken() {
         client.get(SERVER_BASE + "/token", new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -250,9 +247,9 @@ public class AlmostdoneActivity extends Activity {
                 //findViewById(R.id.btn_start).setEnabled(true);
             }
         });
-    }
+    }*/
 
-    void postNonceToServer(String nonce) {
+    /*void postNonceToServer(String nonce) {
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("payment_method_nonce", nonce);
@@ -270,7 +267,7 @@ public class AlmostdoneActivity extends Activity {
             }
         });
     }
-
+*/
     //--------------------search api method---------------------------------
     private void profileMethod() {
 

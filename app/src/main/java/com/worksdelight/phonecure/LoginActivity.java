@@ -190,7 +190,11 @@ public class LoginActivity extends Activity implements OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.facebook_layout:
-                Login_TV.performClick();
+                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                    Login_TV.performClick();
+                }else{
+                    CommonUtils.openInternetDialog(LoginActivity.this);
+            }
 
                 break;
             case R.id.twiter_layout:
@@ -199,36 +203,55 @@ public class LoginActivity extends Activity implements OnClickListener{
                 break;
             case R.id.sign_in_btn:
                 if(email_view.getText().length()==0){
-                    Toast.makeText(LoginActivity.this,"Please enter email",Toast.LENGTH_SHORT).show();
+                    email_view.setError("Please enter email");
 
                 }else if(password_view.getText().length()==0) {
-                    Toast.makeText(LoginActivity.this,"Please enter password",Toast.LENGTH_SHORT).show();
+                    password_view.setError("Please enter password");
+
 
                 }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                    Toast.makeText(LoginActivity.this,"Please enter valid email",Toast.LENGTH_SHORT).show();
+                    email_view.setError("Please enter valid email");
+
                 }
                 else{
-                    dialogWindow();
-                    loginMethod();
+                    if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+
+                        dialogWindow();
+                        loginMethod();
+                    }else{
+                        CommonUtils.openInternetDialog(LoginActivity.this);
+                    }
                 }
 
                 break;
             case R.id.sign_up_btn:
-                Intent su = new Intent(this, TechniciansRegister.class);
-                startActivity(su);
-                finish();
+                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+
+                    Intent su = new Intent(this, TechniciansRegister.class);
+                    startActivity(su);
+                    finish();
+                }else{
+                    CommonUtils.openInternetDialog(this);
+                }
 
                 break;
             case R.id.sign_up_user:
-                Intent us = new Intent(this, RegisterActivity.class);
-                startActivity(us);
-                finish();
+                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
+                    Intent us = new Intent(this, RegisterActivity.class);
+                    startActivity(us);
+                    finish();
+                }else{
+                    CommonUtils.openInternetDialog(this);
+                }
                 break;
             case R.id.forgot_view:
-                Intent f = new Intent(this, ForgotActivity.class);
-                startActivity(f);
-
+                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                    Intent f = new Intent(this, ForgotActivity.class);
+                    startActivity(f);
+                }else{
+                    CommonUtils.openInternetDialog(this);
+                }
 
                 break;
         }
@@ -298,11 +321,20 @@ public class LoginActivity extends Activity implements OnClickListener{
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data=obj.getJSONObject("data");
+                                JSONObject shipping_address=data.getJSONObject("shipping_address");
+
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","app");
                                 ed.putString("user name",data.getString(GlobalConstant.name));
                                 ed.putString("email",data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
 
+                                ed.putString("first name", shipping_address.getString("ship_firstname"));
+                                ed.putString("last name", shipping_address.getString("ship_lastname"));
+                                ed.putString("address", shipping_address.getString("ship_address"));
+                                ed.putString("city", shipping_address.getString("ship_city"));
+                                ed.putString("zip", shipping_address.getString("ship_zip"));
+                                ed.putString("phone", shipping_address.getString("ship_phone"));
                                 ed.commit();
                                 Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
@@ -351,6 +383,8 @@ public class LoginActivity extends Activity implements OnClickListener{
         requestQueue.add(stringRequest);
     }
 
+
+
     //--------------------Facebook Social api method---------------------------------
     private void FacebooksocialMethod() {
 
@@ -368,10 +402,20 @@ public class LoginActivity extends Activity implements OnClickListener{
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data=obj.getJSONObject("data");
+                                JSONObject shipping_address=data.getJSONObject("shipping_address");
+
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","facebook");
                                 ed.putString("user name",data.getString(GlobalConstant.name));
                                 ed.putString("email",data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+
+                                ed.putString("first name", shipping_address.getString("ship_firstname"));
+                                ed.putString("last name", shipping_address.getString("ship_lastname"));
+                                ed.putString("address", shipping_address.getString("ship_address"));
+                                ed.putString("city", shipping_address.getString("ship_city"));
+                                ed.putString("zip", shipping_address.getString("ship_zip"));
+                                ed.putString("phone", shipping_address.getString("ship_phone"));
                                 ed.commit();
                                 Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(f);

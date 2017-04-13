@@ -122,7 +122,7 @@ Global global;
     private void subcategoryMethod() {
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL +"device_model_id="+ getIntent().getExtras().getString("id"),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL +getIntent().getExtras().getString("id"),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -141,7 +141,8 @@ Global global;
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
 
-                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
+                                    map.put(GlobalConstant.device_model_id, arryObj.getString(GlobalConstant.device_model_id));
+                                    map.put(GlobalConstant.service_id, arryObj.getString(GlobalConstant.service_id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     list.add(map);

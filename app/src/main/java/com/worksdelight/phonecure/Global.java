@@ -146,6 +146,15 @@ public class Global extends Application {
         this.logoutValue = logoutValue;
     }
 
+    public ArrayList<HashMap<String, String>> getOtherDeviceList() {
+        return otherDeviceList;
+    }
+
+    public void setOtherDeviceList(ArrayList<HashMap<String, String>> otherDeviceList) {
+        this.otherDeviceList = otherDeviceList;
+    }
+
+    ArrayList<HashMap<String,String>> otherDeviceList=new ArrayList<>();
     String logoutValue;
     @Override
     public void onCreate() {

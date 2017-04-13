@@ -28,16 +28,15 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-
-
-            android:layout_centerHorizontal="true"
+            android:layout_height="220dp"
 
 
             android:orientation="vertical"
 
 
-            >
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,6 +105,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/select_device_layout"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginLeft="30dp"
@@ -119,59 +119,22 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp">
 
-                    <TextView
-                        android:id="@+id/sure_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Not sure your"
-                        android:textColor="#fff"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/header_txt"
-                        />
+
                     <TextView
                         android:id="@+id/deviceType_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="What your device"
+                        android:text="Select other device"
                         android:textColor="#fff"
                         android:textStyle="bold"
                         android:textAllCaps="true"
                         android:layout_marginTop="5dp"
 
-                        android:layout_below="@+id/sure_txt"
+
                         android:textSize="@dimen/header_txt"
 
                         />
-                    <RelativeLayout
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-
-                        android:layout_toLeftOf="@+id/white_forward_two">
-                        <TextView
-                            android:id="@+id/scan_txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                           android:text="Scan Device"
-                            android:textAllCaps="true"
-                            android:textColor="#000"
-                            android:textSize="10dp"
-
-                 />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="We recognize\n its for you"
-                            android:textAllCaps="true"
-                            android:textColor="#000"
-                            android:textSize="10dp"
-                            android:layout_below="@+id/scan_txt"
-
-
-                            />
-                    </RelativeLayout>
 
                     <ImageView
                         android:id="@+id/white_forward_two"
@@ -185,7 +148,7 @@
 
                 </RelativeLayout>
             </RelativeLayout>
-            <LinearLayout
+           <!-- <LinearLayout
 android:id="@+id/select_device_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -210,8 +173,7 @@ android:id="@+id/select_device_layout"
                     android:background="@android:color/darker_gray"/>
 
 
-
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </RelativeLayout>
 

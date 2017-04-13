@@ -11,16 +11,17 @@ public class GlobalConstant {
     public static String TWITTER_URL = "http://worksdelight.com/phone_cure/index.php/api/users/twitterlogin";
     public static String FACEBOOK_URL = "http://worksdelight.com/phone_cure/index.php/api/users/facebooklogin";
     public static String SIGNUP_URL = "http://worksdelight.com/phone_cure/index.php/api/users/register";
+    public static String TECHSIGNUP_URL = "http://worksdelight.com/phone_cure/index.php/api/users/register";
     public static String CATEGORY_URL = "http://worksdelight.com/phone_cure/index.php/api/categories/all";
-    public static String SUB_CATEGORY_URL = "http://worksdelight.com/phone_cure/index.php/api/deviceModelSubcategories/all?";
+    public static String SUB_CATEGORY_URL = "http://worksdelight.com/phone_cure/index.php/api/deviceModelServices/all?device_model_id=";
     public static String LOGIN_URL = "http://worksdelight.com/phone_cure/index.php/api/users/login";
     public static String IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/categories/";
     public static String DEVICE_URL = "http://worksdelight.com/phone_cure/index.php/api/devicemodels/all?";
     public static String DEVICE_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/device_models/";
     public static String SEARCH_URL = "http://worksdelight.com/phone_cure/index.php/api/users/search";
-    public static String SUB_CAETGORY_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/sub_categories/";
+    public static String SUB_CAETGORY_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/services/";
     public static String TECHNICIANS_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/users/";
-
+    public static String COLOR_IMAGE_URL = "http://worksdelight.com/phone_cure/uploads/colors/";
     public static String BOOKING_URL = "http://worksdelight.com/phone_cure/index.php/api/bookings/add";
     public static String ACCORDING_TO_NAME_URL= "http://worksdelight.com/phone_cure/index.php/api/devicemodels/onewithslug?slug=iphone-se";
 
@@ -59,6 +60,8 @@ public class GlobalConstant {
     public static String opening_time="opening_time";
     public static String closing_time="closing_time";
 
+    public static String FAVORITE_URL="http://worksdelight.com/phone_cure/index.php/api/users/getFavoriteTechnicians?";
+
     public static String VAT_INFO_URL="http://apilayer.net/api/validate?access_key=c7de04418ecfb37ef90a7c17892dedf7&vat_number=";
 
     public static String WISHLIST_URL="http://worksdelight.com/phone_cure/index.php/api/wishlist/add";
@@ -90,4 +93,13 @@ public class GlobalConstant {
     public static String old_password="old_password";
     public static String new_password="new_password";
     public static String confirm_password="confirm_password";
+    public static String vat_number="vat_number";
+    public static String organization="organization";
+    public static String color_images="color_images";
+    public static String model_image="model_image";
+    public static String color_image="color_image";
+    public static String color_id="color_id";
+    public static String value="value";
+    public static String sub_category="sub_category";
+    public static String sub_categories="sub_categories";
 }

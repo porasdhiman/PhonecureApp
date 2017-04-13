@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,10 +14,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -36,6 +38,15 @@ import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,21 +57,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+
 /**
  * Created by worksdelight on 10/04/17.
  */
 
 public class TechniciansRegister extends Activity {
-    EditText name_ed, email_ed, vat_ed, service_ed;
+    EditText name_ed, email_ed, vat_ed, org_ed, address_ed, password_ed;
     ImageView tech_img;
     Dialog camgllry, dialog2;
-    String selectedImagePath;
-    TextView see_text, org_ed;
+    String selectedImagePath = "", message;
+    TextView see_text, register_txtView;
+    Global global;
+    SharedPreferences sp;
+    SharedPreferences.Editor ed;
+    boolean isVat = false;
+    HttpEntity resEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.technicians_profile_layout);
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed = sp.edit();
+        global = (Global) getApplicationContext();
         init();
     }
 
@@ -68,36 +88,29 @@ public class TechniciansRegister extends Activity {
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
-        org_ed = (TextView) findViewById(R.id.org_ed);
+        org_ed = (EditText) findViewById(R.id.org_ed);
+        password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
-        // service_ed=(EditText)findViewById(R.id.service_ed);
+        address_ed = (EditText) findViewById(R.id.address_ed);
         tech_img = (ImageView) findViewById(R.id.tech_img);
-
+        register_txtView = (TextView) findViewById(R.id.register_txtView);
         tech_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dailog();
             }
         });
-        vat_ed.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (vat_ed.getText().toString().length() == 10) {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
                     dialogWindow();
                     vatApiMethod(vat_ed.getText().toString());
                 }
+
             }
         });
+
         see_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +124,38 @@ public class TechniciansRegister extends Activity {
                 see_text.setVisibility(View.GONE);
                 return false;
 
+            }
+        });
+        register_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (name_ed.getText().length() == 0) {
+                    name_ed.setError("Please enter name");
+                } else if (email_ed.getText().length() == 0) {
+                    email_ed.setError("Please enter email");
+
+
+                } else if (password_ed.getText().length() == 0) {
+                    password_ed.setError("Please enter password");
+
+                } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
+                    email_ed.setError("Please enter valid email");
+                } else if (vat_ed.getText().length() == 0) {
+                    vat_ed.setError("Please enter vat number");
+                } else if (org_ed.getText().length() == 0) {
+                    org_ed.setError("Please enter organization");
+                } else if (address_ed.getText().length() == 0) {
+                    address_ed.setError("Please enter address");
+                } else if (selectedImagePath.equalsIgnoreCase("")) {
+                    Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
+                } else if (isVat == false) {
+                    Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
+                } else {
+                    dialogWindow();
+                    //editprofile();
+                    new Thread(null, address_request, "")
+                            .start();
+                }
             }
         });
     }
@@ -169,6 +214,8 @@ public class TechniciansRegister extends Activity {
         } else if (requestCode == 1) {
             onCaptureImageResult(data);
             camgllry.dismiss();
+        } else {
+
         }
 
 
@@ -316,10 +363,12 @@ public class TechniciansRegister extends Activity {
                             String status = obj.getString("valid");
                             if (status.equalsIgnoreCase("true")) {
                                 org_ed.setText(obj.getString("company_name"));
-
+                                address_ed.setText(obj.getString("company_address"));
+                                isVat = true;
                             } else {
                                 vat_ed.setError("Please enter valid VAT no.");
                                 see_text.setVisibility(View.VISIBLE);
+                                isVat = false;
                             }
 
 
@@ -355,4 +404,109 @@ public class TechniciansRegister extends Activity {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
+
+    // ------------------------------------------------------upload
+    // method---------------
+    Runnable address_request = new Runnable() {
+        String res = "false";
+
+
+        @Override
+        public void run() {
+            try {
+
+                res = doFileUpload();
+            } catch (Exception e) {
+
+            }
+            Message msg = new Message();
+            msg.obj = res;
+            address_request_Handler.sendMessage(msg);
+        }
+    };
+
+    Handler address_request_Handler = new Handler() {
+        public void handleMessage(Message msg) {
+            String res = (String) msg.obj;
+            dialog2.dismiss();
+            if (res.equalsIgnoreCase("true")) {
+                // terms_dialog.dismiss();
+                Toast.makeText(TechniciansRegister.this, message, Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(TechniciansRegister.this, message, Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    };
+
+    private String doFileUpload() {
+        String success = "false";
+
+        String urlString = GlobalConstant.TECHSIGNUP_URL;
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = new HttpPost(urlString);
+            MultipartEntity reqEntity = new MultipartEntity();
+            if (selectedImagePath.length() > 0) {
+                File file1 = new File(selectedImagePath);
+                FileBody bin1 = new FileBody(file1);
+                reqEntity.addPart(GlobalConstant.image, bin1);
+            }
+
+
+            reqEntity.addPart(GlobalConstant.name, new StringBody(name_ed.getText().toString()));
+            reqEntity.addPart(GlobalConstant.email, new StringBody(email_ed.getText().toString()));
+            reqEntity.addPart(GlobalConstant.password, new StringBody(password_ed.getText().toString()));
+            reqEntity.addPart(GlobalConstant.vat_number, new StringBody(vat_ed.getText().toString()));
+            reqEntity.addPart(GlobalConstant.organization, new StringBody(org_ed.getText().toString()));
+            reqEntity.addPart(GlobalConstant.address, new StringBody(address_ed.getText().toString()));
+
+            reqEntity.addPart(GlobalConstant.device_token, new StringBody(global.getDeviceToken()));
+            reqEntity.addPart(GlobalConstant.type, new StringBody("technician"));
+            reqEntity.addPart(GlobalConstant.latitude, new StringBody(global.getLat()));
+            reqEntity.addPart(GlobalConstant.longitude, new StringBody(global.getLong()));
+            reqEntity.addPart(GlobalConstant.device_type, new StringBody("android"));
+
+            post.setEntity(reqEntity);
+
+            Log.e("params",  selectedImagePath + " " + name_ed.getText().toString()
+                    + " " + email_ed.getText().toString() + " " + password_ed.getText().toString() + " " + vat_ed.getText().toString()+" "+org_ed.getText().toString()
+                    +" "+address_ed.getText().toString()+" "+global.getDeviceToken()+" "+global.getLong()+" "+global.getLat()+" android"+" technician");
+            HttpResponse response = client.execute(post);
+            resEntity = response.getEntity();
+
+            final String response_str = EntityUtils.toString(resEntity);
+            if (resEntity != null) {
+                JSONObject obj = new JSONObject(response_str);
+                String status = obj.getString("status");
+                if (status.equalsIgnoreCase("1")) {
+                    success = "true";
+                    message = obj.getString("msg");
+                    JSONObject data = obj.getJSONObject("data");
+                    ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                    ed.putString("type", "app");
+                    ed.putString("user name", data.getString(GlobalConstant.name));
+                    ed.putString("email", data.getString(GlobalConstant.email));
+                    ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+
+                    ed.commit();
+                    Intent s = new Intent(TechniciansRegister.this, WalkThroughtOneActivity.class);
+                    startActivity(s);
+                    finish();
+
+                } else {
+                    success = "false";
+                    message = obj.getString("msg");
+                }
+
+            }
+        } catch (Exception ex) {
+        }
+        return success;
+    }
+
+
 }
