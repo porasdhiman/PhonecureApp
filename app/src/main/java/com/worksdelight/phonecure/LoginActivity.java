@@ -336,9 +336,16 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 ed.putString("zip", shipping_address.getString("ship_zip"));
                                 ed.putString("phone", shipping_address.getString("ship_phone"));
                                 ed.commit();
-                                Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
-                                startActivity(s);
-                                finish();
+                                if(data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
+
+                                    Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                    startActivity(s);
+                                    finish();
+                                }else{
+                                    Intent s = new Intent(LoginActivity.this, TechniciansDevice.class);
+                                    startActivity(s);
+                                    finish();
+                                }
                             } else {
                                 Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }

@@ -18,6 +18,14 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"/>
+        <View
+            android:id="@+id/view"
+            android:layout_width="2dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/device_icon"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/darker_gray"/>
         <TextView
             android:id="@+id/device_name"
             android:layout_width="wrap_content"
@@ -27,7 +35,8 @@
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/header_txt"
             android:gravity="center"
-            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/view"
+            android:layout_centerVertical="true"
             android:textStyle="bold"/>
         <ImageView
             android:id="@+id/select_img"

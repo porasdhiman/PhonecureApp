@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,8 @@ public class ShowDeviceActivity extends Activity {
     ArrayList<HashMap<String, String>> color_list = new ArrayList<>();
     public int lastPos;
     TextView next_txtView;
-    int valueof_selected_item;
-
+    int valueof_selected_item = 1, pos;
+    ArrayList<String> value = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +154,7 @@ public class ShowDeviceActivity extends Activity {
                                     list.add(map);
                                     color_list.clear();
                                 }
-                                if(list.size()>0) {
+                                if (list.size() > 0) {
                                     Log.e("listing", list.toString());
                                     device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this, list));
                                 }
@@ -203,7 +204,7 @@ public class ShowDeviceActivity extends Activity {
         Holder holder = null;
         String url = "";
         String durl = "";
-        ArrayList<String> value = new ArrayList<>();
+
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
         //ArrayList<HashMap<String, String>> color = new ArrayList<>();
         //ArrayList<HashMap<String, String>> model_image = new ArrayList<>();
@@ -262,18 +263,52 @@ public class ShowDeviceActivity extends Activity {
                 holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
                 holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
 
+                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(60, 60);
+                vp.setMargins(0, 15, 0, 0);
+                holder.img1 = new ImageView(c);
+                holder.img1.setLayoutParams(vp);
+
+                holder.img1.setMaxHeight(60);
+                holder.img1.setMaxWidth(60);
+                holder.img2= new ImageView(c);
+                holder.img2.setLayoutParams(vp);
+
+                holder.img2.setMaxHeight(60);
+                holder.img2.setMaxWidth(60);
+                holder.img3= new ImageView(c);
+                holder.img3.setLayoutParams(vp);
+
+                holder.img3.setMaxHeight(60);
+                holder.img3.setMaxWidth(60);
+                holder.img4= new ImageView(c);
+                holder.img4.setLayoutParams(vp);
+
+                holder.img4.setMaxHeight(60);
+                holder.img4.setMaxWidth(60);
+                holder.img5= new ImageView(c);
+                holder.img5.setLayoutParams(vp);
+
+                holder.img5.setMaxHeight(60);
+                holder.img5.setMaxWidth(60);
+                holder.img6 = new ImageView(c);
+                holder.img6.setLayoutParams(vp);
+
+                holder.img6.setMaxHeight(60);
+                holder.img6.setMaxWidth(60);
                 holder.main_layout.setTag(holder);
-                ArrayList<HashMap<String, String>> color = convertToHashMap(deviceList.get(i).get(GlobalConstant.color_images));
-
-                holder.main_layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        holder = (Holder) view.getTag();
-
-
-                    }
-                });
-                if (!deviceList.get(i).get(GlobalConstant.color_images).equalsIgnoreCase("[]")) {
+                holder.img1.setTag(holder);
+                holder.img2.setTag(holder);
+                holder.img3.setTag(holder);
+                holder.img4.setTag(holder);
+                holder.img5.setTag(holder);
+                holder.img6.setTag(holder);
+                holder.color_layout.addView(holder.img1);
+                holder.color_layout.addView(holder.img2);
+                holder.color_layout.addView(holder.img3);
+                holder.color_layout.addView(holder.img4);
+                holder.color_layout.addView(holder.img5);
+                holder.color_layout.addView(holder.img6);
+                /*if (!deviceList.get(i).get(GlobalConstant.color_images).equalsIgnoreCase("[]")) {
                     Log.e("postion", String.valueOf(i));
                     for (j = 0; j < color.size(); j++) {
                         holder.v = new ImageView(c);
@@ -282,13 +317,15 @@ public class ShowDeviceActivity extends Activity {
                         vp.setMargins(0, 10, 0, 0);
                         holder.v.setLayoutParams(vp);
 
-                        holder.v.setMaxHeight(30);
-                        holder.v.setMaxWidth(30);
+                        holder.v.setMaxHeight(50);
+                        holder.v.setMaxWidth(50);
                         holder.v.setId(j);
                         holder.v.setTag(holder);
                         holder.color_layout.addView(holder.v);
                         holder.color_layout.setTag(holder);
+                        holder.v.setBackgroundResource(R.drawable.default_circle_background);
                         Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(j).get(GlobalConstant.color_image)).into(holder.v);
+
                         Log.e("urljjjj", GlobalConstant.COLOR_IMAGE_URL + color.get(j).get(GlobalConstant.color_image));
                         holder.v.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -298,7 +335,9 @@ public class ShowDeviceActivity extends Activity {
                                 final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
 
                                 for (int k = 0; k < model_image.size(); k++) {
+
                                     if (view.getId() == k) {
+
                                         valueof_selected_item=i;
                                         next_txtView.setVisibility(View.VISIBLE);
                                         deviceList.get(i).put(GlobalConstant.icon, model_image.get(k).get(GlobalConstant.model_image));
@@ -329,10 +368,11 @@ public class ShowDeviceActivity extends Activity {
                                             }
                                         }
 
-                                    } else {
+                                    }else{
 
                                     }
                                 }
+
                                 notifyDataSetChanged();
                             }
                         });
@@ -340,7 +380,8 @@ public class ShowDeviceActivity extends Activity {
                     }
                     color.clear();
                     view.setTag(holder);
-                }
+                }*/
+                view.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
             }
@@ -349,6 +390,592 @@ public class ShowDeviceActivity extends Activity {
             } else {
                 holder.main_layout.setBackgroundResource(R.drawable.calender_back);
             }
+            ArrayList<HashMap<String, String>> color = convertToHashMap(deviceList.get(i).get(GlobalConstant.color_images));
+            if (!deviceList.get(i).get(GlobalConstant.color_images).equalsIgnoreCase("[]")) {
+                if (color.size() >= 6) {
+
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(1).get(GlobalConstant.color_image)).into(holder.img2);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(2).get(GlobalConstant.color_image)).into(holder.img3);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(3).get(GlobalConstant.color_image)).into(holder.img4);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(4).get(GlobalConstant.color_image)).into(holder.img5);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(5).get(GlobalConstant.color_image)).into(holder.img6);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.VISIBLE);
+                    holder.img5.setVisibility(View.VISIBLE);
+                    holder.img6.setVisibility(View.VISIBLE);
+                } else if (color.size() == 5) {
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(1).get(GlobalConstant.color_image)).into(holder.img2);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(2).get(GlobalConstant.color_image)).into(holder.img3);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(3).get(GlobalConstant.color_image)).into(holder.img4);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(4).get(GlobalConstant.color_image)).into(holder.img5);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.VISIBLE);
+                    holder.img5.setVisibility(View.VISIBLE);
+                    holder.img6.setVisibility(View.GONE);
+
+                } else if (color.size() == 4) {
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(1).get(GlobalConstant.color_image)).into(holder.img2);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(2).get(GlobalConstant.color_image)).into(holder.img3);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(3).get(GlobalConstant.color_image)).into(holder.img4);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.VISIBLE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+
+                } else if (color.size() == 3) {
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(1).get(GlobalConstant.color_image)).into(holder.img2);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(2).get(GlobalConstant.color_image)).into(holder.img3);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.VISIBLE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+
+
+                } else if (color.size() == 2) {
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(1).get(GlobalConstant.color_image)).into(holder.img2);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.VISIBLE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+
+                } else if (color.size() == 1) {
+                    Picasso.with(c).load(GlobalConstant.COLOR_IMAGE_URL + color.get(0).get(GlobalConstant.color_image)).into(holder.img1);
+                    holder.img1.setVisibility(View.VISIBLE);
+                    holder.img2.setVisibility(View.GONE);
+                    holder.img3.setVisibility(View.GONE);
+                    holder.img4.setVisibility(View.GONE);
+                    holder.img5.setVisibility(View.GONE);
+                    holder.img6.setVisibility(View.GONE);
+
+                }
+                color.clear();
+            }
+            holder.img1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 0;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+
+                    holder.img1.setLayoutParams(vp);
+                    holder.img2.setLayoutParams(vp1);
+                    holder.img3.setLayoutParams(vp1);
+                    holder.img4.setLayoutParams(vp1);
+                    holder.img5.setLayoutParams(vp1);
+                    holder.img6.setLayoutParams(vp1);
+
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+
+                    notifyDataSetChanged();
+                }
+            });
+
+            holder.img2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 1;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+                    holder.img1.setLayoutParams(vp1);
+                    holder.img2.setLayoutParams(vp);
+                    holder.img3.setLayoutParams(vp1);
+                    holder.img4.setLayoutParams(vp1);
+                    holder.img5.setLayoutParams(vp1);
+                    holder.img6.setLayoutParams(vp1);
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+                        ;
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+            holder.img3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 2;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+                    holder.img1.setLayoutParams(vp1);
+                    holder.img2.setLayoutParams(vp1);
+                    holder.img3.setLayoutParams(vp);
+                    holder.img4.setLayoutParams(vp1);
+                    holder.img5.setLayoutParams(vp1);
+                    holder.img6.setLayoutParams(vp1);
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+                        ;
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+            holder.img4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 3;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+                    holder.img1.setLayoutParams(vp1);
+                    holder.img2.setLayoutParams(vp1);
+                    holder.img3.setLayoutParams(vp1);
+                    holder.img4.setLayoutParams(vp);
+                    holder.img5.setLayoutParams(vp1);
+                    holder.img6.setLayoutParams(vp1);
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+
+            });
+            holder.img5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 4;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+                    holder.img1.setLayoutParams(vp1);
+                    holder.img2.setLayoutParams(vp1);
+                    holder.img3.setLayoutParams(vp1);
+                    holder.img4.setLayoutParams(vp1);
+                    holder.img5.setLayoutParams(vp);
+                    holder.img6.setLayoutParams(vp1);
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+            holder.img6.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    j = 5;
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    vp.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                    vp.setMargins(0, 15, 0, 0);
+                    vp1.setMargins(0, 15, 0, 0);
+                    holder.img1.setLayoutParams(vp1);
+                    holder.img2.setLayoutParams(vp1);
+                    holder.img3.setLayoutParams(vp1);
+                    holder.img4.setLayoutParams(vp1);
+                    holder.img5.setLayoutParams(vp1);
+                    holder.img6.setLayoutParams(vp);
+                    final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    if (model_image.size() >= 6) {
+
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    } else {
+                        next_txtView.setVisibility(View.VISIBLE);
+                        deviceList.get(i).put(GlobalConstant.icon, model_image.get(j).get(GlobalConstant.model_image));
+                        url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+                        Log.e("url", url);
+                        if (url != null && !url.equalsIgnoreCase("null")
+                                && !url.equalsIgnoreCase("")) {
+                            imageLoader.displayImage(url, holder.device_image, options,
+                                    new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri,
+                                                                      View view, Bitmap loadedImage) {
+                                            super.onLoadingComplete(imageUri, view,
+                                                    loadedImage);
+
+                                        }
+                                    });
+                        } else {
+                            holder.device_image.setImageResource(0);
+                        }
+                        for (int p = 0; p < value.size(); p++) {
+                            if (p == i) {
+                                value.set(i, "true");
+                            } else {
+                                value.set(p, "false");
+
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+
+            holder.main_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    valueof_selected_item=i;
+                    next_txtView.setVisibility(View.GONE);
+                    for (int p = 0; p < value.size(); p++) {
+                        if (p == i) {
+                            value.set(i, "true");
+                        } else {
+                            value.set(p, "false");
+
+                        }
+                    }
+
+                    device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this, list));
+                    device_view.smoothScrollToPosition(valueof_selected_item);
+
+                }
+            });
             url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             Log.e("url", url);
             if (url != null && !url.equalsIgnoreCase("null")
@@ -372,7 +999,7 @@ public class ShowDeviceActivity extends Activity {
         }
 
         class Holder {
-            ImageView device_image, v;
+            ImageView device_image, v, img1, img2, img3, img4, img5, img6;
             TextView device_name;
             LinearLayout color_layout, main_layout;
         }

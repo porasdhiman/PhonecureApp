@@ -26,24 +26,53 @@
             android:layout_toRightOf="@+id/device_icon"
             android:layout_marginLeft="10dp"
             android:background="@android:color/darker_gray"/>
+
         <TextView
             android:id="@+id/device_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
+
             android:textColor="#373737"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/view"
+            android:layout_marginTop="10dp"
             android:textSize="@dimen/header_txt"
-            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/view"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/device_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6 Devices Added"
+            android:textColor="@color/main_color"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/sab_txt"
+            android:layout_below="@+id/device_name"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+
+            android:layout_toRightOf="@+id/view"
+            />
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/forward"
+            android:id="@+id/select_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/right_unselect"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            />
+        <ImageView
+            android:id="@+id/unselect_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/right_img"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
 </LinearLayout>

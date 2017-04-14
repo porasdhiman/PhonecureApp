@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Device"
+            android:text="Devices"
             android:layout_centerInParent="true"
             android:textColor="#fff"
             android:textSize="18sp"

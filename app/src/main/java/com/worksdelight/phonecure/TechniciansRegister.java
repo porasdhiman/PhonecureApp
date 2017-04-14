@@ -493,7 +493,7 @@ public class TechniciansRegister extends Activity {
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();
-                    Intent s = new Intent(TechniciansRegister.this, WalkThroughtOneActivity.class);
+                    Intent s = new Intent(TechniciansRegister.this, TechniciansDevice.class);
                     startActivity(s);
                     finish();
 

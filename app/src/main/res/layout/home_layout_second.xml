@@ -62,7 +62,7 @@
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:textAllCaps="true"
-
+android:layout_marginTop="10dp"
                     android:textSize="@dimen/header_txt"
                    />
                     <TextView

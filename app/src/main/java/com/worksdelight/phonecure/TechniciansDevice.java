@@ -48,10 +48,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 07/03/17.
+ * Created by worksdelight on 14/04/17.
  */
 
-public class DeviceActivity extends Activity implements View.OnClickListener {
+public class TechniciansDevice extends Activity {
     TextView device_txtView, types_txtView;
     ListView device_listView/*, types_listView*/;
     // int imgArray[] = {R.drawable.apple_big_logo, R.drawable.android_logo, R.drawable.windows_logo, R.drawable.tablet_logo, R.drawable.portable_logo, R.drawable.game_logo};
@@ -64,7 +64,6 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
     DisplayImageOptions options;
     ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
     Global global;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,14 +98,14 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
-                    Intent iPhone = new Intent(DeviceActivity.this, ShowDeviceActivity.class);
+                    Intent iPhone = new Intent(TechniciansDevice.this, ShowDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
 
                     startActivity(iPhone);
                 } else {
-                    Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
+                    Intent iPhone = new Intent(TechniciansDevice.this, OtherDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
 
                     iPhone.putExtra("pos", String.valueOf(i));
@@ -119,34 +118,6 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
 
     }
-
-    @Override
-    public void onClick(View v) {
-       /* switch (v.getId()) {
-            case R.id.device_txtView:
-                device_listView.setVisibility(View.VISIBLE);
-                type_view_include.setVisibility(View.GONE);
-                types_txtView.setBackgroundResource(R.drawable.white_btn_back);
-                device_txtView.setBackgroundResource(R.drawable.green_btn);
-                device_txtView.setTextColor(Color.parseColor("#ffffff"));
-                types_txtView.setTextColor(Color.parseColor("#FFE6E4E4"));
-
-                break;
-            case R.id.types_txtView:
-                device_listView.setVisibility(View.GONE);
-                type_view_include.setVisibility(View.VISIBLE);
-                device_txtView.setBackgroundResource(R.drawable.white_btn_back);
-                types_txtView.setBackgroundResource(R.drawable.green_btn);
-                types_txtView.setTextColor(Color.parseColor("#ffffff"));
-                device_txtView.setTextColor(Color.parseColor("#FFE6E4E4"));
-                break;
-            case R.id.back:
-                finish();
-                break;
-        }
-*/
-    }
-
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
 
@@ -199,11 +170,11 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                 }
                                 global.setOtherDeviceList(list);
                                 Log.e("device_list", list.toString());
-                                device_listView.setAdapter(new DeviceAdapter(DeviceActivity.this, list));
+                                device_listView.setAdapter(new DeviceAdapter(TechniciansDevice.this, list));
                                 CommonUtils.getListViewSize(device_listView);
 
                             } else {
-                                Toast.makeText(DeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TechniciansDevice.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -284,10 +255,13 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             holder = new Holder();
             if (view == null) {
 
-                view = inflator.inflate(R.layout.device_item_layout, null);
+                view = inflator.inflate(R.layout.tecnicians_device_item, null);
                 holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
-
+                holder.select_img = (ImageView) view.findViewById(R.id.select_img);
+                holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                holder.select_img.setTag(holder);
+                holder.unselect_img.setTag(holder);
                 view.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
@@ -308,48 +282,59 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
             } else {
                 holder.device_image.setImageResource(0);
             }
+            holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
+            holder.select_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder = (Holder) v.getTag();
+                    holder.select_img.setVisibility(View.GONE);
+                    holder.unselect_img.setVisibility(View.VISIBLE);
+                  /*  if (serviceID.equalsIgnoreCase("")) {
+                        serviceID = deviceList.get(i).get(GlobalConstant.id);
+                    } else {
+                        if (!serviceID.contains(deviceList.get(i).get(GlobalConstant.id))) {
+                            serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
+                        }
+                    }
+                    Log.e("service id minus",serviceID);*/
 
+                }
+            });
+            holder.unselect_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder = (Holder) v.getTag();
+                    holder.select_img.setVisibility(View.VISIBLE);
+                    holder.unselect_img.setVisibility(View.GONE);
+                   /* String id = String.valueOf(serviceID.charAt(0));
+
+                    if (serviceID.contains(",")) {
+                        if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
+                            serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id) + ",", "");
+
+                        } else {
+                            serviceID = serviceID.replace("," + deviceList.get(i).get(GlobalConstant.id), "");
+
+                        }
+                    } else {
+                        serviceID = "";
+
+                    }
+                    Log.e("service id",serviceID);*/
+
+                }
+            });
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
             return view;
         }
 
         class Holder {
-            ImageView device_image;
+            ImageView device_image,select_img, unselect_img;
             TextView device_name;
         }
     }
 
-    //------------------------Type Adapter--------------------
-    class TypeAdapter extends BaseAdapter {
 
-
-        Context c;
-
-        TypeAdapter(Context c) {
-            this.c = c;
-
-        }
-
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            return null;
-        }
-    }
 
     private void initImageLoader() {
         int memoryCacheSize;
@@ -374,6 +359,5 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
-
 
 }
