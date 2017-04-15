@@ -130,20 +130,9 @@ public class MapBoxActivity extends Activity {
         mapView.onCreate(savedInstanceState);
         MarkerViewOptions opt = new MarkerViewOptions();
 
-       /* mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(MapboxMap mapboxMap) {
-                Double lat = Double.parseDouble(global.getLat());
-                Double longt = Double.parseDouble(global.getLong());
-                mapboxMap.addMarker(new MarkerOptions()
 
-                        .position(new LatLng(lat, longt)));
-
-            }
-        });
-        */
-       /* dialogWindow();
-        SearchMethod();*/
+        dialogWindow();
+        SearchMethod();
 
     }
 
@@ -321,19 +310,15 @@ public class MapBoxActivity extends Activity {
                                         map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
                                         map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
                                         map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
-                                        JSONArray servicesArr = objArr.getJSONArray("services");
+                                        JSONArray servicesArr = objArr.getJSONArray("technician_services");
                                         for (int j = 0; j < servicesArr.length(); j++) {
                                             JSONObject serviceObj = servicesArr.getJSONObject(j);
                                             HashMap<String, String> serviceMap = new HashMap<>();
                                             serviceMap.put(GlobalConstant.dm_sub_category_id, serviceObj.getString(GlobalConstant.dm_sub_category_id));
-                                            if (serviceObj.getString(GlobalConstant.price).contains(".")) {
 
-                                                serviceMap.put(GlobalConstant.price, String.valueOf(Double.valueOf(serviceObj.getString(GlobalConstant.price)).intValue()));
-
-                                            } else {
                                                 serviceMap.put(GlobalConstant.price, serviceObj.getString(GlobalConstant.price));
 
-                                            }
+
                                             serviceList.add(serviceMap);
                                         }
 
@@ -370,11 +355,15 @@ public class MapBoxActivity extends Activity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-
+                params.put(GlobalConstant.USERID, CommonUtils.UserID(MapBoxActivity.this));
                 params.put(GlobalConstant.category_id, getIntent().getExtras().getString("device_id"));
                 params.put(GlobalConstant.device_model_id, getIntent().getExtras().getString("id"));
 
-                params.put(GlobalConstant.dm_sub_category_ids, getIntent().getExtras().getString("selected_id"));
+                params.put("dm_service_ids", getIntent().getExtras().getString("selected_id"));
+
+                params.put("model_color", global.getColorId());
+
+                params.put(GlobalConstant.sub_category_id, global.getSubCatId());
 
                 params.put(GlobalConstant.latitude, global.getLat());
                 params.put(GlobalConstant.longitude, global.getLong());

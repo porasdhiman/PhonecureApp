@@ -48,10 +48,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 14/04/17.
+ * Created by worksdelight on 15/04/17.
  */
 
-public class TechniciansDevice extends Activity {
+public class TechniciansOtherDeviceActivity  extends Activity implements View.OnClickListener {
     TextView device_txtView, types_txtView;
     ListView device_listView/*, types_listView*/;
     // int imgArray[] = {R.drawable.apple_big_logo, R.drawable.android_logo, R.drawable.windows_logo, R.drawable.tablet_logo, R.drawable.portable_logo, R.drawable.game_logo};
@@ -64,7 +64,11 @@ public class TechniciansDevice extends Activity {
     DisplayImageOptions options;
     ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
     Global global;
-TextView done;
+    ArrayList<HashMap<String, String>> iconList = new ArrayList<>();
+    ArrayList<HashMap<String, String>> idList = new ArrayList<>();
+    ArrayList<HashMap<String, String>> sub_categoryList = new ArrayList<>();
+    ArrayList<HashMap<String, String>> category_idList = new ArrayList<>();
+    TextView device_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,13 +82,18 @@ TextView done;
     }
 
     public void init() {
-        done=(TextView)findViewById(R.id.done);
-        //device_txtView = (TextView) findViewById(R.id.device_txtView);
+        device_name = (TextView) findViewById(R.id.device_name);
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
         type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
+
+        device_name.setText(getIntent().getExtras().getString("device_type"));
+
+
+        dialogWindow();
+        categoryMethod();
 
         //device_txtView.setOnClickListener(this);
         //types_txtView.setOnClickListener(this);
@@ -94,27 +103,17 @@ TextView done;
                 finish();
             }
         });
-        dialogWindow();
-        categoryMethod();
+
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+
+                Intent iPhone = new Intent(TechniciansOtherDeviceActivity.this, TechniciansShowDeviceActivity.class);
+                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.sub_category));
+                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
 
-                    startActivity(iPhone);
-                } else {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-
-
-                    startActivity(iPhone);
-                }
-
+                startActivity(iPhone);
 
             }
         });
@@ -122,11 +121,19 @@ TextView done;
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
+
+
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
-
+String mainUrl=GlobalConstant.BRANDNAME_URL +"?category_id="+getIntent().getExtras().getString("id")+"&user_id="+CommonUtils.UserID(TechniciansOtherDeviceActivity.this);
+        Log.e("main url",mainUrl);
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.CATEGORY_URL + "?user_id=" + CommonUtils.UserID(TechniciansDevice.this),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, mainUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -144,44 +151,23 @@ TextView done;
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
-                                    map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
+                                    map.put(GlobalConstant.sub_category, arryObj.getString(GlobalConstant.sub_category));
+                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
                                     map.put(GlobalConstant.services_count, arryObj.getString(GlobalConstant.services_count));
 
-                                    if (arryObj.has(GlobalConstant.sub_category_id)) {
-                                        map.put(GlobalConstant.value, "true");
-                                    } else {
-                                        map.put(GlobalConstant.value, "false");
 
-                                    }
-                                    JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
-                                    if (sub_categories.length() > 0) {
-                                        for (int k = 0; k < sub_categories.length(); k++) {
-                                            JSONObject sub_categoriesObj = sub_categories.getJSONObject(k);
-
-                                            HashMap<String, String> sub_categoriesMap = new HashMap<>();
-                                            sub_categoriesMap.put(GlobalConstant.id, sub_categoriesObj.getString(GlobalConstant.id));
-                                            sub_categoriesMap.put(GlobalConstant.category_id, sub_categoriesObj.getString(GlobalConstant.category_id));
-                                            sub_categoriesMap.put(GlobalConstant.sub_category, sub_categoriesObj.getString(GlobalConstant.sub_category));
-                                            sub_categoriesMap.put(GlobalConstant.icon, sub_categoriesObj.getString(GlobalConstant.icon));
-                                            nextList.add(sub_categoriesMap);
-                                        }
-                                        map.put(GlobalConstant.sub_categories, nextList.toString());
-                                        nextList.clear();
-                                    } else {
-                                        map.put(GlobalConstant.sub_categories, nextList.toString());
-                                    }
 
                                     list.add(map);
                                 }
                                 global.setOtherDeviceList(list);
                                 Log.e("device_list", list.toString());
-                                device_listView.setAdapter(new DeviceAdapter(TechniciansDevice.this, list));
+                                device_listView.setAdapter(new DeviceAdapter(TechniciansOtherDeviceActivity.this, list));
                                 CommonUtils.getListViewSize(device_listView);
 
                             } else {
-                                Toast.makeText(TechniciansDevice.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TechniciansOtherDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -217,6 +203,7 @@ TextView done;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
 
     //------------------------Device adapter--------------------------------
 
@@ -274,7 +261,7 @@ TextView done;
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/"+deviceList.get(i).get(GlobalConstant.sub_category_id)+"/"+ deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,
@@ -340,7 +327,7 @@ TextView done;
 
                 }
             });
-            holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
+            holder.device_name.setText(deviceList.get(i).get(GlobalConstant.sub_category));
             return view;
         }
 
@@ -349,6 +336,8 @@ TextView done;
             TextView device_name, device_count;
         }
     }
+
+
 
 
     private void initImageLoader() {
@@ -374,5 +363,4 @@ TextView done;
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
-
 }

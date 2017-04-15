@@ -121,7 +121,7 @@ public class ResideMenu extends FrameLayout {
             user_name=(TextView) scrollViewLeftMenu.findViewById(R.id.user_name);
             user_balance=(TextView) scrollViewLeftMenu.findViewById(R.id.balnce_txt);
             user_img.setImageResource(image);
-            user_name.setText(cap(name_txt));
+            user_name.setText(name_txt);
            // user_balance.setText(balance);
             user_balance.setVisibility(View.GONE);
         }
@@ -199,11 +199,11 @@ public class ResideMenu extends FrameLayout {
         setShadowAdjustScaleXByOrientation();
         viewDecor.addView(this, 0);
     }
-    public String cap(String name) {
+    /*public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         return sb.toString();
-    }
+    }*/
     private void initValue(Activity activity) {
         this.activity = activity;
         leftMenuItems = new ArrayList<ResideMenuItem>();

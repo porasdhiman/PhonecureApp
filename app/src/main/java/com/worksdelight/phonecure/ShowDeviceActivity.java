@@ -65,6 +65,8 @@ public class ShowDeviceActivity extends Activity {
     TextView next_txtView;
     int valueof_selected_item = 1, pos;
     ArrayList<String> value = new ArrayList<>();
+    int j;
+    Global global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ public class ShowDeviceActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global=(Global)getApplicationContext();
         device_view = (GridView) findViewById(R.id.device);
         dialogWindow();
         showDeviceMethod();
@@ -87,10 +90,15 @@ public class ShowDeviceActivity extends Activity {
         next_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ArrayList<HashMap<String, String>> color = convertToHashMapForModelId(list.get(valueof_selected_item).get(GlobalConstant.color_images));
+
                 Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
                 iPhone.putExtra("device_type", list.get(valueof_selected_item).get(GlobalConstant.name));
                 iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
                 iPhone.putExtra("id", list.get(valueof_selected_item).get(GlobalConstant.id));
+
+                global.setColorId(color.get(j).get(GlobalConstant.color_id));
+                global.setSubCatId(list.get(valueof_selected_item).get(GlobalConstant.sub_category_id));
 
 
                 startActivity(iPhone);
@@ -198,7 +206,7 @@ public class ShowDeviceActivity extends Activity {
     //------------------------Device adapter--------------------------------
 
     class DeviceAdapter extends BaseAdapter {
-        int j, l = -1;
+        int  l = -1;
         Context c;
         LayoutInflater inflator;
         Holder holder = null;
@@ -1064,6 +1072,28 @@ public class ShowDeviceActivity extends Activity {
                 jObject = jArray.getJSONObject(i);
                 // beacuse you have only one key-value pair in each object so I have used index 0
                 keyString = (String) jObject.names().get(1);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public ArrayList<HashMap<String, String>> convertToHashMapForModelId(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(2);
                 myHashMap.put(keyString, jObject.getString(keyString));
                 list.add(myHashMap);
             }

@@ -16,18 +16,18 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 
 /**
- * Created by worksdelight on 12/04/17.
+ * Created by worksdelight on 15/04/17.
  */
 
-public class HistoryActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
-    private int previousPage = 0;
+public class TechniciansHistory extends FragmentActivity implements ViewPager.OnPageChangeListener{
+    private int previousPage=0;
     PagerSlidingTabStrip tabsStrip;
 
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     LinearLayout mTabsLinearLayout;
     ImageView back;
-
+    TextView header_txt;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,17 +37,18 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new FragmentPageAdapterForTechnicians(getSupportFragmentManager()));
 
         tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 
         //tabsStrip.setTextColorResource(R.drawable.selectore);
-
+        header_txt=(TextView)findViewById(R.id.header_txt);
+        header_txt.setText("Appointments");
         tabsStrip.setViewPager(viewPager);
         tabsStrip.setOnPageChangeListener(this);
-        ((LinearLayout) tabsStrip.getChildAt(0)).getChildAt(0).setSelected(true);
+        ((LinearLayout)tabsStrip.getChildAt(0)).getChildAt(0).setSelected(true);
         setUpTabStrip(0);
-        back = (ImageView) findViewById(R.id.back);
+        back=(ImageView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +56,6 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
             }
         });
     }
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -63,11 +63,11 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        ((LinearLayout) tabsStrip.getChildAt(0)).getChildAt(previousPage).setSelected(false);
+        ((LinearLayout)tabsStrip.getChildAt(0)).getChildAt(previousPage).setSelected(false);
         //set the selected page to state_selected = true
-        ((LinearLayout) tabsStrip.getChildAt(0)).getChildAt(position).setSelected(true);
+        ((LinearLayout)tabsStrip.getChildAt(0)).getChildAt(position).setSelected(true);
         //remember the current page
-        previousPage = position;
+        previousPage=position;
         setUpTabStrip(position);
 
     }
@@ -76,7 +76,6 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
     public void onPageScrollStateChanged(int state) {
 
     }
-
     public void setUpTabStrip(int pos) {
 
         //your other customizations related to tab strip...blahblah
@@ -93,3 +92,4 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
         }
     }
 }
+

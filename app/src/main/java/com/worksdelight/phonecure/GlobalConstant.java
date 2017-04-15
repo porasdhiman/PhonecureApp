@@ -54,11 +54,13 @@ public class GlobalConstant {
     public static String average_rating="average_rating";
     public static String count="count";
     public static String image="image";
-    public static String dm_sub_category_id="dm_sub_category_id";
+    public static String dm_sub_category_id="dm_service_id";
     public static String price="price";
     public static String service="service";
     public static String opening_time="opening_time";
     public static String closing_time="closing_time";
+    public static String STARTING_URL="http://worksdelight.com/phone_cure/index.php/api/technicians/welcome?";
+
 
     public static String FAVORITE_URL="http://worksdelight.com/phone_cure/index.php/api/users/getFavoriteTechnicians?";
 
@@ -67,6 +69,9 @@ public class GlobalConstant {
     public static String WISHLIST_URL="http://worksdelight.com/phone_cure/index.php/api/wishlist/add";
 
     public static String favorite_user_id="favorite_user_id";
+    public static String SERVICEADD_URL="http://worksdelight.com/phone_cure/index.php/api/technicianServices/add";
+    public static String BRANDNAME_URL="http://worksdelight.com/phone_cure/index.php/api/subcategories/all?";
+
 
     public static String technician_id="technician_id";
     public static String firstname="firstname";
@@ -102,4 +107,7 @@ public class GlobalConstant {
     public static String value="value";
     public static String sub_category="sub_category";
     public static String sub_categories="sub_categories";
+    public static String status="status";
+    public static String services_count="services_count";
+    public static String services="services";
 }

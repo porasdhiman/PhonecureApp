@@ -229,7 +229,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
                     Intent su = new Intent(this, TechniciansRegister.class);
                     startActivity(su);
-                    finish();
+
                 }else{
                     CommonUtils.openInternetDialog(this);
                 }
@@ -321,7 +321,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data=obj.getJSONObject("data");
-                                JSONObject shipping_address=data.getJSONObject("shipping_address");
+
 
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","app");
@@ -329,20 +329,21 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 ed.putString("email",data.getString(GlobalConstant.email));
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
 
-                                ed.putString("first name", shipping_address.getString("ship_firstname"));
-                                ed.putString("last name", shipping_address.getString("ship_lastname"));
-                                ed.putString("address", shipping_address.getString("ship_address"));
-                                ed.putString("city", shipping_address.getString("ship_city"));
-                                ed.putString("zip", shipping_address.getString("ship_zip"));
-                                ed.putString("phone", shipping_address.getString("ship_phone"));
-                                ed.commit();
                                 if(data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
-
+                                    JSONObject shipping_address=data.getJSONObject("shipping_address");
+                                    ed.putString("first name", shipping_address.getString("ship_firstname"));
+                                    ed.putString("last name", shipping_address.getString("ship_lastname"));
+                                    ed.putString("address", shipping_address.getString("ship_address"));
+                                    ed.putString("city", shipping_address.getString("ship_city"));
+                                    ed.putString("zip", shipping_address.getString("ship_zip"));
+                                    ed.putString("phone", shipping_address.getString("ship_phone"));
+                                    ed.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
                                     finish();
                                 }else{
-                                    Intent s = new Intent(LoginActivity.this, TechniciansDevice.class);
+                                    ed.commit();
+                                    Intent s = new Intent(LoginActivity.this, TechniciansMainActivity.class);
                                     startActivity(s);
                                     finish();
                                 }

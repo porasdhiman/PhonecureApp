@@ -18,9 +18,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,91 +48,70 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 14/04/17.
+ * Created by worksdelight on 15/04/17.
  */
 
-public class TechniciansDevice extends Activity {
-    TextView device_txtView, types_txtView;
-    ListView device_listView/*, types_listView*/;
-    // int imgArray[] = {R.drawable.apple_big_logo, R.drawable.android_logo, R.drawable.windows_logo, R.drawable.tablet_logo, R.drawable.portable_logo, R.drawable.game_logo};
-    RelativeLayout type_view_include;
-    //String txtArray[] = {"Apple Device", "Android Device", "Window Device", "Tablet Device", "Portable Device", "Game Console"};
-    ImageView back;
-    Dialog dialog2;
+public class TechniciansShowDeviceActivity extends Activity {
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
+    Dialog dialog2;
     DisplayImageOptions options;
-    ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
+    GridView device_view;
+    ImageView back;
+    ArrayList<HashMap<String, String>> color_list = new ArrayList<>();
+    public int lastPos;
+    TextView next_txtView;
+    int valueof_selected_item = 1, pos;
+    ArrayList<String> value = new ArrayList<>();
     Global global;
-TextView done;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.device_layout);
+        setContentView(R.layout.show_device_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
-        init();
-    }
-
-    public void init() {
-        done=(TextView)findViewById(R.id.done);
-        //device_txtView = (TextView) findViewById(R.id.device_txtView);
-        // types_txtView = (TextView) findViewById(R.id.types_txtView);
-        device_listView = (ListView) findViewById(R.id.device_listView);
-        //types_listView = (ListView) findViewById(R.id.types_listView);
-        type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+        device_view = (GridView) findViewById(R.id.device);
+        dialogWindow();
+        showDeviceMethod();
         back = (ImageView) findViewById(R.id.back);
-
-        //device_txtView.setOnClickListener(this);
-        //types_txtView.setOnClickListener(this);
+        next_txtView = (TextView) findViewById(R.id.next_txtView);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        dialogWindow();
-        categoryMethod();
-        device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
+                Intent iPhone = new Intent(TechniciansShowDeviceActivity.this, TechniciansServices.class);
+                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                global.setPostion(i);
 
-                    startActivity(iPhone);
-                } else {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-
-
-                    startActivity(iPhone);
-                }
-
-
+                startActivity(iPhone);
             }
         });
-
-
     }
 
     //--------------------Category api method---------------------------------
-    private void categoryMethod() {
-
+    private void showDeviceMethod() {
+        Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.CATEGORY_URL + "?user_id=" + CommonUtils.UserID(TechniciansDevice.this),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(this),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         dialog2.dismiss();
-
+                        Log.e("complete url", GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"));
                         Log.e("response", response);
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -144,44 +123,36 @@ TextView done;
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
+                                    map.put(GlobalConstant.category_id, arryObj.getString(GlobalConstant.category_id));
+                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
+                                    map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
+
+                                    map.put(GlobalConstant.services_count, arryObj.getString(GlobalConstant.services_count));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
-                                    map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
-                                    map.put(GlobalConstant.services_count, arryObj.getString(GlobalConstant.services_count));
 
-                                    if (arryObj.has(GlobalConstant.sub_category_id)) {
-                                        map.put(GlobalConstant.value, "true");
-                                    } else {
-                                        map.put(GlobalConstant.value, "false");
-
-                                    }
-                                    JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
-                                    if (sub_categories.length() > 0) {
-                                        for (int k = 0; k < sub_categories.length(); k++) {
-                                            JSONObject sub_categoriesObj = sub_categories.getJSONObject(k);
-
-                                            HashMap<String, String> sub_categoriesMap = new HashMap<>();
-                                            sub_categoriesMap.put(GlobalConstant.id, sub_categoriesObj.getString(GlobalConstant.id));
-                                            sub_categoriesMap.put(GlobalConstant.category_id, sub_categoriesObj.getString(GlobalConstant.category_id));
-                                            sub_categoriesMap.put(GlobalConstant.sub_category, sub_categoriesObj.getString(GlobalConstant.sub_category));
-                                            sub_categoriesMap.put(GlobalConstant.icon, sub_categoriesObj.getString(GlobalConstant.icon));
-                                            nextList.add(sub_categoriesMap);
+                                    JSONArray color_images = arryObj.getJSONArray(GlobalConstant.color_images);
+                                    if (color_images.length() > 0) {
+                                        for (int k = 0; k < color_images.length(); k++) {
+                                            JSONObject colorObj = color_images.getJSONObject(k);
+                                            HashMap<String, String> ColorMap = new HashMap<>();
+                                            ColorMap.put(GlobalConstant.color_id, colorObj.getString(GlobalConstant.color_id));
+                                            ColorMap.put(GlobalConstant.model_image, colorObj.getString(GlobalConstant.model_image));
+                                            ColorMap.put(GlobalConstant.color_image, colorObj.getString(GlobalConstant.color_image));
+                                            color_list.add(ColorMap);
                                         }
-                                        map.put(GlobalConstant.sub_categories, nextList.toString());
-                                        nextList.clear();
-                                    } else {
-                                        map.put(GlobalConstant.sub_categories, nextList.toString());
                                     }
-
+                                    map.put(GlobalConstant.color_images, color_list.toString());
                                     list.add(map);
+                                    color_list.clear();
                                 }
-                                global.setOtherDeviceList(list);
-                                Log.e("device_list", list.toString());
-                                device_listView.setAdapter(new DeviceAdapter(TechniciansDevice.this, list));
-                                CommonUtils.getListViewSize(device_listView);
-
+                                if (list.size() > 0) {
+                                    global.setAllDeviceList(list);
+                                    Log.e("listing", list.toString());
+                                    device_view.setAdapter(new DeviceAdapter(TechniciansShowDeviceActivity.this, list));
+                                }
                             } else {
-                                Toast.makeText(TechniciansDevice.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TechniciansShowDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -217,15 +188,19 @@ TextView done;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
-
     //------------------------Device adapter--------------------------------
 
     class DeviceAdapter extends BaseAdapter {
+        int j, l = -1;
         Context c;
         LayoutInflater inflator;
         Holder holder = null;
         String url = "";
+        String durl = "";
+
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
+        //ArrayList<HashMap<String, String>> color = new ArrayList<>();
+        //ArrayList<HashMap<String, String>> model_image = new ArrayList<>();
 
         DeviceAdapter(Context c, ArrayList<HashMap<String, String>> deviceList) {
             this.c = c;
@@ -240,6 +215,19 @@ TextView done;
                     .cacheInMemory()
                     .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
             initImageLoader();
+            for (int p = 0; p < deviceList.size(); p++) {
+                value.add("false");
+            }
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return deviceList.size();
         }
 
         @Override
@@ -258,23 +246,33 @@ TextView done;
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             holder = new Holder();
             if (view == null) {
 
-                view = inflator.inflate(R.layout.tecnicians_device_item, null);
-                holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
+                view = inflator.inflate(R.layout.show_device_item_layout, null);
+                holder.device_image = (ImageView) view.findViewById(R.id.device_item);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
-                holder.device_count = (TextView) view.findViewById(R.id.device_count);
-                holder.select_img = (ImageView) view.findViewById(R.id.select_img);
-                holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
-                holder.select_img.setTag(holder);
-                holder.unselect_img.setTag(holder);
+                holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
+                holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
+                holder.status = (TextView) view.findViewById(R.id.status);
+
+
                 view.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+
+if(deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")){
+    holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count)+" Add devices");
+    holder.status.setTextColor(Color.parseColor("#47c63d"));
+}else{
+    holder.status.setText("No device added yet");
+    holder.status.setTextColor(Color.parseColor("#ff0000"));
+}
+
+            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.category_id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            Log.e("url", url);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,
@@ -291,65 +289,17 @@ TextView done;
                 holder.device_image.setImageResource(0);
             }
 
-            if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
-                holder.select_img.setVisibility(View.GONE);
-                holder.unselect_img.setVisibility(View.VISIBLE);
-                holder.device_count.setText(deviceList.get(i).get(GlobalConstant.services_count) + " Devices Added");
-            } else {
-
-                holder.select_img.setVisibility(View.VISIBLE);
-                holder.unselect_img.setVisibility(View.GONE);
-                holder.device_count.setText("No Devices Added Yet");
-                holder.device_count.setTextColor(Color.parseColor("#ff0000"));
-            }
-            holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
-            holder.select_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                  /*  if (serviceID.equalsIgnoreCase("")) {
-                        serviceID = deviceList.get(i).get(GlobalConstant.id);
-                    } else {
-                        if (!serviceID.contains(deviceList.get(i).get(GlobalConstant.id))) {
-                            serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
-                        }
-                    }
-                    Log.e("service id minus",serviceID);*/
-
-                }
-            });
-            holder.unselect_img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                   /* String id = String.valueOf(serviceID.charAt(0));
-
-                    if (serviceID.contains(",")) {
-                        if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
-                            serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id) + ",", "");
-
-                        } else {
-                            serviceID = serviceID.replace("," + deviceList.get(i).get(GlobalConstant.id), "");
-
-                        }
-                    } else {
-                        serviceID = "";
-
-                    }
-                    Log.e("service id",serviceID);*/
-
-                }
-            });
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
             return view;
         }
 
         class Holder {
-            ImageView device_image, select_img, unselect_img;
-            TextView device_name, device_count;
+            ImageView device_image, v, img1, img2, img3, img4, img5, img6;
+            TextView device_name, status;
+            LinearLayout color_layout, main_layout;
+
         }
     }
-
 
     private void initImageLoader() {
         int memoryCacheSize;
@@ -375,4 +325,50 @@ TextView done;
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
 
+    public ArrayList<HashMap<String, String>> convertToHashMap(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(0);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public ArrayList<HashMap<String, String>> convertToHashMapForModelImage(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(1);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
+

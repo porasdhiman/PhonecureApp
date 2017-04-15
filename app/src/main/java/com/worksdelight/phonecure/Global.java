@@ -156,6 +156,44 @@ public class Global extends Application {
 
     ArrayList<HashMap<String,String>> otherDeviceList=new ArrayList<>();
     String logoutValue;
+
+    public int getPostion() {
+        return postion;
+    }
+
+    public void setPostion(int postion) {
+        this.postion = postion;
+    }
+
+    int  postion;
+
+    public ArrayList<HashMap<String, String>> getAllDeviceList() {
+        return allDeviceList;
+    }
+
+    public void setAllDeviceList(ArrayList<HashMap<String, String>> allDeviceList) {
+        this.allDeviceList = allDeviceList;
+    }
+
+    ArrayList<HashMap<String,String>> allDeviceList=new ArrayList<>();
+
+    public String getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(String colorId) {
+        this.colorId = colorId;
+    }
+
+    public String getSubCatId() {
+        return subCatId;
+    }
+
+    public void setSubCatId(String subCatId) {
+        this.subCatId = subCatId;
+    }
+
+    String colorId,subCatId;
     @Override
     public void onCreate() {
         super.onCreate();

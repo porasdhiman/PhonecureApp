@@ -72,6 +72,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
+             SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp=getSharedPreferences(GlobalConstant.PREF_NAME,Context.MODE_PRIVATE);
         global=(Global)getApplicationContext();
         buildGoogleApiClient();
         //----------Check play service---------------------------
@@ -95,8 +97,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             Log.e(TAG, "No valid Google Play Services APK found.");
         }
 
-global.setLat("30.7046");
-        global.setLong("76.7179");
+global.setLat("30.701990");
+        global.setLong("76.682625");
         //-----------------Permission value----------------------
         String locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
         String coarselocationPermission = android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -158,11 +160,19 @@ global.setLat("30.7046");
 
                                 finish();
                             } else {
-                                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                finish();
+                                    finish();
+                                }else{
+                                    Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                    finish();
+                                }
                             }
                         }
                     }, 3000);
@@ -192,11 +202,19 @@ global.setLat("30.7046");
 
                             finish();
                         } else {
-                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                            finish();
+                                finish();
+                            }else{
+                                Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                finish();
+                            }
                         }
                     }
                 }, 3000);
@@ -250,11 +268,19 @@ global.setLat("30.7046");
 
                                     finish();
                                 } else {
-                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                    finish();
+                                        finish();
+                                    }else{
+                                        Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                        finish();
+                                    }
                                 }
                             }
                         }, 3000);

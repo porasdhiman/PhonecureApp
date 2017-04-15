@@ -54,7 +54,8 @@ public class ShoppingcartActivity extends Activity {
     DisplayImageOptions options;
     HashMap<String, String> listmap = new HashMap<>();
     String url;
-ImageView back;
+    ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +80,14 @@ ImageView back;
             public void onClick(View view) {
                 global.setNewListing(listing);
                 Intent i = new Intent(ShoppingcartActivity.this, AlmostdoneActivity.class);
-                i.putExtra("pos",getIntent().getExtras().getString("pos"));
-                i.putExtra("selected_id",getIntent().getExtras().getString("selected_id"));
-                i.putExtra("total_price",total_price.getText().toString().replace("$",""));
+                i.putExtra("pos", getIntent().getExtras().getString("pos"));
+                i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                i.putExtra("total_price", total_price.getText().toString().replace("$", ""));
                 startActivity(i);
             }
         });
 
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,8 +99,8 @@ ImageView back;
             selectList = new ArrayList<>(Arrays.asList(getIntent().getExtras().getString("selected_id").split(",")));
 
             for (int i = 0; i < global.getServiceList().size(); i++) {
-                for (int l=0;l<selectList.size();l++){
-                    Log.e("value inc",selectList.get(l));
+                for (int l = 0; l < selectList.size(); l++) {
+                    Log.e("value inc", selectList.get(l));
                     if (selectList.get(l).contains(global.getServiceList().get(i).get(GlobalConstant.id))) {
                         HashMap<String, String> map = new HashMap<>();
                         map.put(GlobalConstant.id, global.getServiceList().get(i).get(GlobalConstant.id));
@@ -158,33 +159,33 @@ ImageView back;
 
         }
         String value = global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.service);
-        serviceList=convertToHashMap(value);
+        serviceList = convertToHashMap(value);
         global.setPrcieListing(serviceList);
-        Log.e("service value",serviceList.toString());
+        Log.e("service value", serviceList.toString());
         Log.e("listing value", listing.toString());
-        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this,serviceList));
+        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this, serviceList));
         getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
         cart_value_info.setText(String.valueOf(listing.size()) + " Item in Your Cart");
-        int pricevalue=0;
-        for (int k=0;k<serviceList.size();k++){
-            pricevalue=pricevalue+Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
+        int pricevalue = 0;
+        for (int k = 0; k < serviceList.size(); k++) {
+            pricevalue = pricevalue + Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
         }
-        total_price.setText("$"+pricevalue);
+        total_price.setText("$" + pricevalue);
     }
 
     public ArrayList<HashMap<String, String>> convertToHashMap(String jsonString) {
-        ArrayList<HashMap<String,String>> list=new ArrayList<>();
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
         try {
             JSONArray jArray = new JSONArray(jsonString);
             JSONObject jObject = null;
-            String keyString=null;
+            String keyString = null;
             for (int i = 0; i < jArray.length(); i++) {
                 HashMap<String, String> myHashMap = new HashMap<String, String>();
                 jObject = jArray.getJSONObject(i);
                 // beacuse you have only one key-value pair in each object so I have used index 0
-                keyString = (String)jObject.names().get(1);
+                keyString = (String) jObject.names().get(1);
                 myHashMap.put(keyString, jObject.getString(keyString));
                 list.add(myHashMap);
             }
@@ -195,14 +196,16 @@ ImageView back;
         }
         return list;
     }
+
     public class ShoppingAdapter extends BaseSwipeAdapter {
 
         private Context mContext;
         Holder h;
 
         ArrayList<HashMap<String, String>> serviceListing = new ArrayList<>();
-int priceValue;
-        public ShoppingAdapter(Context mContext,ArrayList<HashMap<String, String>> serviceListing) {
+        int priceValue;
+
+        public ShoppingAdapter(Context mContext, ArrayList<HashMap<String, String>> serviceListing) {
 
             this.mContext = mContext;
 
@@ -347,12 +350,12 @@ int priceValue;
             ImageView add_view = (ImageView) convertView.findViewById(R.id.plus);
             ImageView minus = (ImageView) convertView.findViewById(R.id.minus);
             final TextView price = (TextView) convertView.findViewById(R.id.price);
-            price.setText("$"+serviceListing.get(position).get(GlobalConstant.price));
+            price.setText("$" + serviceListing.get(position).get(GlobalConstant.price));
             t.setText(listing.get(position).get(GlobalConstant.name));
             person_count.setText(listing.get(position).get(GlobalConstant.count));
 
 
-                priceValue=Integer.parseInt(serviceListing.get(position).get(GlobalConstant.price));
+            priceValue = Integer.parseInt(serviceListing.get(position).get(GlobalConstant.price));
 
 
             url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + listing.get(position).get(GlobalConstant.icon);
@@ -380,14 +383,14 @@ int priceValue;
                     j = j + 1;
                     person_count.setText(String.valueOf(j));
                     listing.get(position).put(GlobalConstant.count, String.valueOf(j));
-                    String priceFirstCat=price.getText().toString().replace("$","");
-                    price.setText("$"+String.valueOf(Integer.parseInt(priceFirstCat)+priceValue));
-                    serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$",""));
-                    int pricevalue=0;
-                    for (int k=0;k<serviceListing.size();k++){
-                        pricevalue=pricevalue+Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
+                    String priceFirstCat = price.getText().toString().replace("$", "");
+                    price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) + priceValue));
+                    serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                    int pricevalue = 0;
+                    for (int k = 0; k < serviceListing.size(); k++) {
+                        pricevalue = pricevalue + Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
                     }
-                    total_price.setText("$"+pricevalue);
+                    total_price.setText("$" + pricevalue);
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
@@ -399,25 +402,25 @@ int priceValue;
                         person_count.setText(String.valueOf(1));
                         Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
                         listing.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        price.setText("$"+priceValue);
-                        serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$",""));
-                        int pricevalue=0;
-                        for (int k=0;k<serviceListing.size();k++){
-                            pricevalue=pricevalue+Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
+                        price.setText("$" + priceValue);
+                        serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                        int pricevalue = 0;
+                        for (int k = 0; k < serviceListing.size(); k++) {
+                            pricevalue = pricevalue + Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
                         }
-                        total_price.setText("$"+pricevalue);
+                        total_price.setText("$" + pricevalue);
                     } else {
                         j = j - 1;
                         person_count.setText(String.valueOf(j));
                         listing.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        String priceFirstCat=price.getText().toString().replace("$","");
-                        price.setText("$"+String.valueOf(Integer.parseInt(priceFirstCat)-priceValue));
-                        serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$",""));
-                        int pricevalue=0;
-                        for (int k=0;k<serviceListing.size();k++){
-                            pricevalue=pricevalue+Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
+                        String priceFirstCat = price.getText().toString().replace("$", "");
+                        price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) - priceValue));
+                        serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                        int pricevalue = 0;
+                        for (int k = 0; k < serviceListing.size(); k++) {
+                            pricevalue = pricevalue + Integer.parseInt(serviceListing.get(k).get(GlobalConstant.price));
                         }
-                        total_price.setText("$"+pricevalue);
+                        total_price.setText("$" + pricevalue);
                     }
                 }
             });

@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#000">
-
         <ImageView
             android:id="@+id/back"
             android:layout_width="40dp"
@@ -33,6 +32,20 @@
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Done"
+
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 <ScrollView

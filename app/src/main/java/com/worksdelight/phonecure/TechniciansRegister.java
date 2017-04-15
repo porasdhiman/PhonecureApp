@@ -480,11 +480,12 @@ public class TechniciansRegister extends Activity {
 
             final String response_str = EntityUtils.toString(resEntity);
             if (resEntity != null) {
+                Log.e("response str",response_str);
                 JSONObject obj = new JSONObject(response_str);
                 String status = obj.getString("status");
                 if (status.equalsIgnoreCase("1")) {
                     success = "true";
-                    message = obj.getString("msg");
+                    message = obj.getString("message");
                     JSONObject data = obj.getJSONObject("data");
                     ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
                     ed.putString("type", "app");
@@ -493,13 +494,13 @@ public class TechniciansRegister extends Activity {
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();
-                    Intent s = new Intent(TechniciansRegister.this, TechniciansDevice.class);
+                    Intent s = new Intent(TechniciansRegister.this, TechniciansMainActivity.class);
                     startActivity(s);
                     finish();
 
                 } else {
                     success = "false";
-                    message = obj.getString("msg");
+                    message = obj.getString("message");
                 }
 
             }

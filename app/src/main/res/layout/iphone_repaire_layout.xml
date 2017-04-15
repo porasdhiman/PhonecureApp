@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/back_color">
+    android:background="#f5f5f5">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -53,7 +53,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:dividerHeight="20dp"
-        android:divider="#fff"
+        android:divider="#f5f5f5"
         android:scrollbars="none"
       ></ListView>
 
