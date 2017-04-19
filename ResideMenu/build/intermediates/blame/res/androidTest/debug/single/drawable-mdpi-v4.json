@@ -1,5 +1,13 @@
 [
     {
+        "merged": "/Users/worksdelight/phonecure/ResideMenu/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_launcher.png",
+        "source": "/Users/worksdelight/phonecure/ResideMenu/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/worksdelight/phonecure/ResideMenu/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/user_back.png",
+        "source": "/Users/worksdelight/phonecure/ResideMenu/build/intermediates/bundles/debug/res/drawable-mdpi-v4/user_back.png"
+    },
+    {
         "merged": "/Users/worksdelight/AndroidStudioProjects/PhoneCure/ResideMenu/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4/ic_launcher.png",
         "source": "/Users/worksdelight/AndroidStudioProjects/PhoneCure/ResideMenu/build/intermediates/bundles/debug/res/drawable-mdpi-v4/ic_launcher.png"
     },

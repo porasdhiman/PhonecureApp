@@ -55,6 +55,7 @@ public class ShoppingcartActivity extends Activity {
     HashMap<String, String> listmap = new HashMap<>();
     String url;
     ImageView back;
+    ArrayList<HashMap<String, String>> priceList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,9 @@ public class ShoppingcartActivity extends Activity {
         });
         total_price = (TextView) findViewById(R.id.total_price);
         if (getIntent().getExtras().getString("selected_id").contains(",")) {
+            String value = global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.service);
+            serviceList = convertToHashMap(value);
+            priceList = convertToHashMapPrice(value);
             selectList = new ArrayList<>(Arrays.asList(getIntent().getExtras().getString("selected_id").split(",")));
 
             for (int i = 0; i < global.getServiceList().size(); i++) {
@@ -105,10 +109,10 @@ public class ShoppingcartActivity extends Activity {
                         HashMap<String, String> map = new HashMap<>();
                         map.put(GlobalConstant.id, global.getServiceList().get(i).get(GlobalConstant.id));
 
-                        map.put(GlobalConstant.sub_category_id, global.getServiceList().get(i).get(GlobalConstant.sub_category_id));
+                        map.put(GlobalConstant.sub_category_id, global.getServiceList().get(i).get(GlobalConstant.dm_sub_category_id));
                         map.put(GlobalConstant.name, global.getServiceList().get(i).get(GlobalConstant.name));
                         map.put(GlobalConstant.icon, global.getServiceList().get(i).get(GlobalConstant.icon));
-
+                        map.put(GlobalConstant.price, priceList.get(i).get(GlobalConstant.price));
                         map.put(GlobalConstant.count, "1");
                         // map.put(GlobalConstant.price, global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.price));
                     /*String value = global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.service);
@@ -130,14 +134,18 @@ public class ShoppingcartActivity extends Activity {
             }
             Log.e("service ", listing.toString());
         } else {
+            String value = global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.service);
+            serviceList = convertToHashMap(value);
+            priceList = convertToHashMapPrice(value);
             for (int i = 0; i < global.getServiceList().size(); i++) {
                 if (global.getServiceList().get(i).get(GlobalConstant.id).equalsIgnoreCase(getIntent().getExtras().getString("selected_id"))) {
                     HashMap<String, String> map = new HashMap<>();
                     map.put(GlobalConstant.id, global.getServiceList().get(i).get(GlobalConstant.id));
 
-                    map.put(GlobalConstant.sub_category_id, global.getServiceList().get(i).get(GlobalConstant.sub_category_id));
+                    map.put(GlobalConstant.sub_category_id, getIntent().getExtras().getString("selected_id"));
                     map.put(GlobalConstant.name, global.getServiceList().get(i).get(GlobalConstant.name));
                     map.put(GlobalConstant.icon, global.getServiceList().get(i).get(GlobalConstant.icon));
+                    map.put(GlobalConstant.price, priceList.get(i).get(GlobalConstant.price));
                     map.put(GlobalConstant.count, "1");
                     //map.put(GlobalConstant.price, global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.price));
 
@@ -160,16 +168,17 @@ public class ShoppingcartActivity extends Activity {
         }
         String value = global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.service);
         serviceList = convertToHashMap(value);
+        priceList = convertToHashMapPrice(value);
         global.setPrcieListing(serviceList);
-        Log.e("service value", serviceList.toString());
+        Log.e("service value", serviceList.toString() + " " + priceList.toString());
         Log.e("listing value", listing.toString());
-        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this, serviceList));
+        cart_list.setAdapter(new ShoppingAdapter(ShoppingcartActivity.this, listing));
         getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
         cart_value_info.setText(String.valueOf(listing.size()) + " Item in Your Cart");
         int pricevalue = 0;
-        for (int k = 0; k < serviceList.size(); k++) {
-            pricevalue = pricevalue + Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
+        for (int k = 0; k < listing.size(); k++) {
+            pricevalue = pricevalue + Integer.parseInt(listing.get(k).get(GlobalConstant.price));
         }
         total_price.setText("$" + pricevalue);
     }
@@ -197,6 +206,29 @@ public class ShoppingcartActivity extends Activity {
         return list;
     }
 
+    public ArrayList<HashMap<String, String>> convertToHashMapPrice(String jsonString) {
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
+        try {
+            JSONArray jArray = new JSONArray(jsonString);
+            JSONObject jObject = null;
+            String keyString = null;
+            for (int i = 0; i < jArray.length(); i++) {
+                HashMap<String, String> myHashMap = new HashMap<String, String>();
+                jObject = jArray.getJSONObject(i);
+                // beacuse you have only one key-value pair in each object so I have used index 0
+                keyString = (String) jObject.names().get(0);
+                myHashMap.put(keyString, jObject.getString(keyString));
+                list.add(myHashMap);
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public class ShoppingAdapter extends BaseSwipeAdapter {
 
         private Context mContext;
@@ -208,7 +240,7 @@ public class ShoppingcartActivity extends Activity {
         public ShoppingAdapter(Context mContext, ArrayList<HashMap<String, String>> serviceListing) {
 
             this.mContext = mContext;
-
+            Log.e("Service listing value", serviceListing.toString());
             this.serviceListing = serviceListing;
             imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
             options = new DisplayImageOptions.Builder()
@@ -243,7 +275,7 @@ public class ShoppingcartActivity extends Activity {
                         @Override
                         public void onClick(View view) {
                             // Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
-                            listing.remove(position);
+                            serviceListing.remove(position);
                             notifyDataSetChanged();
                         }
                     });
@@ -351,14 +383,14 @@ public class ShoppingcartActivity extends Activity {
             ImageView minus = (ImageView) convertView.findViewById(R.id.minus);
             final TextView price = (TextView) convertView.findViewById(R.id.price);
             price.setText("$" + serviceListing.get(position).get(GlobalConstant.price));
-            t.setText(listing.get(position).get(GlobalConstant.name));
-            person_count.setText(listing.get(position).get(GlobalConstant.count));
+            t.setText(serviceListing.get(position).get(GlobalConstant.name));
+            person_count.setText(serviceListing.get(position).get(GlobalConstant.count));
 
 
             priceValue = Integer.parseInt(serviceListing.get(position).get(GlobalConstant.price));
 
 
-            url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + listing.get(position).get(GlobalConstant.icon);
+            url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + serviceListing.get(position).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, service_view, options,
@@ -382,7 +414,7 @@ public class ShoppingcartActivity extends Activity {
 
                     j = j + 1;
                     person_count.setText(String.valueOf(j));
-                    listing.get(position).put(GlobalConstant.count, String.valueOf(j));
+                    serviceListing.get(position).put(GlobalConstant.count, String.valueOf(j));
                     String priceFirstCat = price.getText().toString().replace("$", "");
                     price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) + priceValue));
                     serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
@@ -401,7 +433,7 @@ public class ShoppingcartActivity extends Activity {
                     if (j == 1) {
                         person_count.setText(String.valueOf(1));
                         Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
-                        listing.get(position).put(GlobalConstant.count, String.valueOf(j));
+                        serviceListing.get(position).put(GlobalConstant.count, String.valueOf(j));
                         price.setText("$" + priceValue);
                         serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
                         int pricevalue = 0;
@@ -412,7 +444,7 @@ public class ShoppingcartActivity extends Activity {
                     } else {
                         j = j - 1;
                         person_count.setText(String.valueOf(j));
-                        listing.get(position).put(GlobalConstant.count, String.valueOf(j));
+                        serviceListing.get(position).put(GlobalConstant.count, String.valueOf(j));
                         String priceFirstCat = price.getText().toString().replace("$", "");
                         price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) - priceValue));
                         serviceListing.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
@@ -428,12 +460,12 @@ public class ShoppingcartActivity extends Activity {
 
         @Override
         public int getCount() {
-            return listing.size();
+            return serviceListing.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return listing.get(position);
+            return serviceListing.get(position);
         }
 
         @Override

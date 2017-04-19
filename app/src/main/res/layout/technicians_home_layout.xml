@@ -36,7 +36,7 @@
     android:id="@+id/techniciansName_txtView"
     android:layout_width="wrap_content"
     android:layout_height="40dp"
-    android:text="Hi,Name"
+    android:text="Hi"
     android:textColor="#000"
     android:layout_marginLeft="20dp"
     android:layout_marginTop="10dp"

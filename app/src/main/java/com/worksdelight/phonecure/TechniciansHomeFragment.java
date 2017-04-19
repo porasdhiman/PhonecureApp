@@ -157,7 +157,8 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
                 startActivity(j);
                 break;
             case R.id.profile_layout:
-
+                Intent w = new Intent(getActivity(), WorkingHourActivity.class);
+                startActivity(w);
                 break;
             case R.id.setting_layout:
                 Intent t = new Intent(getActivity(), TechniciansSetting.class);

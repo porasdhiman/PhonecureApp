@@ -283,7 +283,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             Toast.makeText(BookAppoinmentActivity.this, "this date technician not available", Toast.LENGTH_SHORT).show();
 
         } else {
-            Toast.makeText(BookAppoinmentActivity.this, getSelectedDatesString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
             sendDate = getSelectedDatesString();
             global.setSendDate(formatdate2(sendDate));
         }
@@ -298,7 +298,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
     public String formatdate2(String fdate) {
         String datetime = null;
-        DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        DateFormat inputFormat = new SimpleDateFormat("MMM dd,yyyy");
 
         SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
         try {

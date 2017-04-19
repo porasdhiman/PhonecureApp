@@ -72,6 +72,7 @@ public class GlobalConstant {
     public static String SERVICEADD_URL="http://worksdelight.com/phone_cure/index.php/api/technicianServices/add";
     public static String BRANDNAME_URL="http://worksdelight.com/phone_cure/index.php/api/subcategories/all?";
 
+    public static String BOOKINGINFO_URL="http://worksdelight.com/phone_cure/index.php/api/bookings/get?";
 
     public static String technician_id="technician_id";
     public static String firstname="firstname";
@@ -110,4 +111,11 @@ public class GlobalConstant {
     public static String status="status";
     public static String services_count="services_count";
     public static String services="services";
+    public static String available_colors="available_colors";
+    public static String number_of_days="number_of_days";
+    public static String color_name="color_name";
+    public static String device_model_colors="device_model_colors";
+    public static String completed="completed";
+    public static String pending="pending";
+    public static String user_detail="user_detail";
 }

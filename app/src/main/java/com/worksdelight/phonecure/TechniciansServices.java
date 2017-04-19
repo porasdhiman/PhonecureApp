@@ -60,6 +60,7 @@ public class TechniciansServices extends Activity {
     TextView submit_btn, service_txtView;
     Dialog dialog2;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    ArrayList<HashMap<String,String>> color_list=new ArrayList<>();
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     String serviceID = "";
@@ -99,7 +100,8 @@ public class TechniciansServices extends Activity {
                 Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
                 map.putExtra(GlobalConstant.id,list.get(i).get(GlobalConstant.id));
                 map.putExtra(GlobalConstant.service_id,list.get(i).get(GlobalConstant.service_id));
-                startActivity(map);
+                map.putExtra("pos",String.valueOf(i));
+                startActivityForResult(map,0);
             }
         });
         submit_btn.setVisibility(View.GONE);
@@ -115,6 +117,17 @@ public class TechniciansServices extends Activity {
             }
         });*/
         service_txtView.setText(getIntent().getExtras().getString("device_type"));
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            list.clear();
+            dialogWindow();
+            subcategoryMethod();
+        }else{
+
+        }
     }
 
     //--------------------Category api method---------------------------------
@@ -135,6 +148,7 @@ public class TechniciansServices extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray data = obj.getJSONArray("data");
+                                global.setAar(data);
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
@@ -145,9 +159,23 @@ public class TechniciansServices extends Activity {
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
+                                    map.put(GlobalConstant.available_colors, arryObj.getString(GlobalConstant.available_colors));
+                                    map.put(GlobalConstant.number_of_days, arryObj.getString(GlobalConstant.number_of_days));
+                                    map.put(GlobalConstant.price, arryObj.getString(GlobalConstant.price));
+                                   /* JSONArray color_images = arryObj.getJSONArray(GlobalConstant.device_model_colors);
+                                    if (color_images.length() > 0) {
+                                        for (int k = 0; k < color_images.length(); k++) {
+                                            JSONObject colorObj = color_images.getJSONObject(k);
+                                            HashMap<String, String> ColorMap = new HashMap<>();
+                                            ColorMap.put(GlobalConstant.status, colorObj.getString(GlobalConstant.status));
 
 
+                                            color_list.add(ColorMap);
+                                        }
+                                    }*/
+                                    //map.put(GlobalConstant.color_images, color_list.toString());
                                     list.add(map);
+                                   // color_list.clear();
                                 }
                                 if(list.size()!=0) {
                                     service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));

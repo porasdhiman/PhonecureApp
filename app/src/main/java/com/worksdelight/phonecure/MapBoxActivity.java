@@ -96,10 +96,13 @@ public class MapBoxActivity extends Activity {
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
+                if(global.getDateList().size()>0){
+                    Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
 
-                i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                startActivity(i);
+                    i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                    startActivity(i);
+                }
+
             }
         });
         back = (ImageView) findViewById(R.id.back);
@@ -278,13 +281,14 @@ public class MapBoxActivity extends Activity {
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray arr = obj.getJSONArray("data");
                                 if (arr.length() == 0) {
+
                                     mapView.getMapAsync(new OnMapReadyCallback() {
                                         @Override
                                         public void onMapReady(MapboxMap mapboxMap) {
-                                            Double lat = Double.parseDouble(global.getLat());
-                                            Double longt = Double.parseDouble(global.getLong());
-                                            mapboxMap.addMarker(new MarkerOptions()
-                                                    .position(new LatLng(lat, longt)));
+                                            CameraPosition cameraPosition = new CameraPosition.Builder()
+                                                    .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))) // Sets the center of the map to Chicago
+                                                    .zoom(10)                            // enable zoom feature
+                                                    .build();
 
 
                                         }

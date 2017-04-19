@@ -123,7 +123,7 @@ public class ShowDeviceActivity extends Activity {
     private void showDeviceMethod() {
         Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + global.getDeviceId(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

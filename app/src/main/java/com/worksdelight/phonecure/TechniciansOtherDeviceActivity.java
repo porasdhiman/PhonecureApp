@@ -51,7 +51,7 @@ import java.util.HashMap;
  * Created by worksdelight on 15/04/17.
  */
 
-public class TechniciansOtherDeviceActivity  extends Activity implements View.OnClickListener {
+public class TechniciansOtherDeviceActivity extends Activity implements View.OnClickListener {
     TextView device_txtView, types_txtView;
     ListView device_listView/*, types_listView*/;
     // int imgArray[] = {R.drawable.apple_big_logo, R.drawable.android_logo, R.drawable.windows_logo, R.drawable.tablet_logo, R.drawable.portable_logo, R.drawable.game_logo};
@@ -69,6 +69,7 @@ public class TechniciansOtherDeviceActivity  extends Activity implements View.On
     ArrayList<HashMap<String, String>> sub_categoryList = new ArrayList<>();
     ArrayList<HashMap<String, String>> category_idList = new ArrayList<>();
     TextView device_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,9 +112,9 @@ public class TechniciansOtherDeviceActivity  extends Activity implements View.On
                 Intent iPhone = new Intent(TechniciansOtherDeviceActivity.this, TechniciansShowDeviceActivity.class);
                 iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.sub_category));
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                iPhone.putExtra(GlobalConstant.sub_category_id, list.get(i).get(GlobalConstant.sub_category_id));
 
-
-                startActivity(iPhone);
+                startActivityForResult(iPhone, 0);
 
             }
         });
@@ -126,12 +127,23 @@ public class TechniciansOtherDeviceActivity  extends Activity implements View.On
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            list.clear();
+            dialogWindow();
+            categoryMethod();
+        } else {
+
+        }
+    }
 
 
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
-String mainUrl=GlobalConstant.BRANDNAME_URL +"?category_id="+getIntent().getExtras().getString("id")+"&user_id="+CommonUtils.UserID(TechniciansOtherDeviceActivity.this);
-        Log.e("main url",mainUrl);
+        String mainUrl = GlobalConstant.BRANDNAME_URL + "?category_id=" + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(TechniciansOtherDeviceActivity.this);
+        Log.e("main url", mainUrl);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, mainUrl,
                 new Response.Listener<String>() {
@@ -156,7 +168,6 @@ String mainUrl=GlobalConstant.BRANDNAME_URL +"?category_id="+getIntent().getExtr
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
                                     map.put(GlobalConstant.services_count, arryObj.getString(GlobalConstant.services_count));
-
 
 
                                     list.add(map);
@@ -261,7 +272,7 @@ String mainUrl=GlobalConstant.BRANDNAME_URL +"?category_id="+getIntent().getExtr
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/"+deviceList.get(i).get(GlobalConstant.sub_category_id)+"/"+ deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,
@@ -336,8 +347,6 @@ String mainUrl=GlobalConstant.BRANDNAME_URL +"?category_id="+getIntent().getExtr
             TextView device_name, device_count;
         }
     }
-
-
 
 
     private void initImageLoader() {

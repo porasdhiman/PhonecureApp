@@ -94,24 +94,36 @@ public class TechniciansShowDeviceActivity extends Activity {
                 iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                 iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+
                 global.setPostion(i);
 
-                startActivity(iPhone);
+                startActivityForResult(iPhone,0);
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            list.clear();
+            dialogWindow();
+            showDeviceMethod();
+        }else{
 
+        }
+    }
     //--------------------Category api method---------------------------------
     private void showDeviceMethod() {
         Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(this),
+        final String appUrl=GlobalConstant.DEVICE_URL + "category_id="+ global.getDeviceId() +"&"+GlobalConstant.sub_category_id+"="+getIntent().getExtras().getString(GlobalConstant.sub_category_id)+"&user_id=" + CommonUtils.UserID(TechniciansShowDeviceActivity.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, appUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         dialog2.dismiss();
-                        Log.e("complete url", GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"));
+                        Log.e("complete url", appUrl);
                         Log.e("response", response);
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -132,13 +144,20 @@ public class TechniciansShowDeviceActivity extends Activity {
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
 
                                     JSONArray color_images = arryObj.getJSONArray(GlobalConstant.color_images);
+
                                     if (color_images.length() > 0) {
                                         for (int k = 0; k < color_images.length(); k++) {
                                             JSONObject colorObj = color_images.getJSONObject(k);
+
+                                            Log.e("value color",colorObj.getString("color_name"));
+
                                             HashMap<String, String> ColorMap = new HashMap<>();
+
                                             ColorMap.put(GlobalConstant.color_id, colorObj.getString(GlobalConstant.color_id));
                                             ColorMap.put(GlobalConstant.model_image, colorObj.getString(GlobalConstant.model_image));
                                             ColorMap.put(GlobalConstant.color_image, colorObj.getString(GlobalConstant.color_image));
+                                           // ColorMap.put(GlobalConstant.color_name, colorObj.getString("color_name"));
+
                                             color_list.add(ColorMap);
                                         }
                                     }
@@ -150,6 +169,7 @@ public class TechniciansShowDeviceActivity extends Activity {
                                     global.setAllDeviceList(list);
                                     Log.e("listing", list.toString());
                                     device_view.setAdapter(new DeviceAdapter(TechniciansShowDeviceActivity.this, list));
+                                    Log.e("image name",String.valueOf(convertToHashMap(list.get(0).get(GlobalConstant.color_images))));
                                 }
                             } else {
                                 Toast.makeText(TechniciansShowDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -264,7 +284,7 @@ public class TechniciansShowDeviceActivity extends Activity {
             }
 
 if(deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")){
-    holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count)+" Add devices");
+    holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count)+" devices added");
     holder.status.setTextColor(Color.parseColor("#47c63d"));
 }else{
     holder.status.setText("No device added yet");
@@ -327,9 +347,10 @@ if(deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")){
 
     public ArrayList<HashMap<String, String>> convertToHashMap(String jsonString) {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
-
+        Log.e("array value",jsonString);
         try {
             JSONArray jArray = new JSONArray(jsonString);
+            Log.e("array value",jArray.toString());
             JSONObject jObject = null;
             String keyString = null;
             for (int i = 0; i < jArray.length(); i++) {
@@ -359,7 +380,7 @@ if(deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")){
                 HashMap<String, String> myHashMap = new HashMap<String, String>();
                 jObject = jArray.getJSONObject(i);
                 // beacuse you have only one key-value pair in each object so I have used index 0
-                keyString = (String) jObject.names().get(1);
+                keyString = (String) jObject.names().get(3);
                 myHashMap.put(keyString, jObject.getString(keyString));
                 list.add(myHashMap);
             }

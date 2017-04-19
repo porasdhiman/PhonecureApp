@@ -21,13 +21,14 @@
                 android:layout_height="220dp"
                 android:background="@drawable/login_logo_back">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/logo_img"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/login_logo" />
+                    />
             </RelativeLayout>
 
             <LinearLayout

@@ -103,7 +103,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
-
+                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     startActivity(iPhone);
                 } else {
                     Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
@@ -111,7 +111,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
 
                     iPhone.putExtra("pos", String.valueOf(i));
 
-
+                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     startActivity(iPhone);
                 }
             }

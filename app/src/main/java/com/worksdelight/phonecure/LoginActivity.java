@@ -46,9 +46,13 @@ import org.brickred.socialauth.android.SocialAuthListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
@@ -77,7 +81,7 @@ public class LoginActivity extends Activity implements OnClickListener{
     Dialog dialog2;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
-
+    GifImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +106,15 @@ public class LoginActivity extends Activity implements OnClickListener{
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
         global = (Global) getApplicationContext();
+        img=(GifImageView)findViewById(R.id.logo_img);
+        try {
+            GifDrawable gifFromResource = new GifDrawable( getResources(), R.drawable.logo );
+            img.setImageDrawable(gifFromResource);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         password_view=(EditText)findViewById(R.id.password_view);
 
 

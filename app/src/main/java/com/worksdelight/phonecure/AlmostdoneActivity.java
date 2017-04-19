@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -42,9 +41,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -185,10 +188,7 @@ public class AlmostdoneActivity extends Activity {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
                 // use the result to update your UI and send the payment method nonce to your server
                 payment_method_nonce = result.getPaymentMethodNonce().getNonce();
-                ViewGroup.LayoutParams params = second_count_img.getLayoutParams();
-                params.height = 50;
-                params.width = 50;
-                second_count_img.setLayoutParams(params);
+
                 second_count_img.setBackgroundResource(R.drawable.step_one_right_light);
                 /*ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
                 params1.height = 50;
@@ -370,7 +370,7 @@ public class AlmostdoneActivity extends Activity {
                     try {
                         installedPackage.put(GlobalConstant.id, selectList.get(i));
                         installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(i).get(GlobalConstant.count));
-                        installedPackage.put(GlobalConstant.price, global.getPrcieListing().get(i).get(GlobalConstant.price));
+                        installedPackage.put(GlobalConstant.price, global.getNewListing().get(i).get(GlobalConstant.price));
                         installedList.put(installedPackage);
 
                     } catch (JSONException e) {
@@ -388,7 +388,7 @@ public class AlmostdoneActivity extends Activity {
                 try {
                     installedPackage.put(GlobalConstant.id, getIntent().getExtras().getString("selected_id"));
                     installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(0).get(GlobalConstant.count));
-                    installedPackage.put(GlobalConstant.price, global.getPrcieListing().get(0).get(GlobalConstant.price));
+                    installedPackage.put(GlobalConstant.price, global.getNewListing().get(0).get(GlobalConstant.price));
                     installedList.put(installedPackage);
 
                 } catch (JSONException e) {
@@ -477,6 +477,22 @@ public class AlmostdoneActivity extends Activity {
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
+    }
+    public String formatdate2(String fdate) {
+        String datetime = null;
+        DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date convertedDate = inputFormat.parse(fdate);
+            datetime = d.format(convertedDate);
+
+        } catch (ParseException e) {
+
+        }
+        return datetime;
+
+
     }
 
 }

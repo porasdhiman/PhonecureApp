@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.brickred.socialauth.android.SocialAuthAdapter;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,6 +195,47 @@ public class Global extends Application {
     }
 
     String colorId,subCatId;
+
+    public JSONArray getAar() {
+        return aar;
+    }
+
+    public void setAar(JSONArray aar) {
+        this.aar = aar;
+    }
+
+    JSONArray aar;
+
+
+    public JSONArray getCompletedaar() {
+        return completedaar;
+    }
+
+    public void setCompletedaar(JSONArray completedaar) {
+        this.completedaar = completedaar;
+    }
+
+    public JSONArray getPendingaar() {
+        return pendingaar;
+    }
+
+    public void setPendingaar(JSONArray pendingaar) {
+        this.pendingaar = pendingaar;
+    }
+
+    JSONArray completedaar;
+    JSONArray pendingaar;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    String deviceId;
+
     @Override
     public void onCreate() {
         super.onCreate();

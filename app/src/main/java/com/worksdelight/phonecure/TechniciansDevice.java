@@ -64,7 +64,8 @@ public class TechniciansDevice extends Activity {
     DisplayImageOptions options;
     ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
     Global global;
-TextView done;
+    TextView done;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ TextView done;
     }
 
     public void init() {
-        done=(TextView)findViewById(R.id.done);
+        done = (TextView) findViewById(R.id.done);
         //device_txtView = (TextView) findViewById(R.id.device_txtView);
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
@@ -103,14 +104,14 @@ TextView done;
                     Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-
-
-                    startActivity(iPhone);
+                    iPhone.putExtra(GlobalConstant.sub_category_id, "1");
+                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
+                    startActivityForResult(iPhone, 0);
                 } else {
                     Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-
+                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
 
                     startActivity(iPhone);
                 }
@@ -120,6 +121,18 @@ TextView done;
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            list.clear();
+            dialogWindow();
+            categoryMethod();
+        } else {
+
+        }
     }
 
     //--------------------Category api method---------------------------------
