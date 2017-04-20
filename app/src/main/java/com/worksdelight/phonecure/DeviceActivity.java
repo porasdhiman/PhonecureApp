@@ -102,7 +102,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     Intent iPhone = new Intent(DeviceActivity.this, ShowDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-
+                    iPhone.putExtra(GlobalConstant.sub_category_id, "1");
                     global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     startActivity(iPhone);
                 } else {
@@ -234,6 +234,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");

@@ -127,7 +127,13 @@ public class TechniciansMainActivity  extends FragmentActivity implements View.O
         });
 
         header_txt = (TextView) findViewById(R.id.header_txt);
-
+        message_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(TechniciansMainActivity.this,MessageActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

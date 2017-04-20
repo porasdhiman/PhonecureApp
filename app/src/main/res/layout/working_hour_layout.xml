@@ -45,428 +45,447 @@
             android:src="@drawable/search_img"
             android:visibility="gone" />
     </RelativeLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_back">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-
+            android:layout_height="match_parent"
             android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/order_serview_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="Working days"
-
-
-                android:textColor="#000"
-                android:textSize="16dp"
-                android:textStyle="bold"
-
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="Everyday"
-
-
-                    android:textColor="@color/main_color"
-                    android:textSize="16dp"
-
-
-                    />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="Weekday"
-
-                    android:textColor="@android:color/darker_gray"
-
-                    android:textSize="16dp"
-
-
-                    />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="Weekend"
-
-
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="16dp"
-
-
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Mon"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Tue"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Wed"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Thu"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Fri"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Sat"
-                    android:textColor="#fff" />
-
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="Sun"
-                    android:textColor="#fff" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_back">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-
-                android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="Working hours"
-
-
-                android:textColor="#000"
-                android:textSize="16dp"
-                android:textStyle="bold"
-
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-
-
-                    android:text="Openning time:"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="16dp"
-
-
-                    />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-
-                    android:text="3:00"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-
-
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-
-
-                    android:text="Closing time:"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="16dp"
-
-
-                    />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-
-                    android:text="19:00"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-
-
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/item_back">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:text="Delivery/Dropeoff option"
-
-
-                android:textColor="#000"
-                android:textSize="16dp"
-                android:textStyle="bold"
-
-                />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_back">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+
                     android:orientation="vertical">
 
-                    <ImageView
-
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-
-
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-
-                        android:src="@drawable/pickup"
-
-
-                        />
 
                     <TextView
-
+                        android:id="@+id/order_serview_txt"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_centerInParent="true"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-
-
-                        android:text="Delivery services"
-                        android:textColor="#000"
-                        android:textSize="16dp"
-
-
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-
-                        android:layout_width="50dp"
                         android:layout_height="50dp"
 
-
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="10dp"
-
-                        android:src="@drawable/dropoff"
-
-
-                        />
-
-                    <TextView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
                         android:layout_centerInParent="true"
-                        android:layout_gravity="center_horizontal"
-
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
+                        android:text="Working days"
 
-                        android:text="Dropoff services"
+
                         android:textColor="#000"
                         android:textSize="16dp"
-
+                        android:textStyle="bold"
 
                         />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:text="Everyday"
+
+
+                            android:textColor="@color/main_color"
+                            android:textSize="16dp"
+
+
+                            />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:text="Weekday"
+
+                            android:textColor="@android:color/darker_gray"
+
+                            android:textSize="16dp"
+
+
+                            />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:gravity="center"
+                            android:text="Weekend"
+
+
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16dp"
+
+
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Mon"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Tue"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Wed"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Thu"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Fri"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Sat"
+                            android:textColor="#fff" />
+
+                        <TextView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@drawable/circle_background"
+                            android:gravity="center"
+                            android:text="Sun"
+                            android:textColor="#fff" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-    </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_back">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="Working hours"
+
+
+                        android:textColor="#000"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+
+
+                            android:text="Openning time:"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16dp"
+
+
+                            />
+
+                        <TextView
+
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="right"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/inc_and_dec_back"
+                            android:gravity="center"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="5dp"
+
+                            android:text="3:00"
+                            android:textColor="#000"
+                            android:textSize="16dp"
+
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+
+
+                            android:text="Closing time:"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16dp"
+
+
+                            />
+
+                        <TextView
+
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/inc_and_dec_back"
+                            android:gravity="center"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="5dp"
+                            android:text="19:00"
+                            android:textColor="#000"
+                            android:textSize="16dp"
+
+
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/item_back">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="Delivery/Dropeoff option"
+
+
+                        android:textColor="#000"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+
+
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+                                android:src="@drawable/pickup"
+
+
+                                />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+
+                                android:text="Delivery services"
+                                android:textColor="#000"
+                                android:textSize="16dp"
+
+
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+
+
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+                                android:src="@drawable/dropoff"
+
+
+                                />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_horizontal"
+
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+
+                                android:text="Dropoff services"
+                                android:textColor="#000"
+                                android:textSize="16dp"
+
+
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

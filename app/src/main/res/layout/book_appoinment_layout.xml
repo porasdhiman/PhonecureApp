@@ -42,7 +42,8 @@
 
 
             android:padding="8dp"
-            android:src="@drawable/note" />
+            android:src="@drawable/note"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <ScrollView
@@ -122,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:text="Home"
+                    android:text="Time"
                     android:textColor="#000"
                     android:textSize="@dimen/header_txt" />
 

@@ -167,7 +167,7 @@ global.setLat("30.701990");
 
                                     finish();
                                 }else{
-                                    Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                    Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -209,7 +209,7 @@ global.setLat("30.701990");
 
                                 finish();
                             }else{
-                                Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -275,7 +275,7 @@ global.setLat("30.701990");
 
                                         finish();
                                     }else{
-                                        Intent intent = new Intent(SplashActivity.this, TechniciansMainActivity.class);
+                                        Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 

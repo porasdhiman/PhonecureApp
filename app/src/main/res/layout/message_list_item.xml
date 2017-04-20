@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/calender_back"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/user_back"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_name"
+            android:layout_toRightOf="@+id/user_img"
+            android:layout_marginLeft="10dp"
+            android:text="User name"
+            android:textSize="@dimen/header_txt"
+            android:layout_marginTop="3dp"
+            android:layout_toLeftOf="@+id/time_txt"
+            android:textColor="#000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deliver_txt"
+            android:layout_toRightOf="@+id/user_img"
+            android:layout_below="@+id/user_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:text="Mobile info"
+            android:textSize="@dimen/main_txt"
+            android:layout_toLeftOf="@+id/time_txt"
+
+            android:textColor="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_txt"
+            android:layout_toRightOf="@+id/user_img"
+            android:layout_below="@+id/deliver_txt"
+            android:layout_marginLeft="10dp"
+
+            android:text="message"
+            android:singleLine="true"
+            android:layout_toLeftOf="@+id/time_txt"
+
+            android:textSize="@dimen/main_txt"
+            android:textColor="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_txt"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:text="3:00"
+            android:textSize="@dimen/main_txt"
+            android:textColor="@color/main_color"/>
+    </RelativeLayout>
+
+</LinearLayout>

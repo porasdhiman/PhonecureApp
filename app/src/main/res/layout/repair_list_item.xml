@@ -45,7 +45,7 @@
                 android:textColor="#000"
                 android:textSize="@dimen/sab_txt" />
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/specilist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,13 +54,13 @@
                 android:layout_toRightOf="@+id/tech_view"
                 android:text="iPhone specialist"
                 android:textColor="#d1d1d1"
-                android:textSize="@dimen/main_txt" />
+                android:textSize="@dimen/main_txt" />-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/tech_view"
                 android:orientation="horizontal">

@@ -1,5 +1,6 @@
 package com.worksdelight.phonecure;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +10,16 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -49,11 +49,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 15/04/17.
+ * Created by worksdelight on 20/04/17.
  */
 
-public class TechniciansHomeFragment extends Fragment implements View.OnClickListener {
-
+public class TechniciansHomeActivity extends Activity implements View.OnClickListener{
     private View parentView;
 
     TextView current_device_name_txt, done_txtView, cancel_txtView;
@@ -70,19 +69,25 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
     Marker markers;
     TextView techniciansName_txtView, service_txt, booking_txt;
     RelativeLayout appointment_layout, service_layout, profile_layout, setting_layout;
-
+TextView header_txt;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Mapbox.getInstance(getActivity(), "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.technicians_home_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+        }
+        Mapbox.getInstance(this, "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
 
-        parentView = inflater.inflate(R.layout.technicians_home_layout, container, false);
 
-        sp = getActivity().getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
       /*  Login_TV = (LoginButton) parentView.findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();*/
-        WindowManager w = getActivity().getWindowManager();
+        WindowManager w = getWindowManager();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             Point size = new Point();
@@ -94,10 +99,9 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
             measuredWidth = d.getWidth();
             measuredHeight = d.getHeight();
         }
-        TechniciansMainActivity parentActivity = (TechniciansMainActivity) getActivity();
-        parentActivity.homevisibilityMethod();
-        global = (Global) getActivity().getApplicationContext();
-        init(parentView);
+
+        global = (Global)getApplicationContext();
+        init();
         mapView = (MapView) parentView.findViewById(R.id.mapView);
         service_txt = (TextView) parentView.findViewById(R.id.service_txt);
         booking_txt = (TextView) parentView.findViewById(R.id.booking_txt);
@@ -105,7 +109,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
-        IconFactory iconFactory = IconFactory.getInstance(getActivity());
+        IconFactory iconFactory = IconFactory.getInstance(this);
 
         final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
         mapView.getMapAsync(new OnMapReadyCallback() {
@@ -129,39 +133,44 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
         });
         dialogWindow();
         showDeviceMethod();
-        return parentView;
     }
-
-    public void init(View v) {
-        techniciansName_txtView = (TextView) v.findViewById(R.id.techniciansName_txtView);
-        appointment_layout = (RelativeLayout) v.findViewById(R.id.appointment_layout);
-        service_layout = (RelativeLayout) v.findViewById(R.id.service_layout);
-        profile_layout = (RelativeLayout) v.findViewById(R.id.profile_layout);
-        setting_layout = (RelativeLayout) v.findViewById(R.id.setting_layout);
+    public void init() {
+        header_txt=(TextView)findViewById(R.id.header_txt);
+        techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
+        appointment_layout = (RelativeLayout) findViewById(R.id.appointment_layout);
+        service_layout = (RelativeLayout) findViewById(R.id.service_layout);
+        profile_layout = (RelativeLayout) findViewById(R.id.profile_layout);
+        setting_layout = (RelativeLayout) findViewById(R.id.setting_layout);
         appointment_layout.setOnClickListener(this);
         service_layout.setOnClickListener(this);
         profile_layout.setOnClickListener(this);
         setting_layout.setOnClickListener(this);
+        String title=header_txt.getText().toString();
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        SpannableString str1 = new SpannableString(title);
+        str1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.main_color)), 5, str1.length(), str1.length() - 1);
+        builder.append(str1);
+        header_txt.setText(builder, TextView.BufferType.SPANNABLE);
+
     }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.appointment_layout:
-                Intent i = new Intent(getActivity(), TechniciansHistory.class);
+                Intent i = new Intent(this, TechniciansHistory.class);
                 startActivity(i);
                 break;
             case R.id.service_layout:
-                Intent j = new Intent(getActivity(), TechniciansDevice.class);
+                Intent j = new Intent(this, TechniciansDevice.class);
                 startActivity(j);
                 break;
             case R.id.profile_layout:
-                Intent w = new Intent(getActivity(), TechniciansEditProfileActivity.class);
+                Intent w = new Intent(this, TechniciansEditProfileActivity.class);
                 startActivity(w);
                 break;
             case R.id.setting_layout:
-                Intent t = new Intent(getActivity(), TechniciansSetting.class);
+                Intent t = new Intent(this, TechniciansSetting.class);
                 startActivity(t);
                 break;
 
@@ -175,12 +184,10 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
         }
         return list1;
     }
-
-
     @Override
-    public void onStart() {
-        super.onStart();
-        mapView.onStart();
+    public void onResume(){
+        super.onResume();
+        mapView.onResume();
     }
 
     @Override
@@ -223,7 +230,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
     private void showDeviceMethod() {
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.STARTING_URL + "user_id=" + CommonUtils.UserID(getActivity()),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.STARTING_URL + "user_id=" + CommonUtils.UserID(TechniciansHomeActivity.this),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -243,7 +250,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
 
 
                             } else {
-                                Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(TechniciansHomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -261,13 +268,13 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
 
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(TechniciansHomeActivity.this);
         requestQueue.add(stringRequest);
     }
 
     //---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
-        dialog2 = new Dialog(getActivity());
+        dialog2 = new Dialog(this);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog2.setCanceledOnTouchOutside(false);

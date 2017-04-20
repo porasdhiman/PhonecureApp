@@ -47,6 +47,8 @@
                 android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
                 android:src="@drawable/img_click" />
 
             <RelativeLayout
@@ -56,7 +58,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_back">
+                android:background="@drawable/calender_back">
 
                 <ImageView
                     android:id="@+id/down_img5"
@@ -88,7 +90,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_back">
+                android:background="@drawable/calender_back">
 
                 <ImageView
                     android:id="@+id/down_img3"
@@ -120,7 +122,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_back">
+                android:background="@drawable/calender_back">
 
                 <ImageView
                     android:id="@+id/down_img6"
@@ -152,7 +154,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_back">
+                android:background="@drawable/calender_back">
 
                 <ImageView
                     android:id="@+id/down_img"
@@ -196,7 +198,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_back"
+                android:background="@drawable/calender_back"
 
                 android:orientation="vertical">
 
@@ -216,7 +218,7 @@
                         android:layout_marginRight="16dp"
                         android:src="@drawable/down" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/org_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -226,6 +228,7 @@
                         android:hint="Your organization"
                         android:singleLine="true"
                         android:textColor="#000"
+                        android:gravity="center_vertical"
                         android:textColorHint="@android:color/darker_gray"
 
                         android:textSize="@dimen/main_txt" />
@@ -255,7 +258,7 @@
                         android:layout_marginRight="16dp"
                         android:src="@drawable/down" />
 
-                    <EditText
+                    <TextView
                         android:id="@+id/address_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -265,6 +268,8 @@
                         android:hint="Address"
                         android:singleLine="true"
                         android:textColor="#000"
+                        android:gravity="center_vertical"
+
                         android:textColorHint="@android:color/darker_gray"
                         android:textSize="@dimen/main_txt" />
                 </RelativeLayout>

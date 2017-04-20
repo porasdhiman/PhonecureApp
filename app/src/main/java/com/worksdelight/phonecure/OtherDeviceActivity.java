@@ -117,7 +117,9 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
                 Intent iPhone = new Intent(OtherDeviceActivity.this, ShowDeviceActivity.class);
                 iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.sub_category));
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-                global.setDeviceId(list.get(i).get(GlobalConstant.id));
+                iPhone.putExtra(GlobalConstant.sub_category_id, list.get(i).get(GlobalConstant.sub_category_id));
+
+                //global.setDeviceId(list.get(i).get(GlobalConstant.id));
 
                 startActivity(iPhone);
 
@@ -199,6 +201,7 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
@@ -349,7 +352,7 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.IMAGE_URL +global.getDeviceId() + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,

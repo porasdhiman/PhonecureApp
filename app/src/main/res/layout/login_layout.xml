@@ -117,8 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="right"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
                     android:text="Forgot password?"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/header_txt" />
@@ -129,7 +129,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
 
                     android:background="@drawable/facebook_view_back">
 

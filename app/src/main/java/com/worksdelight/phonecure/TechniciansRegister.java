@@ -63,11 +63,11 @@ import java.net.URISyntaxException;
  */
 
 public class TechniciansRegister extends Activity {
-    EditText name_ed, email_ed, vat_ed, org_ed, address_ed, password_ed;
+    EditText name_ed, email_ed, vat_ed,password_ed;
     ImageView tech_img;
     Dialog camgllry, dialog2;
     String selectedImagePath = "", message;
-    TextView see_text, register_txtView;
+    TextView see_text, register_txtView,org_ed, address_ed;
     Global global;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
@@ -88,10 +88,10 @@ public class TechniciansRegister extends Activity {
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
-        org_ed = (EditText) findViewById(R.id.org_ed);
+        org_ed = (TextView) findViewById(R.id.org_ed);
         password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
-        address_ed = (EditText) findViewById(R.id.address_ed);
+        address_ed = (TextView) findViewById(R.id.address_ed);
         tech_img = (ImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
         tech_img.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,20 @@ public class TechniciansRegister extends Activity {
 
             }
         });
-
+        org_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                vat_ed.setFocusable(false);
+                return false;
+            }
+        });
+        address_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                vat_ed.setFocusable(false);
+                return false;
+            }
+        });
         see_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -399,6 +412,7 @@ public class TechniciansRegister extends Activity {
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
@@ -494,7 +508,7 @@ public class TechniciansRegister extends Activity {
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();
-                    Intent s = new Intent(TechniciansRegister.this, TechniciansMainActivity.class);
+                    Intent s = new Intent(TechniciansRegister.this, WorkingHourActivity.class);
                     startActivity(s);
                     finish();
 

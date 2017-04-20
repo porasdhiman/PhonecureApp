@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,6 +74,17 @@ public class AppointmentActivity extends Activity {
                 name_txt.setText(objUser.getString(GlobalConstant.name));
 
                 address_txt.setText(objUser.getString(GlobalConstant.ship_address) + "," + objUser.getString(GlobalConstant.ship_city));
+                JSONArray booking_item_arr=obj.getJSONArray(GlobalConstant.booking_items);
+                for(int i=0;i<booking_item_arr.length();i++){
+                    JSONObject bookinObj=booking_item_arr.getJSONObject(i);
+                    HashMap<String,String> map=new HashMap<>();
+                    map.put(GlobalConstant.id,bookinObj.getString(GlobalConstant.id));
+                    map.put(GlobalConstant.price,bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.name,bookinObj.getString(GlobalConstant.name));
+                    list.add(map);
+                }
+
+
                 SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
                 DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -91,6 +103,7 @@ public class AppointmentActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else {
             cancel_request_txt.setVisibility(View.VISIBLE);
             try {
@@ -98,6 +111,16 @@ public class AppointmentActivity extends Activity {
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(objUser.getString(GlobalConstant.name));
                 address_txt.setText(objUser.getString(GlobalConstant.ship_address) + "," + objUser.getString(GlobalConstant.ship_city));
+                JSONArray booking_item_arr=obj.getJSONArray(GlobalConstant.booking_items);
+                for(int i=0;i<booking_item_arr.length();i++){
+                    JSONObject bookinObj=booking_item_arr.getJSONObject(i);
+                    HashMap<String,String> map=new HashMap<>();
+                    map.put(GlobalConstant.id,bookinObj.getString(GlobalConstant.id));
+                    map.put(GlobalConstant.price,bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.name,bookinObj.getString(GlobalConstant.name));
+                    list.add(map);
+                }
+
                 SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
                 DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -117,6 +140,7 @@ public class AppointmentActivity extends Activity {
                 e.printStackTrace();
             }
         }
+
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
@@ -154,7 +178,7 @@ public class AppointmentActivity extends Activity {
 
         @Override
         public int getCount() {
-            return 3;
+            return list.size();
         }
 
         @Override
@@ -183,7 +207,8 @@ public class AppointmentActivity extends Activity {
             } else {
                 holder = (Holder) view.getTag();
             }
-
+            holder.service_name.setText(list.get(i).get(GlobalConstant.name));
+            holder.service_price.setText(list.get(i).get(GlobalConstant.price));
 
             return view;
         }

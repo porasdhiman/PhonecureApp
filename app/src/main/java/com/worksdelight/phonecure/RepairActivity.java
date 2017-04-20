@@ -46,7 +46,8 @@ public class RepairActivity extends Activity {
     Global global;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-ImageView back;
+    ImageView back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ ImageView back;
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         repair_listView = (ListView) findViewById(R.id.repair_listView);
         repair_listView.setAdapter(new RepairAdapter(this, global.getDateList()));
         top_txt = (TextView) findViewById(R.id.top_txt);
@@ -73,7 +74,7 @@ ImageView back;
         repair_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(RepairActivity.this,TechniciansDetailActivity.class);
+                Intent intent = new Intent(RepairActivity.this, TechniciansDetailActivity.class);
                 intent.putExtra("pos", String.valueOf(i));
                 intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                 startActivity(intent);

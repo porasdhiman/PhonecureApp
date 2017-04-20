@@ -57,7 +57,14 @@
 
 
         >
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_img"
+            android:layout_marginLeft="-5dp"
+            android:layout_toRightOf="@+id/first_count_img"
+            android:layout_toLeftOf="@+id/second_count_img"
+            android:layout_centerVertical="true"/>
         <ImageView
             android:id="@+id/first_count_img"
             android:layout_width="25dp"
@@ -67,14 +74,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
           />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/line_img"
-            android:layout_marginLeft="-5dp"
-            android:layout_toRightOf="@+id/first_count_img"
-            android:layout_toLeftOf="@+id/second_count_img"
-            android:layout_centerVertical="true"/>
+
         <TextView
             android:id="@+id/second_count_img"
             android:layout_width="25dp"
@@ -113,41 +113,42 @@
             android:text="3 Item in Your Cart"
             android:textColor="#000"
             android:layout_centerInParent="true"/>
-        <TextView
+        <!--<TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear"
             android:textColor="#0000ff"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"/>-->
     </RelativeLayout>
     <View
     android:layout_width="match_parent"
     android:layout_height="0.5dp"
-    android:background="@android:color/darker_gray"/>
+    android:background="#e6e4e4"/>
 
     <ListView
         android:id="@+id/cart_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="0.5dp"
-        android:divider="@android:color/darker_gray"
+        android:divider="#e6e4e4"
         android:scrollbars="none"></ListView>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="#e6e4e4"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:weightSum="2">
-        <TextView
+        <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Promo code"
+            android:hint="Promo code"
+            android:textColorHint="@android:color/darker_gray"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp"
             android:gravity="center_vertical"
@@ -155,7 +156,7 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
+            android:background="#e6e4e4"/>
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -190,7 +191,7 @@
 <View
     android:layout_width="match_parent"
     android:layout_height="0.5dp"
-    android:background="@android:color/darker_gray"/>
+    android:background="#e6e4e4"/>
 
             <TextView
                 android:id="@+id/checkout_btn"

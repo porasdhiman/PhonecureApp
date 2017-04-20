@@ -209,6 +209,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
@@ -272,7 +273,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
             } else {
                 holder = (Holder) view.getTag();
             }
-            url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            url = GlobalConstant.IMAGE_URL + global.getDeviceId() + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,

@@ -542,6 +542,7 @@ SharedPreferences sp;
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");

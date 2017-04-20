@@ -123,13 +123,15 @@ public class ShowDeviceActivity extends Activity {
     private void showDeviceMethod() {
         Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.DEVICE_URL + "category_id=" + global.getDeviceId(),
+        final String appUrl=GlobalConstant.DEVICE_URL + "category_id="+ global.getDeviceId() +"&"+GlobalConstant.sub_category_id+"="+getIntent().getExtras().getString(GlobalConstant.sub_category_id)+"&user_id=" + CommonUtils.UserID(ShowDeviceActivity.this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, appUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         dialog2.dismiss();
-                        Log.e("complete url", GlobalConstant.DEVICE_URL + "category_id=" + getIntent().getExtras().getString("id"));
+                        Log.e("complete url", appUrl);
                         Log.e("response", response);
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -198,6 +200,7 @@ public class ShowDeviceActivity extends Activity {
         dialog2.setCancelable(false);
         dialog2.setContentView(R.layout.progrees_login);
         AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
         loaderView.show();
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
@@ -271,38 +274,38 @@ public class ShowDeviceActivity extends Activity {
                 holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
                 holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
 
-                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(60, 60);
+                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(50, 50);
                 vp.setMargins(0, 15, 0, 0);
                 holder.img1 = new ImageView(c);
                 holder.img1.setLayoutParams(vp);
 
-                holder.img1.setMaxHeight(60);
-                holder.img1.setMaxWidth(60);
+                holder.img1.setMaxHeight(50);
+                holder.img1.setMaxWidth(50);
                 holder.img2= new ImageView(c);
                 holder.img2.setLayoutParams(vp);
 
-                holder.img2.setMaxHeight(60);
-                holder.img2.setMaxWidth(60);
+                holder.img2.setMaxHeight(50);
+                holder.img2.setMaxWidth(50);
                 holder.img3= new ImageView(c);
                 holder.img3.setLayoutParams(vp);
 
-                holder.img3.setMaxHeight(60);
-                holder.img3.setMaxWidth(60);
+                holder.img3.setMaxHeight(50);
+                holder.img3.setMaxWidth(50);
                 holder.img4= new ImageView(c);
                 holder.img4.setLayoutParams(vp);
 
-                holder.img4.setMaxHeight(60);
-                holder.img4.setMaxWidth(60);
+                holder.img4.setMaxHeight(50);
+                holder.img4.setMaxWidth(50);
                 holder.img5= new ImageView(c);
                 holder.img5.setLayoutParams(vp);
 
-                holder.img5.setMaxHeight(60);
-                holder.img5.setMaxWidth(60);
+                holder.img5.setMaxHeight(50);
+                holder.img5.setMaxWidth(50);
                 holder.img6 = new ImageView(c);
                 holder.img6.setLayoutParams(vp);
 
-                holder.img6.setMaxHeight(60);
-                holder.img6.setMaxWidth(60);
+                holder.img6.setMaxHeight(50);
+                holder.img6.setMaxWidth(50);
                 holder.main_layout.setTag(holder);
                 holder.img1.setTag(holder);
                 holder.img2.setTag(holder);
@@ -476,10 +479,11 @@ public class ShowDeviceActivity extends Activity {
             holder.img1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 0;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -561,10 +565,11 @@ public class ShowDeviceActivity extends Activity {
             holder.img2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 1;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -642,10 +647,11 @@ public class ShowDeviceActivity extends Activity {
             holder.img3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 2;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -723,10 +729,11 @@ public class ShowDeviceActivity extends Activity {
             holder.img4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 3;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -805,10 +812,11 @@ public class ShowDeviceActivity extends Activity {
             holder.img5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 4;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -887,9 +895,10 @@ public class ShowDeviceActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     holder = (Holder) view.getTag();
+                    valueof_selected_item=i;
                     j = 5;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(75, 75);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(60, 60);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);

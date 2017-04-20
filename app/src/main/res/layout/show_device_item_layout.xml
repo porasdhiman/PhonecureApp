@@ -6,7 +6,7 @@
 <LinearLayout
     android:id="@+id/main_layout"
     android:layout_width="170dp"
-    android:layout_height="260dp"
+    android:layout_height="270dp"
     android:background="@drawable/calender_back"
     android:orientation="vertical">
 

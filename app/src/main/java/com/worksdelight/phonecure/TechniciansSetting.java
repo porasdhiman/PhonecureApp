@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -23,20 +24,20 @@ public class TechniciansSetting extends Activity {
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     Global global;
-    TextView user_name,user_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.technicians_setting_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+        }
         sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed=sp.edit();
         global=(Global) getApplicationContext();
-        user_name=(TextView)findViewById(R.id.user_name);
-        user_email=(TextView)findViewById(R.id.user_email);
-        user_name.setText(sp.getString("user name",""));
-        user_email.setText(sp.getString("email",""));
+
         back=(ImageView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

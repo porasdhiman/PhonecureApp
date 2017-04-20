@@ -123,7 +123,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
 
         header_txt = (TextView) findViewById(R.id.header_txt);
-
+        message_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(MainActivity.this,MessageActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

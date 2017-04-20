@@ -95,8 +95,8 @@
 
                 <TextView
                     android:id="@+id/second_count_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/step_two_light"
                     android:textColor="@color/main_color"
@@ -131,7 +131,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/darker_gray" />
+                    android:background="#e6e4e4" />
 
                 <EditText
                     android:id="@+id/last_name_ed"
@@ -176,7 +176,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -204,7 +204,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,7 +229,7 @@
                 <View
                     android:layout_width="0.5dp"
                     android:layout_height="match_parent"
-                    android:background="@android:color/darker_gray" />
+                    android:background="#e6e4e4" />
 
                 <EditText
                     android:id="@+id/zip_ed"
@@ -249,7 +249,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -281,9 +281,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
-            <RelativeLayout
+
+          <!--  <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
@@ -314,7 +315,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -350,7 +351,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="#e6e4e4" />
 
             <TextView
                 android:id="@+id/btn_start"

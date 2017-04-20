@@ -47,8 +47,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/item_back">
 
@@ -97,8 +97,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/item_back">
 
@@ -109,7 +109,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/calender_img"
-                    android:background="@android:color/darker_gray" />
+                    android:background="#e6e4e4" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -161,8 +161,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/item_back">
 
@@ -195,7 +195,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@android:color/darker_gray" />
+                        android:background="#e6e4e4" />
 
                     <ListView
                         android:id="@+id/service_list"
@@ -207,7 +207,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@android:color/darker_gray" />
+                        android:background="#e6e4e4" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
