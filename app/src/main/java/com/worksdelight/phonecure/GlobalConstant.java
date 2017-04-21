@@ -27,6 +27,8 @@ public class GlobalConstant {
 
     public static String PROFILE_URL= "http://worksdelight.com/phone_cure/index.php/api/users/profile";
     public static String CHANGEPASSWORD_URL= "http://worksdelight.com/phone_cure/index.php/api/users/changePassword";
+    public static String TECH_IMAGE_URL= "http://worksdelight.com/phone_cure/uploads/users/";
+
 
     public static String email = "email";
     public static String password = "password";
@@ -112,10 +114,12 @@ public class GlobalConstant {
     public static String services_count="services_count";
     public static String services="services";
     public static String available_colors="available_colors";
-    public static String number_of_days="number_of_days";
+    public static String expected_time="expected_time";
     public static String color_name="color_name";
     public static String device_model_colors="device_model_colors";
     public static String completed="completed";
     public static String pending="pending";
     public static String user_detail="user_detail";
+    public static String pick_up="pick_up";
+    public static String drop_off="drop_off";
 }

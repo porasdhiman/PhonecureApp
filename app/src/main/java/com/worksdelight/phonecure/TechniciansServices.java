@@ -160,7 +160,7 @@ public class TechniciansServices extends Activity {
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
                                     map.put(GlobalConstant.available_colors, arryObj.getString(GlobalConstant.available_colors));
-                                    map.put(GlobalConstant.number_of_days, arryObj.getString(GlobalConstant.number_of_days));
+                                    map.put(GlobalConstant.expected_time, arryObj.getString(GlobalConstant.expected_time));
                                     map.put(GlobalConstant.price, arryObj.getString(GlobalConstant.price));
                                    /* JSONArray color_images = arryObj.getJSONArray(GlobalConstant.device_model_colors);
                                     if (color_images.length() > 0) {

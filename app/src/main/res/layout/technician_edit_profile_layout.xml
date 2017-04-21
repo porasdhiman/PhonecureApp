@@ -72,7 +72,7 @@
 
 
                     <ImageView
-
+android:id="@+id/camer_click"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignBottom="@+id/tech_img"

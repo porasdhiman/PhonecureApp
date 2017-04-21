@@ -95,6 +95,21 @@ public class TechniciansDevice extends Activity {
                 finish();
             }
         });
+        if(getIntent().getExtras().getString("type").equalsIgnoreCase("1")){
+            back.setVisibility(View.VISIBLE);
+            done.setVisibility(View.GONE);
+        }else{
+            back.setVisibility(View.GONE);
+            done.setVisibility(View.VISIBLE);
+        }
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(TechniciansDevice.this,TechniciansHomeActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
         dialogWindow();
         categoryMethod();
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

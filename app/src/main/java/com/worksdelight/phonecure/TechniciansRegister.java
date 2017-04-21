@@ -503,8 +503,12 @@ public class TechniciansRegister extends Activity {
                     JSONObject data = obj.getJSONObject("data");
                     ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
                     ed.putString("type", "app");
-                    ed.putString("user name", data.getString(GlobalConstant.name));
-                    ed.putString("email", data.getString(GlobalConstant.email));
+                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                    ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                    ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                    ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
+                    ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+                    ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();

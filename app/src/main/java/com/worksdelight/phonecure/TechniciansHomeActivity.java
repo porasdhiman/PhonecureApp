@@ -18,6 +18,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -70,15 +71,18 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     TextView techniciansName_txtView, service_txt, booking_txt;
     RelativeLayout appointment_layout, service_layout, profile_layout, setting_layout;
 TextView header_txt;
+    ImageView message_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Mapbox.getInstance(this, "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
+
         setContentView(R.layout.technicians_home_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        Mapbox.getInstance(this, "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
+
 
 
 
@@ -102,10 +106,10 @@ TextView header_txt;
 
         global = (Global)getApplicationContext();
         init();
-        mapView = (MapView) parentView.findViewById(R.id.mapView);
-        service_txt = (TextView) parentView.findViewById(R.id.service_txt);
-        booking_txt = (TextView) parentView.findViewById(R.id.booking_txt);
-        techniciansName_txtView = (TextView) parentView.findViewById(R.id.techniciansName_txtView);
+        mapView = (MapView) findViewById(R.id.mapView);
+        service_txt = (TextView) findViewById(R.id.service_txt);
+        booking_txt = (TextView) findViewById(R.id.booking_txt);
+        techniciansName_txtView = (TextView)findViewById(R.id.techniciansName_txtView);
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
@@ -136,6 +140,7 @@ TextView header_txt;
     }
     public void init() {
         header_txt=(TextView)findViewById(R.id.header_txt);
+        message_img=(ImageView) findViewById(R.id.message_img);
         techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
         appointment_layout = (RelativeLayout) findViewById(R.id.appointment_layout);
         service_layout = (RelativeLayout) findViewById(R.id.service_layout);
@@ -163,6 +168,7 @@ TextView header_txt;
                 break;
             case R.id.service_layout:
                 Intent j = new Intent(this, TechniciansDevice.class);
+                j.putExtra("type","1");
                 startActivity(j);
                 break;
             case R.id.profile_layout:
@@ -172,6 +178,10 @@ TextView header_txt;
             case R.id.setting_layout:
                 Intent t = new Intent(this, TechniciansSetting.class);
                 startActivity(t);
+                break;
+            case R.id.message_img:
+                Intent m = new Intent(this, MessageActivity.class);
+                startActivity(m);
                 break;
 
         }
@@ -184,6 +194,13 @@ TextView header_txt;
         }
         return list1;
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
     @Override
     public void onResume(){
         super.onResume();

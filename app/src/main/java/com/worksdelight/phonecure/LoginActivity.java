@@ -338,11 +338,12 @@ public class LoginActivity extends Activity implements OnClickListener{
 
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","app");
-                                ed.putString("user name",data.getString(GlobalConstant.name));
-                                ed.putString("email",data.getString(GlobalConstant.email));
+
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
 
                                 if(data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
+                                    ed.putString("user name",data.getString(GlobalConstant.name));
+                                    ed.putString("email",data.getString(GlobalConstant.email));
                                     JSONObject shipping_address=data.getJSONObject("shipping_address");
                                     ed.putString("first name", shipping_address.getString("ship_firstname"));
                                     ed.putString("last name", shipping_address.getString("ship_lastname"));
@@ -355,8 +356,14 @@ public class LoginActivity extends Activity implements OnClickListener{
                                     startActivity(s);
                                     finish();
                                 }else{
+                                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                    ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                    ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                    ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
+                                    ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+                                    ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
                                     ed.commit();
-                                    Intent s = new Intent(LoginActivity.this, TechniciansMainActivity.class);
+                                    Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
                                     finish();
                                 }

@@ -104,7 +104,7 @@ JSONArray arr;
         });
         int p=Integer.parseInt(getIntent().getExtras().getString("pos"));
         price_ed.setText(global.getServiceList().get(p).get(GlobalConstant.price));
-        time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.number_of_days));
+        time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -463,7 +463,7 @@ Log.e("color_name_list",color_name_list.toString());
                 installedPackage.put("dm_service_id", getIntent().getExtras().getString(GlobalConstant.id));
                 installedPackage.put("model_color", serviceID);
                 installedPackage.put("price", price_ed.getText().toString());
-                installedPackage.put("number_of_days", time_ed.getText().toString());
+                installedPackage.put(GlobalConstant.expected_time, time_ed.getText().toString());
 
 
                 installedList.put(installedPackage);
