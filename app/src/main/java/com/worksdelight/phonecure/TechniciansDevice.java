@@ -64,7 +64,7 @@ public class TechniciansDevice extends Activity {
     DisplayImageOptions options;
     ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
     Global global;
-    TextView done;
+    TextView done,device_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +80,8 @@ public class TechniciansDevice extends Activity {
 
     public void init() {
         done = (TextView) findViewById(R.id.done);
+        device_name=(TextView)findViewById(R.id.device_name);
+        device_name.setText("Please add devices");
         //device_txtView = (TextView) findViewById(R.id.device_txtView);
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
@@ -328,7 +330,7 @@ public class TechniciansDevice extends Activity {
 
                 holder.select_img.setVisibility(View.VISIBLE);
                 holder.unselect_img.setVisibility(View.GONE);
-                holder.device_count.setText("No Devices Added Yet");
+                holder.device_count.setText("No devices added Yet");
                 holder.device_count.setTextColor(Color.parseColor("#ff0000"));
             }
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));

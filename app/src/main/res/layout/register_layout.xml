@@ -21,13 +21,14 @@
                 android:layout_height="220dp"
                 android:background="@drawable/login_logo_back">
 
-                <pl.droidsonroids.gif.GifImageView
+                <ImageView
                     android:id="@+id/logo_img"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/line1"
                     />
             </RelativeLayout>
 
@@ -129,7 +130,7 @@ android:id="@+id/sign_up_btn"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text_back"
+            android:background="@drawable/tab_back"
             android:gravity="center"
             android:text="Sign up"
             android:textColor="@android:color/darker_gray"
@@ -143,7 +144,7 @@ android:id="@+id/sign_up_btn"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Or using"
             android:textColor="@android:color/darker_gray"
@@ -157,15 +158,15 @@ android:id="@+id/sign_up_btn"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
+            android:gravity="center_horizontal"
             android:weightSum="2">
 
             <RelativeLayout
                 android:id="@+id/facebook_layout"
-                android:layout_width="match_parent"
+                android:layout_width="50dp"
                 android:layout_height="40dp"
-
                 android:layout_weight="1"
                 android:background="@drawable/facebook_view_back">
 
@@ -178,14 +179,14 @@ android:id="@+id/sign_up_btn"
                     android:layout_toLeftOf="@+id/facebook_txt"
                     android:src="@drawable/facebook" />
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/facebook_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="Sign in with facebook"
                     android:textColor="#fff"
-                    android:textStyle="bold" />
+                    android:textStyle="bold" />-->
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/Fb_Login"
                     android:layout_width="match_parent"
@@ -227,7 +228,7 @@ android:id="@+id/sign_up_btn"
                     android:layout_height="wrap_content"
 
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -242,7 +243,7 @@ android:id="@+id/sign_up_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sign in"
-                        android:textAllCaps="true"
+
                         android:textColor="@color/main_color"
                         android:textSize="@dimen/sab_txt" />
                 </LinearLayout>

@@ -134,7 +134,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/forward_img"
-                    android:text=""
+
+                    android:hint="Select time"
+                    android:textColorHint="@android:color/darker_gray"
                     android:textColor="@color/main_color"
                     android:textSize="@dimen/header_txt" />
 

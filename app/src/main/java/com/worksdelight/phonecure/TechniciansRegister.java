@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -73,11 +74,15 @@ public class TechniciansRegister extends Activity {
     SharedPreferences.Editor ed;
     boolean isVat = false;
     HttpEntity resEntity;
-
+ImageView back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.technicians_profile_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+        }
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
         global = (Global) getApplicationContext();
@@ -85,6 +90,7 @@ public class TechniciansRegister extends Activity {
     }
 
     public void init() {
+        back=(ImageView)findViewById(R.id.back);
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
@@ -94,6 +100,12 @@ public class TechniciansRegister extends Activity {
         address_ed = (TextView) findViewById(R.id.address_ed);
         tech_img = (ImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         tech_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

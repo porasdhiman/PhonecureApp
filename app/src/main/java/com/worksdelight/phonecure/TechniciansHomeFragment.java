@@ -101,7 +101,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
         mapView = (MapView) parentView.findViewById(R.id.mapView);
         service_txt = (TextView) parentView.findViewById(R.id.service_txt);
         booking_txt = (TextView) parentView.findViewById(R.id.booking_txt);
-        techniciansName_txtView = (TextView) parentView.findViewById(R.id.techniciansName_txtView);
+       // techniciansName_txtView = (TextView) parentView.findViewById(R.id.techniciansName_txtView);
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
@@ -133,7 +133,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
     }
 
     public void init(View v) {
-        techniciansName_txtView = (TextView) v.findViewById(R.id.techniciansName_txtView);
+        //techniciansName_txtView = (TextView) v.findViewById(R.id.techniciansName_txtView);
         appointment_layout = (RelativeLayout) v.findViewById(R.id.appointment_layout);
         service_layout = (RelativeLayout) v.findViewById(R.id.service_layout);
         profile_layout = (RelativeLayout) v.findViewById(R.id.profile_layout);
@@ -236,7 +236,7 @@ public class TechniciansHomeFragment extends Fragment implements View.OnClickLis
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data = obj.getJSONObject("data");
-                                techniciansName_txtView.setText("Hi, " + data.getString("name"));
+                              //  techniciansName_txtView.setText("Hi, " + data.getString("name"));
                                 booking_txt.setText(data.getString("booking_count") + " Scheduled");
 
                                 service_txt.setText(data.getString("services_count") + " Services");

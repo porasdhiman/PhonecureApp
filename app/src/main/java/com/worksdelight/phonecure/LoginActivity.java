@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,13 +48,9 @@ import org.brickred.socialauth.android.SocialAuthListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import pl.droidsonroids.gif.GifDrawable;
-import pl.droidsonroids.gif.GifImageView;
 
 import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
@@ -81,7 +79,9 @@ public class LoginActivity extends Activity implements OnClickListener{
     Dialog dialog2;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
-    GifImageView img;
+    ImageView img;
+    int i=0;
+    int imgArray[]={R.drawable.line1,R.drawable.line2,R.drawable.line3,R.drawable.line4,R.drawable.line5,R.drawable.line6,R.drawable.line7,R.drawable.line8,R.drawable.line9,R.drawable.line10,R.drawable.line11,R.drawable.line12};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,14 +106,28 @@ public class LoginActivity extends Activity implements OnClickListener{
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
         global = (Global) getApplicationContext();
-        img=(GifImageView)findViewById(R.id.logo_img);
-        try {
+        img=(ImageView)findViewById(R.id.logo_img);
+
+        new CountDownTimer(100,10) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+                img.setImageResource(imgArray[i]);
+                i++;
+                if(i== imgArray.length-1) i=0;
+                start();
+            }
+        }.start();
+       /* try {
             GifDrawable gifFromResource = new GifDrawable( getResources(), R.drawable.logo );
             img.setImageDrawable(gifFromResource);
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         password_view=(EditText)findViewById(R.id.password_view);
 

@@ -1,8 +1,10 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -27,6 +29,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -41,19 +50,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
- * Created by worksdelight on 06/03/17.
+ * Created by worksdelight on 24/04/17.
  */
 
-public class AppointmentActivity extends Activity {
+public class UserAppointmentActivity extends Activity {
     ImageView back_img;
+    CircleImageView user_view;
     TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price;
     ListView service_list;
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     ScrollView main_scroll;
     Dialog dialog2;
-String booking_id;
+    String booking_id;
+    com.nostra13.universalimageloader.core.ImageLoader imageLoader;
+    DisplayImageOptions options;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +90,16 @@ String booking_id;
                 finish();
             }
         });
+        imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
+        options = new DisplayImageOptions.Builder()
+                .imageScaleType(ImageScaleType.EXACTLY)
+
+                .showStubImage(R.drawable.user_back)        //	Display Stub Image
+                .showImageForEmptyUri(R.drawable.user_back)    //	If Empty image found
+                .cacheInMemory()
+                .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
+        initImageLoader();
+        user_view=(CircleImageView) findViewById(R.id.user_view);
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
@@ -88,9 +112,26 @@ String booking_id;
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
-                JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
+                JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(objUser.getString(GlobalConstant.name));
-                JSONObject shipping_address = objUser.getJSONObject("shipping_address");
+                String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
+                if (url != null && !url.equalsIgnoreCase("null")
+                        && !url.equalsIgnoreCase("")) {
+                    imageLoader.displayImage(url, user_view, options,
+                            new SimpleImageLoadingListener() {
+                                @Override
+                                public void onLoadingComplete(String imageUri,
+                                                              View view, Bitmap loadedImage) {
+                                    super.onLoadingComplete(imageUri, view,
+                                            loadedImage);
+
+                                }
+                            });
+                } else {
+                    user_view.setImageResource(R.drawable.user_back);
+                }
+                JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
+                JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
@@ -127,9 +168,26 @@ String booking_id;
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
-                JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
+                JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(objUser.getString(GlobalConstant.name));
-                JSONObject shipping_address = objUser.getJSONObject("shipping_address");
+                String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
+                if (url != null && !url.equalsIgnoreCase("null")
+                        && !url.equalsIgnoreCase("")) {
+                    imageLoader.displayImage(url, user_view, options,
+                            new SimpleImageLoadingListener() {
+                                @Override
+                                public void onLoadingComplete(String imageUri,
+                                                              View view, Bitmap loadedImage) {
+                                    super.onLoadingComplete(imageUri, view,
+                                            loadedImage);
+
+                                }
+                            });
+                } else {
+                    user_view.setImageResource(R.drawable.user_back);
+                }
+                JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
+                JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
@@ -266,7 +324,7 @@ String booking_id;
                                 //JSONObject data=obj.getJSONObject("data");
                                 finish();
                             } else {
-                                Toast.makeText(AppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -298,7 +356,7 @@ String booking_id;
 
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue requestQueue = Volley.newRequestQueue(AppointmentActivity.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(UserAppointmentActivity.this);
         requestQueue.add(stringRequest);
     }
 
@@ -317,5 +375,27 @@ String booking_id;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+    private void initImageLoader() {
+        int memoryCacheSize;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            int memClass = ((ActivityManager)
+                    getSystemService(Context.ACTIVITY_SERVICE))
+                    .getMemoryClass();
+            memoryCacheSize = (memClass / 8) * 1024 * 1024;
+        } else {
+            memoryCacheSize = 2 * 1024 * 1024;
+        }
 
+        final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                this).threadPoolSize(5)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCacheSize(memoryCacheSize)
+                .memoryCache(new FIFOLimitedMemoryCache(memoryCacheSize - 1000000))
+                .denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).enableLogging()
+                .build();
+
+        com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
+    }
 }

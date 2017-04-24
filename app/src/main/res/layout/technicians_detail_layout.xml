@@ -170,7 +170,7 @@
         android:textColor="#fff"
         android:textStyle="bold"
         android:textSize="18dp"
-        android:text="Bokk appointment"
+        android:text="Book appointment"
         android:gravity="center"/>
 
     <RelativeLayout

@@ -20,7 +20,7 @@ import com.facebook.login.LoginManager;
 
 public class TechniciansSetting extends Activity {
     ImageView back;
-    RelativeLayout sign_out_layout;
+    RelativeLayout sign_out_layout,change_password_layout,share_layout;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     Global global;
@@ -46,6 +46,25 @@ public class TechniciansSetting extends Activity {
             }
         });
         sign_out_layout=(RelativeLayout)findViewById(R.id.sign_out_layout);
+        change_password_layout=(RelativeLayout)findViewById(R.id.change_password_layout);
+        share_layout=(RelativeLayout) findViewById(R.id.share_layout);
+        share_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app! http://google.com");
+                startActivity(shareIntent);
+            }
+        });
+        change_password_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(TechniciansSetting.this,ChangePasswordActivity.class);
+                startActivity(i);
+            }
+        });
         sign_out_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

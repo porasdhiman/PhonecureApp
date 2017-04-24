@@ -1,19 +1,36 @@
 package com.worksdelight.phonecure;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.astuetz.PagerSlidingTabStrip;
+import com.wang.avi.AVLoadingIndicatorView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by worksdelight on 12/04/17.
@@ -27,7 +44,9 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
     SharedPreferences.Editor ed;
     LinearLayout mTabsLinearLayout;
     ImageView back;
-
+    Dialog dialog2;
+    Global global;
+    ViewPager viewPager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,17 +55,10 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager()));
-
-        tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-
-        //tabsStrip.setTextColorResource(R.drawable.selectore);
-
-        tabsStrip.setViewPager(viewPager);
-        tabsStrip.setOnPageChangeListener(this);
-        ((LinearLayout) tabsStrip.getChildAt(0)).getChildAt(0).setSelected(true);
-        setUpTabStrip(0);
+        global=(Global)getApplicationContext();
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        dialogWindow();
+        categoryMethod();
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,5 +103,80 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
                 tv.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
             }
         }
+    }
+
+    //--------------------Category api method---------------------------------
+    private void categoryMethod() {
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(HistoryActivity.this),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+                                JSONArray copletedArr = data.getJSONArray(GlobalConstant.completed);
+                                JSONArray pendingArr = data.getJSONArray(GlobalConstant.pending);
+
+                                global.setCompletedaar(copletedArr);
+                                global.setPendingaar(pendingArr);
+
+                            } else {
+                                Toast.makeText(HistoryActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager()));
+
+                            tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
+                            //tabsStrip.setTextColorResource(R.drawable.selectore);
+
+                            tabsStrip.setViewPager(viewPager);
+                            tabsStrip.setOnPageChangeListener(HistoryActivity.this);
+                            ((LinearLayout) tabsStrip.getChildAt(0)).getChildAt(0).setSelected(true);
+                            setUpTabStrip(0);
+                            ((LinearLayout)tabsStrip.getChildAt(0)).getChildAt(0).setSelected(true);
+                            setUpTabStrip(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(HistoryActivity.this);
+        requestQueue.add(stringRequest);
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+    public void dialogWindow() {
+        dialog2 = new Dialog(HistoryActivity.this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setCancelable(false);
+        dialog2.setContentView(R.layout.progrees_login);
+        AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
+        loaderView.show();
+
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        dialog2.show();
     }
 }

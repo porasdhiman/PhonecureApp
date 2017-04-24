@@ -84,6 +84,8 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
 
     public void init() {
         device_name = (TextView) findViewById(R.id.device_name);
+
+        device_name.setText("Please add devices");
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
@@ -298,7 +300,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
 
                 holder.select_img.setVisibility(View.VISIBLE);
                 holder.unselect_img.setVisibility(View.GONE);
-                holder.device_count.setText("No Devices Added Yet");
+                holder.device_count.setText("No devices added yet");
                 holder.device_count.setTextColor(Color.parseColor("#ff0000"));
             }
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));

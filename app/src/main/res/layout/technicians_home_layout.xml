@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/form_back">
+       >
 
         <LinearLayout
 
@@ -73,7 +73,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
-    <TextView
+   <!-- <TextView
         android:id="@+id/techniciansName_txtView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
@@ -82,7 +82,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -109,8 +109,8 @@
 
                     <ImageView
                         android:id="@+id/appointment_img"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/appoinment" />
@@ -122,9 +122,9 @@
                         android:layout_below="@+id/appointment_img"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="Appointment"
+                        android:text="Appointments"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
 
                         android:textStyle="bold" />
 
@@ -153,8 +153,8 @@
 
                     <ImageView
                         android:id="@+id/services_img"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/service_img" />
@@ -168,7 +168,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Services"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
 
                         android:textStyle="bold" />
 
@@ -209,8 +209,8 @@
 
                     <ImageView
                         android:id="@+id/cure_img"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/setting_img" />
@@ -224,7 +224,7 @@
                         android:layout_marginTop="10dp"
                         android:text="Setting"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="16dp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -255,8 +255,8 @@
 
                     <ImageView
                         android:id="@+id/scan_img"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/profile_img" />
@@ -271,7 +271,7 @@
                         android:text="Profile"
                         android:textColor="#fff"
 
-                        android:textSize="18dp"
+                        android:textSize="16dp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -294,7 +294,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="40dp"/>
+                android:layout_height="20dp"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

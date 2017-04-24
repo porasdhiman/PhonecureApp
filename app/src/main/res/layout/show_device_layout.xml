@@ -37,7 +37,7 @@
              android:layout_centerVertical="true"
 android:textSize="18dp"
              android:text="next"
-             android:textColor="#fff"
+             android:textColor="@color/main_color"
              android:layout_marginRight="10dp"
              android:layout_alignParentRight="true"
              android:textStyle="bold"

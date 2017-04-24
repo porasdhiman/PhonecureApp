@@ -109,7 +109,7 @@ TextView header_txt;
         mapView = (MapView) findViewById(R.id.mapView);
         service_txt = (TextView) findViewById(R.id.service_txt);
         booking_txt = (TextView) findViewById(R.id.booking_txt);
-        techniciansName_txtView = (TextView)findViewById(R.id.techniciansName_txtView);
+       // techniciansName_txtView = (TextView)findViewById(R.id.techniciansName_txtView);
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
@@ -130,7 +130,7 @@ TextView header_txt;
                 mapboxMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
 
-                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 50);
+                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 20);
 
 
             }
@@ -141,7 +141,7 @@ TextView header_txt;
     public void init() {
         header_txt=(TextView)findViewById(R.id.header_txt);
         message_img=(ImageView) findViewById(R.id.message_img);
-        techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
+       // techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
         appointment_layout = (RelativeLayout) findViewById(R.id.appointment_layout);
         service_layout = (RelativeLayout) findViewById(R.id.service_layout);
         profile_layout = (RelativeLayout) findViewById(R.id.profile_layout);
@@ -159,12 +159,24 @@ TextView header_txt;
         header_txt.setText(builder, TextView.BufferType.SPANNABLE);
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0){
+            dialogWindow();
+            showDeviceMethod();
+        }else{
+
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.appointment_layout:
                 Intent i = new Intent(this, TechniciansHistory.class);
-                startActivity(i);
+                startActivityForResult(i,0);
                 break;
             case R.id.service_layout:
                 Intent j = new Intent(this, TechniciansDevice.class);
@@ -260,7 +272,7 @@ TextView header_txt;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data = obj.getJSONObject("data");
-                                techniciansName_txtView.setText("Hi, " + data.getString("name"));
+                               // techniciansName_txtView.setText("Hi, " + data.getString("name"));
                                 booking_txt.setText(data.getString("booking_count") + " Scheduled");
 
                                 service_txt.setText(data.getString("services_count") + " Services");

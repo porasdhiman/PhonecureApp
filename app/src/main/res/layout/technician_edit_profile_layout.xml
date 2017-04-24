@@ -34,16 +34,19 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/search_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+        <TextView
+            android:id="@+id/edit_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            android:padding="8dp"
-            android:src="@drawable/search_img"
-            android:visibility="gone" />
+            android:layout_marginRight="10dp"
+           android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="Edit"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <ScrollView
@@ -323,7 +326,7 @@ android:id="@+id/camer_click"
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="2dp"
+                    android:layout_width="1dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -353,18 +356,7 @@ android:id="@+id/camer_click"
 
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/green_btn"
-                android:gravity="center"
-                android:text="Save Changes"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+
 
             <View
                 android:layout_width="match_parent"

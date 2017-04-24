@@ -181,7 +181,7 @@ public class TechniciansServices extends Activity {
                                     service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
                                     CommonUtils.getListViewSize(service_list);
                                     main_scrollView.smoothScrollTo(0, 0);
-                                    submit_btn.setVisibility(View.VISIBLE);
+
                                     global.setServiceList(list);
                                 }
                             } else {

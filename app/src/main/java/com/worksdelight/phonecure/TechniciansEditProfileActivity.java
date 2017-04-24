@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -51,6 +52,7 @@ public class TechniciansEditProfileActivity extends Activity {
     String selectedImagePath = "";
     Dialog camgllry, dialog2;
     ImageView camer_click;
+    TextView edit_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +80,14 @@ public class TechniciansEditProfileActivity extends Activity {
                 startActivity(w);
             }
         });
+        edit_txt = (TextView) findViewById(R.id.edit_txt);
         tech_img = (CircleImageView) findViewById(R.id.tech_img);
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
         org_ed = (EditText) findViewById(R.id.org_ed);
         address_ed = (EditText) findViewById(R.id.address_ed);
-        Log.e("url",GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, ""));
+        Log.e("url", GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, ""));
         Picasso.with(this).load(GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, "")).into(tech_img);
         name_ed.setText(sp.getString(GlobalConstant.name, ""));
         vat_ed.setText(sp.getString(GlobalConstant.vat_number, ""));
@@ -96,7 +99,12 @@ public class TechniciansEditProfileActivity extends Activity {
                 dailog();
             }
         });
+        edit_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
     }
 
     public void dailog() {

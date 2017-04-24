@@ -11,7 +11,7 @@ import android.view.View;
 
 public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Completed", "Pending"};
+    private String tabTitles[] = new String[] { "Pending", "Completed"};
 
     public SampleFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -26,12 +26,13 @@ public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragment
-                return CompletedFragment.newInstance("Completed");
-            case 1: // Fragment # 0 - This will show FirstFragment different title
-                return PandingFragment.newInstance("Pending");
 
+            return UserPendingFragment.newInstance("Pending");
+            case 1: // Fragment # 0 - This will show FirstFragment different title
+
+                return UserCompletedFragment.newInstance("Completed");
             default:
-                return CompletedFragment.newInstance("Completed");
+                return UserPendingFragment.newInstance("Pending");
         }
     }
 

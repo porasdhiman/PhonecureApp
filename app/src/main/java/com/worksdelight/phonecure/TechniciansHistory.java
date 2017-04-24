@@ -1,6 +1,7 @@
 package com.worksdelight.phonecure;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -110,6 +111,14 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
             }
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        dialogWindow();
+        categoryMethod();
+    }
+
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
 

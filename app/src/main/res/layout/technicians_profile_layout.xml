@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:background="@color/back_color"
     android:orientation="vertical">
-    <!-- <RelativeLayout
+     <RelativeLayout
          android:layout_width="match_parent"
          android:layout_height="50dp"
          android:id="@+id/header_view"
          android:background="#000"
          >
          <ImageView
+             android:id="@+id/back"
              android:layout_width="40dp"
              android:layout_height="40dp"
              android:layout_centerVertical="true"
@@ -22,7 +23,7 @@
          <TextView
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:text="Technicians profile"
+             android:text="Technicians sign up"
              android:textSize="@dimen/header_txt"
              android:textStyle="bold"
              android:textColor="#fff"
@@ -30,7 +31,7 @@
              android:layout_centerVertical="true"
              />
 
-     </RelativeLayout>-->
+     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,10 +44,10 @@
 
             <ImageView
                 android:id="@+id/tech_img"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitXY"
                 android:src="@drawable/img_click" />
