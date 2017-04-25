@@ -256,6 +256,14 @@
             android:name=".UserAppointmentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".DeactivationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".WoorkingHourSecondActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

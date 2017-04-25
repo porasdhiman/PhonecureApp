@@ -76,7 +76,7 @@ public class TechniciansEditProfileActivity extends Activity {
         main_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent w = new Intent(TechniciansEditProfileActivity.this, WorkingHourActivity.class);
+                Intent w = new Intent(TechniciansEditProfileActivity.this, WoorkingHourSecondActivity.class);
                 startActivity(w);
             }
         });

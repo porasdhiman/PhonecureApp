@@ -24,11 +24,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -46,6 +48,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import static com.worksdelight.phonecure.GlobalConstant.technician_service_id;
 
 /**
  * Created by worksdelight on 15/04/17.
@@ -55,16 +60,17 @@ public class TechniciansServices extends Activity {
     ListView service_list;
     //  int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
     // String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
-    ImageView search_img,back;
+    ImageView search_img, back;
     ScrollView main_scrollView;
     TextView submit_btn, service_txtView;
     Dialog dialog2;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    ArrayList<HashMap<String,String>> color_list=new ArrayList<>();
+    ArrayList<HashMap<String, String>> color_list = new ArrayList<>();
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     String serviceID = "";
     Global global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +79,13 @@ public class TechniciansServices extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        global=(Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         init();
 
     }
 
     public void init() {
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         submit_btn = (TextView) findViewById(R.id.submit_btn);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
@@ -98,10 +104,10 @@ public class TechniciansServices extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
-                map.putExtra(GlobalConstant.id,list.get(i).get(GlobalConstant.id));
-                map.putExtra(GlobalConstant.service_id,list.get(i).get(GlobalConstant.service_id));
-                map.putExtra("pos",String.valueOf(i));
-                startActivityForResult(map,0);
+                map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
+                map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
+                map.putExtra("pos", String.valueOf(i));
+                startActivityForResult(map, 0);
             }
         });
         submit_btn.setVisibility(View.GONE);
@@ -118,14 +124,15 @@ public class TechniciansServices extends Activity {
         });*/
         service_txtView.setText(getIntent().getExtras().getString("device_type"));
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
+        if (requestCode == 0) {
             list.clear();
             dialogWindow();
             subcategoryMethod();
-        }else{
+        } else {
 
         }
     }
@@ -134,7 +141,7 @@ public class TechniciansServices extends Activity {
     private void subcategoryMethod() {
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL +getIntent().getExtras().getString("id")+"&user_id="+CommonUtils.UserID(this),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(this),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -155,6 +162,10 @@ public class TechniciansServices extends Activity {
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
 
                                     map.put(GlobalConstant.device_model_id, arryObj.getString(GlobalConstant.device_model_id));
+                                    map.put(GlobalConstant.technician_service_id, arryObj.getString(GlobalConstant.technician_service_id));
+                                    map.put(GlobalConstant.enabled_status, arryObj.getString(GlobalConstant.enabled_status));
+
+
                                     map.put(GlobalConstant.service_id, arryObj.getString(GlobalConstant.service_id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
@@ -175,9 +186,9 @@ public class TechniciansServices extends Activity {
                                     }*/
                                     //map.put(GlobalConstant.color_images, color_list.toString());
                                     list.add(map);
-                                   // color_list.clear();
+                                    // color_list.clear();
                                 }
-                                if(list.size()!=0) {
+                                if (list.size() != 0) {
                                     service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
                                     CommonUtils.getListViewSize(service_list);
                                     main_scrollView.smoothScrollTo(0, 0);
@@ -281,6 +292,8 @@ public class TechniciansServices extends Activity {
             } else {
                 holder = (Holder) view.getTag();
             }
+            holder.select_img.setImageResource(R.drawable.toggle);
+            holder.unselect_img.setImageResource(R.drawable.toogle2);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.select_img.setVisibility(View.GONE);
                 holder.unselect_img.setVisibility(View.VISIBLE);
@@ -288,7 +301,17 @@ public class TechniciansServices extends Activity {
 
                 holder.select_img.setVisibility(View.VISIBLE);
                 holder.unselect_img.setVisibility(View.GONE);
-
+                holder.select_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder = (Holder) view.getTag();
+                        Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
+                        map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
+                        map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
+                        map.putExtra("pos", String.valueOf(i));
+                        startActivityForResult(map, 0);
+                    }
+                });
             }
             url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
@@ -308,8 +331,33 @@ public class TechniciansServices extends Activity {
             }
 
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
+            if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
+                if (deviceList.get(i).get(GlobalConstant.enabled_status).equalsIgnoreCase("1")) {
+                    holder.select_img.setVisibility(View.GONE);
+                    holder.unselect_img.setVisibility(View.VISIBLE);
+                    holder.unselect_img.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            holder = (Holder) view.getTag();
+                            enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "0");
+
+                        }
+                    });
+                } else {
+
+                    holder.select_img.setVisibility(View.VISIBLE);
+                    holder.unselect_img.setVisibility(View.GONE);
+                    holder.select_img.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            holder = (Holder) view.getTag();
+                            enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "1");
+                        }
+                    });
 
 
+                }
+            }
 
             return view;
         }
@@ -343,4 +391,76 @@ public class TechniciansServices extends Activity {
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
+    //--------------------Enable api method---------------------------------
+
+    //--------------------search api method---------------------------------
+    private void enableMethod(final String id, final String pos, final String isValue) {
+        //Map<String, String> params = new HashMap<String, String>();
+
+        JSONObject params = new JSONObject();
+
+        try {
+            params.put(GlobalConstant.USERID, CommonUtils.UserID(TechniciansServices.this));
+            params.put(technician_service_id, id);
+            params.put("enabled_status", isValue);
+
+            Log.e("params valye", params.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Request.Method.POST, GlobalConstant.SERVICE_ENABLE_URL, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("respnse", response.toString());
+
+                        try {
+
+
+                            String status = response.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
+
+                                service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
+                                CommonUtils.getListViewSize(service_list);
+                                main_scrollView.smoothScrollTo(0, 0);
+
+                            } else {
+                                Toast.makeText(TechniciansServices.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
+
 }

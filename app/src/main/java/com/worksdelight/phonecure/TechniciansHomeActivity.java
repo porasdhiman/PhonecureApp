@@ -150,6 +150,7 @@ TextView header_txt;
         service_layout.setOnClickListener(this);
         profile_layout.setOnClickListener(this);
         setting_layout.setOnClickListener(this);
+        message_img.setOnClickListener(this);
         String title=header_txt.getText().toString();
         SpannableStringBuilder builder = new SpannableStringBuilder();
 

@@ -68,7 +68,6 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     List<CalendarDay> calenderlist = new ArrayList<CalendarDay>();
     CalendarDay selectDate;
     Dialog dialog2;
-    private int mYear, mMonth, mDay, mHour, mMinute;
 
     private Collection<CalendarDay> calendarDays = new Collection<CalendarDay>() {
         @Override
@@ -150,6 +149,8 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     DisplayImageOptions options;
     String minTimehour, minTimeminute, maxTimehour, maxTimeminute;
     TimePickerDialog timePickerDialog;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+
     int hour, minutes;
     ImageView back;
     NumberPicker minutePicker;

@@ -98,7 +98,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
 
@@ -110,26 +110,73 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Sunday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/sun_toggle_img"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
 
-                                android:src="@drawable/toggle"
+                                android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
                         </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/sun_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
+                            <TextView
+                                android:id="@+id/sun_openning"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/inc_and_dec_back"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="9:00 AM"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="-"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/sun_clossing"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/inc_and_dec_back"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="6:30 PM"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/sun_closs_txt"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
                             android:text="Clossed"
                             android:textColor="#000"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -140,7 +187,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -151,31 +198,51 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Monday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/mon_toggle_img"
 
-                                android:src="@drawable/toogle2"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/mon_closs_txt"
 
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity=""
+                            android:text="Clossed"
+                            android:textColor="#000"
+                            android:textSize="12sp"
+
+                            />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/mon_layout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/mon_openning"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="9:00 AM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -183,18 +250,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/mon_clossing"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="6:30 PM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -207,7 +278,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -218,31 +289,51 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Tuesday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/tue_toggle_img"
 
-                                android:src="@drawable/toogle2"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/tue_closs_txt"
 
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity=""
+                            android:text="Clossed"
+                            android:textColor="#000"
+                            android:textSize="12sp"
+
+                            />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tue_layout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/tue_openning"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="9:00 AM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -250,18 +341,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tue_clossing"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="6:30 PM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -274,7 +369,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -285,31 +380,50 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Wednesday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/wed_toggle_img"
 
-                                android:src="@drawable/toogle2"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/wed_closs_txt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity=""
+                            android:text="Clossed"
+                            android:textColor="#000"
+                            android:textSize="12sp"
 
+                            />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/wed_layout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/wed_openning"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="9:00 AM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -317,18 +431,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/wed_clossing"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="6:30 PM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -341,7 +459,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -352,31 +470,51 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Thursday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/thu_toggle_img"
 
-                                android:src="@drawable/toogle2"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/thu_closs_txt"
 
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity=""
+                            android:text="Clossed"
+                            android:textColor="#000"
+                            android:textSize="12sp"
+
+                            />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/thu_layout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/thu_openning"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="9:00 AM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -384,18 +522,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/thu_clossing"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="6:30 PM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -408,7 +550,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -419,31 +561,52 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Friday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/fri_toggle_img"
 
-                                android:src="@drawable/toogle2"
-                                android:textSize="12sp" />
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
+                                android:textSize="12sp"
+                                 />
                         </LinearLayout>
+                        <TextView
+                            android:id="@+id/fri_closs_txt"
 
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity=""
+                            android:text="Clossed"
+                            android:textColor="#000"
+                            android:textSize="12sp"
+
+                            />
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/fri_layout"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
+                                android:id="@+id/fri_openning"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="9:00 AM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -451,18 +614,22 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/fri_clossing"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
                                 android:text="6:30 PM"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -475,7 +642,7 @@
                         android:weightSum="2">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
@@ -486,21 +653,25 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="Saturday"
-                                android:textColor="@android:color/darker_gray"
+                                android:textColor="@color/mainTextColor"
 
                                 android:textSize="12sp" />
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="20dp"
+                                android:id="@+id/sat_toggle_img"
 
-                                android:src="@drawable/toggle"
+                                android:layout_width="35dp"
+                                android:layout_height="25dp"
+
+                                android:src="@drawable/toggle_off"
 
                                 android:textSize="12sp" />
                         </LinearLayout>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/sat_closs_txt"
+
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
@@ -508,7 +679,51 @@
                             android:textColor="#000"
 
                             android:textSize="12sp" />
+                        <LinearLayout
+                            android:id="@+id/sat_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
+                            <TextView
+                                android:id="@+id/sat_openning"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/inc_and_dec_back"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="9:00 AM"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="-"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/sat_clossing"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:background="@drawable/inc_and_dec_back"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="3dp"
+                                android:text="6:30 PM"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                     </LinearLayout>
 
 
@@ -596,7 +811,7 @@
                                 android:layout_marginLeft="10dp"
 
 
-                                android:text="Delivery services"
+                                android:text="Repair at shop"
                                 android:textColor="#000"
                                 android:textSize="12dp"
 
@@ -635,7 +850,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center"
 
-                                android:text="Dropoff services"
+                                android:text="Repair on location"
                                 android:textColor="#000"
                                 android:textSize="12dp"
 
@@ -650,7 +865,7 @@
             <TextView
                 android:id="@+id/submit_txt"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"

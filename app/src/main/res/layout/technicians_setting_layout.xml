@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F2F2">
+    android:background="#F2F2F2"
+    android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/header_view"
-        android:background="#000"
-        >
+        android:background="#000">
+
         <ImageView
             android:id="@+id/back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-
-
             android:layout_alignParentLeft="true"
-            android:src="@drawable/white_back"/>
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
         <TextView
             android:id="@+id/service_txtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Setting"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            />
+            android:gravity="center"
+            android:text="Settings"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/search_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-
-            android:visibility="gone"
             android:layout_alignParentRight="true"
-            android:src="@drawable/search_img"/>
+            android:layout_centerVertical="true"
+
+            android:padding="8dp"
+            android:src="@drawable/search_img"
+            android:visibility="gone" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/notification_layout"
                 android:layout_width="match_parent"
@@ -143,11 +149,11 @@
                     android:id="@+id/change_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-android:layout_marginLeft="10dp"
-                    android:src="@drawable/password"
-                    android:layout_alignTop="@+id/change_view"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/change_view"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/password" />
 
             </RelativeLayout>
 
@@ -189,7 +195,7 @@ android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:text="Deactivate Account"
                     android:textColor="#373737"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -200,6 +206,7 @@ android:layout_marginLeft="10dp"
                     android:src="@drawable/forward" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/share_layout"
                 android:layout_width="match_parent"
@@ -249,6 +256,7 @@ android:layout_marginLeft="10dp"
                     android:src="@drawable/forward" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/sign_out_layout"
                 android:layout_width="match_parent"

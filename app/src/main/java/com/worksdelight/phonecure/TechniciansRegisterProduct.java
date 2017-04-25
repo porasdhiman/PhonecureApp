@@ -64,11 +64,12 @@ public class TechniciansRegisterProduct extends Activity {
     Dialog dialog2;
     Global global;
     ArrayList<HashMap<String, String>> color_name_list = new ArrayList<>();
-  //  ArrayList<HashMap<String, String>> color_id_list = new ArrayList<>();
-   // ArrayList<HashMap<String, String>> name_list = new ArrayList<>();
+    //  ArrayList<HashMap<String, String>> color_id_list = new ArrayList<>();
+    // ArrayList<HashMap<String, String>> name_list = new ArrayList<>();
     ScrollView main_scroll;
     String serviceID = "";
-JSONArray arr;
+    JSONArray arr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ JSONArray arr;
                 finish();
             }
         });
-        int p=Integer.parseInt(getIntent().getExtras().getString("pos"));
+        int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
         price_ed.setText(global.getServiceList().get(p).get(GlobalConstant.price));
         time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
 
@@ -126,27 +127,27 @@ JSONArray arr;
 
             }
         });
-        arr=global.getAar();
+        arr = global.getAar();
 
 
-        JSONObject obj= null;
+        JSONObject obj = null;
         try {
             obj = arr.getJSONObject(p);
 
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-        JSONArray device= null;
+        JSONArray device = null;
         try {
             device = obj.getJSONArray(GlobalConstant.device_model_colors);
-            for (int k=0;k<device.length();k++) {
-                JSONObject deviceObj=device.getJSONObject(k);
+            for (int k = 0; k < device.length(); k++) {
+                JSONObject deviceObj = device.getJSONObject(k);
                 HashMap<String, String> map = new HashMap<>();
-                map.put(GlobalConstant.color_id,deviceObj.getString(GlobalConstant.color_id));
-                map.put(GlobalConstant.color_name,deviceObj.getString(GlobalConstant.color_name));
-                map.put(GlobalConstant.color_image,deviceObj.getString(GlobalConstant.color_image));
-                map.put(GlobalConstant.model_image,deviceObj.getString(GlobalConstant.model_image));
-                map.put(GlobalConstant.status,deviceObj.getString(GlobalConstant.status));
+                map.put(GlobalConstant.color_id, deviceObj.getString(GlobalConstant.color_id));
+                map.put(GlobalConstant.color_name, deviceObj.getString(GlobalConstant.color_name));
+                map.put(GlobalConstant.color_image, deviceObj.getString(GlobalConstant.color_image));
+                map.put(GlobalConstant.model_image, deviceObj.getString(GlobalConstant.model_image));
+                map.put(GlobalConstant.status, deviceObj.getString(GlobalConstant.status));
                 color_name_list.add(map);
             }
         } catch (JSONException e1) {
@@ -154,12 +155,12 @@ JSONArray arr;
         }
 
 
-Log.e("color_name_list",color_name_list.toString());
+        Log.e("color_name_list", color_name_list.toString());
 
 
         //color_id_list = convertToHashMapForId(global.getAllDeviceList().get(global.getPostion()).get(GlobalConstant.color_images));
 
-       // Log.e("list print", color_name_list.toString() + " " + color_id_list.toString());
+        // Log.e("list print", color_name_list.toString() + " " + color_id_list.toString());
         product_listView.setAdapter(new ProductAdapter(TechniciansRegisterProduct.this));
         CommonUtils.getListViewSize(product_listView);
         main_scroll.smoothScrollTo(0, 0);
@@ -211,6 +212,7 @@ Log.e("color_name_list",color_name_list.toString());
         return list;
 
     }
+
     public ArrayList<HashMap<String, String>> convertToHashMapForName(String jsonString) {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
@@ -341,7 +343,7 @@ Log.e("color_name_list",color_name_list.toString());
 
                 holder.select_img.setVisibility(View.VISIBLE);
                 holder.unselect_img.setVisibility(View.GONE);
-              //  String id = String.valueOf(serviceID.charAt(0));
+                //  String id = String.valueOf(serviceID.charAt(0));
 
                 /*if (serviceID.contains(",")) {
                     if (id.equalsIgnoreCase(color_name_list.get(i).get(GlobalConstant.color_id))) {
@@ -411,11 +413,13 @@ Log.e("color_name_list",color_name_list.toString());
             TextView device_name;
         }
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         return sb.toString();
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {

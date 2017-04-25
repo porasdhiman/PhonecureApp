@@ -524,7 +524,7 @@ ImageView back;
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();
-                    Intent s = new Intent(TechniciansRegister.this, WorkingHourActivity.class);
+                    Intent s = new Intent(TechniciansRegister.this, WoorkingHourSecondActivity.class);
                     startActivity(s);
                     finish();
 
