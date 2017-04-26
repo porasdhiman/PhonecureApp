@@ -19,6 +19,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.apache.http.HttpEntity;
@@ -41,10 +48,10 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 /**
- * Created by worksdelight on 25/04/17.
+ * Created by worksdelight on 26/04/17.
  */
 
-public class WoorkingHourSecondActivity extends Activity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
+public class WorkingHoursUpdateActivity extends Activity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener {
     ImageView back;
     LinearLayout sun_layout, mon_layout, tue_layout, wed_layout, thu_layout, fri_layout, sat_layout;
     TextView sun_closs_txt, mon_closs_txt, tue_closs_txt, wed_closs_txt, thu_closs_txt, fri_closs_txt, sat_closs_txt;
@@ -62,6 +69,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     HttpEntity resEntity;
     String message;
     Dialog dialog2;
+    String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +79,18 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(GlobalConstant.day, "");
-            map.put(GlobalConstant.opening_time, "");
-            map.put(GlobalConstant.closing_time, "");
+            map.put(GlobalConstant.day, daysNAme[i]);
+            map.put(GlobalConstant.opening_time, "9:00 AM");
+            map.put(GlobalConstant.closing_time, "6:30 PM");
             map.put(GlobalConstant.status, "clossed");
             list.add(map);
         }
+        dialogWindow();
+        profileMethod();
     }
 
     public void init() {
@@ -176,6 +187,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
         pickUp_img.setOnClickListener(this);
         dropoff_img.setOnClickListener(this);
         submit_txt = (TextView) findViewById(R.id.submit_txt);
+        submit_txt.setText("Update");
         submit_txt.setOnClickListener(this);
 
     }
@@ -460,10 +472,10 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
-                Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkingHoursUpdateActivity.this, message, Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorkingHoursUpdateActivity.this, message, Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -497,7 +509,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             HttpPost post = new HttpPost(urlString);
             MultipartEntity reqEntity = new MultipartEntity();
 
-            reqEntity.addPart(GlobalConstant.id, new StringBody(CommonUtils.UserID(WoorkingHourSecondActivity.this)));
+            reqEntity.addPart(GlobalConstant.id, new StringBody(CommonUtils.UserID(WorkingHoursUpdateActivity.this)));
             JSONArray installedList = new JSONArray();
 
 
@@ -564,4 +576,198 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
         return success;
     }
 
+    private void profileMethod() {
+
+// Request a string response from the provided URL.
+        String profileUrl= GlobalConstant.PROFILE_URL + "?id=" + CommonUtils.UserID(WorkingHoursUpdateActivity.this);
+        Log.e("profile url",profileUrl);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,profileUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+
+                                if (data.getString(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
+                                    pickUp_img.setImageResource(R.drawable.pickup);
+                                    p = 1;
+                                } else {
+                                    pickUp_img.setImageResource(R.drawable.pickup_unselect);
+                                    p = 0;
+                                }
+                                if (data.getString(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
+                                    dropoff_img.setImageResource(R.drawable.dropoff);
+                                    d = 1;
+                                } else {
+                                    dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+                                    d = 0;
+                                }
+                                JSONArray availability = data.getJSONArray(GlobalConstant.availability);
+                                for (int i = 0; i < availability.length(); i++) {
+                                    JSONObject availObj = availability.getJSONObject(i);
+                                    for (int j = 0; j < list.size(); j++) {
+                                        if (list.get(j).get(GlobalConstant.day).equalsIgnoreCase(availObj.getString(GlobalConstant.day))) {
+                                            list.get(j).put(GlobalConstant.opening_time,availObj.getString(GlobalConstant.opening_time));
+                                            list.get(j).put(GlobalConstant.closing_time,availObj.getString(GlobalConstant.closing_time));
+                                            list.get(j).put(GlobalConstant.status,"open");
+                                        }
+                                    }
+                                }
+                                showValue();
+                                Log.e("list value",list.toString());
+                            } else {
+                                Toast.makeText(WorkingHoursUpdateActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    public void showValue(){
+        for (int k=0;k<list.size();k++){
+            if(k==0){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    sun=1;
+                    sun_toggle_img.setImageResource(R.drawable.toggle_on);
+                    sun_layout.setVisibility(View.VISIBLE);
+                    sun_closs_txt.setVisibility(View.GONE);
+                    sun_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    sun_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    sun=0;
+                    sun_toggle_img.setImageResource(R.drawable.toggle_off);
+                    sun_layout.setVisibility(View.GONE);
+                    sun_closs_txt.setVisibility(View.VISIBLE);
+                    sun_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    sun_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+
+            }else  if(k==1){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    mon=1;
+                    mon_toggle_img.setImageResource(R.drawable.toggle_on);
+                    mon_layout.setVisibility(View.VISIBLE);
+                    mon_closs_txt.setVisibility(View.GONE);
+                    mon_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    mon_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    mon=0;
+                    mon_toggle_img.setImageResource(R.drawable.toggle_off);
+                    mon_layout.setVisibility(View.GONE);
+                    mon_closs_txt.setVisibility(View.VISIBLE);
+                    mon_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    mon_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+            else  if(k==2){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    tue=1;
+                    tue_toggle_img.setImageResource(R.drawable.toggle_on);
+                    tue_layout.setVisibility(View.VISIBLE);
+                    tue_closs_txt.setVisibility(View.GONE);
+                    tue_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    tue_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    tue=0;
+                    tue_toggle_img.setImageResource(R.drawable.toggle_off);
+                    tue_layout.setVisibility(View.GONE);
+                    tue_closs_txt.setVisibility(View.VISIBLE);
+                    tue_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    tue_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+            else  if(k==3){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    wed=1;
+                    wed_toggle_img.setImageResource(R.drawable.toggle_on);
+                    wed_layout.setVisibility(View.VISIBLE);
+                    wed_closs_txt.setVisibility(View.GONE);
+                    wed_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    wed_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    wed=0;
+                    wed_toggle_img.setImageResource(R.drawable.toggle_off);
+                    wed_layout.setVisibility(View.GONE);
+                    wed_closs_txt.setVisibility(View.VISIBLE);
+                    wed_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    wed_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+            else  if(k==4){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    thu=1;
+                    thu_toggle_img.setImageResource(R.drawable.toggle_on);
+                    thu_layout.setVisibility(View.VISIBLE);
+                    thu_closs_txt.setVisibility(View.GONE);
+                    thu_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    thu_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    thu=0;
+                    thu_toggle_img.setImageResource(R.drawable.toggle_off);
+                    thu_layout.setVisibility(View.GONE);
+                    thu_closs_txt.setVisibility(View.VISIBLE);
+                    thu_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    thu_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+            else  if(k==5){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    fri=1;
+                    fri_toggle_img.setImageResource(R.drawable.toggle_on);
+                    fri_layout.setVisibility(View.VISIBLE);
+                    fri_closs_txt.setVisibility(View.GONE);
+                    fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    fri=0;
+                    fri_toggle_img.setImageResource(R.drawable.toggle_off);
+                    fri_layout.setVisibility(View.GONE);
+                    fri_closs_txt.setVisibility(View.VISIBLE);
+                    fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+            else  if(k==6){
+                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
+                    sat=1;
+                    sat_toggle_img.setImageResource(R.drawable.toggle_on);
+                    sat_layout.setVisibility(View.VISIBLE);
+                    sat_closs_txt.setVisibility(View.GONE);
+                    sat_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    sat_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }else{
+                    sat=0;
+                    sat_toggle_img.setImageResource(R.drawable.toggle_off);
+                    sat_layout.setVisibility(View.GONE);
+                    sat_closs_txt.setVisibility(View.VISIBLE);
+                    sat_openning.setText(list.get(k).get(GlobalConstant.opening_time));
+                    sat_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                }
+            }
+
+        }
+
+    }
 }

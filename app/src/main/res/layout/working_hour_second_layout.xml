@@ -92,7 +92,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -101,6 +101,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
 
                             android:layout_weight="1"
                             android:orientation="horizontal">
@@ -115,8 +116,8 @@
 
                             <ImageView
                                 android:id="@+id/sun_toggle_img"
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
@@ -127,17 +128,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:layout_gravity="center_vertical"
+                            android:visibility="gone"
+                           >
 
                             <TextView
                                 android:id="@+id/sun_openning"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -157,14 +160,15 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
+
                         <TextView
                             android:id="@+id/sun_closs_txt"
                             android:layout_width="0dp"
@@ -175,13 +179,14 @@
                             android:text="Clossed"
                             android:textColor="#000"
                             android:textSize="12sp"
+
                             />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -191,6 +196,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -204,8 +211,8 @@
                             <ImageView
                                 android:id="@+id/mon_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
@@ -229,6 +236,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+
                             android:visibility="gone">
 
                             <TextView
@@ -237,10 +246,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -260,10 +269,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -272,7 +281,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -282,6 +291,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -295,8 +306,8 @@
                             <ImageView
                                 android:id="@+id/tue_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
@@ -319,6 +330,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -328,10 +341,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -351,10 +364,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -363,7 +376,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -373,6 +386,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -386,8 +401,8 @@
                             <ImageView
                                 android:id="@+id/wed_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
@@ -410,6 +425,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="horizontal"
+                            android:layout_gravity="center_vertical"
+
                             android:visibility="gone">
 
                             <TextView
@@ -418,10 +435,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -441,10 +458,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -453,7 +470,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -463,6 +480,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -476,8 +495,8 @@
                             <ImageView
                                 android:id="@+id/thu_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp" />
@@ -500,6 +519,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -509,10 +530,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -532,10 +553,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -544,7 +565,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -554,6 +575,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -567,8 +590,8 @@
                             <ImageView
                                 android:id="@+id/fri_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
                                 android:textSize="12sp"
@@ -592,6 +615,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -601,10 +626,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -624,10 +649,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -636,7 +661,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -646,6 +671,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal">
 
                             <TextView
@@ -660,8 +687,8 @@
                             <ImageView
                                 android:id="@+id/sat_toggle_img"
 
-                                android:layout_width="35dp"
-                                android:layout_height="25dp"
+                                android:layout_width="45dp"
+                                android:layout_height="35dp"
 
                                 android:src="@drawable/toggle_off"
 
@@ -684,6 +711,8 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -693,10 +722,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="9:00 AM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -716,10 +745,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/inc_and_dec_back"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="3dp"
-                                android:paddingBottom="3dp"
+                                android:paddingLeft="7dp"
+                                android:paddingRight="7dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
                                 android:text="6:30 PM"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
