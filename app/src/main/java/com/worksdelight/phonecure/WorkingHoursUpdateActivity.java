@@ -58,7 +58,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     ImageView sun_toggle_img, mon_toggle_img, tue_toggle_img, wed_toggle_img, thu_toggle_img, fri_toggle_img, sat_toggle_img;
     int sun = 0, mon = 0, tue = 0, wed = 0, thu = 0, fri = 0, sat = 0, p = 0, d = 0, pos;
     ImageView pickUp_img, dropoff_img;
-    TextView submit_txt, time_txt;
+    TextView submit_txt,  time_txt_open,time_txt_closs;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
     TimePickerDialog timePickerDialog;
@@ -70,7 +70,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     String message;
     Dialog dialog2;
     String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
-
+int o=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,14 +81,14 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
         }
 
         init();
-        for (int i = 0; i < 7; i++) {
+       /* for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
             map.put(GlobalConstant.day, daysNAme[i]);
             map.put(GlobalConstant.opening_time, "9:00 AM");
             map.put(GlobalConstant.closing_time, "6:30 PM");
             map.put(GlobalConstant.status, "clossed");
             list.add(map);
-        }
+        }*/
         dialogWindow();
         profileMethod();
     }
@@ -192,9 +192,10 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
 
     }
 
-    public void timePicker(TextView time_txt) {
+    public void timePickerOpen(TextView time_txt_open) {
         // Get Current Time
-        this.time_txt = time_txt;
+        o = 0;
+        this.time_txt_open = time_txt_open;
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -204,6 +205,24 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                 this, mHour, mMinute, false);
 
         timePickerDialog.show();
+
+
+    }
+
+    public void timePickerClose(TextView time_txt_closs) {
+        // Get Current Time
+        o = 1;
+        this.time_txt_closs = time_txt_closs;
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        // Launch Time Picker Dialog
+        timePickerDialog = new TimePickerDialog(this,
+                this, mHour, mMinute, false);
+
+        timePickerDialog.show();
+
     }
 
     private String getTime(int hr, int min) {
@@ -215,10 +234,19 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-
-        time_txt.setText(getTime(hourOfDay, minute));
+        if (o == 0) {
+            Log.e("postion value",String.valueOf(pos));
+            time_txt_open.setText(getTime(hourOfDay, minute));
+            list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
+        } else {
+            Log.e("postion value",String.valueOf(pos));
+            time_txt_closs.setText(getTime(hourOfDay, minute));
+            list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
+        }
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -231,15 +259,15 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sun_closs_txt.setVisibility(View.GONE);
                     sun_layout.setVisibility(View.VISIBLE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "sunday";
+
                     updateData("open", sun_openning.getText().toString(), sun_clossing.getText().toString());
                 } else {
                     sun = 0;
                     sun_closs_txt.setVisibility(View.VISIBLE);
                     sun_layout.setVisibility(View.GONE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
 
                 }
                 break;
@@ -251,7 +279,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     mon_closs_txt.setVisibility(View.GONE);
                     mon_layout.setVisibility(View.VISIBLE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "monday";
+
                     updateData("open", mon_openning.getText().toString(), mon_clossing.getText().toString());
 
                 } else {
@@ -259,8 +287,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     mon_closs_txt.setVisibility(View.VISIBLE);
                     mon_layout.setVisibility(View.GONE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
 
 
                 }
@@ -273,7 +301,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     tue_closs_txt.setVisibility(View.GONE);
                     tue_layout.setVisibility(View.VISIBLE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "tuesday";
+
                     updateData("open", tue_openning.getText().toString(), tue_clossing.getText().toString());
 
                 } else {
@@ -281,8 +309,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     tue_closs_txt.setVisibility(View.VISIBLE);
                     tue_layout.setVisibility(View.GONE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.wed_toggle_img:
@@ -293,7 +320,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     wed_closs_txt.setVisibility(View.GONE);
                     wed_layout.setVisibility(View.VISIBLE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "wednesday";
+
                     updateData("open", wed_openning.getText().toString(), wed_clossing.getText().toString());
 
                 } else {
@@ -301,8 +328,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     wed_closs_txt.setVisibility(View.VISIBLE);
                     wed_layout.setVisibility(View.GONE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.thu_toggle_img:
@@ -313,7 +340,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     thu_closs_txt.setVisibility(View.GONE);
                     thu_layout.setVisibility(View.VISIBLE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "thursday";
+
                     updateData("open", thu_openning.getText().toString(), thu_clossing.getText().toString());
 
                 } else {
@@ -321,8 +348,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     thu_closs_txt.setVisibility(View.VISIBLE);
                     thu_layout.setVisibility(View.GONE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.fri_toggle_img:
@@ -333,7 +360,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     fri_closs_txt.setVisibility(View.GONE);
                     fri_layout.setVisibility(View.VISIBLE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "friday";
+
                     updateData("open", fri_openning.getText().toString(), fri_clossing.getText().toString());
 
                 } else {
@@ -341,8 +368,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     fri_closs_txt.setVisibility(View.VISIBLE);
                     fri_layout.setVisibility(View.GONE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.sat_toggle_img:
@@ -353,7 +379,6 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sat_closs_txt.setVisibility(View.GONE);
                     sat_layout.setVisibility(View.VISIBLE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "saturday";
                     updateData("open", sat_openning.getText().toString(), sat_clossing.getText().toString());
 
                 } else {
@@ -361,8 +386,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sat_closs_txt.setVisibility(View.VISIBLE);
                     sat_layout.setVisibility(View.GONE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.pickUp_img:
@@ -391,57 +415,81 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                 Log.e("time value", list.toString());
                 break;
             case R.id.sun_openning:
-                timePicker(sun_openning);
+                pos = 0;
+                timePickerOpen(sun_openning);
                 break;
             case R.id.sun_clossing:
-                timePicker(sun_clossing);
+                pos = 0;
+                timePickerClose(sun_clossing);
                 break;
             case R.id.mon_openning:
-                timePicker(mon_openning);
+                pos = 1;
+                timePickerOpen(mon_openning);
                 break;
             case R.id.mon_clossing:
-                timePicker(mon_clossing);
+                pos = 1;
+                timePickerClose(mon_clossing);
                 break;
 
             case R.id.tue_openning:
-                timePicker(tue_openning);
+                pos = 2;
+                timePickerOpen(tue_openning);
+
                 break;
             case R.id.tue_clossing:
-                timePicker(tue_clossing);
+                pos = 2;
+                timePickerClose(tue_clossing);
+
                 break;
 
             case R.id.wed_openning:
-                timePicker(wed_openning);
+                pos = 3;
+                timePickerOpen(wed_openning);
+
                 break;
             case R.id.wed_clossing:
-                timePicker(wed_clossing);
+                pos = 3;
+                timePickerClose(wed_clossing);
+
                 break;
 
             case R.id.thu_openning:
-                timePicker(thu_openning);
+                pos = 4;
+                timePickerOpen(thu_openning);
                 break;
             case R.id.thu_clossing:
-                timePicker(thu_clossing);
+                pos = 4;
+                timePickerClose(thu_clossing);
                 break;
 
             case R.id.fri_openning:
-                timePicker(fri_openning);
+                pos = 5;
+                timePickerOpen(fri_openning);
+
                 break;
             case R.id.fri_clossing:
-                timePicker(fri_clossing);
+                pos = 5;
+                timePickerClose(fri_clossing);
+
                 break;
             case R.id.sat_openning:
-                timePicker(sat_openning);
+                pos = 6;
+                timePickerOpen(sat_openning);
+
+
                 break;
             case R.id.sat_clossing:
-                timePicker(sat_clossing);
+                pos = 6;
+                timePickerClose(sat_clossing);
+
+
                 break;
         }
     }
 
     public void updateData(String status, String openning, String clossing) {
 
-        list.get(pos).put(GlobalConstant.day, day);
+
         list.get(pos).put(GlobalConstant.status, status);
         list.get(pos).put(GlobalConstant.opening_time, openning);
         list.get(pos).put(GlobalConstant.closing_time, clossing);
@@ -515,13 +563,14 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
 
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
-                        JSONObject installedPackage = new JSONObject();
-                        installedPackage.put(GlobalConstant.day, list.get(i).get(GlobalConstant.day));
-                        installedPackage.put(GlobalConstant.opening_time, list.get(i).get(GlobalConstant.opening_time));
-                        installedPackage.put(GlobalConstant.closing_time, list.get(i).get(GlobalConstant.closing_time));
-                        installedList.put(installedPackage);
-                    }
+
+                    JSONObject installedPackage = new JSONObject();
+                    installedPackage.put(GlobalConstant.day, list.get(i).get(GlobalConstant.day));
+                    installedPackage.put(GlobalConstant.opening_time, list.get(i).get(GlobalConstant.opening_time));
+                    installedPackage.put(GlobalConstant.closing_time, list.get(i).get(GlobalConstant.closing_time));
+                    installedPackage.put(GlobalConstant.status, list.get(i).get(GlobalConstant.status));
+                    installedList.put(installedPackage);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -579,9 +628,9 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     private void profileMethod() {
 
 // Request a string response from the provided URL.
-        String profileUrl= GlobalConstant.PROFILE_URL + "?id=" + CommonUtils.UserID(WorkingHoursUpdateActivity.this);
-        Log.e("profile url",profileUrl);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,profileUrl,
+        String profileUrl = GlobalConstant.PROFILE_URL + "?id=" + CommonUtils.UserID(WorkingHoursUpdateActivity.this);
+        Log.e("profile url", profileUrl);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, profileUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -611,18 +660,31 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                                     d = 0;
                                 }
                                 JSONArray availability = data.getJSONArray(GlobalConstant.availability);
-                                for (int i = 0; i < availability.length(); i++) {
-                                    JSONObject availObj = availability.getJSONObject(i);
-                                    for (int j = 0; j < list.size(); j++) {
-                                        if (list.get(j).get(GlobalConstant.day).equalsIgnoreCase(availObj.getString(GlobalConstant.day))) {
-                                            list.get(j).put(GlobalConstant.opening_time,availObj.getString(GlobalConstant.opening_time));
-                                            list.get(j).put(GlobalConstant.closing_time,availObj.getString(GlobalConstant.closing_time));
-                                            list.get(j).put(GlobalConstant.status,"open");
-                                        }
+                                if (availability.length() == 0) {
+                                    for (int i = 0; i < 7; i++) {
+                                        HashMap<String, String> map = new HashMap<>();
+                                        map.put(GlobalConstant.day, daysNAme[i]);
+                                        map.put(GlobalConstant.opening_time, "");
+                                        map.put(GlobalConstant.closing_time, "");
+                                        map.put(GlobalConstant.status, "closed");
+                                        list.add(map);
                                     }
+                                } else {
+                                    for (int i = 0; i < availability.length(); i++) {
+                                        JSONObject availObj = availability.getJSONObject(i);
+                                        HashMap<String, String> map = new HashMap<>();
+                                        map.put(GlobalConstant.day, availObj.getString(GlobalConstant.day));
+                                        map.put(GlobalConstant.opening_time, availObj.getString(GlobalConstant.opening_time));
+                                        map.put(GlobalConstant.closing_time, availObj.getString(GlobalConstant.closing_time));
+                                        map.put(GlobalConstant.status, availObj.getString(GlobalConstant.status));
+                                        list.add(map);
+
+                                    }
+                                    showValue();
+
                                 }
-                                showValue();
-                                Log.e("list value",list.toString());
+
+                                Log.e("list value", list.toString());
                             } else {
                                 Toast.makeText(WorkingHoursUpdateActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -645,18 +707,19 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-    public void showValue(){
-        for (int k=0;k<list.size();k++){
-            if(k==0){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    sun=1;
+
+    public void showValue() {
+        for (int k = 0; k < list.size(); k++) {
+            if (k == 0) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    sun = 1;
                     sun_toggle_img.setImageResource(R.drawable.toggle_on);
                     sun_layout.setVisibility(View.VISIBLE);
                     sun_closs_txt.setVisibility(View.GONE);
                     sun_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     sun_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    sun=0;
+                } else {
+                    sun = 0;
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
                     sun_layout.setVisibility(View.GONE);
                     sun_closs_txt.setVisibility(View.VISIBLE);
@@ -664,101 +727,96 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sun_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
 
-            }else  if(k==1){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    mon=1;
+            } else if (k == 1) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    mon = 1;
                     mon_toggle_img.setImageResource(R.drawable.toggle_on);
                     mon_layout.setVisibility(View.VISIBLE);
                     mon_closs_txt.setVisibility(View.GONE);
                     mon_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     mon_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    mon=0;
+                } else {
+                    mon = 0;
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
                     mon_layout.setVisibility(View.GONE);
                     mon_closs_txt.setVisibility(View.VISIBLE);
                     mon_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     mon_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
-            }
-            else  if(k==2){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    tue=1;
+            } else if (k == 2) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    tue = 1;
                     tue_toggle_img.setImageResource(R.drawable.toggle_on);
                     tue_layout.setVisibility(View.VISIBLE);
                     tue_closs_txt.setVisibility(View.GONE);
                     tue_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     tue_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    tue=0;
+                } else {
+                    tue = 0;
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
                     tue_layout.setVisibility(View.GONE);
                     tue_closs_txt.setVisibility(View.VISIBLE);
                     tue_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     tue_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
-            }
-            else  if(k==3){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    wed=1;
+            } else if (k == 3) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    wed = 1;
                     wed_toggle_img.setImageResource(R.drawable.toggle_on);
                     wed_layout.setVisibility(View.VISIBLE);
                     wed_closs_txt.setVisibility(View.GONE);
                     wed_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     wed_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    wed=0;
+                } else {
+                    wed = 0;
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
                     wed_layout.setVisibility(View.GONE);
                     wed_closs_txt.setVisibility(View.VISIBLE);
                     wed_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     wed_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
-            }
-            else  if(k==4){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    thu=1;
+            } else if (k == 4) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    thu = 1;
                     thu_toggle_img.setImageResource(R.drawable.toggle_on);
                     thu_layout.setVisibility(View.VISIBLE);
                     thu_closs_txt.setVisibility(View.GONE);
                     thu_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     thu_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    thu=0;
+                } else {
+                    thu = 0;
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
                     thu_layout.setVisibility(View.GONE);
                     thu_closs_txt.setVisibility(View.VISIBLE);
                     thu_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     thu_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
-            }
-            else  if(k==5){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    fri=1;
+            } else if (k == 5) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    fri = 1;
                     fri_toggle_img.setImageResource(R.drawable.toggle_on);
                     fri_layout.setVisibility(View.VISIBLE);
                     fri_closs_txt.setVisibility(View.GONE);
                     fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    fri=0;
+                } else {
+                    fri = 0;
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
                     fri_layout.setVisibility(View.GONE);
                     fri_closs_txt.setVisibility(View.VISIBLE);
                     fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
                 }
-            }
-            else  if(k==6){
-                if(list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")){
-                    sat=1;
+            } else if (k == 6) {
+                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    sat = 1;
                     sat_toggle_img.setImageResource(R.drawable.toggle_on);
                     sat_layout.setVisibility(View.VISIBLE);
                     sat_closs_txt.setVisibility(View.GONE);
                     sat_openning.setText(list.get(k).get(GlobalConstant.opening_time));
                     sat_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
-                }else{
-                    sat=0;
+                } else {
+                    sat = 0;
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
                     sat_layout.setVisibility(View.GONE);
                     sat_closs_txt.setVisibility(View.VISIBLE);

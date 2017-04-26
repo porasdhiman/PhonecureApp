@@ -51,7 +51,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     ImageView sun_toggle_img, mon_toggle_img, tue_toggle_img, wed_toggle_img, thu_toggle_img, fri_toggle_img, sat_toggle_img;
     int sun = 0, mon = 0, tue = 0, wed = 0, thu = 0, fri = 0, sat = 0, p = 0, d = 0, pos;
     ImageView pickUp_img, dropoff_img;
-    TextView submit_txt, time_txt;
+    TextView submit_txt, time_txt_open,time_txt_closs;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
     TimePickerDialog timePickerDialog;
@@ -62,6 +62,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     HttpEntity resEntity;
     String message;
     Dialog dialog2;
+    String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+    int o = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +76,10 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(GlobalConstant.day, "");
+            map.put(GlobalConstant.day, daysNAme[i]);
             map.put(GlobalConstant.opening_time, "");
             map.put(GlobalConstant.closing_time, "");
-            map.put(GlobalConstant.status, "clossed");
+            map.put(GlobalConstant.status, "closed");
             list.add(map);
         }
     }
@@ -180,9 +182,10 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
 
     }
 
-    public void timePicker(TextView time_txt) {
+    public void timePickerOpen(TextView time_txt_open) {
         // Get Current Time
-        this.time_txt = time_txt;
+        o = 0;
+        this.time_txt_open = time_txt_open;
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
@@ -192,6 +195,24 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 this, mHour, mMinute, false);
 
         timePickerDialog.show();
+
+
+    }
+
+    public void timePickerClose(TextView time_txt_closs) {
+        // Get Current Time
+        o = 1;
+        this.time_txt_closs = time_txt_closs;
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        // Launch Time Picker Dialog
+        timePickerDialog = new TimePickerDialog(this,
+                this, mHour, mMinute, false);
+
+        timePickerDialog.show();
+
     }
 
     private String getTime(int hr, int min) {
@@ -203,8 +224,15 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-
-        time_txt.setText(getTime(hourOfDay, minute));
+        if (o == 0) {
+            Log.e("postion value",String.valueOf(pos));
+            time_txt_open.setText(getTime(hourOfDay, minute));
+            list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
+        } else {
+            Log.e("postion value",String.valueOf(pos));
+            time_txt_closs.setText(getTime(hourOfDay, minute));
+            list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
+        }
 
     }
 
@@ -219,15 +247,15 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     sun_closs_txt.setVisibility(View.GONE);
                     sun_layout.setVisibility(View.VISIBLE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "sunday";
+
                     updateData("open", sun_openning.getText().toString(), sun_clossing.getText().toString());
                 } else {
                     sun = 0;
                     sun_closs_txt.setVisibility(View.VISIBLE);
                     sun_layout.setVisibility(View.GONE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
 
                 }
                 break;
@@ -239,7 +267,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     mon_closs_txt.setVisibility(View.GONE);
                     mon_layout.setVisibility(View.VISIBLE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "monday";
+
                     updateData("open", mon_openning.getText().toString(), mon_clossing.getText().toString());
 
                 } else {
@@ -247,8 +275,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     mon_closs_txt.setVisibility(View.VISIBLE);
                     mon_layout.setVisibility(View.GONE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
 
 
                 }
@@ -261,7 +289,6 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     tue_closs_txt.setVisibility(View.GONE);
                     tue_layout.setVisibility(View.VISIBLE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "tuesday";
                     updateData("open", tue_openning.getText().toString(), tue_clossing.getText().toString());
 
                 } else {
@@ -269,8 +296,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     tue_closs_txt.setVisibility(View.VISIBLE);
                     tue_layout.setVisibility(View.GONE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.wed_toggle_img:
@@ -281,7 +307,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     wed_closs_txt.setVisibility(View.GONE);
                     wed_layout.setVisibility(View.VISIBLE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "wednesday";
+
                     updateData("open", wed_openning.getText().toString(), wed_clossing.getText().toString());
 
                 } else {
@@ -289,8 +315,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     wed_closs_txt.setVisibility(View.VISIBLE);
                     wed_layout.setVisibility(View.GONE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.thu_toggle_img:
@@ -301,7 +327,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     thu_closs_txt.setVisibility(View.GONE);
                     thu_layout.setVisibility(View.VISIBLE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "thursday";
+
                     updateData("open", thu_openning.getText().toString(), thu_clossing.getText().toString());
 
                 } else {
@@ -309,8 +335,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     thu_closs_txt.setVisibility(View.VISIBLE);
                     thu_layout.setVisibility(View.GONE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.fri_toggle_img:
@@ -321,7 +346,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     fri_closs_txt.setVisibility(View.GONE);
                     fri_layout.setVisibility(View.VISIBLE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "friday";
+
                     updateData("open", fri_openning.getText().toString(), fri_clossing.getText().toString());
 
                 } else {
@@ -329,8 +354,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     fri_closs_txt.setVisibility(View.VISIBLE);
                     fri_layout.setVisibility(View.GONE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.sat_toggle_img:
@@ -341,7 +366,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     sat_closs_txt.setVisibility(View.GONE);
                     sat_layout.setVisibility(View.VISIBLE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_on);
-                    day = "saturday";
+
                     updateData("open", sat_openning.getText().toString(), sat_clossing.getText().toString());
 
                 } else {
@@ -349,8 +374,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                     sat_closs_txt.setVisibility(View.VISIBLE);
                     sat_layout.setVisibility(View.GONE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
-                    day = "";
-                    updateData("clossed", "", "");
+
+                    updateData("closed", "", "");
                 }
                 break;
             case R.id.pickUp_img:
@@ -379,57 +404,81 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 Log.e("time value", list.toString());
                 break;
             case R.id.sun_openning:
-                timePicker(sun_openning);
+                pos = 0;
+                timePickerOpen(sun_openning);
                 break;
             case R.id.sun_clossing:
-                timePicker(sun_clossing);
+                pos = 0;
+                timePickerClose(sun_clossing);
                 break;
             case R.id.mon_openning:
-                timePicker(mon_openning);
+                pos = 1;
+                timePickerOpen(mon_openning);
                 break;
             case R.id.mon_clossing:
-                timePicker(mon_clossing);
+                pos = 1;
+                timePickerClose(mon_clossing);
                 break;
 
             case R.id.tue_openning:
-                timePicker(tue_openning);
+                pos = 2;
+                timePickerOpen(tue_openning);
+
                 break;
             case R.id.tue_clossing:
-                timePicker(tue_clossing);
+                pos = 2;
+                timePickerClose(tue_clossing);
+
                 break;
 
             case R.id.wed_openning:
-                timePicker(wed_openning);
+                pos = 3;
+                timePickerOpen(wed_openning);
+
                 break;
             case R.id.wed_clossing:
-                timePicker(wed_clossing);
+                pos = 3;
+                timePickerClose(wed_clossing);
+
                 break;
 
             case R.id.thu_openning:
-                timePicker(thu_openning);
+                pos = 4;
+                timePickerOpen(thu_openning);
                 break;
             case R.id.thu_clossing:
-                timePicker(thu_clossing);
+                pos = 4;
+                timePickerClose(thu_clossing);
                 break;
 
             case R.id.fri_openning:
-                timePicker(fri_openning);
+                pos = 5;
+                timePickerOpen(fri_openning);
+
                 break;
             case R.id.fri_clossing:
-                timePicker(fri_clossing);
+                pos = 5;
+                timePickerClose(fri_clossing);
+
                 break;
             case R.id.sat_openning:
-                timePicker(sat_openning);
+                pos = 6;
+                timePickerOpen(sat_openning);
+
+
                 break;
             case R.id.sat_clossing:
-                timePicker(sat_clossing);
+                pos = 6;
+                timePickerClose(sat_clossing);
+
+
                 break;
         }
     }
 
     public void updateData(String status, String openning, String clossing) {
 
-        list.get(pos).put(GlobalConstant.day, day);
+
         list.get(pos).put(GlobalConstant.status, status);
         list.get(pos).put(GlobalConstant.opening_time, openning);
         list.get(pos).put(GlobalConstant.closing_time, clossing);
@@ -503,13 +552,14 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
 
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
-                        JSONObject installedPackage = new JSONObject();
-                        installedPackage.put(GlobalConstant.day, list.get(i).get(GlobalConstant.day));
-                        installedPackage.put(GlobalConstant.opening_time, list.get(i).get(GlobalConstant.opening_time));
-                        installedPackage.put(GlobalConstant.closing_time, list.get(i).get(GlobalConstant.closing_time));
-                        installedList.put(installedPackage);
-                    }
+
+                    JSONObject installedPackage = new JSONObject();
+                    installedPackage.put(GlobalConstant.day, list.get(i).get(GlobalConstant.day));
+                    installedPackage.put(GlobalConstant.opening_time, list.get(i).get(GlobalConstant.opening_time));
+                    installedPackage.put(GlobalConstant.closing_time, list.get(i).get(GlobalConstant.closing_time));
+                    installedPackage.put(GlobalConstant.status, list.get(i).get(GlobalConstant.status));
+                    installedList.put(installedPackage);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

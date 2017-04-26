@@ -425,6 +425,7 @@ public class AlmostdoneActivity extends Activity {
                                 ed.putString("phone", phone_ed.getText().toString());
                                 ed.commit();
                                 global.setDateList(null);
+
                                 profileMethod();
 
                             } else {
@@ -442,7 +443,7 @@ public class AlmostdoneActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 dialog2.dismiss();
-                Toast.makeText(AlmostdoneActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+Log.e("error",error.toString());
 
 
             }
