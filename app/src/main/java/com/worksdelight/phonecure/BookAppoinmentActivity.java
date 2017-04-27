@@ -233,7 +233,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                     Toast.makeText(BookAppoinmentActivity.this, "Please select time", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
-                    i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                   // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     i.putExtra("pos", String.valueOf(pos));
                     startActivity(i);
                 }

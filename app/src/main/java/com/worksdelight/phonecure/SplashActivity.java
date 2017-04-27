@@ -45,8 +45,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by worksdelight on 23/03/17.
  */
 
-public class SplashActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
-         {
+public class SplashActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     // --------------code for gcm
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
@@ -59,7 +58,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
     Context context;
     String TAG = "Device Token Log";
     Global global;
-             AlertDialog alert;
+    AlertDialog alert;
 //--------------Location lat long variable---------
 
     private Location mLastLocation, myLocation;
@@ -72,7 +71,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
-             SharedPreferences sp;
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +81,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        sp=getSharedPreferences(GlobalConstant.PREF_NAME,Context.MODE_PRIVATE);
-        global=(Global)getApplicationContext();
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        global = (Global) getApplicationContext();
         buildGoogleApiClient();
         //----------Check play service---------------------------
         if (checkPlayServices()) {
@@ -97,7 +97,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             Log.e(TAG, "No valid Google Play Services APK found.");
         }
 
-global.setLat("30.701990");
+        global.setLat("30.701990");
         global.setLong("76.682625");
         //-----------------Permission value----------------------
         String locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -143,7 +143,7 @@ global.setLat("30.701990");
 
             } else {
 
-                if(checkGPSStatus()){
+                if (checkGPSStatus()) {
 
                     locatioMethod();
                     Handler splashhandler = new Handler();
@@ -160,13 +160,13 @@ global.setLat("30.701990");
 
                                 finish();
                             } else {
-                                if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                                if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
                                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                     finish();
-                                }else{
+                                } else {
                                     Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -185,7 +185,7 @@ global.setLat("30.701990");
                 //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
             }
         } else {
-            if(checkGPSStatus()) {
+            if (checkGPSStatus()) {
                 global.setDeviceName(getDeviceName());
                 Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
                 Handler splashhandler = new Handler();
@@ -202,13 +202,13 @@ global.setLat("30.701990");
 
                             finish();
                         } else {
-                            if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                            if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
                                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                 finish();
-                            }else{
+                            } else {
                                 Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -224,6 +224,7 @@ global.setLat("30.701990");
 
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -250,7 +251,7 @@ global.setLat("30.701990");
                         perms.get(android.Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED &&
                         perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
-                    if(checkGPSStatus()) {
+                    if (checkGPSStatus()) {
                         global.setDeviceName(getDeviceName());
                         Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
                         locatioMethod();
@@ -268,13 +269,13 @@ global.setLat("30.701990");
 
                                     finish();
                                 } else {
-                                    if(sp.getString(GlobalConstant.type,"technician").equalsIgnoreCase("user")) {
+                                    if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
                                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                         finish();
-                                    }else{
+                                    } else {
                                         Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -426,6 +427,7 @@ global.setLat("30.701990");
         return true;
 
     }
+
     //-------device info---------------
     public String getDeviceName() {
 
@@ -438,6 +440,7 @@ global.setLat("30.701990");
             return capitalize(manufacturer) + " " + model;
         }
     }
+
     private String getAndroidVersion() {
         return android.os.Build.VERSION.RELEASE;
     }
@@ -465,6 +468,7 @@ global.setLat("30.701990");
         }
         return deviceId;
     }
+
     //---------------------------Location lat long method-----------------
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -474,84 +478,84 @@ global.setLat("30.701990");
                 .build();
 
     }
-             public boolean checkGPSStatus() {
-                 LocationManager locationManager = null;
-                 boolean gps_enabled = false;
-                 boolean network_enabled = false;
-                 if (locationManager == null) {
-                     locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                 }
-                 try {
-                     gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                 } catch (Exception ex) {
-                 }
-                 try {
-                     network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                 } catch (Exception ex) {
-                 }
-                 if (!gps_enabled && !network_enabled) {
-                     AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
-                     dialog.setMessage("Your Location Services are not enabled for PhoneCure");
-                     dialog.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
 
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             //this will navigate user to the device location settings screen
-                             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                             startActivityForResult(intent, 0);
-                         }
-                     });
-                     dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             alert.dismiss();
-                         }
-                     });
-                     alert = dialog.create();
-                     alert.show();
-                 }
-                 else{
+    public boolean checkGPSStatus() {
+        LocationManager locationManager = null;
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+        if (locationManager == null) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        }
+        try {
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+        try {
+            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+        if (!gps_enabled && !network_enabled) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
+            dialog.setMessage("Your Location Services are not enabled for PhoneCure");
+            dialog.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
 
-                 }
-                 return gps_enabled && network_enabled;
-             }
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //this will navigate user to the device location settings screen
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent, 0);
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alert.dismiss();
+                }
+            });
+            alert = dialog.create();
+            alert.show();
+        } else {
 
-             @Override
-             protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-                 super.onActivityResult(requestCode, resultCode, data);
-                 if(requestCode==0){
-                     locatioMethod();
-                     global.setDeviceName(getDeviceName());
-                     Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                     locatioMethod();
-                     Handler splashhandler = new Handler();
-                     splashhandler.postDelayed(new Runnable() {
-                         @Override
-                         public void run() {
+        }
+        return gps_enabled && network_enabled;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            locatioMethod();
+            global.setDeviceName(getDeviceName());
+            Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+            locatioMethod();
+            Handler splashhandler = new Handler();
+            splashhandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
 
-                             if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+                    if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                                 startActivity(intent);
-                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                 finish();
-                             } else {
-                                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                 startActivity(intent);
-                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                 finish();
-                             }
-                         }
-                     }, 1000);
-                 }else{
+                        finish();
+                    }
+                }
+            }, 1000);
+        } else {
 
-                 }
-             }
+        }
+    }
 
-             @Override
+    @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
@@ -583,7 +587,7 @@ global.setLat("30.701990");
             // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             global.setLat(String.valueOf(mLastLocation.getLatitude()));
             global.setLong(String.valueOf(mLastLocation.getLongitude()));
-            Log.e("lat long",global.getLat()+" "+global.getLong());
+            Log.e("lat long", global.getLat() + " " + global.getLong());
 
 
         } else {
@@ -591,7 +595,6 @@ global.setLat("30.701990");
 
         }
     }
-
 
 
     @Override
@@ -621,7 +624,7 @@ global.setLat("30.701990");
             // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
             global.setLat(String.valueOf(mLastLocation.getLatitude()));
             global.setLong(String.valueOf(mLastLocation.getLongitude()));
-            Log.e("lat long",global.getLat()+" "+global.getLong());
+            Log.e("lat long", global.getLat() + " " + global.getLong());
 
 
         } else {

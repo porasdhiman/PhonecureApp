@@ -75,12 +75,13 @@
                     android:layout_centerVertical="true"
 android:layout_marginLeft="3dp"
                     android:layout_toRightOf="@+id/user_view"
-                    android:text="14 april, 2017"
+                    android:text=""
                     android:textColor="@color/main_color"
                     android:textSize="@dimen/main_txt" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/price_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -104,7 +105,19 @@ android:layout_marginLeft="3dp"
             </LinearLayout>
 
 
+            <TextView
+                android:id="@+id/status_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/price_layout"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/name"
+                android:gravity="right"
 
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/main_txt" />
 
         </RelativeLayout>
 

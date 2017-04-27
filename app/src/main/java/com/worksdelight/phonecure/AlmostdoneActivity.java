@@ -44,8 +44,6 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -361,14 +359,13 @@ public class AlmostdoneActivity extends Activity {
             params.put(GlobalConstant.payment_method_nonce, payment_method_nonce);
             JSONArray installedList = new JSONArray();
 //ArrayList<HashMap<String,String>> installedList=new ArrayList<>();
-            if (getIntent().getExtras().getString("selected_id").contains(",")) {
-                ArrayList<String> selectList = new ArrayList<>(Arrays.asList(getIntent().getExtras().getString("selected_id").split(",")));
-                for (int i = 0; i < selectList.size(); i++) {
+
+                for (int i = 0; i < global.getNewListing().size(); i++) {
                     JSONObject installedPackage = new JSONObject();
 
                     // HashMap<String,String> installedPackage = new HashMap<>();
                     try {
-                        installedPackage.put(GlobalConstant.id, selectList.get(i));
+                        installedPackage.put(GlobalConstant.id, global.getNewListing().get(i).get(GlobalConstant.id));
                         installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(i).get(GlobalConstant.count));
                         installedPackage.put(GlobalConstant.price, global.getNewListing().get(i).get(GlobalConstant.price));
                         installedList.put(installedPackage);
@@ -379,24 +376,7 @@ public class AlmostdoneActivity extends Activity {
 
 
                 }
-            } else {
 
-
-                JSONObject installedPackage = new JSONObject();
-                //  HashMap<String,String> installedPackage = new HashMap<>();
-
-                try {
-                    installedPackage.put(GlobalConstant.id, getIntent().getExtras().getString("selected_id"));
-                    installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(0).get(GlobalConstant.count));
-                    installedPackage.put(GlobalConstant.price, global.getNewListing().get(0).get(GlobalConstant.price));
-                    installedList.put(installedPackage);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
             // String dataToSend = installedList.toString();
             params.put(GlobalConstant.booking_items, installedList);
             Log.e("params valye", params.toString());

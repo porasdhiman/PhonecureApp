@@ -82,7 +82,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // create menu items;
         itemHome = new ResideMenuItem(this, "Home");
         // drug = new ResideMenuItem(this, "Drug");
-        technicians = new ResideMenuItem(this, "Service");
+        technicians = new ResideMenuItem(this, "My orders");
         services = new ResideMenuItem(this, "Favorites");
         dashboard = new ResideMenuItem(this, "Privacy Policy");
         itemProfile = new ResideMenuItem(this, "Profile");

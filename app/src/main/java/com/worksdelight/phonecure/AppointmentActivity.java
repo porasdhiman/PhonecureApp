@@ -54,6 +54,7 @@ public class AppointmentActivity extends Activity {
     ScrollView main_scroll;
     Dialog dialog2;
 String booking_id;
+    String statusValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,10 +124,11 @@ String booking_id;
             }
 
         } else {
-            cancel_request_txt.setVisibility(View.VISIBLE);
+            //cancel_request_txt.setVisibility(View.VISIBLE);
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
+                statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(objUser.getString(GlobalConstant.name));
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
@@ -158,6 +160,11 @@ String booking_id;
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+            if(statusValue.equalsIgnoreCase("pending")){
+                cancel_request_txt.setVisibility(View.VISIBLE);
+            }else{
+                cancel_request_txt.setVisibility(View.GONE);
             }
         }
 

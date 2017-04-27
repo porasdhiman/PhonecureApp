@@ -3,10 +3,11 @@
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#f5f5f5"
+    android:orientation="vertical"
 
     >
+
     <LinearLayout
         android:id="@+id/setting_call_layout"
         android:layout_width="120dp"
@@ -17,10 +18,10 @@
         android:layout_marginBottom="2dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/delete_back"
-        android:orientation="vertical"
         android:gravity="center"
-        android:paddingTop="10dp"
+        android:orientation="vertical"
         android:paddingBottom="10dp"
+        android:paddingTop="10dp"
 
         >
 
@@ -30,122 +31,136 @@
             android:layout_height="30dp"
 
             android:src="@drawable/trash_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Completed"
+            android:text="Mark to Done"
             android:textColor="#fff"
-            android:textSize="@dimen/sab_txt"/>
+            android:textSize="@dimen/sab_txt" />
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/item_back"
-        android:padding="5dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true">
+            android:layout_height="90dp"
+            android:background="@drawable/item_back"
+            android:padding="5dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/tech_view"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/user_back" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
 
-            <!-- <ImageView
-                 android:id="@+id/dot_img"
-                 android:layout_width="25dp"
-                 android:layout_height="25dp"
-                 android:layout_marginLeft="40dp"
-                 android:src="@drawable/red_dot"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/tech_view"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user_back" />
 
-
-                 />-->
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/tech_view"
-                android:text=""
-                android:textColor="#000"
-                android:textSize="@dimen/header_txt" />
+                <!-- <ImageView
+                     android:id="@+id/dot_img"
+                     android:layout_width="25dp"
+                     android:layout_height="25dp"
+                     android:layout_marginLeft="40dp"
+                     android:src="@drawable/red_dot"
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/name"
-
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/tech_view"
-                android:orientation="horizontal">
-
-
+                     />-->
 
                 <TextView
-                    android:id="@+id/delivered_txt"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-
-                    android:layout_toRightOf="@+id/user_view"
-                    android:text="Deliverd date:"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="@dimen/main_txt" />
-                <TextView
-                    android:id="@+id/delivered_date_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="3dp"
-                    android:layout_toRightOf="@+id/user_view"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@+id/tech_view"
                     android:text=""
-                    android:textColor="@color/main_color"
-                    android:textSize="@dimen/main_txt" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal">
-
-
-
-                <TextView
-                    android:id="@+id/price_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/user_view"
-                    android:text=""
-                    android:textColor="@color/main_color"
+                    android:textColor="#000"
                     android:textSize="@dimen/header_txt" />
-            </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
 
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/tech_view"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/delivered_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+
+                        android:layout_toRightOf="@+id/user_view"
+                        android:text="Deliverd date:"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="@dimen/main_txt" />
+
+                    <TextView
+                        android:id="@+id/delivered_date_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="3dp"
+                        android:layout_toRightOf="@+id/user_view"
+                        android:text=""
+                        android:textColor="@color/main_color"
+                        android:textSize="@dimen/main_txt" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/price_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/price_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/user_view"
+                        android:text=""
+                        android:textColor="@color/main_color"
+                        android:textSize="@dimen/header_txt" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/status_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/price_layout"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/name"
+                    android:gravity="right"
+
+                    android:textColor="@color/main_color"
+                    android:textSize="@dimen/main_txt" />
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
-
-</LinearLayout>
-    </com.daimajia.swipe.SwipeLayout>
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>

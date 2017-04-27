@@ -331,14 +331,14 @@ public class TechniciansRegisterProduct extends Activity {
             if (color_name_list.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.select_img.setVisibility(View.GONE);
                 holder.unselect_img.setVisibility(View.VISIBLE);
-              /*  if (serviceID.equalsIgnoreCase("")) {
+                if (serviceID.equalsIgnoreCase("")) {
                     serviceID = color_name_list.get(i).get(GlobalConstant.color_id);
                 } else {
                     if (!serviceID.contains(color_name_list.get(i).get(GlobalConstant.color_id))) {
                         serviceID = serviceID + "," + color_name_list.get(i).get(GlobalConstant.color_id);
                     }
                 }
-                Log.e("service id minus", serviceID);*/
+                Log.e("service id minus", serviceID);
             } else {
 
                 holder.select_img.setVisibility(View.VISIBLE);

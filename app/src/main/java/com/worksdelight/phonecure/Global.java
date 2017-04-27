@@ -236,6 +236,15 @@ public class Global extends Application {
 
     String deviceId;
 
+    public JSONArray getCartData() {
+        return CartData;
+    }
+
+    public void setCartData(JSONArray cartData) {
+        CartData = cartData;
+    }
+
+    JSONArray CartData;
     @Override
     public void onCreate() {
         super.onCreate();

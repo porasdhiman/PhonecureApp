@@ -68,6 +68,7 @@ public class UserAppointmentActivity extends Activity {
     String booking_id;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
+    String statusValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,10 +165,12 @@ public class UserAppointmentActivity extends Activity {
             }
 
         } else {
-            cancel_request_txt.setVisibility(View.VISIBLE);
+
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
+
+                statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(objUser.getString(GlobalConstant.name));
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
@@ -216,6 +219,12 @@ public class UserAppointmentActivity extends Activity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+
+            if(statusValue.equalsIgnoreCase("pending")){
+                cancel_request_txt.setVisibility(View.VISIBLE);
+            }else{
+                cancel_request_txt.setVisibility(View.GONE);
             }
         }
 

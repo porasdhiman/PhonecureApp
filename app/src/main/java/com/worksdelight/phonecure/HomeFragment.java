@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     LoopView loopView;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
-    int pos,measuredWidth,measuredHeight;
+    int pos, measuredWidth, measuredHeight;
     Marker markers;
 
     @Override
@@ -110,7 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                        .target(new LatLng(Double.parseDouble(global.getLat()),Double.parseDouble(global.getLong())))
+                        .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
                         .zoom(10)
 
                         .build());
@@ -118,9 +118,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
                 mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(global.getLat()),Double.parseDouble(global.getLong()))).icon(icon));
+                        .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
 
-                mapboxMap.setPadding(0,0,0,measuredHeight/2+40);
+                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 40);
 
 
             }
@@ -185,7 +185,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }*/
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -200,6 +199,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     bottome_layout.setVisibility(View.VISIBLE);
                     loopView.setDataList(getList());
                 } else {
+                    global.setColorId(sp.getString("id", ""));
                     Intent home = new Intent(getActivity(), ServiceActivity.class);
                     startActivity(home);
                 }
@@ -213,6 +213,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         pos = item;
                     }
                 });
+                ed.putString("id", list.get(pos).get(GlobalConstant.id));
                 ed.putBoolean("pos", true);
                 ed.commit();
                 Intent home = new Intent(getActivity(), ServiceActivity.class);
@@ -237,9 +238,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     //--------------------Category api method---------------------------------
     private void colorMethod() {
-
+        String url = GlobalConstant.COLORGET_URL + "iphone-7-plus";
+        Log.e("url", url);
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.COLORGET_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

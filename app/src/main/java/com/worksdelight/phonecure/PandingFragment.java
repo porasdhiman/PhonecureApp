@@ -69,8 +69,10 @@ public class PandingFragment extends Fragment {
                 map.put(GlobalConstant.id, obj.getString(GlobalConstant.id));
                 map.put(GlobalConstant.total_amount, obj.getString(GlobalConstant.total_amount));
                 map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
+                map.put(GlobalConstant.status, obj.getString(GlobalConstant.status));
                 JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
                 map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+
                 list.add(map);
 
             } catch (JSONException e) {
@@ -94,23 +96,8 @@ public class PandingFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        for (int i = 0; i < global.getPendingaar().length(); i++) {
-            try {
-                JSONObject obj = global.getPendingaar().getJSONObject(i);
-                HashMap<String, String> map = new HashMap<>();
-                map.put(GlobalConstant.id, obj.getString(GlobalConstant.id));
-                map.put(GlobalConstant.total_amount, obj.getString(GlobalConstant.total_amount));
-                map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
-                JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
-                map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
-                list.add(map);
+        categoryMethod();
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
     }
 
     public static PandingFragment newInstance(String text) {
@@ -150,54 +137,58 @@ public class PandingFragment extends Fragment {
 
         @Override
         public int getSwipeLayoutResourceId(int position) {
-            return R.id.swipe;
+                return R.id.swipe;
+
         }
 
         @Override
         public View generateView(final int position, ViewGroup parent) {
             final View v = LayoutInflater.from(mContext).inflate(R.layout.pending_layout_item, null);
             SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
+            if (list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
 
-            swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-                @Override
-                public void onStartOpen(SwipeLayout layout) {
+                swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                    @Override
+                    public void onStartOpen(SwipeLayout layout) {
 
-                }
+                    }
 
-                @Override
-                public void onOpen(SwipeLayout layout) {
-                    v.findViewById(R.id.delete_img).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
-                            dialogWindow();
-                            ComAdnDelMethod(list.get(position).get(GlobalConstant.id));
-                            notifyDataSetChanged();
-                        }
-                    });
-                }
+                    @Override
+                    public void onOpen(SwipeLayout layout) {
+                        v.findViewById(R.id.delete_img).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
+                                dialogWindow();
+                                ComAdnDelMethod(list.get(position).get(GlobalConstant.id));
+                                notifyDataSetChanged();
+                            }
+                        });
+                    }
 
-                @Override
-                public void onStartClose(SwipeLayout layout) {
+                    @Override
+                    public void onStartClose(SwipeLayout layout) {
 
-                }
+                    }
 
-                @Override
-                public void onClose(SwipeLayout layout) {
+                    @Override
+                    public void onClose(SwipeLayout layout) {
 
-                }
+                    }
 
-                @Override
-                public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+                    @Override
+                    public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
 
-                }
+                    }
 
-                @Override
-                public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+                    @Override
+                    public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
 
-                }
-            });
-
+                    }
+                });
+            }else{
+                swipeLayout.setRightSwipeEnabled(false);
+            }
 
             return v;
         }
@@ -210,6 +201,18 @@ public class PandingFragment extends Fragment {
             TextView delivered_date_txt = (TextView) convertView.findViewById(R.id.delivered_date_txt);
 
             TextView price_txt = (TextView) convertView.findViewById(R.id.price_txt);
+            TextView status_txt=(TextView)convertView.findViewById(R.id.status_txt);
+
+            if(list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")){
+                status_txt.setTextColor(getResources().getColor(R.color.main_color));
+                status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));
+            }else{
+                status_txt.setTextColor(Color.parseColor("#ff0000"));
+                status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));
+
+
+
+            }
 
             price_txt.setText("$" + list.get(position).get(GlobalConstant.total_amount));
 
@@ -295,7 +298,7 @@ public class PandingFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog2.dismiss();
+
 
                         Log.e("response", response);
                         try {
@@ -304,12 +307,13 @@ public class PandingFragment extends Fragment {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                                for (int i = 0; i < list.size(); i++) {
+                                /*for (int i = 0; i < list.size(); i++) {
                                     if (list.get(i).get(GlobalConstant.id).equalsIgnoreCase(id)) {
                                         list.remove(i);
                                     }
-                                }
-                                completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+                                }*/
+                                categoryMethod();
+                                // completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
 
                             } else {
                                 Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -326,7 +330,7 @@ public class PandingFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        dialog2.dismiss();
+
 
                     }
                 }) {
@@ -364,4 +368,74 @@ public class PandingFragment extends Fragment {
         dialog2.show();
     }
 
+    //--------------------Category api method---------------------------------
+    private void categoryMethod() {
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(getActivity()),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+                                JSONArray copletedArr = data.getJSONArray(GlobalConstant.completed);
+                                JSONArray pendingArr = data.getJSONArray(GlobalConstant.pending);
+
+                                global.setCompletedaar(copletedArr);
+                                global.setPendingaar(pendingArr);
+                                list.clear();
+                                for (int i = 0; i < global.getPendingaar().length(); i++) {
+                                    try {
+                                        JSONObject obj1 = global.getPendingaar().getJSONObject(i);
+                                        HashMap<String, String> map = new HashMap<>();
+                                        map.put(GlobalConstant.id, obj1.getString(GlobalConstant.id));
+                                        map.put(GlobalConstant.total_amount, obj1.getString(GlobalConstant.total_amount));
+                                        map.put(GlobalConstant.date, obj1.getString(GlobalConstant.date));
+                                        map.put(GlobalConstant.status, obj1.getString(GlobalConstant.status));
+                                        JSONObject user_detail = obj1.getJSONObject(GlobalConstant.user_detail);
+                                        map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                                        list.add(map);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                                completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+
+                            } else {
+                                Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
+    }
 }

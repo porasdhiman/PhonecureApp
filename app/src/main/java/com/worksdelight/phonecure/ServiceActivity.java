@@ -55,7 +55,7 @@ public class ServiceActivity extends Activity {
     ListView service_list;
     //  int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
     // String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
-    ImageView search_img,back;
+    ImageView search_img, back;
     ScrollView main_scrollView;
     TextView submit_btn, service_txtView;
     Dialog dialog2;
@@ -64,7 +64,8 @@ public class ServiceActivity extends Activity {
     DisplayImageOptions options;
     String serviceID = "";
     Global global;
-    String device_model_id,category_id;
+    String device_model_id, category_id,sub_catgory_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +74,13 @@ public class ServiceActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global = (Global) getApplicationContext();
         init();
-        global=(Global)getApplicationContext();
+
     }
 
     public void init() {
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         submit_btn = (TextView) findViewById(R.id.submit_btn);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
@@ -102,11 +104,12 @@ public class ServiceActivity extends Activity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(serviceID.equalsIgnoreCase("")){
-                    Toast.makeText(ServiceActivity.this,"Please select services",Toast.LENGTH_SHORT).show();
-                }else{
+                if (serviceID.equalsIgnoreCase("")) {
+                    Toast.makeText(ServiceActivity.this, "Please select services", Toast.LENGTH_SHORT).show();
+                } else {
+                    global.setSubCatId(sub_catgory_id);
                     Intent map = new Intent(ServiceActivity.this, MapBoxActivity.class);
-                    map.putExtra("device_id",category_id);
+                    map.putExtra("device_id", category_id);
                     map.putExtra("id", device_model_id);
                     map.putExtra("selected_id", serviceID);
 
@@ -120,9 +123,10 @@ public class ServiceActivity extends Activity {
 
     //--------------------Category api method---------------------------------
     private void subcategoryMethod() {
-
+        String url = GlobalConstant.ACCORDING_TO_NAME_URL + "iphone-7-plus";
+        Log.e("url", url);
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.ACCORDING_TO_NAME_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -135,23 +139,25 @@ public class ServiceActivity extends Activity {
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
-                                category_id=data.getString(GlobalConstant.category_id);
-                                JSONArray dm_sub_categories = data.getJSONArray("dm_sub_categories");
+                                JSONObject data = obj.getJSONObject("data");
+
+                                category_id = data.getString(GlobalConstant.category_id);
+                                sub_catgory_id=data.getString("sub_category_id");
+                                JSONArray dm_sub_categories = data.getJSONArray("dm_services");
                                 for (int i = 0; i < dm_sub_categories.length(); i++) {
                                     JSONObject arryObj = dm_sub_categories.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
 
 
-                                    map.put(GlobalConstant.sub_category_id, arryObj.getString(GlobalConstant.sub_category_id));
+                                    map.put(GlobalConstant.service_id, arryObj.getString(GlobalConstant.service_id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     list.add(map);
-                                    device_model_id=arryObj.getString(GlobalConstant.device_model_id);
+                                    device_model_id = arryObj.getString(GlobalConstant.device_model_id);
                                 }
 
-                                if(list.size()!=0) {
+                                if (list.size() != 0) {
                                     service_list.setAdapter(new DeviceAdapter(ServiceActivity.this, list));
                                     CommonUtils.getListViewSize(service_list);
                                     main_scrollView.smoothScrollTo(0, 0);
@@ -202,7 +208,7 @@ public class ServiceActivity extends Activity {
     class DeviceAdapter extends BaseAdapter {
         Context c;
         LayoutInflater inflator;
-Holder holder = null;
+        Holder holder = null;
         String url = "";
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
 
@@ -286,7 +292,7 @@ Holder holder = null;
                             serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
                         }
                     }
-                    Log.e("service id minus",serviceID);
+                    Log.e("service id minus", serviceID);
 
                 }
             });
@@ -310,7 +316,7 @@ Holder holder = null;
                         serviceID = "";
 
                     }
-                    Log.e("service id",serviceID);
+                    Log.e("service id", serviceID);
 
                 }
             });

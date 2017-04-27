@@ -280,6 +280,7 @@ public class MapBoxActivity extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray arr = obj.getJSONArray("data");
+
                                 if (arr.length() == 0) {
 
                                     mapView.getMapAsync(new OnMapReadyCallback() {
@@ -294,6 +295,7 @@ public class MapBoxActivity extends Activity {
                                         }
                                     });
                                 } else {
+                                    global.setCartData(arr);
                                     for (int i = 0; i < arr.length(); i++) {
                                         JSONObject objArr = arr.getJSONObject(i);
                                         HashMap<String, String> map = new HashMap<>();
@@ -314,7 +316,7 @@ public class MapBoxActivity extends Activity {
                                         map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
                                         map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
                                         map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
-                                        JSONArray servicesArr = objArr.getJSONArray("technician_services");
+                                        /*JSONArray servicesArr = objArr.getJSONArray("technician_services");
                                         for (int j = 0; j < servicesArr.length(); j++) {
                                             JSONObject serviceObj = servicesArr.getJSONObject(j);
                                             HashMap<String, String> serviceMap = new HashMap<>();
@@ -330,7 +332,7 @@ public class MapBoxActivity extends Activity {
                                         map.put(GlobalConstant.service, serviceList.toString());
 
 
-                                        serviceList.clear();
+                                        serviceList.clear();*/
                                         list.add(map);
                                     }
                                     global.setDateList(list);
