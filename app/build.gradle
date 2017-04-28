@@ -72,5 +72,7 @@ dependencies {
     compile 'com.brucetoo.pickview:library:1.2.3'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
 
 }

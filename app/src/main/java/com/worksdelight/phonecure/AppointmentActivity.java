@@ -3,6 +3,7 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -84,6 +85,7 @@ String booking_id;
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
+        close_date_txt=(TextView)findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
 
@@ -120,7 +122,7 @@ String booking_id;
                     e.printStackTrace();
                 }
 
-                total_price.setText("$" + obj.getString(GlobalConstant.total_amount));
+                total_price.setText("$" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -166,7 +168,7 @@ String booking_id;
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("$" + obj.getString(GlobalConstant.total_amount));
+                total_price.setText("$" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -191,7 +193,13 @@ String booking_id;
         main_scroll.smoothScrollBy(0, 0);
 
     }
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(AppointmentActivity.this,HistoryActivity.class);
+        startActivity(i);
+        finish();
+    }
     public String formatdate2(String fdate) {
         String datetime = null;
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -254,7 +262,7 @@ String booking_id;
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
-            holder.service_price.setText("$" + list.get(i).get(GlobalConstant.price));
+            holder.service_price.setText("$" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
 
             return view;
         }
@@ -283,6 +291,8 @@ String booking_id;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
+                                Intent i=new Intent(AppointmentActivity.this,TechniciansHistory.class);
+                                startActivity(i);
                                 finish();
                             } else {
                                 Toast.makeText(AppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

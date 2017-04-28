@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         current_device_name_txt = (TextView) v.findViewById(R.id.current_device_name_txt);
         cancel_txtView = (TextView) v.findViewById(R.id.cancel_txtView);
         done_txtView = (TextView) v.findViewById(R.id.done_txtView);
-        current_device_name_txt.setText(global.getDeviceName());
+        current_device_name_txt.setText(global.getDeviceName()+" "+sp.getString("color name",""));
         select_device_layout = (RelativeLayout) v.findViewById(R.id.select_device_layout);
         select_device_layout.setOnClickListener(this);
         select_color = (RelativeLayout) v.findViewById(R.id.select_color);
@@ -214,8 +214,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     }
                 });
                 ed.putString("id", list.get(pos).get(GlobalConstant.id));
+                ed.putString("color name", list.get(pos).get(GlobalConstant.color));
                 ed.putBoolean("pos", true);
                 ed.commit();
+                current_device_name_txt.setText(global.getDeviceName()+" "+list.get(pos).get(GlobalConstant.color));
                 global.setColorId(sp.getString("id", ""));
                 Intent home = new Intent(getActivity(), ServiceActivity.class);
                 startActivity(home);

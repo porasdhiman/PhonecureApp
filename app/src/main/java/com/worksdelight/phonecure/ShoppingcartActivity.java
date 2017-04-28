@@ -288,7 +288,7 @@ public class ShoppingcartActivity extends Activity {
             ImageView add_view = (ImageView) convertView.findViewById(R.id.plus);
             ImageView minus = (ImageView) convertView.findViewById(R.id.minus);
             final TextView price = (TextView) convertView.findViewById(R.id.price);
-            price.setText("$" + serviceList.get(position).get(GlobalConstant.price));
+            price.setText("$" + String.valueOf(Float.parseFloat(serviceList.get(position).get(GlobalConstant.price))));
             t.setText(serviceList.get(position).get(GlobalConstant.name));
             person_count.setText(serviceList.get(position).get(GlobalConstant.count));
 

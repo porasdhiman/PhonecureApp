@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -82,11 +83,11 @@ public class ResideMenu extends FrameLayout {
 
     private boolean mUse3D;
     private static final int ROTATE_Y_ANGLE = 10;
-    int image;
+    TextDrawable image;
     String name_txt;
     String balance;
     ImageView user_img;TextView user_name,user_balance;
-    public ResideMenu(Context context,int image,String name_txt/*,String balance*/) {
+    public ResideMenu(Context context, TextDrawable image , String name_txt/*,String balance*/) {
         super(context);
         this.image=image;
         this.name_txt=name_txt;
@@ -120,8 +121,8 @@ public class ResideMenu extends FrameLayout {
             user_img=(ImageView)scrollViewLeftMenu.findViewById(R.id.user_img);
             user_name=(TextView) scrollViewLeftMenu.findViewById(R.id.user_name);
             user_balance=(TextView) scrollViewLeftMenu.findViewById(R.id.balnce_txt);
-            user_img.setImageResource(image);
-            user_name.setText(name_txt);
+            user_img.setImageDrawable(image);
+            user_name.setText(cap(name_txt));
            // user_balance.setText(balance);
             user_balance.setVisibility(View.GONE);
         }
@@ -731,5 +732,10 @@ public class ResideMenu extends FrameLayout {
         if (scrollViewMenu != null && scrollViewMenu.getParent() != null) {
             removeView(scrollViewMenu);
         }
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 }

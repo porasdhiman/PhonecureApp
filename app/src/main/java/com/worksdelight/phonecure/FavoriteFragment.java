@@ -56,13 +56,13 @@ public class FavoriteFragment extends Fragment {
     ListView repair_listView;
 
 
-
     Global global;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-RelativeLayout header_view;
+    RelativeLayout header_view;
     Dialog dialog2;
-    ArrayList<HashMap<String,String>> list=new ArrayList<>();
+    ArrayList<HashMap<String, String>> list = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ RelativeLayout header_view;
         View v = inflater.inflate(R.layout.iphone_repaire_layout, container, false);
         MainActivity parentActivity = (MainActivity) getActivity();
         parentActivity.visibilityMethod();
-global=(Global)getActivity().getApplicationContext();
+        global = (Global) getActivity().getApplicationContext();
         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -80,9 +80,9 @@ global=(Global)getActivity().getApplicationContext();
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
-        header_view=(RelativeLayout)v.findViewById(R.id.header_view);
+        header_view = (RelativeLayout) v.findViewById(R.id.header_view);
         header_view.setVisibility(View.GONE);
-        repair_listView=(ListView)v.findViewById(R.id.repair_listView);
+        repair_listView = (ListView) v.findViewById(R.id.repair_listView);
         dialogWindow();
         favoritesMethod();
         return v;
@@ -92,7 +92,7 @@ global=(Global)getActivity().getApplicationContext();
     private void favoritesMethod() {
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.FAVORITE_URL +"user_id="+ CommonUtils.UserID(getActivity())+"&latitude="+global.getLat()+"&longitude="+global.getLong(),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.FAVORITE_URL + "user_id=" + CommonUtils.UserID(getActivity()) + "&latitude=" + global.getLat() + "&longitude=" + global.getLong(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -127,7 +127,7 @@ global=(Global)getActivity().getApplicationContext();
                                     map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
                                     list.add(map);
                                 }
-                                repair_listView.setAdapter(new RepairAdapter(getActivity(),list));
+                                repair_listView.setAdapter(new RepairAdapter(getActivity(), list));
                             } else {
                                 Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -166,9 +166,6 @@ global=(Global)getActivity().getApplicationContext();
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
-
-
-
 
 
     class RepairAdapter extends BaseAdapter {
@@ -303,6 +300,7 @@ global=(Global)getActivity().getApplicationContext();
 
         }
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {

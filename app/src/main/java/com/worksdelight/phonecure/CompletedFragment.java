@@ -68,6 +68,7 @@ public class CompletedFragment extends Fragment {
                 detail.putExtra("pos",String.valueOf(i));
                 detail.putExtra("type","0");
                 startActivity(detail);
+                getActivity().finish();
             }
         });
         return v;

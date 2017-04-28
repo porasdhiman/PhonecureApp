@@ -72,7 +72,7 @@ public class TechniciansMainActivity  extends FragmentActivity implements View.O
         // attach to current activity;
         //notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
-        resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString("user name", ""));
+      //  resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString("user name", ""));
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);

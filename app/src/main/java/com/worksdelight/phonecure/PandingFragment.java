@@ -88,17 +88,13 @@ public class PandingFragment extends Fragment {
                 detail.putExtra("pos", String.valueOf(i));
                 detail.putExtra("type", "1");
                 startActivity(detail);
+                getActivity().finish();
             }
         });
         return v;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        categoryMethod();
 
-    }
 
     public static PandingFragment newInstance(String text) {
 

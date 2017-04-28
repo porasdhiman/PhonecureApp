@@ -93,6 +93,7 @@ public class UserPendingFragment extends Fragment {
                 detail.putExtra("pos", String.valueOf(i));
                 detail.putExtra("type", "1");
                 startActivity(detail);
+                getActivity().finish();
             }
         });
         return v;

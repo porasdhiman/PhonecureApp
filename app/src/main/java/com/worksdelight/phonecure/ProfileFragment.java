@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -26,7 +28,7 @@ public class ProfileFragment extends Fragment {
     SharedPreferences.Editor ed;
     Global global;
     CallbackManager callbackManager;
-
+ImageView user_image;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
@@ -45,6 +47,7 @@ public class ProfileFragment extends Fragment {
         user_name = (TextView) v.findViewById(R.id.user_name);
         user_phone = (TextView) v.findViewById(R.id.user_phone);
         user_email = (TextView) v.findViewById(R.id.user_email);
+        user_image=(ImageView)v.findViewById(R.id.user_img) ;
         location_name_txtView = (TextView) v.findViewById(R.id.location_name_txtView);
 
         change_password_layout = (RelativeLayout) v.findViewById(R.id.change_password_layout);
@@ -53,7 +56,9 @@ public class ProfileFragment extends Fragment {
         profile_layout=(RelativeLayout)v.findViewById(R.id.profile_layout);
         user_name.setText(cap(sp.getString(GlobalConstant.name, "")));
 
-
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(sp.getString(GlobalConstant.name, "").substring(0, 1).toUpperCase(), getResources().getColor(R.color.main_color));
+        user_image.setImageDrawable(drawable);
         location_name_txtView.setText(sp.getString("address", ""));
 
 

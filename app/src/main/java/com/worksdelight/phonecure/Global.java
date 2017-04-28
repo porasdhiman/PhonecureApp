@@ -245,6 +245,16 @@ public class Global extends Application {
     }
 
     JSONArray CartData;
+
+    public JSONArray getOtherData() {
+        return OtherData;
+    }
+
+    public void setOtherData(JSONArray otherData) {
+        OtherData = otherData;
+    }
+
+    JSONArray OtherData;
     @Override
     public void onCreate() {
         super.onCreate();

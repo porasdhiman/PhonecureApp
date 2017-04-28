@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -88,6 +89,8 @@ public class UserAppointmentActivity extends Activity {
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 finish();
             }
         });
@@ -107,6 +110,7 @@ public class UserAppointmentActivity extends Activity {
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
+        close_date_txt=(TextView)findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
 
@@ -160,7 +164,7 @@ public class UserAppointmentActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                total_price.setText("$" + obj.getString(GlobalConstant.total_amount));
+                total_price.setText("$" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -223,8 +227,7 @@ public class UserAppointmentActivity extends Activity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("$" + obj.getString(GlobalConstant.total_amount));
-
+                total_price.setText("$" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -247,6 +250,14 @@ public class UserAppointmentActivity extends Activity {
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent(UserAppointmentActivity.this,HistoryActivity.class);
+        startActivity(i);
+        finish();
     }
 
     public String formatdate2(String fdate) {
@@ -311,7 +322,7 @@ public class UserAppointmentActivity extends Activity {
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
-            holder.service_price.setText("$" + list.get(i).get(GlobalConstant.price));
+            holder.service_price.setText("$" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
 
             return view;
         }
@@ -340,6 +351,8 @@ public class UserAppointmentActivity extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
+                                Intent i=new Intent(UserAppointmentActivity.this,HistoryActivity.class);
+                                startActivity(i);
                                 finish();
                             } else {
                                 Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

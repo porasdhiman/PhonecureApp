@@ -106,12 +106,12 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     startActivity(iPhone);
                 } else {
+                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
 
                     iPhone.putExtra("pos", String.valueOf(i));
 
-                    global.setDeviceId(list.get(i).get(GlobalConstant.id));
+
                     startActivity(iPhone);
                 }
             }
@@ -165,10 +165,12 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray data = obj.getJSONArray("data");
+                                global.setOtherData(data);
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
+
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     if (arryObj.has(GlobalConstant.sub_category_id)) {
@@ -177,7 +179,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                         map.put(GlobalConstant.value, "false");
 
                                     }
-                                    JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
+                                    /*JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
                                     if (sub_categories.length() > 0) {
                                         for (int k = 0; k < sub_categories.length(); k++) {
                                             JSONObject sub_categoriesObj = sub_categories.getJSONObject(k);
@@ -193,7 +195,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                         nextList.clear();
                                     } else {
                                         map.put(GlobalConstant.sub_categories, nextList.toString());
-                                    }
+                                    }*/
 
                                     list.add(map);
                                 }
