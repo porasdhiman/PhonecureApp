@@ -245,7 +245,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
-            android:name=".MessageActivity"
+            android:name=".NotifyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
@@ -266,6 +266,10 @@
             android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".WorkingHoursUpdateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".UserProfileEdit"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden"></activity>
     </application>

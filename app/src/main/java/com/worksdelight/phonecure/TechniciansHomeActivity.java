@@ -193,7 +193,7 @@ TextView header_txt;
                 startActivity(t);
                 break;
             case R.id.message_img:
-                Intent m = new Intent(this, MessageActivity.class);
+                Intent m = new Intent(this, NotifyActivity.class);
                 startActivity(m);
                 break;
 

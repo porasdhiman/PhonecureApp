@@ -70,7 +70,7 @@ public class TechniciansMainActivity  extends FragmentActivity implements View.O
     private void setUpMenu() {
 
         // attach to current activity;
-        notification_img = (ImageView) findViewById(R.id.notification_img);
+        //notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
         resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString("user name", ""));
         resideMenu.setUse3D(true);
@@ -130,7 +130,7 @@ public class TechniciansMainActivity  extends FragmentActivity implements View.O
         message_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(TechniciansMainActivity.this,MessageActivity.class);
+                Intent i=new Intent(TechniciansMainActivity.this,NotifyActivity.class);
                 startActivity(i);
             }
         });
@@ -233,12 +233,12 @@ public class TechniciansMainActivity  extends FragmentActivity implements View.O
     }
 
     public void visibilityMethod() {
-        notification_img.setVisibility(View.GONE);
+       // notification_img.setVisibility(View.GONE);
         message_img.setVisibility(View.GONE);
     }
 
     public void homevisibilityMethod() {
-        notification_img.setVisibility(View.VISIBLE);
+        //notification_img.setVisibility(View.VISIBLE);
         message_img.setVisibility(View.VISIBLE);
     }
 

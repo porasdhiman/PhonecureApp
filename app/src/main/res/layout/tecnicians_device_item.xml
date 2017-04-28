@@ -12,15 +12,15 @@
         android:background="@drawable/item_back">
         <ImageView
             android:id="@+id/device_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
 
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"/>
         <View
             android:id="@+id/view"
-            android:layout_width="1dp"
+            android:layout_width="0.5dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/device_icon"
@@ -56,8 +56,8 @@
             />
         <ImageView
             android:id="@+id/select_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/right_unselect"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
@@ -65,8 +65,8 @@
             />
         <ImageView
             android:id="@+id/unselect_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:src="@drawable/right_img"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

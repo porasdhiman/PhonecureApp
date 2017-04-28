@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/bottome_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        >
+
+        <RelativeLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cancel_txtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Cancel"
+                android:textColor="@color/main_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/done_txtView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Done"
+                android:textColor="@color/main_color"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <com.bruce.pickerview.LoopView
+            android:id="@+id/loop_view"
+            android:layout_width="100dp"
+            android:layout_height="180dp"
+            android:layout_below="@+id/top_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            app:canLoop="true"
+            app:centerTextColor="#ff000000"
+            app:drawItemCount="7"
+            app:initPosition="3"
+            android:layout_marginLeft="40dp"
+            app:lineColor="@color/colorPrimary"
+            app:textSize="25sp"
+            app:topBottomTextColor="#ffafafaf"
+
+            />
+        <com.bruce.pickerview.LoopView
+            android:id="@+id/loop_view1"
+            android:layout_width="100dp"
+            android:layout_height="180dp"
+            android:layout_below="@+id/top_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            app:canLoop="true"
+            app:centerTextColor="#ff000000"
+            app:drawItemCount="7"
+            app:initPosition="1"
+            android:layout_marginRight="40dp"
+            app:lineColor="@color/colorPrimary"
+            app:textSize="25sp"
+            app:topBottomTextColor="#ffafafaf"
+
+            />
+    </RelativeLayout>
+</LinearLayout>

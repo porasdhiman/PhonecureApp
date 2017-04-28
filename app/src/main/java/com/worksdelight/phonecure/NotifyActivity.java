@@ -16,7 +16,7 @@ import android.widget.ListView;
  * Created by worksdelight on 20/04/17.
  */
 
-public class MessageActivity extends Activity {
+public class NotifyActivity extends Activity {
     ImageView back;
     ListView message_listView;
 

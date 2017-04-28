@@ -109,7 +109,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/tab_back"
+                    android:background="@drawable/register_user_back"
                     android:gravity="center"
                     android:text="Sign in"
                     android:textColor="@android:color/darker_gray"
@@ -124,7 +124,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="Forgot password?"
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/mainTextColor"
                     android:textSize="@dimen/header_txt" />
 
                 <RelativeLayout
@@ -153,7 +153,7 @@
                         android:layout_centerInParent="true"
                         android:text="Sign in with facebook"
                         android:textColor="#fff"
-                        android:textStyle="bold" />
+                         />
 
                     <com.facebook.login.widget.LoginButton
                         android:id="@+id/Fb_Login"
@@ -209,7 +209,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Don't have an account?"
-                        android:textColor="@android:color/darker_gray"
+                        android:textColor="@color/mainTextColor"
                         android:textSize="12sp" />
 
                 </LinearLayout>

@@ -68,8 +68,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/tech_img"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/user_back" />
 
@@ -189,11 +189,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Vat number"
+                        android:text="Phone number"
                         android:textColor="@android:color/darker_gray" />
 
                     <EditText
-                        android:id="@+id/vat_ed"
+                        android:id="@+id/phone_ed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -202,7 +202,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="right"
-                        android:hint="Enter Vat number"
+                        android:hint="Phone number"
 
                         android:textColor="#000"
                         android:textColorHint="#000"
@@ -216,144 +216,16 @@
                     android:layout_marginRight="10dp"
                     android:background="#e6e4e4" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="Organization"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/org_ed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="right"
-
-
-                        android:textColor="#000"
-                        android:textColorHint="#000"
-                        android:textSize="@dimen/sab_txt" />
-                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#e6e4e4" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="Address"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <TextView
-                        android:id="@+id/address_ed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="right"
-
-
-                        android:textColor="#000"
-                        android:textColorHint="#000"
-                        android:textSize="@dimen/sab_txt" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#e6e4e4" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="10dp"
 
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/main_layout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/item_back">
 
-                <ImageView
-                    android:id="@+id/device_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/clock_img" />
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="1dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/device_icon"
-                    android:background="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/device_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/view"
-                    android:gravity="center"
-                    android:text="Working hours"
-                    android:textColor="#373737"
-                    android:textSize="@dimen/header_txt" />
-
-                <ImageView
-                    android:id="@+id/select_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/forward" />
-
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/update_profile"

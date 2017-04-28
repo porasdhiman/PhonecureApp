@@ -151,6 +151,13 @@ ImageView back;
 
             }
         });
+        org_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                vat_ed.setFocusable(false);
+                return false;
+            }
+        });
         register_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

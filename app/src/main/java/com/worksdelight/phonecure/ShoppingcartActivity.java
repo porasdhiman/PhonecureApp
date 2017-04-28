@@ -55,7 +55,7 @@ public class ShoppingcartActivity extends Activity {
     String url;
     ImageView back;
     ArrayList<HashMap<String, String>> priceList = new ArrayList<>();
-    int pricevalue=0;
+    float pricevalue=0.0f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,10 +120,10 @@ public class ShoppingcartActivity extends Activity {
         cart_value_info.setText(serviceList.size()+" Item in your cart");
         for (int i=0;i<serviceList.size();i++){
             if(serviceList.get(i).get(GlobalConstant.price).contains(".")){
-                pricevalue=pricevalue+Integer.parseInt(String.valueOf(Double.parseDouble(serviceList.get(i).get(GlobalConstant.price))));
+                pricevalue=pricevalue+Float.parseFloat(serviceList.get(i).get(GlobalConstant.price));
 
             }else{
-                pricevalue=pricevalue+Integer.parseInt(serviceList.get(i).get(GlobalConstant.price));
+                pricevalue=pricevalue+Float.parseFloat(serviceList.get(i).get(GlobalConstant.price));
 
             }
         }
@@ -141,7 +141,7 @@ public class ShoppingcartActivity extends Activity {
         Holder h;
 
 
-        int priceValue;
+        float priceValue;
 
         public ShoppingAdapter(Context mContext) {
 
@@ -293,7 +293,7 @@ public class ShoppingcartActivity extends Activity {
             person_count.setText(serviceList.get(position).get(GlobalConstant.count));
 
 
-            priceValue = Integer.parseInt(serviceList.get(position).get(GlobalConstant.price));
+            priceValue = Float.parseFloat(serviceList.get(position).get(GlobalConstant.price));
 
 
             url = GlobalConstant.SUB_CAETGORY_IMAGE_URL + serviceList.get(position).get(GlobalConstant.icon);
@@ -322,11 +322,11 @@ public class ShoppingcartActivity extends Activity {
                     person_count.setText(String.valueOf(j));
                     serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
                     String priceFirstCat = price.getText().toString().replace("$", "");
-                    price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) + priceValue));
+                    price.setText("$" + String.valueOf(Float.parseFloat(priceFirstCat) + priceValue));
                     serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
-                    int pricevalue = 0;
+                    float pricevalue = 0;
                     for (int k = 0; k < serviceList.size(); k++) {
-                        pricevalue = pricevalue + Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
+                        pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                     }
                     total_price.setText("$" + pricevalue);
                 }
@@ -342,9 +342,9 @@ public class ShoppingcartActivity extends Activity {
                         serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
                         price.setText("$" + priceValue);
                         serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
-                        int pricevalue = 0;
+                        float pricevalue = 0;
                         for (int k = 0; k < serviceList.size(); k++) {
-                            pricevalue = pricevalue + Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
+                            pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
                         total_price.setText("$" + pricevalue);
                     } else {
@@ -352,11 +352,11 @@ public class ShoppingcartActivity extends Activity {
                         person_count.setText(String.valueOf(j));
                         serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
                         String priceFirstCat = price.getText().toString().replace("$", "");
-                        price.setText("$" + String.valueOf(Integer.parseInt(priceFirstCat) - priceValue));
+                        price.setText("$" + String.valueOf(Float.parseFloat(priceFirstCat) - priceValue));
                         serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
-                        int pricevalue = 0;
+                        float pricevalue = 0;
                         for (int k = 0; k < serviceList.size(); k++) {
-                            pricevalue = pricevalue + Integer.parseInt(serviceList.get(k).get(GlobalConstant.price));
+                            pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
                         total_price.setText("$" + pricevalue);
                     }

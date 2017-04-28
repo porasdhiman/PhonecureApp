@@ -43,15 +43,15 @@
                 />
 
             <ImageView
-                android:id="@+id/notification_img"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:id="@+id/message_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:src="@drawable/notification" />
 
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/message_img"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -59,7 +59,7 @@
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/notification_img"
-                android:src="@drawable/message_img" />
+                android:src="@drawable/message_img" />-->
 
         </RelativeLayout>
 

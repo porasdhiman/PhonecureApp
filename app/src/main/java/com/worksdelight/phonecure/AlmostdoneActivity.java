@@ -61,7 +61,7 @@ import static com.worksdelight.phonecure.GlobalConstant.zip;
 public class AlmostdoneActivity extends Activity {
     private static final String SERVER_BASE = "http://worksdelight.com"; // Replace with your own server
     private static final int REQUEST_CODE = Menu.FIRST;
-   // private AsyncHttpClient client = new AsyncHttpClient();
+    // private AsyncHttpClient client = new AsyncHttpClient();
     private String clientToken;
     TextView btn_start;
     EditText first_name_ed, last_name_ed, address_ed, city_ed, zip_ed, phone_ed;
@@ -140,7 +140,7 @@ public class AlmostdoneActivity extends Activity {
                     zip_ed.setError("Please enter Zip");
                 } else if (phone_ed.length() == 0) {
                     phone_ed.setError("Please enter Phone number");
-                }  else {
+                } else {
 
                     DropInRequest dropInRequest = new DropInRequest()
                             .tokenizationKey("sandbox_dgtkrsvt_szxk5km2k4fmrx4t")
@@ -322,7 +322,6 @@ public class AlmostdoneActivity extends Activity {
                 params.put(GlobalConstant.ship_phone, phone_ed.getText().toString());
 
 
-
                 Log.e("Parameter for profile", params.toString());
                 return params;
             }
@@ -360,22 +359,22 @@ public class AlmostdoneActivity extends Activity {
             JSONArray installedList = new JSONArray();
 //ArrayList<HashMap<String,String>> installedList=new ArrayList<>();
 
-                for (int i = 0; i < global.getNewListing().size(); i++) {
-                    JSONObject installedPackage = new JSONObject();
+            for (int i = 0; i < global.getNewListing().size(); i++) {
+                JSONObject installedPackage = new JSONObject();
 
-                    // HashMap<String,String> installedPackage = new HashMap<>();
-                    try {
-                        installedPackage.put(GlobalConstant.id, global.getNewListing().get(i).get(GlobalConstant.id));
-                        installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(i).get(GlobalConstant.count));
-                        installedPackage.put(GlobalConstant.price, global.getNewListing().get(i).get(GlobalConstant.price));
-                        installedList.put(installedPackage);
+                // HashMap<String,String> installedPackage = new HashMap<>();
+                try {
+                    installedPackage.put(GlobalConstant.id, global.getNewListing().get(i).get(GlobalConstant.id));
+                    installedPackage.put(GlobalConstant.quantity, global.getNewListing().get(i).get(GlobalConstant.count));
+                    installedPackage.put(GlobalConstant.price, global.getNewListing().get(i).get(GlobalConstant.price));
+                    installedList.put(installedPackage);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+
+            }
 
             // String dataToSend = installedList.toString();
             params.put(GlobalConstant.booking_items, installedList);
@@ -390,7 +389,7 @@ public class AlmostdoneActivity extends Activity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-
+                        Log.e("response", response.toString());
                         dialog2.dismiss();
                         try {
 
@@ -423,7 +422,7 @@ public class AlmostdoneActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 dialog2.dismiss();
-Log.e("error",error.toString());
+                Log.e("error", error.toString());
 
 
             }
@@ -460,6 +459,7 @@ Log.e("error",error.toString());
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     public String formatdate2(String fdate) {
         String datetime = null;
         DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");

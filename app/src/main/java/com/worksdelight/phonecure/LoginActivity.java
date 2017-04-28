@@ -356,15 +356,15 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
 
                                 if(data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
-                                    ed.putString("user name",data.getString(GlobalConstant.name));
-                                    ed.putString("email",data.getString(GlobalConstant.email));
-                                    JSONObject shipping_address=data.getJSONObject("shipping_address");
+                                    ed.putString(GlobalConstant.name,data.getString(GlobalConstant.name));
+                                    ed.putString(GlobalConstant.email,data.getString(GlobalConstant.email));
+                                   /* JSONObject shipping_address=data.getJSONObject("shipping_address");
                                     ed.putString("first name", shipping_address.getString("ship_firstname"));
                                     ed.putString("last name", shipping_address.getString("ship_lastname"));
                                     ed.putString("address", shipping_address.getString("ship_address"));
                                     ed.putString("city", shipping_address.getString("ship_city"));
                                     ed.putString("zip", shipping_address.getString("ship_zip"));
-                                    ed.putString("phone", shipping_address.getString("ship_phone"));
+                                    ed.putString("phone", shipping_address.getString("ship_phone"));*/
                                     ed.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
@@ -397,7 +397,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         dialog2.dismiss();
-
+                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
             @Override
@@ -444,21 +444,21 @@ public class LoginActivity extends Activity implements OnClickListener{
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data=obj.getJSONObject("data");
-                                JSONObject shipping_address=data.getJSONObject("shipping_address");
+                               // JSONObject shipping_address=data.getJSONObject("shipping_address");
 
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","facebook");
                                 ed.putString("user name",data.getString(GlobalConstant.name));
                                 ed.putString("email",data.getString(GlobalConstant.email));
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
-
+/*
                                 ed.putString("first name", shipping_address.getString("ship_firstname"));
                                 ed.putString("last name", shipping_address.getString("ship_lastname"));
                                 ed.putString("address", shipping_address.getString("ship_address"));
                                 ed.putString("city", shipping_address.getString("ship_city"));
                                 ed.putString("zip", shipping_address.getString("ship_zip"));
                                 ed.putString("phone", shipping_address.getString("ship_phone"));
-                                ed.commit();
+                                ed.commit();*/
                                 Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(f);
                                 finish();

@@ -59,7 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserAppointmentActivity extends Activity {
     ImageView back_img;
     CircleImageView user_view;
-    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price;
+    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price,close_date_txt;
     ListView service_list;
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
@@ -109,12 +109,12 @@ public class UserAppointmentActivity extends Activity {
         date_txt = (TextView) findViewById(R.id.date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
-            cancel_request_txt.setVisibility(View.GONE);
+
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
-                name_txt.setText(objUser.getString(GlobalConstant.name));
+                name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
                 if (url != null && !url.equalsIgnoreCase("null")
                         && !url.equalsIgnoreCase("")) {
@@ -155,6 +155,7 @@ public class UserAppointmentActivity extends Activity {
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -163,7 +164,13 @@ public class UserAppointmentActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            cancel_request_txt.setText("Download");
+            cancel_request_txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                }
+            });
         } else {
 
             try {
@@ -172,7 +179,7 @@ public class UserAppointmentActivity extends Activity {
 
                 statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
-                name_txt.setText(objUser.getString(GlobalConstant.name));
+                name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
                 if (url != null && !url.equalsIgnoreCase("null")
                         && !url.equalsIgnoreCase("")) {
@@ -212,6 +219,7 @@ public class UserAppointmentActivity extends Activity {
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -223,21 +231,22 @@ public class UserAppointmentActivity extends Activity {
 
             if(statusValue.equalsIgnoreCase("pending")){
                 cancel_request_txt.setVisibility(View.VISIBLE);
+                cancel_request_txt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogWindow();
+                        ComAdnDelMethod();
+                    }
+                });
             }else{
-                cancel_request_txt.setVisibility(View.GONE);
+                cancel_request_txt.setText(statusValue);
             }
         }
 
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
-        cancel_request_txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogWindow();
-                ComAdnDelMethod();
-            }
-        });
+
     }
 
     public String formatdate2(String fdate) {
@@ -406,5 +415,10 @@ public class UserAppointmentActivity extends Activity {
                 .build();
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 }

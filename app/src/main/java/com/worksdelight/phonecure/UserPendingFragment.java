@@ -89,9 +89,9 @@ public class UserPendingFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent detail=new Intent(getActivity(),UserAppointmentActivity.class);
-                detail.putExtra("pos",String.valueOf(i));
-                detail.putExtra("type","1");
+                Intent detail = new Intent(getActivity(), UserAppointmentActivity.class);
+                detail.putExtra("pos", String.valueOf(i));
+                detail.putExtra("type", "1");
                 startActivity(detail);
             }
         });
@@ -159,40 +159,38 @@ public class UserPendingFragment extends Fragment {
             if (view == null) {
                 holder = new Holder();
 
-                view = inflatore.inflate(R.layout.complete_list_item, null);
+                view = inflatore.inflate(R.layout.user_pending_layout, null);
                 holder.name = (TextView) view.findViewById(R.id.name);
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
-
+                holder.delivered_txt = (TextView) view.findViewById(R.id.delivered_txt);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
-                holder.tech_view=(CircleImageView)view.findViewById(R.id.tech_view);
-                holder.status_txt=(TextView)view.findViewById(R.id.status_txt);
+                holder.tech_view = (CircleImageView) view.findViewById(R.id.tech_view);
+                holder.status_txt = (TextView) view.findViewById(R.id.status_txt);
                 view.setTag(holder);
 
 
             } else {
                 holder = (Holder) view.getTag();
             }
-
-            if(list.get(i).get(GlobalConstant.status).equalsIgnoreCase("pending")){
+            holder.delivered_txt.setText("Deliverd date:");
+            if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
                 holder.status_txt.setTextColor(getResources().getColor(R.color.main_color));
                 holder.status_txt.setText(cap(list.get(i).get(GlobalConstant.status)));
-            }else{
+            } else {
                 holder.status_txt.setTextColor(Color.parseColor("#ff0000"));
                 holder.status_txt.setText(cap(list.get(i).get(GlobalConstant.status)));
 
 
-
             }
 
-            holder.name.setText(list.get(i).get(GlobalConstant.name));
-            holder.price_txt.setText("$"+list.get(i).get(GlobalConstant.total_amount));
+            holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
+            holder.price_txt.setText("$" + list.get(i).get(GlobalConstant.total_amount));
             holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
-
 
 
             // holder.specilist.setText(list.get(i).get(GlobalConstant.average_rating));
             String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
-            Log.e("tech image",url);
+            Log.e("tech image", url);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.tech_view, options,
@@ -216,9 +214,10 @@ public class UserPendingFragment extends Fragment {
             ImageView cancel, chat, message, call;
             LinearLayout setting_layout, setting_call_layout;
             CircleImageView tech_view;
-            TextView name, delivered_date_txt, price_txt, status_txt;
+            TextView name, delivered_date_txt, price_txt, status_txt, delivered_txt;
 
         }
+
         private void initImageLoader() {
             int memoryCacheSize;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -260,6 +259,7 @@ public class UserPendingFragment extends Fragment {
 
 
     }
+
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
 
@@ -324,6 +324,7 @@ public class UserPendingFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));

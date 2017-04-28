@@ -216,6 +216,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 ed.putString("id", list.get(pos).get(GlobalConstant.id));
                 ed.putBoolean("pos", true);
                 ed.commit();
+                global.setColorId(sp.getString("id", ""));
                 Intent home = new Intent(getActivity(), ServiceActivity.class);
                 startActivity(home);
                 break;

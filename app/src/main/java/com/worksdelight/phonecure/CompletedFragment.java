@@ -121,17 +121,17 @@ public class CompletedFragment extends Fragment {
                 view = inflatore.inflate(R.layout.complete_list_item, null);
                 holder.name = (TextView) view.findViewById(R.id.name);
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
-
+                holder.download_img = (ImageView) view.findViewById(R.id.download_img);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
                 view.setTag(holder);
-
+                holder.download_img.setTag(holder);
 
             } else {
                 holder = (Holder) view.getTag();
             }
 
 
-                holder.name.setText(list.get(i).get(GlobalConstant.name));
+                holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
                 holder.price_txt.setText("$"+list.get(i).get(GlobalConstant.total_amount));
                 holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
 
@@ -158,12 +158,18 @@ public class CompletedFragment extends Fragment {
                 holder.tech_view.setImageResource(R.drawable.user_back);
             }
 */
+            holder.download_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder=(Holder)view.getTag();
+                }
+            });
 
             return view;
         }
 
         public class Holder {
-            ImageView cancel, chat, message, call;
+            ImageView cancel, chat, message, call,download_img;
             LinearLayout setting_layout, setting_call_layout;
             CircleImageView tech_view;
             TextView name, delivered_date_txt, price_txt, rating_value;
@@ -185,5 +191,10 @@ public class CompletedFragment extends Fragment {
         return datetime;
 
 
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 }

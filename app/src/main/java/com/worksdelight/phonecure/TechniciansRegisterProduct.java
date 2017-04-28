@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,6 +33,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bruce.pickerview.LoopScrollListener;
+import com.bruce.pickerview.LoopView;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -55,20 +58,23 @@ import java.util.Map;
 
 public class TechniciansRegisterProduct extends Activity {
     ImageView back;
-    TextView service_txtView, done;
+    TextView service_txtView, done, time_ed;
     ListView product_listView;
-    EditText price_ed, time_ed;
+    EditText price_ed;
     RelativeLayout all_select_layout;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-    Dialog dialog2;
+    Dialog dialog2, PickerDialog;
     Global global;
+    ArrayList<String> hours = new ArrayList<>();
+    ArrayList<String> minute = new ArrayList<>();
     ArrayList<HashMap<String, String>> color_name_list = new ArrayList<>();
     //  ArrayList<HashMap<String, String>> color_id_list = new ArrayList<>();
     // ArrayList<HashMap<String, String>> name_list = new ArrayList<>();
     ScrollView main_scroll;
     String serviceID = "";
     JSONArray arr;
+    int pos, pos1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +94,7 @@ public class TechniciansRegisterProduct extends Activity {
         service_txtView = (TextView) findViewById(R.id.service_txtView);
         product_listView = (ListView) findViewById(R.id.product_listView);
         price_ed = (EditText) findViewById(R.id.price_ed);
-        time_ed = (EditText) findViewById(R.id.time_ed);
+        time_ed = (TextView) findViewById(R.id.time_ed);
         done = (TextView) findViewById(R.id.done);
         /*all_select_layout = (RelativeLayout) findViewById(R.id.all_select_layout);
         all_select_layout.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +112,11 @@ public class TechniciansRegisterProduct extends Activity {
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
         price_ed.setText(global.getServiceList().get(p).get(GlobalConstant.price));
         time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
-
+        if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
+            done.setText("Update Service");
+        } else {
+            done.setText("Add Service");
+        }
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,6 +137,14 @@ public class TechniciansRegisterProduct extends Activity {
 
             }
         });
+        time_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                dialogWindow1();
+                return false;
+            }
+        });
+
         arr = global.getAar();
 
 
@@ -164,6 +182,8 @@ public class TechniciansRegisterProduct extends Activity {
         product_listView.setAdapter(new ProductAdapter(TechniciansRegisterProduct.this));
         CommonUtils.getListViewSize(product_listView);
         main_scroll.smoothScrollTo(0, 0);
+
+
     }
 
     public ArrayList<HashMap<String, String>> convertToHashMapIcon(String jsonString) {
@@ -535,5 +555,93 @@ public class TechniciansRegisterProduct extends Activity {
         requestQueue.add(jsonObjReq);
     }
 
+    public void dialogWindow1() {
+        PickerDialog = new Dialog(this);
+        PickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        PickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+
+        PickerDialog.setContentView(R.layout.wheel_dialog);
+        TextView cancel_txtView = (TextView) PickerDialog.findViewById(R.id.cancel_txtView);
+        TextView done_txtView = (TextView) PickerDialog.findViewById(R.id.done_txtView);
+        final LoopView loopView = (LoopView) PickerDialog.findViewById(R.id.loop_view);
+        final LoopView loopView1 = (LoopView) PickerDialog.findViewById(R.id.loop_view1);
+        if (time_ed.getText().length() != 0) {
+            int t = Integer.parseInt(time_ed.getText().toString().split(":")[0]);
+            loopView.setInitPosition(t);
+        } else {
+            int t = 0;
+            loopView.setInitPosition(t);
+        }
+
+        loopView.setCanLoop(false);
+
+        loopView.setTextSize(16);
+        hours = getListHour();
+
+        loopView.setDataList(hours);
+        if (time_ed.getText().length() != 0) {
+            int t = Integer.parseInt(time_ed.getText().toString().split(":")[1]);
+            loopView1.setInitPosition(t);
+        } else {
+            int t = 0;
+            loopView1.setInitPosition(0);
+        }
+
+        loopView1.setCanLoop(false);
+
+        loopView1.setTextSize(16);
+        minute = getListMinute();
+        loopView1.setDataList(minute);
+        Log.e("value", hours.toString() + " " + minute.toString());
+        loopView.setLoopListener(new LoopScrollListener() {
+            @Override
+            public void onItemSelect(int item) {
+                pos = item;
+            }
+        });
+        loopView1.setLoopListener(new LoopScrollListener() {
+            @Override
+            public void onItemSelect(int item) {
+                pos1 = item;
+            }
+        });
+        done_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickerDialog.dismiss();
+                time_ed.setText(hours.get(pos).split(":")[1] + ":" + minute.get(pos1).split(":")[0]);
+
+            }
+        });
+        cancel_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickerDialog.dismiss();
+            }
+        });
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        PickerDialog.show();
+    }
+
+    public ArrayList<String> getListHour() {
+        ArrayList<String> list1 = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+
+            list1.add("hour:" + i);
+        }
+        return list1;
+    }
+
+    public ArrayList<String> getListMinute() {
+        ArrayList<String> list1 = new ArrayList<>();
+
+
+        list1.add("00:min");
+        list1.add("15:min");
+        list1.add("30:min");
+        list1.add("45:min");
+
+        return list1;
+    }
 }

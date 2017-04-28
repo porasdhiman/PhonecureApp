@@ -1,6 +1,8 @@
 package com.worksdelight.phonecure;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -45,7 +47,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     CallbackManager callbackManager;
-
+    AlertDialog builder;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +71,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void setUpMenu() {
 
         // attach to current activity;
-        notification_img = (ImageView) findViewById(R.id.notification_img);
+        //notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
-        resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString("user name", ""));
+        resideMenu = new ResideMenu(this, R.drawable.user_back, sp.getString(GlobalConstant.name, ""));
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);
@@ -80,14 +82,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.setScaleValue(0.6f);
 
         // create menu items;
-        itemHome = new ResideMenuItem(this, "Home");
+        itemHome = new ResideMenuItem(this, "HOME");
         // drug = new ResideMenuItem(this, "Drug");
-        technicians = new ResideMenuItem(this, "My orders");
-        services = new ResideMenuItem(this, "Favorites");
-        dashboard = new ResideMenuItem(this, "Privacy Policy");
-        itemProfile = new ResideMenuItem(this, "Profile");
-        new_cure = new ResideMenuItem(this, "About us");
-        logout = new ResideMenuItem(this, "Logout");
+        technicians = new ResideMenuItem(this, "MY ORDERS");
+        services = new ResideMenuItem(this, "TECHNICIANS");
+        dashboard = new ResideMenuItem(this, "PRIVACY POLICY");
+        itemProfile = new ResideMenuItem(this, "PROFILE");
+        new_cure = new ResideMenuItem(this, "ABOUT US");
+        logout = new ResideMenuItem(this, "LOGOUT");
 
 
         itemHome.setOnClickListener(this);
@@ -103,11 +105,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
         //resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
+
         resideMenu.addMenuItem(services, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
 
-        resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
+
         resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
         resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         //resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
@@ -126,7 +130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         message_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(MainActivity.this,MessageActivity.class);
+                Intent i=new Intent(MainActivity.this,NotifyActivity.class);
                 startActivity(i);
             }
         });
@@ -227,12 +231,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void visibilityMethod() {
-        notification_img.setVisibility(View.GONE);
+       // notification_img.setVisibility(View.GONE);
         message_img.setVisibility(View.GONE);
     }
 
     public void homevisibilityMethod() {
-        notification_img.setVisibility(View.VISIBLE);
+        //notification_img.setVisibility(View.VISIBLE);
         message_img.setVisibility(View.VISIBLE);
     }
 
@@ -242,4 +246,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+        builder = new AlertDialog.Builder(MainActivity.this).setMessage("Do You Want To Exit?")
+                .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        finish();
+
+                    }
+
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+
+                        builder.dismiss();
+                    }
+                }).show();
+
+    }
+
 }

@@ -130,7 +130,7 @@ android:id="@+id/sign_up_btn"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/tab_back"
+            android:background="@drawable/register_user_back"
             android:gravity="center"
             android:text="Sign up"
             android:textColor="@android:color/darker_gray"
@@ -147,9 +147,9 @@ android:id="@+id/sign_up_btn"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Or using"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/mainTextColor"
             android:textSize="@dimen/header_txt"
-            android:textStyle="bold"
+
 
             />
 

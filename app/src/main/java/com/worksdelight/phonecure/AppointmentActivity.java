@@ -47,7 +47,7 @@ import java.util.Map;
 
 public class AppointmentActivity extends Activity {
     ImageView back_img;
-    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price;
+    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price,close_date_txt;
     ListView service_list;
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
@@ -55,6 +55,7 @@ public class AppointmentActivity extends Activity {
     Dialog dialog2;
 String booking_id;
     String statusValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,12 +86,12 @@ String booking_id;
         date_txt = (TextView) findViewById(R.id.date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
-            cancel_request_txt.setVisibility(View.GONE);
+
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
-                name_txt.setText(objUser.getString(GlobalConstant.name));
+                name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
@@ -114,6 +115,7 @@ String booking_id;
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -122,6 +124,13 @@ String booking_id;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            cancel_request_txt.setText("Download");
+            cancel_request_txt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
         } else {
             //cancel_request_txt.setVisibility(View.VISIBLE);
@@ -130,7 +139,7 @@ String booking_id;
                 booking_id=obj.getString(GlobalConstant.id);
                 statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
-                name_txt.setText(objUser.getString(GlobalConstant.name));
+                name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
@@ -153,6 +162,7 @@ String booking_id;
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -163,21 +173,23 @@ String booking_id;
             }
             if(statusValue.equalsIgnoreCase("pending")){
                 cancel_request_txt.setVisibility(View.VISIBLE);
+                cancel_request_txt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogWindow();
+                        ComAdnDelMethod();
+                    }
+                });
             }else{
-                cancel_request_txt.setVisibility(View.GONE);
+                cancel_request_txt.setText(statusValue);
             }
+
         }
 
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
-        cancel_request_txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogWindow();
-                ComAdnDelMethod();
-            }
-        });
+
     }
 
     public String formatdate2(String fdate) {
@@ -324,5 +336,9 @@ String booking_id;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
-
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
+    }
 }

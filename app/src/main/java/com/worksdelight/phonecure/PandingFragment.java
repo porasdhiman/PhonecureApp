@@ -219,7 +219,7 @@ public class PandingFragment extends Fragment {
             delivered_date_txt.setText(formatdate2(list.get(position).get(GlobalConstant.date)));
 
 
-            name.setText(list.get(position).get(GlobalConstant.name));
+            name.setText(cap(list.get(position).get(GlobalConstant.name)));
 
 
 
