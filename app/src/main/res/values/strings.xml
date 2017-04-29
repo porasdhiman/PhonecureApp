@@ -8,6 +8,7 @@
     <string name="user_sign_up_xt">Register as a user</string>
     <string name="tech_sign_up_xt"> Register as technicians</string>
     <string name="facebook_app_id">353765961480835</string>
+    <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
 
     <string name="current_name">My postion</string>
 </resources>

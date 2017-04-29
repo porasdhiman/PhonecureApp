@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +60,12 @@ public class TechniciansDetailActivity extends Activity {
     int pos;
     String favorite;
 ImageView back;
+    TextView repair_on_location,repair_at_shop,total_job,total_review;
+    LinearLayout sun_layout,mon_layout,tue_layout,wed_layout,thu_layout,fri_layout,sat_layout,working_layout;
+    TextView sun_txt,mon_txt,tue_txt,wed_txt,thu_txt,fri_txt,sat_txt;
+
+    TextView sun_time,mon_time,tue_time,wed_time,thu_time,fri_time,sat_time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,12 +97,17 @@ ImageView back;
                 finish();
             }
         });
+        repair_at_shop = (TextView) findViewById(R.id.repair_at_shop);
+        repair_on_location = (TextView) findViewById(R.id.repair_on_location);
+        total_job= (TextView) findViewById(R.id.total_job);
+        total_review = (TextView) findViewById(R.id.total_review);
         user_view = (CircleImageView) findViewById(R.id.user_view);
         favorite_img = (ImageView) findViewById(R.id.favorite_img);
         tech_name = (TextView) findViewById(R.id.tech_name);
         rating_value = (TextView) findViewById(R.id.rating_value);
         book_appointment = (TextView) findViewById(R.id.book_appointment);
         pos = Integer.parseInt(getIntent().getExtras().getString("pos"));
+        workingHoursShowMehod(pos);
         book_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +118,20 @@ ImageView back;
             }
         });
 
-        tech_name.setText(global.getDateList().get(pos).get(GlobalConstant.name));
+        if(global.getDateList().get(pos).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
+            repair_at_shop.setText("Yes");
+        }else{
+            repair_at_shop.setText("No");
+        }
+        if(global.getDateList().get(pos).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+            repair_on_location.setText("Yes");
+        }else{
+            repair_on_location.setText("No");
+        }
+        total_job.setText(global.getDateList().get(pos).get(GlobalConstant.total_bookings));
+        total_review.setText(global.getDateList().get(pos).get(GlobalConstant.reviews));
+
+        tech_name.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
         rating_value.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")
@@ -139,7 +165,11 @@ ImageView back;
             }
         });
     }
-
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
+    }
     public void wishMethod() {
         if (global.getDateList().get(pos).get(GlobalConstant.favorite).equalsIgnoreCase("0")) {
             favorite_img.setImageResource(R.drawable.heart_img);
@@ -245,6 +275,99 @@ ImageView back;
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
+    }
+
+    public void workingHoursShowMehod(int p){
+        working_layout=(LinearLayout)findViewById(R.id.working_layout);
+        sun_layout=(LinearLayout)findViewById(R.id.sun_layout);
+        mon_layout=(LinearLayout)findViewById(R.id.mon_layout);
+        tue_layout=(LinearLayout)findViewById(R.id.tue_layout);
+        wed_layout=(LinearLayout)findViewById(R.id.wed_layout);
+        thu_layout=(LinearLayout)findViewById(R.id.thu_layout);
+        fri_layout=(LinearLayout)findViewById(R.id.fri_layout);
+        sat_layout=(LinearLayout)findViewById(R.id.sat_layout);
+
+        sun_txt=(TextView)findViewById(R.id.sun_txt);
+        mon_txt=(TextView)findViewById(R.id.mon_txt);
+        tue_txt=(TextView)findViewById(R.id.tue_txt);
+        wed_txt=(TextView)findViewById(R.id.wed_txt);
+        thu_txt=(TextView)findViewById(R.id.thu_txt);
+        fri_txt=(TextView)findViewById(R.id.fri_txt);
+        sat_txt=(TextView)findViewById(R.id.sat_txt);
+
+        sun_time=(TextView)findViewById(R.id.sun_time);
+        mon_time=(TextView)findViewById(R.id.mon_time);
+        tue_time=(TextView)findViewById(R.id.tue_time);
+        wed_time=(TextView)findViewById(R.id.wed_time);
+        thu_time=(TextView)findViewById(R.id.thu_time);
+        fri_time=(TextView)findViewById(R.id.fri_time);
+        sat_time=(TextView)findViewById(R.id.sat_time);
+
+        try {
+            JSONObject obj=global.getCartData().getJSONObject(p);
+            JSONArray avail_arr=obj.getJSONArray(GlobalConstant.availability);
+            if(avail_arr.length()==0){
+                working_layout.setVisibility(View.GONE);
+            }else{
+                JSONObject sun_obj=avail_arr.getJSONObject(0);
+                if(sun_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    sun_txt.setText(sun_obj.getString(GlobalConstant.day));
+                    sun_time.setText(sun_obj.getString(GlobalConstant.opening_time)+":"+sun_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    sun_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject mon_obj=avail_arr.getJSONObject(1);
+                if(mon_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    mon_txt.setText(mon_obj.getString(GlobalConstant.day));
+                    mon_time.setText(mon_obj.getString(GlobalConstant.opening_time)+":"+mon_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    mon_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject tue_obj=avail_arr.getJSONObject(2);
+                if(tue_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    tue_txt.setText(tue_obj.getString(GlobalConstant.day));
+                    tue_time.setText(tue_obj.getString(GlobalConstant.opening_time)+":"+tue_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    tue_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject wed_obj=avail_arr.getJSONObject(3);
+                if(wed_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    wed_txt.setText(wed_obj.getString(GlobalConstant.day));
+                    wed_time.setText(wed_obj.getString(GlobalConstant.opening_time)+":"+wed_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    wed_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject thu_obj=avail_arr.getJSONObject(4);
+                if(thu_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    thu_txt.setText(thu_obj.getString(GlobalConstant.day));
+                    thu_txt.setText(thu_obj.getString(GlobalConstant.opening_time)+":"+thu_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    thu_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject fri_obj=avail_arr.getJSONObject(5);
+                if(fri_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    fri_txt.setText(fri_obj.getString(GlobalConstant.day));
+                    fri_time.setText(fri_obj.getString(GlobalConstant.opening_time)+":"+fri_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    fri_layout.setVisibility(View.GONE);
+                }
+
+                JSONObject sat_obj=avail_arr.getJSONObject(6);
+                if(sat_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
+                    sat_txt.setText(sat_obj.getString(GlobalConstant.day));
+                    sat_time.setText(sat_obj.getString(GlobalConstant.opening_time)+":"+sat_obj.getString(GlobalConstant.closing_time));
+                }else{
+                    sat_layout.setVisibility(View.GONE);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

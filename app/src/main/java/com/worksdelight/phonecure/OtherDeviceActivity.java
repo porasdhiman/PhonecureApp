@@ -117,7 +117,7 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
                 iPhone.putExtra(GlobalConstant.sub_category_id, list.get(i).get(GlobalConstant.sub_category_id));
 
-                //global.setDeviceId(list.get(i).get(GlobalConstant.id));
+                global.setDeviceId(list.get(i).get(GlobalConstant.id));
 
                 startActivity(iPhone);
 

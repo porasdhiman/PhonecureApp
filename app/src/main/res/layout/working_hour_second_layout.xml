@@ -177,7 +177,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
 
@@ -226,7 +226,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
 
@@ -319,7 +319,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
 
@@ -411,7 +411,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
                             />
@@ -505,7 +505,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
 
@@ -600,7 +600,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity=""
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp"
                             />
@@ -695,7 +695,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="Clossed"
+                            android:text="Closed"
                             android:textColor="#000"
                             android:textSize="12sp" />
                         <LinearLayout

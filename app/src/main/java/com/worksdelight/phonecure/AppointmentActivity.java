@@ -21,6 +21,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -56,7 +58,7 @@ public class AppointmentActivity extends Activity {
     Dialog dialog2;
 String booking_id;
     String statusValue;
-
+ImageView user_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ String booking_id;
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
 
         back_img = (ImageView) findViewById(R.id.back_img);
+        user_view= (ImageView) findViewById(R.id.user_view);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +97,19 @@ String booking_id;
                 booking_id=obj.getString(GlobalConstant.id);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
+                TextDrawable drawable = TextDrawable.builder()
+                        .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
+
+                    user_view.setImageDrawable(drawable);
+                } else {
+                    Picasso.with(this).load(GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(user_view);
+
+
+                    //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+                }
+
+
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
@@ -126,7 +142,7 @@ String booking_id;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cancel_request_txt.setText("Download");
+            cancel_request_txt.setText("Download Invoice");
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -142,6 +158,17 @@ String booking_id;
                 statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
+                TextDrawable drawable = TextDrawable.builder()
+                        .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
+
+                    user_view.setImageDrawable(drawable);
+                } else {
+                    Picasso.with(this).load(GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(user_view);
+
+
+                    //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+                }
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
@@ -183,7 +210,7 @@ String booking_id;
                     }
                 });
             }else{
-                cancel_request_txt.setText(statusValue);
+                cancel_request_txt.setText("Order "+statusValue);
             }
 
         }

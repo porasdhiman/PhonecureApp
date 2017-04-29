@@ -268,6 +268,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/total_job"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="342"
@@ -310,6 +311,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/total_review"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
@@ -366,6 +368,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/repair_at_shop"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Yes"
@@ -405,6 +408,8 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/repair_on_location"
+
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Yes"
@@ -420,6 +425,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/working_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -438,6 +444,7 @@
                     android:textSize="@dimen/header_txt" />
 
                 <LinearLayout
+                    android:id="@+id/sun_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -445,116 +452,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Monday"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="9:00 Am - 6:30 Pm"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Tuesday"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="9:00 Am - 6:30 Pm"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Wednesday"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="9:00 Am - 6:30 Pm"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Thursday"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="9:00 Am - 6:30 Pm"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Friday"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="9:00 Am - 6:30 Pm"
-                        android:textColor="@color/mainTextColor"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
+                        android:id="@+id/sun_txt"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="Saturday"
@@ -562,6 +460,156 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/sun_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/mon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/mon_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Monday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/mon_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tue_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tue_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Tuesday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tue_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wed_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/wed_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Wednesday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/wed_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/thu_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/thu_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Thursday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/thu_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/fri_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/fri_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Friday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/fri_time"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="9:00 Am - 6:30 Pm"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/sat_txt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Saturday"
+                        android:textColor="@color/mainTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/sat_time"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"

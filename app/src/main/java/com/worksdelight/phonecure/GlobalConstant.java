@@ -132,4 +132,6 @@ public class GlobalConstant {
     public static String day="day";
     public static String repair_at_shop="repair_at_shop";
     public static String repair_on_location="repair_on_location";
+    public static String total_bookings="total_bookings";
+    public static String reviews="reviews";
 }

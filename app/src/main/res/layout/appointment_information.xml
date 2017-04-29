@@ -60,7 +60,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/user_view"
                         android:layout_width="45dp"
                         android:layout_height="45dp"

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,13 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,8 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by worksdelight on 24/04/17.
@@ -149,7 +149,7 @@ public class UserCompletedFragment extends Fragment {
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
                 holder.download_img = (ImageView) view.findViewById(R.id.download_img);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
-                holder.tech_view = (CircleImageView) view.findViewById(R.id.tech_view);
+                holder.tech_view = (ImageView) view.findViewById(R.id.tech_view);
                 view.setTag(holder);
                 holder.download_img.setTag(holder);
 
@@ -164,7 +164,18 @@ public class UserCompletedFragment extends Fragment {
 
 
             // holder.specilist.setText(list.get(i).get(GlobalConstant.average_rating));
-            String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+            if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
+
+                holder.tech_view.setImageDrawable(drawable);
+            } else {
+                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(holder.tech_view );
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
+           /* String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.tech_view, options,
@@ -179,7 +190,7 @@ public class UserCompletedFragment extends Fragment {
                         });
             } else {
                 holder.tech_view.setImageResource(R.drawable.user_back);
-            }
+            }*/
             holder.download_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -192,7 +203,7 @@ public class UserCompletedFragment extends Fragment {
         public class Holder {
             ImageView cancel, chat, message, call;
             LinearLayout setting_layout, setting_call_layout;
-            CircleImageView tech_view;
+            ImageView tech_view;
             TextView name, delivered_date_txt, price_txt, rating_value;
             ImageView download_img;
 

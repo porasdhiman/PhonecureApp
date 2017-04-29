@@ -53,7 +53,7 @@ import java.util.HashMap;
  * Created by worksdelight on 20/04/17.
  */
 
-public class TechniciansHomeActivity extends Activity implements View.OnClickListener{
+public class TechniciansHomeActivity extends Activity implements View.OnClickListener {
     private View parentView;
 
     TextView current_device_name_txt, done_txtView, cancel_txtView;
@@ -70,8 +70,9 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     Marker markers;
     TextView techniciansName_txtView, service_txt, booking_txt;
     RelativeLayout appointment_layout, service_layout, profile_layout, setting_layout;
-TextView header_txt;
+    TextView header_txt;
     ImageView message_img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,8 +83,6 @@ TextView header_txt;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-
-
 
 
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
@@ -104,12 +103,12 @@ TextView header_txt;
             measuredHeight = d.getHeight();
         }
 
-        global = (Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         init();
         mapView = (MapView) findViewById(R.id.mapView);
         service_txt = (TextView) findViewById(R.id.service_txt);
         booking_txt = (TextView) findViewById(R.id.booking_txt);
-       // techniciansName_txtView = (TextView)findViewById(R.id.techniciansName_txtView);
+        // techniciansName_txtView = (TextView)findViewById(R.id.techniciansName_txtView);
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
@@ -138,10 +137,11 @@ TextView header_txt;
         dialogWindow();
         showDeviceMethod();
     }
+
     public void init() {
-        header_txt=(TextView)findViewById(R.id.header_txt);
-        message_img=(ImageView) findViewById(R.id.message_img);
-       // techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
+        header_txt = (TextView) findViewById(R.id.header_txt);
+        message_img = (ImageView) findViewById(R.id.message_img);
+        // techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
         appointment_layout = (RelativeLayout) findViewById(R.id.appointment_layout);
         service_layout = (RelativeLayout) findViewById(R.id.service_layout);
         profile_layout = (RelativeLayout) findViewById(R.id.profile_layout);
@@ -151,7 +151,7 @@ TextView header_txt;
         profile_layout.setOnClickListener(this);
         setting_layout.setOnClickListener(this);
         message_img.setOnClickListener(this);
-        String title=header_txt.getText().toString();
+        String title = header_txt.getText().toString();
         SpannableStringBuilder builder = new SpannableStringBuilder();
 
         SpannableString str1 = new SpannableString(title);
@@ -164,10 +164,10 @@ TextView header_txt;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
+        if (requestCode == 0) {
             dialogWindow();
             showDeviceMethod();
-        }else{
+        } else {
 
         }
     }
@@ -177,12 +177,12 @@ TextView header_txt;
         switch (v.getId()) {
             case R.id.appointment_layout:
                 Intent i = new Intent(this, TechniciansHistory.class);
-                startActivityForResult(i,0);
+                startActivityForResult(i, 0);
                 break;
             case R.id.service_layout:
                 Intent j = new Intent(this, TechniciansDevice.class);
-                j.putExtra("type","1");
-                startActivity(j);
+                j.putExtra("type", "1");
+                startActivityForResult(j, 0);
                 break;
             case R.id.profile_layout:
                 Intent w = new Intent(this, TechniciansEditProfileActivity.class);
@@ -215,7 +215,7 @@ TextView header_txt;
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         mapView.onResume();
     }
@@ -273,14 +273,14 @@ TextView header_txt;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data = obj.getJSONObject("data");
-                               // techniciansName_txtView.setText("Hi, " + data.getString("name"));
+                                // techniciansName_txtView.setText("Hi, " + data.getString("name"));
                                 booking_txt.setText(data.getString("booking_count") + " Scheduled");
 
                                 service_txt.setText(data.getString("services_count") + " Services");
 
 
                             } else {
-                               // Toast.makeText(TechniciansHomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(TechniciansHomeActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
 

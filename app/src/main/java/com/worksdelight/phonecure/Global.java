@@ -254,6 +254,26 @@ public class Global extends Application {
         OtherData = otherData;
     }
 
+    String dropOff;
+
+    public String getPickUp() {
+        return pickUp;
+    }
+
+    public void setPickUp(String pickUp) {
+        this.pickUp = pickUp;
+    }
+
+    public String getDropOff() {
+        return dropOff;
+    }
+
+    public void setDropOff(String dropOff) {
+        this.dropOff = dropOff;
+    }
+
+    String pickUp;
+
     JSONArray OtherData;
     @Override
     public void onCreate() {

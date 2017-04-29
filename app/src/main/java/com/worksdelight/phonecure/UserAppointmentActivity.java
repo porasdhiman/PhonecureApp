@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,7 +37,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -51,15 +52,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * Created by worksdelight on 24/04/17.
  */
 
 public class UserAppointmentActivity extends Activity {
     ImageView back_img;
-    CircleImageView user_view;
+    ImageView user_view;
     TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price,close_date_txt;
     ListView service_list;
     Global global;
@@ -103,7 +102,7 @@ public class UserAppointmentActivity extends Activity {
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
-        user_view=(CircleImageView) findViewById(R.id.user_view);
+        user_view=(ImageView) findViewById(R.id.user_view);
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
@@ -120,20 +119,16 @@ public class UserAppointmentActivity extends Activity {
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
-                if (url != null && !url.equalsIgnoreCase("null")
-                        && !url.equalsIgnoreCase("")) {
-                    imageLoader.displayImage(url, user_view, options,
-                            new SimpleImageLoadingListener() {
-                                @Override
-                                public void onLoadingComplete(String imageUri,
-                                                              View view, Bitmap loadedImage) {
-                                    super.onLoadingComplete(imageUri, view,
-                                            loadedImage);
+                TextDrawable drawable = TextDrawable.builder()
+                        .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
 
-                                }
-                            });
+                    user_view.setImageDrawable(drawable);
                 } else {
-                    user_view.setImageResource(R.drawable.user_back);
+                    Picasso.with(this).load(GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(user_view);
+
+
+                    //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
                 JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
                 JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
@@ -168,7 +163,7 @@ public class UserAppointmentActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            cancel_request_txt.setText("Download");
+            cancel_request_txt.setText("Download Invoice");
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -184,21 +179,16 @@ public class UserAppointmentActivity extends Activity {
                 statusValue=obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
-                String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
-                if (url != null && !url.equalsIgnoreCase("null")
-                        && !url.equalsIgnoreCase("")) {
-                    imageLoader.displayImage(url, user_view, options,
-                            new SimpleImageLoadingListener() {
-                                @Override
-                                public void onLoadingComplete(String imageUri,
-                                                              View view, Bitmap loadedImage) {
-                                    super.onLoadingComplete(imageUri, view,
-                                            loadedImage);
+                TextDrawable drawable = TextDrawable.builder()
+                        .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
 
-                                }
-                            });
+                    user_view.setImageDrawable(drawable);
                 } else {
-                    user_view.setImageResource(R.drawable.user_back);
+                    Picasso.with(this).load(GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(user_view);
+
+
+                    //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
                 JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
                 JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
@@ -242,7 +232,7 @@ public class UserAppointmentActivity extends Activity {
                     }
                 });
             }else{
-                cancel_request_txt.setText(statusValue);
+                cancel_request_txt.setText("Order "+statusValue);
             }
         }
 

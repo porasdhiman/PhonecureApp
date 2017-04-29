@@ -3,6 +3,7 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -509,7 +510,11 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
-                Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
+                Intent f = new Intent(WoorkingHourSecondActivity.this, TechniciansDevice.class);
+                f.putExtra("type", "0");
+                startActivity(f);
+                finish();
+               // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -587,7 +592,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 String status = obj.getString("status");
                 if (status.equalsIgnoreCase("1")) {
                     success = "true";
-                    message = obj.getString("message");
+                    //message = obj.getString("message");
 
 
                 } else {

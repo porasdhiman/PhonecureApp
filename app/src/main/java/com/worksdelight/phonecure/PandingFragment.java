@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -42,8 +44,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by worksdelight on 12/04/17.
@@ -72,6 +72,7 @@ public class PandingFragment extends Fragment {
                 map.put(GlobalConstant.status, obj.getString(GlobalConstant.status));
                 JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
                 map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
 
                 list.add(map);
 
@@ -93,7 +94,6 @@ public class PandingFragment extends Fragment {
         });
         return v;
     }
-
 
 
     public static PandingFragment newInstance(String text) {
@@ -133,7 +133,7 @@ public class PandingFragment extends Fragment {
 
         @Override
         public int getSwipeLayoutResourceId(int position) {
-                return R.id.swipe;
+            return R.id.swipe;
 
         }
 
@@ -182,7 +182,7 @@ public class PandingFragment extends Fragment {
 
                     }
                 });
-            }else{
+            } else {
                 swipeLayout.setRightSwipeEnabled(false);
             }
 
@@ -197,15 +197,14 @@ public class PandingFragment extends Fragment {
             TextView delivered_date_txt = (TextView) convertView.findViewById(R.id.delivered_date_txt);
 
             TextView price_txt = (TextView) convertView.findViewById(R.id.price_txt);
-            TextView status_txt=(TextView)convertView.findViewById(R.id.status_txt);
-
-            if(list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")){
+            TextView status_txt = (TextView) convertView.findViewById(R.id.status_txt);
+            ImageView tech_img = (ImageView) convertView.findViewById(R.id.tech_view);
+            if (list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
                 status_txt.setTextColor(getResources().getColor(R.color.main_color));
                 status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));
-            }else{
+            } else {
                 status_txt.setTextColor(Color.parseColor("#ff0000"));
                 status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));
-
 
 
             }
@@ -217,7 +216,17 @@ public class PandingFragment extends Fragment {
 
             name.setText(cap(list.get(position).get(GlobalConstant.name)));
 
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+            if (list.get(position).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
+                tech_img.setImageDrawable(drawable);
+            } else {
+                Picasso.with(mContext).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(position).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(tech_img);
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
 
 
           /*  holder.setting_layout.setVisibility(View.GONE);
@@ -263,7 +272,7 @@ public class PandingFragment extends Fragment {
         class Holder {
             ImageView cancel, chat, message, call;
             LinearLayout setting_layout, setting_call_layout;
-            CircleImageView tech_view;
+            ImageView tech_view;
             TextView name, delivered_date_txt, price_txt, rating_value;
         }
     }
@@ -398,6 +407,8 @@ public class PandingFragment extends Fragment {
                                         map.put(GlobalConstant.status, obj1.getString(GlobalConstant.status));
                                         JSONObject user_detail = obj1.getJSONObject(GlobalConstant.user_detail);
                                         map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                                        map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
+
                                         list.add(map);
 
                                     } catch (JSONException e) {
@@ -429,6 +440,7 @@ public class PandingFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));

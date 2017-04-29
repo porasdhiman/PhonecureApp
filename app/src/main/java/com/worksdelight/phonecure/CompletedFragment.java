@@ -3,6 +3,7 @@ package com.worksdelight.phonecure;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,8 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by worksdelight on 12/04/17.
@@ -52,6 +54,7 @@ public class CompletedFragment extends Fragment {
                 map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
                 JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
                 map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
                 list.add(map);
 
             } catch (JSONException e) {
@@ -124,6 +127,7 @@ public class CompletedFragment extends Fragment {
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
                 holder.download_img = (ImageView) view.findViewById(R.id.download_img);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
+                holder.tech_view=(ImageView)view.findViewById(R.id.tech_view);
                 view.setTag(holder);
                 holder.download_img.setTag(holder);
 
@@ -135,7 +139,17 @@ public class CompletedFragment extends Fragment {
                 holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
                 holder.price_txt.setText("$"+list.get(i).get(GlobalConstant.total_amount));
                 holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+            if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
+                holder.tech_view.setImageDrawable(drawable);
+            } else {
+                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into( holder.tech_view);
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
 
           /*  holder.setting_layout.setVisibility(View.GONE);
             holder.name.setText(list.get(i).get(GlobalConstant.name));
@@ -172,7 +186,7 @@ public class CompletedFragment extends Fragment {
         public class Holder {
             ImageView cancel, chat, message, call,download_img;
             LinearLayout setting_layout, setting_call_layout;
-            CircleImageView tech_view;
+            ImageView tech_view;
             TextView name, delivered_date_txt, price_txt, rating_value;
 
         }

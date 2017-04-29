@@ -155,7 +155,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     ImageView back;
     NumberPicker minutePicker;
     private int TIME_PICKER_INTERVAL = 15;
-
+    ImageView pickUp_img, dropoff_img;
+    int p = 0;
+TextView distance_shop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,6 +176,8 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+        pickUp_img = (ImageView) findViewById(R.id.pickUp_img);
+        dropoff_img = (ImageView) findViewById(R.id.dropoff_img);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,11 +186,13 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             }
         });
         book_btn = (TextView) findViewById(R.id.book_btn);
+        distance_shop=(TextView)findViewById(R.id.distance_shop);
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
         time_txtView = (TextView) findViewById(R.id.time_txtView);
         pos = getIntent().getExtras().getString("pos");
-        technicians_name.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name));
+        technicians_name.setText(cap(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name)));
+        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance));
         user_img = (CircleImageView) findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")
@@ -231,9 +237,12 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                     Toast.makeText(BookAppoinmentActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
                 } else if (time_txtView.getText().length() == 0) {
                     Toast.makeText(BookAppoinmentActivity.this, "Please select time", Toast.LENGTH_SHORT).show();
-                } else {
+                }else if (p != 1) {
+                    Toast.makeText(BookAppoinmentActivity.this, "select one shipping category", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
-                   // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                    // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     i.putExtra("pos", String.valueOf(pos));
                     startActivity(i);
                 }
@@ -274,6 +283,27 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 timePicker();
             }
         });
+        pickUp_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                pickUp_img.setImageResource(R.drawable.pickup);
+                dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+                global.setPickUp("1");
+                global.setDropOff("0");
+                p = 1;
+            }
+        });
+        dropoff_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickUp_img.setImageResource(R.drawable.pickup_unselect);
+                dropoff_img.setImageResource(R.drawable.dropoff);
+                global.setPickUp("0");
+                global.setDropOff("1");
+                p = 1;
+            }
+        });
     }
 
     @Override
@@ -290,6 +320,12 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         }
 
 
+    }
+
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 
     @Override

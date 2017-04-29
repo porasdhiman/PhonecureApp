@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -74,9 +73,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // attach to current activity;
         //notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(sp.getString(GlobalConstant.name, "").substring(0, 1).toUpperCase(), getResources().getColor(R.color.main_color));
-        resideMenu = new ResideMenu(this, drawable, sp.getString(GlobalConstant.name, ""));
+
+        resideMenu = new ResideMenu(this, sp.getString(GlobalConstant.image, ""), sp.getString(GlobalConstant.name, ""));
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);

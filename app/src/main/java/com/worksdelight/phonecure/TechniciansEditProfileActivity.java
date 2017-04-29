@@ -136,6 +136,8 @@ public class TechniciansEditProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 edit_txt.setVisibility(View.GONE);
+                email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
                 name_ed.setEnabled(true);
                 vat_ed.setEnabled(true);
                 update_profile.setVisibility(View.VISIBLE);

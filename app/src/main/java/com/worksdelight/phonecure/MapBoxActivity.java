@@ -307,6 +307,11 @@ public class MapBoxActivity extends Activity {
                                         map.put(GlobalConstant.availability, objArr.getString(GlobalConstant.availability));
                                         map.put(GlobalConstant.off_days, objArr.getString(GlobalConstant.off_days));
                                         map.put(GlobalConstant.distance, objArr.getString(GlobalConstant.distance));
+                                        map.put(GlobalConstant.repair_at_shop, objArr.getString(GlobalConstant.repair_at_shop));
+
+                                        map.put(GlobalConstant.repair_on_location, objArr.getString(GlobalConstant.repair_on_location));
+                                        map.put(GlobalConstant.total_bookings, objArr.getString(GlobalConstant.total_bookings));
+                                        map.put(GlobalConstant.reviews, objArr.getString(GlobalConstant.reviews));
 
                                         map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
                                         map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));

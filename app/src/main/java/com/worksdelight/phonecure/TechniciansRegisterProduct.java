@@ -110,7 +110,7 @@ public class TechniciansRegisterProduct extends Activity {
             }
         });
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
-        price_ed.setText(global.getServiceList().get(p).get(GlobalConstant.price));
+        price_ed.setText("$"+global.getServiceList().get(p).get(GlobalConstant.price));
         time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
         if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
             done.setText("Update Service");

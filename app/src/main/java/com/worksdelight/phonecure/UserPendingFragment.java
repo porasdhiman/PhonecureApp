@@ -22,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,7 +36,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,8 +48,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by worksdelight on 24/04/17.
@@ -165,7 +164,7 @@ public class UserPendingFragment extends Fragment {
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
                 holder.delivered_txt = (TextView) view.findViewById(R.id.delivered_txt);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
-                holder.tech_view = (CircleImageView) view.findViewById(R.id.tech_view);
+                holder.tech_view = (ImageView) view.findViewById(R.id.tech_view);
                 holder.status_txt = (TextView) view.findViewById(R.id.status_txt);
                 view.setTag(holder);
 
@@ -188,9 +187,19 @@ public class UserPendingFragment extends Fragment {
             holder.price_txt.setText("$" + list.get(i).get(GlobalConstant.total_amount));
             holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
 
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+            if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
+                holder.tech_view.setImageDrawable(drawable);
+            } else {
+                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(holder.tech_view );
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
             // holder.specilist.setText(list.get(i).get(GlobalConstant.average_rating));
-            String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
+           /* String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
             Log.e("tech image", url);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
@@ -206,7 +215,7 @@ public class UserPendingFragment extends Fragment {
                         });
             } else {
                 holder.tech_view.setImageResource(R.drawable.user_back);
-            }
+            }*/
 
             return view;
         }
@@ -214,7 +223,7 @@ public class UserPendingFragment extends Fragment {
         public class Holder {
             ImageView cancel, chat, message, call;
             LinearLayout setting_layout, setting_call_layout;
-            CircleImageView tech_view;
+            ImageView tech_view;
             TextView name, delivered_date_txt, price_txt, status_txt, delivered_txt;
 
         }

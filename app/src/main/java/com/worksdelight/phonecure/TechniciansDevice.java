@@ -170,12 +170,14 @@ public class TechniciansDevice extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray data = obj.getJSONArray("data");
+                                global.setOtherData(data);
                                 for (int i = 0; i < data.length(); i++) {
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
+                                    map.put(GlobalConstant.category_id, arryObj.getString(GlobalConstant.category_id));
                                     map.put(GlobalConstant.status, arryObj.getString(GlobalConstant.status));
                                     map.put(GlobalConstant.services_count, arryObj.getString(GlobalConstant.services_count));
 
@@ -185,7 +187,7 @@ public class TechniciansDevice extends Activity {
                                         map.put(GlobalConstant.value, "false");
 
                                     }
-                                    JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
+                                    /*JSONArray sub_categories = arryObj.getJSONArray(GlobalConstant.sub_categories);
                                     if (sub_categories.length() > 0) {
                                         for (int k = 0; k < sub_categories.length(); k++) {
                                             JSONObject sub_categoriesObj = sub_categories.getJSONObject(k);
@@ -202,7 +204,7 @@ public class TechniciansDevice extends Activity {
                                     } else {
                                         map.put(GlobalConstant.sub_categories, nextList.toString());
                                     }
-
+*/
                                     list.add(map);
                                 }
                                 global.setOtherDeviceList(list);

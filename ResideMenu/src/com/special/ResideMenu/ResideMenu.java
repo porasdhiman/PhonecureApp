@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.KeyCharacterMap;
@@ -24,7 +25,9 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,15 +86,17 @@ public class ResideMenu extends FrameLayout {
 
     private boolean mUse3D;
     private static final int ROTATE_Y_ANGLE = 10;
-    TextDrawable image;
+    String image;
     String name_txt;
     String balance;
-    ImageView user_img;TextView user_name,user_balance;
-    public ResideMenu(Context context, TextDrawable image , String name_txt/*,String balance*/) {
+    ImageView user_img;
+    TextView user_name, user_balance;
+
+    public ResideMenu(Context context, String image, String name_txt/*,String balance*/) {
         super(context);
-        this.image=image;
-        this.name_txt=name_txt;
-       // this.balance=balance;
+        this.image = image;
+        this.name_txt = name_txt;
+        // this.balance=balance;
         initViews(context, -1, -1);
     }
 
@@ -118,12 +123,29 @@ public class ResideMenu extends FrameLayout {
             scrollViewLeftMenu = inflater.inflate(
                     R.layout.residemenu_custom_left_scrollview, this, false);
             layoutLeftMenu = (LinearLayout) scrollViewLeftMenu.findViewById(R.id.layout_left_menu);
-            user_img=(ImageView)scrollViewLeftMenu.findViewById(R.id.user_img);
-            user_name=(TextView) scrollViewLeftMenu.findViewById(R.id.user_name);
-            user_balance=(TextView) scrollViewLeftMenu.findViewById(R.id.balnce_txt);
-            user_img.setImageDrawable(image);
+            user_img = (ImageView) scrollViewLeftMenu.findViewById(R.id.user_img);
+            user_name = (TextView) scrollViewLeftMenu.findViewById(R.id.user_name);
+            user_balance = (TextView) scrollViewLeftMenu.findViewById(R.id.balnce_txt);
+
             user_name.setText(cap(name_txt));
-           // user_balance.setText(balance);
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#47c63d"));
+            if (image.contains("storage")||image.contains("")) {
+                if (image.equalsIgnoreCase("")) {
+                    user_img.setImageDrawable(drawable);
+
+                } else {
+                    Picasso.with(context).load(new File(image)).placeholder(drawable).transform(new CircleTransform()).into(user_img);
+
+                }
+            } else {
+                Picasso.with(context).load("http://worksdelight.com/phone_cure/uploads/users/" + image).placeholder(drawable).transform(new CircleTransform()).into(user_img);
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
+
+            // user_balance.setText(balance);
             user_balance.setVisibility(View.GONE);
         }
 
@@ -200,6 +222,7 @@ public class ResideMenu extends FrameLayout {
         setShadowAdjustScaleXByOrientation();
         viewDecor.addView(this, 0);
     }
+
     /*public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
@@ -733,6 +756,7 @@ public class ResideMenu extends FrameLayout {
             removeView(scrollViewMenu);
         }
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
