@@ -152,6 +152,7 @@
                             android:background="@drawable/inc_and_dec_back"
                             android:gravity="center"
                             android:paddingLeft="5dp"
+                            android:inputType="number"
                             android:text=""
                             android:textColor="#000"
                             android:textSize="@dimen/sab_txt" />

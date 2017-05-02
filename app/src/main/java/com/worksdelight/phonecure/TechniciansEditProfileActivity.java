@@ -19,6 +19,7 @@ import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -122,8 +123,10 @@ public class TechniciansEditProfileActivity extends Activity {
         Log.e("url", GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, ""));
         Picasso.with(this).load(GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, "")).into(tech_img);
         name_ed.setText(sp.getString(GlobalConstant.name, ""));
+        name_ed.setSelection(name_ed.getText().length());
         email_ed.setText(sp.getString(GlobalConstant.email, ""));
         vat_ed.setText(sp.getString(GlobalConstant.vat_number, ""));
+        vat_ed.setSelection(vat_ed.getText().length());
         address_ed.setText(sp.getString(GlobalConstant.address, ""));
         org_ed.setText(sp.getString(GlobalConstant.organization, ""));
         camer_click.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +140,8 @@ public class TechniciansEditProfileActivity extends Activity {
             public void onClick(View view) {
                 edit_txt.setVisibility(View.GONE);
                 email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+                address_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+                org_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
 
                 name_ed.setEnabled(true);
                 vat_ed.setEnabled(true);
@@ -168,17 +173,36 @@ public class TechniciansEditProfileActivity extends Activity {
                 return false;
             }
         });
+        vat_ed.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+
+                        case KeyEvent.KEYCODE_ENTER:
+                            vat_ed.setFocusable(false);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
+
         update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (name_ed.getText().length() == 0) {
-                    name_ed.setError("Please enter name");
+                    Toast.makeText(TechniciansEditProfileActivity.this,"Please enter name",Toast.LENGTH_SHORT).show();
+
                 } else if (vat_ed.getText().length() == 0) {
-                    vat_ed.setError("Please enter vat no.");
+                    Toast.makeText(TechniciansEditProfileActivity.this,"Please enter vat no.",Toast.LENGTH_SHORT).show();
                 } else if (address_ed.getText().length() == 0) {
-                    vat_ed.setError("your vat no. is invalid");
+                    Toast.makeText(TechniciansEditProfileActivity.this,"your vat no. is invalid",Toast.LENGTH_SHORT).show();
+
                 } else if (org_ed.getText().length() == 0) {
-                    vat_ed.setError("your vat no. is invalid");
+                    Toast.makeText(TechniciansEditProfileActivity.this,"your vat no. is invalid",Toast.LENGTH_SHORT).show();
+
                 } else {
                     dialogWindow();
                     //editprofile();

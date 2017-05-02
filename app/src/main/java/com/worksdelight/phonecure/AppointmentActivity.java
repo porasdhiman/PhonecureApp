@@ -2,12 +2,16 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +40,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,8 +67,9 @@ public class AppointmentActivity extends Activity {
     ScrollView main_scroll;
     Dialog dialog2;
 String booking_id;
-    String statusValue;
+    String statusValue,filePath,invoice;
 ImageView user_view;
+    File pdfFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +106,7 @@ ImageView user_view;
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id=obj.getString(GlobalConstant.id);
+                invoice=obj.getString(GlobalConstant.invoice);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
@@ -146,6 +158,7 @@ ImageView user_view;
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL+invoice, AppointmentActivity.this);
 
                 }
             });
@@ -345,6 +358,7 @@ ImageView user_view;
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put(GlobalConstant.id, booking_id);
+                params.put(GlobalConstant.USERID, CommonUtils.UserID(AppointmentActivity.this));
                 params.put(GlobalConstant.status, "cancelled");
 
 
@@ -377,5 +391,127 @@ ImageView user_view;
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         return sb.toString();
+    }
+
+    //-------------------------background proceess for pdf file------------------
+    public void loadProfileImage(String file_url, Context c) {
+        String splitPath[] = file_url.split("/");
+        String targetFileName = splitPath[splitPath.length - 1];
+
+
+        pdfFile = new File(Environment.getExternalStorageDirectory() + "/PhoneCure/" + targetFileName);
+        if (pdfFile.exists()) {
+
+
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.fromFile(pdfFile);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            catch (ActivityNotFoundException e)
+            {
+                Toast.makeText(AppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
+            }
+        } else {
+
+            dialogWindow();
+            new DownloadFileAsync().execute(file_url);
+
+        }
+    }
+
+
+    class DownloadFileAsync extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //showDialog(DIALOG_DOWNLOAD_PROGRESS);
+        }
+
+        @Override
+        protected String doInBackground(String... aurl) {
+            int count = 0;
+            int MEGABYTE = 1024;
+            //Integer.parseInt(listing.get(p).get("file_size"));
+            try {
+
+                URL url = new URL(aurl[0]);
+                String path = (String) aurl[0];
+                String splitPath[] = path.split("/");
+
+                String targetFileName = splitPath[splitPath.length - 1];
+                File f = new File(Environment.getExternalStorageDirectory() + "/PhoneCure/");
+                f.mkdir();
+
+                pdfFile = new File(f, targetFileName);
+                try {
+                    pdfFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                filePath = pdfFile.toString();
+//create storage directories, if they don't exist
+
+                HttpURLConnection c = (HttpURLConnection) url.openConnection();
+                c.setRequestMethod("GET");
+                // c.setDoOutput(true);
+                c.connect();
+
+
+                InputStream input = c.getInputStream();// new BufferedInputStream(url.openStream(), Integer.parseInt(listing.get(p).get("file_size")));
+
+
+                FileOutputStream output = new FileOutputStream(pdfFile);
+                int lenghtOfFile = c.getContentLength();
+
+
+
+                byte data[] = new byte[MEGABYTE];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != 0) {
+                    total += count;
+
+                    output.write(data, 0, count);
+                }
+
+                output.flush();
+                output.close();
+                input.close();
+            } catch (Exception e) {
+            }
+            return null;
+
+        }
+
+        @Override
+        protected void onProgressUpdate(String... progress) {
+            Log.e("ANDRO_ASYNC", progress[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(String unused) {
+            dialog2.dismiss();
+            Log.e("file path", filePath);
+
+
+            try
+            {
+                Intent intent=new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.fromFile(pdfFile);
+                intent.setDataAndType(uri, "application/pdf");
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+            catch (ActivityNotFoundException e)
+            {
+                Toast.makeText(AppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

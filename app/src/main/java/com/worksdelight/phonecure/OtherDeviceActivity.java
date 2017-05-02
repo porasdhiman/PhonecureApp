@@ -56,7 +56,7 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
     ArrayList<HashMap<String, String>> sub_categoryList = new ArrayList<>();
     ArrayList<HashMap<String, String>> category_idList = new ArrayList<>();
     TextView device_name;
-
+ImageView back_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +71,11 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
 
     public void init() {
         device_name = (TextView) findViewById(R.id.device_name);
+        back_img = (ImageView) findViewById(R.id.back_img);
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
-        type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+        //type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
         // int l = Integer.parseInt(getIntent().getExtras().getString("pos"));
         device_name.setText(getIntent().getExtras().getString("device_type"));
@@ -93,8 +94,15 @@ public class OtherDeviceActivity extends Activity implements View.OnClickListene
 
                 list.add(map);
             }
-            device_listView.setAdapter(new DeviceAdapter(OtherDeviceActivity.this, list));
-            CommonUtils.getListViewSize(device_listView);
+            if(list.size()>0){
+                device_listView.setAdapter(new DeviceAdapter(OtherDeviceActivity.this, list));
+                CommonUtils.getListViewSize(device_listView);
+                back_img.setVisibility(View.GONE);
+            }else{
+                back_img.setVisibility(View.VISIBLE);
+                device_listView.setVisibility(View.GONE);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

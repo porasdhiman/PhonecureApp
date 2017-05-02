@@ -129,7 +129,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
                 mapboxMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
 
-                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 20);
+                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 15);
 
 
             }
@@ -292,7 +292,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                dialog2.dismiss();
             }
         });
 

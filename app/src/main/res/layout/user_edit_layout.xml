@@ -176,89 +176,6 @@
                         android:textSize="@dimen/sab_txt" />
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#e6e4e4" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="Address"
-                        android:id="@+id/textView4"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <AutoCompleteTextView
-                        android:id="@+id/address_ed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toRightOf="@+id/textView4"
-                        android:layout_weight="1"
-                        android:background="#fff"
-                        android:gravity="right"
-                        android:hint="Enter Address"
-                        android:singleLine="true"
-                        android:inputType="textEmailAddress"
-                        android:textColor="#000"
-                        android:textColorHint="#000"
-                        android:popupBackground="#fff"
-                        android:textSize="@dimen/sab_txt" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#e6e4e4" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:text="Phone number"
-                        android:id="@+id/textView5"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <EditText
-                        android:id="@+id/phone_ed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                       android:layout_centerVertical="true"
-                        android:layout_marginRight="15dp"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:layout_toRightOf="@+id/textView5"
-                        android:gravity="right"
-                        android:hint="Phone number"
-
-                        android:textColor="#000"
-                        android:textColorHint="#000"
-                        android:textSize="@dimen/sab_txt" />
-                </RelativeLayout>
 
 
 
@@ -277,7 +194,7 @@
                 android:id="@+id/update_profile"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
                 android:text="Update"

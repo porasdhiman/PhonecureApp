@@ -29,6 +29,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.BaseMarkerOptions;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
@@ -193,15 +195,41 @@ public class MapBoxActivity extends Activity {
                 for (int i = 0; i < global.getDateList().size(); i++) {
                     Double lat = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.latitude));
                     Double longt = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.longitude));
+
+
                     mapboxMap.setCameraPosition(new CameraPosition.Builder()
                             .target(new LatLng(lat, longt))
                             .zoom(10)
                             .build());
-                    markers.add(new MarkerOptions()
-                            .position(new LatLng(lat, longt))
-                            .title(global.getDateList().get(i).get(GlobalConstant.name)));
+                    if(global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")&&global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        Icon icon = iconFactory.fromResource(R.drawable.sccoteerhome);
+
+                        markers.add(new MarkerOptions()
+                                .position(new LatLng(lat, longt))
+                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                    }else if(global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        Icon icon = iconFactory.fromResource(R.drawable.scooter);
+
+                        markers.add(new MarkerOptions()
+                                .position(new LatLng(lat, longt))
+                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                    }else if(global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        Icon icon = iconFactory.fromResource(R.drawable.home_repair);
+
+                        markers.add(new MarkerOptions()
+                                .position(new LatLng(lat, longt))
+                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                    }
 
 
+                   /* mapboxMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(-33.8500000, 18.4158234))
+                            .title("Cape Town Harbour")
+                            .snippet("One of the busiest ports in South Africa")
+                            .icon(icon));*/
                     map.put(String.valueOf(i), i);
 
                 }

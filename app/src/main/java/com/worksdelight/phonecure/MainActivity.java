@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         services = new ResideMenuItem(this, "TECHNICIANS");
         dashboard = new ResideMenuItem(this, "PRIVACY POLICY");
         itemProfile = new ResideMenuItem(this, "PROFILE");
-        new_cure = new ResideMenuItem(this, "ABOUT US");
+       // new_cure = new ResideMenuItem(this, "ABOUT US");
         logout = new ResideMenuItem(this, "LOGOUT");
 
 
@@ -99,7 +99,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         technicians.setOnClickListener(this);
         services.setOnClickListener(this);
         dashboard.setOnClickListener(this);
-        new_cure.setOnClickListener(this);
+       // new_cure.setOnClickListener(this);
         logout.setOnClickListener(this);
 
 
@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         resideMenu.addMenuItem(services, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
-        resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
+       // resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
 
 
@@ -162,9 +162,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             resideMenu.clearIgnoredViewList();
         } else if (view == dashboard) {
             changeFragment(new DashBoradFragment(), "Privacy Policy");
-        } else if (view == new_cure) {
+        } /*else if (view == new_cure) {
             changeFragment(new NewCureFragment(), "About us");
-        } else if (view == logout) {
+        }*/ else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
             if (sp.getString("type", "app").equalsIgnoreCase("app")) {
                 ed.clear();

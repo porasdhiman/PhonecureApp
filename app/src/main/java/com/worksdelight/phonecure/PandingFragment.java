@@ -55,6 +55,7 @@ public class PandingFragment extends Fragment {
     JSONArray arr;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     Dialog dialog2;
+    ImageView back_img;
 
     @Nullable
     @Override
@@ -62,6 +63,7 @@ public class PandingFragment extends Fragment {
         View v = inflater.inflate(R.layout.completed_layout, container, false);
         completed_listView = (ListView) v.findViewById(R.id.completed_listView);
         global = (Global) getActivity().getApplicationContext();
+        back_img = (ImageView) v.findViewById(R.id.back_img);
         for (int i = 0; i < global.getPendingaar().length(); i++) {
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(i);
@@ -72,7 +74,7 @@ public class PandingFragment extends Fragment {
                 map.put(GlobalConstant.status, obj.getString(GlobalConstant.status));
                 JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
                 map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
-                map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
+                map.put(GlobalConstant.image, user_detail.getString(GlobalConstant.image));
 
                 list.add(map);
 
@@ -81,7 +83,15 @@ public class PandingFragment extends Fragment {
             }
 
         }
-        completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+        if (list.size() > 0) {
+            completed_listView.setVisibility(View.VISIBLE);
+            back_img.setVisibility(View.GONE);
+            completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+        } else {
+            completed_listView.setVisibility(View.GONE);
+            back_img.setVisibility(View.VISIBLE);
+        }
+
         completed_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -344,6 +354,7 @@ public class PandingFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
 
                 params.put(GlobalConstant.id, id);
+                params.put(GlobalConstant.USERID, CommonUtils.UserID(getActivity()));
                 params.put(GlobalConstant.status, "completed");
 
 
@@ -407,7 +418,7 @@ public class PandingFragment extends Fragment {
                                         map.put(GlobalConstant.status, obj1.getString(GlobalConstant.status));
                                         JSONObject user_detail = obj1.getJSONObject(GlobalConstant.user_detail);
                                         map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
-                                        map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
+                                        map.put(GlobalConstant.image, user_detail.getString(GlobalConstant.image));
 
                                         list.add(map);
 

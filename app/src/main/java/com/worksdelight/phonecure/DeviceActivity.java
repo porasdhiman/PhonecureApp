@@ -82,7 +82,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
-        type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+        //type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
 
         //device_txtView.setOnClickListener(this);
@@ -108,7 +108,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                 } else {
                     global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
-
+                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("pos", String.valueOf(i));
 
 

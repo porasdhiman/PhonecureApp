@@ -86,7 +86,7 @@ public class TechniciansDevice extends Activity {
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
-        type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+      //  type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
 
         //device_txtView.setOnClickListener(this);

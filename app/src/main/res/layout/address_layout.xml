@@ -30,15 +30,19 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             />
-        <!-- <ImageView
-             android:layout_width="40dp"
-             android:layout_height="40dp"
-             android:layout_centerVertical="true"
-             android:padding="8dp"
+        <TextView
+            android:id="@+id/edit_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-
-             android:layout_alignParentRight="true"
-             android:src="@drawable/heart_img"/>-->
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:text="Edit"
+            android:textColor="#fff"
+            android:textSize="16dp"
+            android:textStyle="bold" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +74,7 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"/>
+            android:background="#e6e4e4"/>
 
         <EditText
             android:id="@+id/last_name_ed"
@@ -89,30 +93,34 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <EditText
-
+        android:background="#e6e4e4"/>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Address"
-            android:textColor="#000"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:background="@null"
-            android:textCursorDrawable="@drawable/cursore_color"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/address_ed" />
-    </RelativeLayout>
-    <View
+            android:layout_height="50dp">
+
+            <EditText
+                android:id="@+id/phone_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Phone"
+                android:textColor="#000"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@null"
+
+                android:inputType="number"
+                android:textCursorDrawable="@drawable/cursore_color"
+
+                />
+        </RelativeLayout>
+
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@android:color/darker_gray"/>
@@ -152,46 +160,45 @@
             android:textSize="16sp"
             android:gravity="center_vertical"
             android:padding="10dp"/>
-    </LinearLayout>
+    </LinearLayout>-->
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <EditText
-            android:id="@+id/phone_ed"
+        android:background="#e6e4e4"/>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Phone"
-            android:textColor="#000"
-            android:textColorHint="@android:color/darker_gray"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@null"
+            android:layout_height="wrap_content">
 
-            android:inputType="number"
-            android:textCursorDrawable="@drawable/cursore_color"
+            <AutoCompleteTextView
 
-            />
-    </RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Address"
+                android:textColor="#000"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:background="@null"
+                android:textCursorDrawable="@drawable/cursore_color"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:popupBackground="#fff"
+
+                android:id="@+id/address_ed" />
+        </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="#e6e4e4"/>
     </LinearLayout>
     <TextView
         android:id="@+id/submit_btn"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/time_layout"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -204,5 +211,6 @@
         android:textSize="@dimen/header_txt"
         android:layout_alignParentBottom="true"
         android:textStyle="bold"
+        android:visibility="gone"
         />
 </RelativeLayout>

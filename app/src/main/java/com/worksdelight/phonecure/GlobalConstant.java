@@ -31,6 +31,7 @@ public class GlobalConstant {
     public static String COM_AND_DEL_URL= "http://worksdelight.com/phone_cure/index.php/api/bookings/action";
     public static String SERVICE_ENABLE_URL= "http://worksdelight.com/phone_cure/index.php/api/technicianServices/action";
 
+    public static String NOTIFY_URL= "http://worksdelight.com/phone_cure/index.php/api/systemNotifications/all?user_id=";
 
 
 
@@ -79,6 +80,9 @@ public class GlobalConstant {
     public static String BRANDNAME_URL="http://worksdelight.com/phone_cure/index.php/api/subcategories/all?";
 
     public static String BOOKINGINFO_URL="http://worksdelight.com/phone_cure/index.php/api/bookings/get?";
+    public static String PDF_DOWNLOAD_URL="http://worksdelight.com/phone_cure/uploads/invoices/";
+
+
 
     public static String technician_id="technician_id";
     public static String firstname="firstname";
@@ -134,4 +138,6 @@ public class GlobalConstant {
     public static String repair_on_location="repair_on_location";
     public static String total_bookings="total_bookings";
     public static String reviews="reviews";
+    public static String invoice="invoice";
+    public static String notification="notification";
 }

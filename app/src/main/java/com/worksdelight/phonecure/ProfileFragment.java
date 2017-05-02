@@ -87,13 +87,14 @@ public class ProfileFragment extends Fragment {
         profile_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getActivity(), UserProfileEdit.class);
+                startActivity(i);
             }
         });
         address_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), UserProfileEdit.class);
+                Intent i = new Intent(getActivity(), AddressActivity.class);
                 startActivity(i);
             }
         });

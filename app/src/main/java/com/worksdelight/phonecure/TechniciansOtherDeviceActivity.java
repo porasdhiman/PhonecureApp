@@ -69,6 +69,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
     ArrayList<HashMap<String, String>> sub_categoryList = new ArrayList<>();
     ArrayList<HashMap<String, String>> category_idList = new ArrayList<>();
     TextView device_name;
+    ImageView back_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +85,12 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
 
     public void init() {
         device_name = (TextView) findViewById(R.id.device_name);
-
+        back_img = (ImageView) findViewById(R.id.back_img);
         device_name.setText("Please add devices");
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
-        type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
+        //type_view_include = (RelativeLayout) findViewById(R.id.type_view_include);
         back = (ImageView) findViewById(R.id.back);
 
         device_name.setText(getIntent().getExtras().getString("device_type"));
@@ -174,10 +175,19 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
 
                                     list.add(map);
                                 }
-                                global.setOtherDeviceList(list);
-                                Log.e("device_list", list.toString());
-                                device_listView.setAdapter(new DeviceAdapter(TechniciansOtherDeviceActivity.this, list));
-                                CommonUtils.getListViewSize(device_listView);
+                                if(list.size()>0) {
+
+
+                                    global.setOtherDeviceList(list);
+                                    Log.e("device_list", list.toString());
+                                    device_listView.setAdapter(new DeviceAdapter(TechniciansOtherDeviceActivity.this, list));
+                                    CommonUtils.getListViewSize(device_listView);
+                                    back_img.setVisibility(View.GONE);
+                                }else{
+                                    back_img.setVisibility(View.VISIBLE);
+                                    device_listView.setVisibility(View.GONE);
+
+                                }
 
                             } else {
                                 Toast.makeText(TechniciansOtherDeviceActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

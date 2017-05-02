@@ -59,13 +59,14 @@ public class UserPendingFragment extends Fragment {
     JSONArray arr;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     Dialog dialog2;
-
+ImageView back_img;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.completed_layout, container, false);
         completed_listView = (ListView) v.findViewById(R.id.completed_listView);
         global = (Global) getActivity().getApplicationContext();
+        back_img=(ImageView)v.findViewById(R.id.back_img);
         for (int i = 0; i < global.getPendingaar().length(); i++) {
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(i);
@@ -83,7 +84,15 @@ public class UserPendingFragment extends Fragment {
             }
 
         }
-        completed_listView.setAdapter(new CompletedAdapter(getActivity()));
+        if(list.size()>0) {
+            completed_listView.setVisibility(View.VISIBLE);
+            back_img.setVisibility(View.GONE);
+            completed_listView.setAdapter(new CompletedAdapter(getActivity()));
+        }else{
+            completed_listView.setVisibility(View.GONE);
+            back_img.setVisibility(View.VISIBLE);
+        }
+
         completed_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

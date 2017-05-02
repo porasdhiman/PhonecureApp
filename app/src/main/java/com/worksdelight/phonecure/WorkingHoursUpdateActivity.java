@@ -67,7 +67,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
             thu_openning, thu_clossing, fri_openning, fri_clossing, sat_openning, sat_clossing;
     String day;
     HttpEntity resEntity;
-    String message;
+    String message,errorInfo;
     Dialog dialog2;
     String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
 int o=0;
@@ -408,10 +408,26 @@ int o=0;
                 }
                 break;
             case R.id.submit_txt:
-                dialogWindow();
+
                 //editprofile();
-                new Thread(null, address_request, "")
-                        .start();
+                boolean flag=false;
+                for (int i=0;i<list.size();i++){
+                    if(list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                        if (list.get(i).get(GlobalConstant.opening_time).equalsIgnoreCase("") || list.get(i).get(GlobalConstant.closing_time).equalsIgnoreCase("")) {
+                            errorInfo = "Please Enter " + list.get(i).get(GlobalConstant.day) + "Time";
+                            flag = true;
+                        }
+                    }
+
+                }
+                if(flag==true){
+                    Toast.makeText(WorkingHoursUpdateActivity.this,errorInfo,Toast.LENGTH_SHORT).show();
+                }else{
+                    dialogWindow();
+                    new Thread(null, address_request, "")
+                            .start();
+                }
+
                 Log.e("time value", list.toString());
                 break;
             case R.id.sun_openning:

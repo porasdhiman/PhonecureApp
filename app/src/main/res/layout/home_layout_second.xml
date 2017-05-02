@@ -41,8 +41,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:alpha="0.8"
                 android:background="@drawable/home_selectore_back">
@@ -83,7 +83,7 @@
 
                     <RelativeLayout
                         android:id="@+id/apple_logo"
-                        android:layout_width="40dp"
+                        android:layout_width="35dp"
                         android:layout_height="60dp"
 
                         android:layout_toLeftOf="@+id/white_forward"
@@ -113,8 +113,8 @@
                 android:id="@+id/select_device_layout"
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:alpha="0.8"
 

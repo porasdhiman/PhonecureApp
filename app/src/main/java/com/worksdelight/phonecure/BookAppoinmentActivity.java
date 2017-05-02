@@ -237,8 +237,6 @@ TextView distance_shop;
                     Toast.makeText(BookAppoinmentActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
                 } else if (time_txtView.getText().length() == 0) {
                     Toast.makeText(BookAppoinmentActivity.this, "Please select time", Toast.LENGTH_SHORT).show();
-                }else if (p != 1) {
-                    Toast.makeText(BookAppoinmentActivity.this, "select one shipping category", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
@@ -283,27 +281,34 @@ TextView distance_shop;
                 timePicker();
             }
         });
-        pickUp_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")&&global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
 
-                pickUp_img.setImageResource(R.drawable.pickup);
-                dropoff_img.setImageResource(R.drawable.dropoff_unselect);
-                global.setPickUp("1");
-                global.setDropOff("0");
-                p = 1;
-            }
-        });
-        dropoff_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickUp_img.setImageResource(R.drawable.pickup_unselect);
-                dropoff_img.setImageResource(R.drawable.dropoff);
-                global.setPickUp("0");
-                global.setDropOff("1");
-                p = 1;
-            }
-        });
+
+
+                    pickUp_img.setImageResource(R.drawable.pickup);
+                    dropoff_img.setImageResource(R.drawable.dropoff);
+                    global.setPickUp("1");
+                    global.setDropOff("1");
+
+
+        }else if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
+
+            pickUp_img.setImageResource(R.drawable.pickup);
+            dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+            global.setPickUp("1");
+            global.setDropOff("0");
+
+
+        }else if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+            pickUp_img.setImageResource(R.drawable.pickup_unselect);
+            dropoff_img.setImageResource(R.drawable.dropoff);
+            global.setPickUp("0");
+            global.setDropOff("1");
+
+
+
+        }
+
     }
 
     @Override

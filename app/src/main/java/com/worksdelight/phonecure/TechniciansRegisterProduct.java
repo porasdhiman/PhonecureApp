@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -110,7 +112,30 @@ public class TechniciansRegisterProduct extends Activity {
             }
         });
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
-        price_ed.setText("$"+global.getServiceList().get(p).get(GlobalConstant.price));
+        price_ed.setText("$" + global.getServiceList().get(p).get(GlobalConstant.price));
+        price_ed.addTextChangedListener(new TextWatcher()
+        {
+            public void afterTextChanged(Editable s)
+            {
+                String x = s.toString();
+                if(x.startsWith("$"))
+                {
+
+
+                }else{
+                    price_ed.setText("$");
+                }
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+            }
+        });
+
         time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
         if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
             done.setText("Update Service");
@@ -129,7 +154,10 @@ public class TechniciansRegisterProduct extends Activity {
                 } else if (serviceID.equalsIgnoreCase("")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please select atleast one color", Toast.LENGTH_SHORT).show();
 
-                } else {
+                }else if (price_ed.getText().toString().equalsIgnoreCase("$")) {
+                    Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
+                }
+                else {
                     dialogWindow();
                     addServiceMethod();
 
@@ -486,7 +514,7 @@ public class TechniciansRegisterProduct extends Activity {
                 installedPackage.put(GlobalConstant.service_id, getIntent().getExtras().getString(GlobalConstant.service_id));
                 installedPackage.put("dm_service_id", getIntent().getExtras().getString(GlobalConstant.id));
                 installedPackage.put("model_color", serviceID);
-                installedPackage.put("price", price_ed.getText().toString());
+                installedPackage.put("price", price_ed.getText().toString().replace("$", ""));
                 installedPackage.put(GlobalConstant.expected_time, time_ed.getText().toString());
 
 
@@ -567,8 +595,10 @@ public class TechniciansRegisterProduct extends Activity {
         final LoopView loopView = (LoopView) PickerDialog.findViewById(R.id.loop_view);
         final LoopView loopView1 = (LoopView) PickerDialog.findViewById(R.id.loop_view1);
         if (time_ed.getText().length() != 0) {
-            int t = Integer.parseInt(time_ed.getText().toString().split(":")[0]);
-            loopView.setInitPosition(t);
+            if(time_ed.getText().toString().contains(":")) {
+                int t = Integer.parseInt(time_ed.getText().toString().split(":")[0]);
+                loopView.setInitPosition(t);
+            }
         } else {
             int t = 0;
             loopView.setInitPosition(t);
@@ -581,8 +611,10 @@ public class TechniciansRegisterProduct extends Activity {
 
         loopView.setDataList(hours);
         if (time_ed.getText().length() != 0) {
-            int t = Integer.parseInt(time_ed.getText().toString().split(":")[1]);
-            loopView1.setInitPosition(t);
+            if(time_ed.getText().toString().contains(":")) {
+                int t = Integer.parseInt(time_ed.getText().toString().split(":")[1]);
+                loopView1.setInitPosition(t);
+            }
         } else {
             int t = 0;
             loopView1.setInitPosition(0);
