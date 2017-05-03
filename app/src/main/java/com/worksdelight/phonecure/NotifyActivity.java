@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,7 +64,7 @@ public class NotifyActivity extends Activity {
             }
         });
         message_listView = (ListView) findViewById(R.id.message_listView);
-       // message_listView.setAdapter(new MessageAdapter(this));
+        // message_listView.setAdapter(new MessageAdapter(this));
         dialogWindow();
         categoryMethod();
     }
@@ -98,14 +99,17 @@ public class NotifyActivity extends Activity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflatore.inflate(R.layout.message_list_item, null);
-            ImageView user_img=(ImageView)view.findViewById(R.id.user_img);
-            TextView message_txt=(TextView)view.findViewById(R.id.message_txt);
-            TextView user_name=(TextView)view.findViewById(R.id.user_name);
+            ImageView user_img = (ImageView) view.findViewById(R.id.user_img);
+            TextView message_txt = (TextView) view.findViewById(R.id.message_txt);
+            TextView user_name = (TextView) view.findViewById(R.id.user_name);
 
             user_name.setText(list.get(i).get(GlobalConstant.name));
             message_txt.setText(list.get(i).get(GlobalConstant.notification));
+            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+// generate random color
+            int color1 = generator.getRandomColor();
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), color1);
             if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
                 user_img.setImageDrawable(drawable);

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -225,9 +226,11 @@ public class PandingFragment extends Fragment {
 
 
             name.setText(cap(list.get(position).get(GlobalConstant.name)));
-
+            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+// generate random color
+            int color1 = generator.getRandomColor();
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                    .buildRound(name.getText().toString().substring(0, 1).toUpperCase(), color1);
             if (list.get(position).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
                 tech_img.setImageDrawable(drawable);

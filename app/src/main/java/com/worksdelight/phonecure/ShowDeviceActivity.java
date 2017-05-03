@@ -274,38 +274,38 @@ public class ShowDeviceActivity extends Activity {
                 holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
                 holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
 
-                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(50, 50);
+                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(55, 55);
                 vp.setMargins(0, 15, 0, 0);
                 holder.img1 = new ImageView(c);
                 holder.img1.setLayoutParams(vp);
 
-                holder.img1.setMaxHeight(50);
-                holder.img1.setMaxWidth(50);
+                holder.img1.setMaxHeight(55);
+                holder.img1.setMaxWidth(55);
                 holder.img2= new ImageView(c);
                 holder.img2.setLayoutParams(vp);
 
-                holder.img2.setMaxHeight(50);
-                holder.img2.setMaxWidth(50);
+                holder.img2.setMaxHeight(55);
+                holder.img2.setMaxWidth(55);
                 holder.img3= new ImageView(c);
                 holder.img3.setLayoutParams(vp);
 
-                holder.img3.setMaxHeight(50);
-                holder.img3.setMaxWidth(50);
+                holder.img3.setMaxHeight(55);
+                holder.img3.setMaxWidth(55);
                 holder.img4= new ImageView(c);
                 holder.img4.setLayoutParams(vp);
 
-                holder.img4.setMaxHeight(50);
-                holder.img4.setMaxWidth(50);
+                holder.img4.setMaxHeight(55);
+                holder.img4.setMaxWidth(55);
                 holder.img5= new ImageView(c);
                 holder.img5.setLayoutParams(vp);
 
-                holder.img5.setMaxHeight(50);
-                holder.img5.setMaxWidth(50);
+                holder.img5.setMaxHeight(55);
+                holder.img5.setMaxWidth(55);
                 holder.img6 = new ImageView(c);
                 holder.img6.setLayoutParams(vp);
 
-                holder.img6.setMaxHeight(50);
-                holder.img6.setMaxWidth(50);
+                holder.img6.setMaxHeight(55);
+                holder.img6.setMaxWidth(55);
                 holder.main_layout.setTag(holder);
                 holder.img1.setTag(holder);
                 holder.img2.setTag(holder);
@@ -482,8 +482,8 @@ public class ShowDeviceActivity extends Activity {
                     valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 0;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -568,8 +568,8 @@ public class ShowDeviceActivity extends Activity {
                     valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 1;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -650,8 +650,8 @@ public class ShowDeviceActivity extends Activity {
                     valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 2;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -732,8 +732,8 @@ public class ShowDeviceActivity extends Activity {
                     valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 3;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -815,8 +815,8 @@ public class ShowDeviceActivity extends Activity {
                     valueof_selected_item=i;
                     holder = (Holder) view.getTag();
                     j = 4;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);
@@ -897,8 +897,8 @@ public class ShowDeviceActivity extends Activity {
                     holder = (Holder) view.getTag();
                     valueof_selected_item=i;
                     j = 5;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(65, 65);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(50, 50);
+                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
+                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
                     vp.gravity = Gravity.CENTER_HORIZONTAL;
                     vp1.gravity = Gravity.CENTER_HORIZONTAL;
                     vp.setMargins(0, 15, 0, 0);

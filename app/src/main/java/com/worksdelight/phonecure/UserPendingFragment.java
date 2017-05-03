@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -195,9 +196,11 @@ ImageView back_img;
             holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
             holder.price_txt.setText("$" + list.get(i).get(GlobalConstant.total_amount));
             holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
-
+            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+// generate random color
+            int color1 = generator.getRandomColor();
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(),color1);
             if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
                 holder.tech_view.setImageDrawable(drawable);

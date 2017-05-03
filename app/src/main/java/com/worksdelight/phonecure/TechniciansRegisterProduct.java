@@ -113,6 +113,7 @@ public class TechniciansRegisterProduct extends Activity {
         });
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
         price_ed.setText("$" + global.getServiceList().get(p).get(GlobalConstant.price));
+        price_ed.setSelection(price_ed.getText().length());
         price_ed.addTextChangedListener(new TextWatcher()
         {
             public void afterTextChanged(Editable s)
@@ -120,7 +121,7 @@ public class TechniciansRegisterProduct extends Activity {
                 String x = s.toString();
                 if(x.startsWith("$"))
                 {
-
+                    price_ed.setSelection(price_ed.getText().length());
 
                 }else{
                     price_ed.setText("$");

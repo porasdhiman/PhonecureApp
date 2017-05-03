@@ -145,7 +145,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
 
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
-        String mainUrl = GlobalConstant.BRANDNAME_URL + "?category_id=" + getIntent().getExtras().getString(GlobalConstant.category_id) + "&user_id=" + CommonUtils.UserID(TechniciansOtherDeviceActivity.this);
+        String mainUrl = GlobalConstant.BRANDNAME_URL + "category_id=" + getIntent().getExtras().getString(GlobalConstant.id) + "&user_id=" + CommonUtils.UserID(TechniciansOtherDeviceActivity.this);
         Log.e("main url", mainUrl);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, mainUrl,
