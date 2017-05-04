@@ -128,12 +128,14 @@ android:layout_below="@+id/header_view"
 
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/star"/>
                 <TextView
                     android:id="@+id/average_rating_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5.0"
+                    android:layout_marginRight="5dp"
                     android:textColor="@color/main_color"
                     android:textSize="@dimen/header_txt"/>
 

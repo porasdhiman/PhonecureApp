@@ -1,6 +1,5 @@
 package com.worksdelight.phonecure;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
@@ -8,14 +7,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -38,7 +34,6 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
-import java.lang.reflect.Field;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.Format;
@@ -157,7 +152,8 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     private int TIME_PICKER_INTERVAL = 15;
     ImageView pickUp_img, dropoff_img;
     int p = 0;
-TextView distance_shop;
+    TextView distance_shop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +182,7 @@ TextView distance_shop;
             }
         });
         book_btn = (TextView) findViewById(R.id.book_btn);
-        distance_shop=(TextView)findViewById(R.id.distance_shop);
+        distance_shop = (TextView) findViewById(R.id.distance_shop);
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
         time_txtView = (TextView) findViewById(R.id.time_txtView);
@@ -230,6 +226,7 @@ TextView distance_shop;
                 .setMaximumDate(CalendarDay.from(2023, 12, 31))
 
                 .commit();
+
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -237,8 +234,7 @@ TextView distance_shop;
                     Toast.makeText(BookAppoinmentActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
                 } else if (time_txtView.getText().length() == 0) {
                     Toast.makeText(BookAppoinmentActivity.this, "Please select time", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
                     // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     i.putExtra("pos", String.valueOf(pos));
@@ -281,17 +277,49 @@ TextView distance_shop;
                 timePicker();
             }
         });
-        if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")&&global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+        if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
+
+            pickUp_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (p == 0) {
+                        p = 1;
+                        pickUp_img.setImageResource(R.drawable.pickup);
+                        dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+                        global.setPickUp("1");
+                        global.setDropOff("0");
+                    } else {
+                        p = 0;
+                        pickUp_img.setImageResource(R.drawable.pickup_unselect);
+                        dropoff_img.setImageResource(R.drawable.dropoff);
+                        global.setPickUp("0");
+                        global.setDropOff("1");
+                    }
+
+                }
+            });
+
+            dropoff_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (p == 1) {
+                        p = 0;
+                        pickUp_img.setImageResource(R.drawable.pickup_unselect);
+                        dropoff_img.setImageResource(R.drawable.dropoff);
+                        global.setPickUp("0");
+                        global.setDropOff("1");
+                    } else {
+                        p = 1;
+                        pickUp_img.setImageResource(R.drawable.pickup);
+                        dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+                        global.setPickUp("1");
+                        global.setDropOff("0");
+                    }
+                }
+            });
 
 
-
-                    pickUp_img.setImageResource(R.drawable.pickup);
-                    dropoff_img.setImageResource(R.drawable.dropoff);
-                    global.setPickUp("1");
-                    global.setDropOff("1");
-
-
-        }else if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
+        } else if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
 
             pickUp_img.setImageResource(R.drawable.pickup);
             dropoff_img.setImageResource(R.drawable.dropoff_unselect);
@@ -299,12 +327,11 @@ TextView distance_shop;
             global.setDropOff("0");
 
 
-        }else if(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+        } else if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
             pickUp_img.setImageResource(R.drawable.pickup_unselect);
             dropoff_img.setImageResource(R.drawable.dropoff);
             global.setPickUp("0");
             global.setDropOff("1");
-
 
 
         }
@@ -439,7 +466,7 @@ TextView distance_shop;
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
 
-    //---------------------------Progrees Dialog-----------------------
+    /*//---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
         dialog2 = new Dialog(this);
         dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -494,5 +521,5 @@ TextView distance_shop;
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

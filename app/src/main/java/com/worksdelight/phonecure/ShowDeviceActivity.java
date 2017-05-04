@@ -279,33 +279,33 @@ public class ShowDeviceActivity extends Activity {
                 holder.img1 = new ImageView(c);
                 holder.img1.setLayoutParams(vp);
 
-                holder.img1.setMaxHeight(55);
-                holder.img1.setMaxWidth(55);
+              /*  holder.img1.setMaxHeight(55);
+                holder.img1.setMaxWidth(55);*/
                 holder.img2= new ImageView(c);
                 holder.img2.setLayoutParams(vp);
 
-                holder.img2.setMaxHeight(55);
-                holder.img2.setMaxWidth(55);
+               /* holder.img2.setMaxHeight(55);
+                holder.img2.setMaxWidth(55);*/
                 holder.img3= new ImageView(c);
                 holder.img3.setLayoutParams(vp);
 
-                holder.img3.setMaxHeight(55);
-                holder.img3.setMaxWidth(55);
+                /*holder.img3.setMaxHeight(55);
+                holder.img3.setMaxWidth(55);*/
                 holder.img4= new ImageView(c);
                 holder.img4.setLayoutParams(vp);
 
-                holder.img4.setMaxHeight(55);
-                holder.img4.setMaxWidth(55);
+                /*holder.img4.setMaxHeight(55);
+                holder.img4.setMaxWidth(55);*/
                 holder.img5= new ImageView(c);
                 holder.img5.setLayoutParams(vp);
 
-                holder.img5.setMaxHeight(55);
-                holder.img5.setMaxWidth(55);
+               /* holder.img5.setMaxHeight(55);
+                holder.img5.setMaxWidth(55);*/
                 holder.img6 = new ImageView(c);
                 holder.img6.setLayoutParams(vp);
 
-                holder.img6.setMaxHeight(55);
-                holder.img6.setMaxWidth(55);
+               /* holder.img6.setMaxHeight(55);
+                holder.img6.setMaxWidth(55);*/
                 holder.main_layout.setTag(holder);
                 holder.img1.setTag(holder);
                 holder.img2.setTag(holder);

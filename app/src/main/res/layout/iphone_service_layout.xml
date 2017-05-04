@@ -1,86 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f5f5f5">
+    android:background="#f5f5f5"
+    android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/header_view"
-        android:background="#000"
-        >
+        android:background="#000">
+
         <ImageView
             android:id="@+id/back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-
-
             android:layout_alignParentLeft="true"
-            android:src="@drawable/white_back"/>
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
         <TextView
             android:id="@+id/service_txtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="iPhone service"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            />
+            android:gravity="center"
+            android:text="iPhone service"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/search_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-
-android:visibility="gone"
             android:layout_alignParentRight="true"
-            android:src="@drawable/search_img"/>
-    </RelativeLayout>
-<ScrollView
-    android:id="@+id/main_scrollView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <ListView
-       android:id="@+id/service_list"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:divider="#f5f5f5"
-       android:dividerHeight="10dp"
-       android:layout_marginTop="10dp"
-       android:layout_marginRight="10dp"
-       android:layout_marginLeft="10dp"
-       android:scrollbars="none"></ListView>
-    <TextView
-        android:id="@+id/submit_btn"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/time_layout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/green_btn"
-        android:gravity="center"
-        android:text="Search Technicians"
-        android:textAllCaps="true"
-        android:textColor="#fff"
-        android:textSize="@dimen/header_txt"
-        android:textStyle="bold"
-        android:visibility="gone"/>
+            android:layout_centerVertical="true"
 
-    <View
+            android:padding="8dp"
+            android:src="@drawable/search_img"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/main_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@+id/book_btn" />
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/service_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:divider="#f5f5f5"
+                android:dividerHeight="10dp"
+                android:scrollbars="none"></ListView>
+
+            <TextView
+                android:id="@+id/submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/time_layout"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/green_btn"
+                android:gravity="center"
+                android:text="Search Technicians"
+                android:textAllCaps="true"
+                android:textColor="#fff"
+                android:textSize="@dimen/header_txt"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@+id/book_btn" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -74,7 +74,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //notification_img = (ImageView) findViewById(R.id.notification_img);
         message_img = (ImageView) findViewById(R.id.message_img);
 
-        resideMenu = new ResideMenu(this, sp.getString(GlobalConstant.image, ""), sp.getString(GlobalConstant.name, ""));
+String img=sp.getString(GlobalConstant.image, "");
+        resideMenu = new ResideMenu(this, img, sp.getString(GlobalConstant.name, ""));
         resideMenu.setUse3D(true);
         resideMenu.setBackground(R.drawable.layer_back);
         resideMenu.attachToActivity(this);

@@ -311,58 +311,65 @@ ImageView back;
             }else{
                 JSONObject sun_obj=avail_arr.getJSONObject(0);
                 if(sun_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    sun_txt.setText(sun_obj.getString(GlobalConstant.day));
+                    sun_txt.setText(cap(sun_obj.getString(GlobalConstant.day)));
                     sun_time.setText(sun_obj.getString(GlobalConstant.opening_time)+":"+sun_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    sun_layout.setVisibility(View.GONE);
+                    sun_txt.setText(cap(sun_obj.getString(GlobalConstant.day)));
+                    sun_time.setText(cap(sun_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject mon_obj=avail_arr.getJSONObject(1);
                 if(mon_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    mon_txt.setText(mon_obj.getString(GlobalConstant.day));
+                    mon_txt.setText(cap(mon_obj.getString(GlobalConstant.day)));
                     mon_time.setText(mon_obj.getString(GlobalConstant.opening_time)+":"+mon_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    mon_layout.setVisibility(View.GONE);
+                    mon_txt.setText(cap(mon_obj.getString(GlobalConstant.day)));
+                    mon_time.setText(cap(mon_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject tue_obj=avail_arr.getJSONObject(2);
                 if(tue_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    tue_txt.setText(tue_obj.getString(GlobalConstant.day));
+                    tue_txt.setText(cap(tue_obj.getString(GlobalConstant.day)));
                     tue_time.setText(tue_obj.getString(GlobalConstant.opening_time)+":"+tue_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    tue_layout.setVisibility(View.GONE);
+                    tue_txt.setText(cap(tue_obj.getString(GlobalConstant.day)));
+                    tue_time.setText(cap(tue_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject wed_obj=avail_arr.getJSONObject(3);
                 if(wed_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    wed_txt.setText(wed_obj.getString(GlobalConstant.day));
+                    wed_txt.setText(cap(wed_obj.getString(GlobalConstant.day)));
                     wed_time.setText(wed_obj.getString(GlobalConstant.opening_time)+":"+wed_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    wed_layout.setVisibility(View.GONE);
+                    wed_txt.setText(cap(wed_obj.getString(GlobalConstant.day)));
+                    wed_time.setText(cap(wed_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject thu_obj=avail_arr.getJSONObject(4);
                 if(thu_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    thu_txt.setText(thu_obj.getString(GlobalConstant.day));
-                    thu_txt.setText(thu_obj.getString(GlobalConstant.opening_time)+":"+thu_obj.getString(GlobalConstant.closing_time));
+                    thu_txt.setText(cap(thu_obj.getString(GlobalConstant.day)));
+                    thu_time.setText(thu_obj.getString(GlobalConstant.opening_time)+":"+thu_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    thu_layout.setVisibility(View.GONE);
+                    thu_txt.setText(cap(thu_obj.getString(GlobalConstant.day)));
+                    thu_time.setText(cap(thu_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject fri_obj=avail_arr.getJSONObject(5);
                 if(fri_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    fri_txt.setText(fri_obj.getString(GlobalConstant.day));
+                    fri_txt.setText(cap(fri_obj.getString(GlobalConstant.day)));
                     fri_time.setText(fri_obj.getString(GlobalConstant.opening_time)+":"+fri_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    fri_layout.setVisibility(View.GONE);
+                    fri_txt.setText(cap(fri_obj.getString(GlobalConstant.day)));
+                    fri_time.setText(cap(fri_obj.getString(GlobalConstant.status)));
                 }
 
                 JSONObject sat_obj=avail_arr.getJSONObject(6);
                 if(sat_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
-                    sat_txt.setText(sat_obj.getString(GlobalConstant.day));
+                    sat_txt.setText(cap(sat_obj.getString(GlobalConstant.day)));
                     sat_time.setText(sat_obj.getString(GlobalConstant.opening_time)+":"+sat_obj.getString(GlobalConstant.closing_time));
                 }else{
-                    sat_layout.setVisibility(View.GONE);
+                    sat_txt.setText(cap(sat_obj.getString(GlobalConstant.day)));
+                    sat_time.setText(cap(sat_obj.getString(GlobalConstant.status)));
                 }
             }
         } catch (JSONException e) {

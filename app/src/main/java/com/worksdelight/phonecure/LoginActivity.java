@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,7 +77,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
     Global global;
 
-
+String user_image;
     Dialog dialog2;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
@@ -164,7 +165,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                                             GraphResponse response) {
                         // Application code
 
-                        Log.e("date", object.toString());
+                        Log.e("date", response.toString());
                         try {
                             username_mString = object.getString("name");
                             if (object.has("email")) {
@@ -173,6 +174,23 @@ public class LoginActivity extends Activity implements OnClickListener{
                                 //  email = "";
                             }
                             id_mString = object.getString("id");
+
+                            try {
+                                if (android.os.Build.VERSION.SDK_INT > 9) {
+                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    StrictMode.setThreadPolicy(policy);
+                                    user_image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    Log.e("profile image",user_image);
+                                    /*URL fb_url = new URL(profilePicUrl);//small | noraml | large
+                                    HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
+                                    HttpsURLConnection.setFollowRedirects(true);
+                                    conn1.setInstanceFollowRedirects(true);
+                                    Bitmap fb_img = BitmapFactory.decodeStream(conn1.getInputStream());
+                                    //image.setImageBitmap(fb_img);*/
+                                }
+                            }catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                             //gender = object.getString("gender");
                             //birthday = object.getString("birthday");
                             dialogWindow();
@@ -509,6 +527,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 
                 params.put(GlobalConstant.name, username_mString);
                 params.put(GlobalConstant.email, email_mString);
+                params.put(GlobalConstant.image, user_image);
                 params.put(facebook_id, id_mString);
                 params.put(GlobalConstant.device_token, global.getDeviceToken());
                 params.put(GlobalConstant.type, "user");

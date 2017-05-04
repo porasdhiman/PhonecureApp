@@ -77,7 +77,7 @@
                         android:singleLine="true"
                         android:text="iPhone 7 64 black"
                         android:textColor="#000"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
 
                         />
 
@@ -149,7 +149,7 @@
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
 
-                        android:layout_centerVertical="true"
+
                         android:layout_marginLeft="10dp"
                         android:src="@drawable/white_forward" />
 

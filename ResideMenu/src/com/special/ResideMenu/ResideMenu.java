@@ -139,6 +139,7 @@ public class ResideMenu extends FrameLayout {
 
                 }
             } else {
+
                 Picasso.with(context).load("http://worksdelight.com/phone_cure/uploads/users/" + image).placeholder(drawable).transform(new CircleTransform()).into(user_img);
 
 

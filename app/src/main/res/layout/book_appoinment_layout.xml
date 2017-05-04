@@ -184,7 +184,7 @@ android:paddingRight="10dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="10dp"
 
-                        android:src="@drawable/pickup"
+                        android:src="@drawable/pickup_unselect"
 
 
                         />
@@ -238,7 +238,7 @@ android:id="@+id/distance_shop"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="10dp"
 
-                        android:src="@drawable/dropoff"
+                        android:src="@drawable/dropoff_unselect"
 
 
                         />

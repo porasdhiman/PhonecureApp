@@ -241,7 +241,15 @@ public class MapBoxActivity extends Activity {
                         pos = map.get(String.valueOf(marker.getId()));
 
                         book_layout.setVisibility(View.VISIBLE);
-
+                        book_layout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(MapBoxActivity.this, TechniciansDetailActivity.class);
+                                intent.putExtra("pos", String.valueOf(pos));
+                                intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                                startActivity(intent);
+                            }
+                        });
                         technicians_name_txtView.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
 
 
