@@ -275,6 +275,16 @@ public class Global extends Application {
     String pickUp;
 
     JSONArray OtherData;
+
+    public String getCurencySymbol() {
+        return curencySymbol;
+    }
+
+    public void setCurencySymbol(String curencySymbol) {
+        this.curencySymbol = curencySymbol;
+    }
+
+    String curencySymbol;
     @Override
     public void onCreate() {
         super.onCreate();

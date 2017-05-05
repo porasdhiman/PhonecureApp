@@ -44,7 +44,7 @@ import java.util.List;
 public class ShoppingcartActivity extends Activity {
     ListView cart_list;
     ScrollView main_scrollView;
-    TextView checkout_btn, total_price, cart_value_info;
+    TextView checkout_btn, total_price, cart_value_info,clear;
     Global global;
     List<String> selectList;
     ArrayList<HashMap<String, String>> listing = new ArrayList<>();
@@ -73,7 +73,15 @@ public class ShoppingcartActivity extends Activity {
         cart_list = (ListView) findViewById(R.id.cart_list);
         cart_value_info = (TextView) findViewById(R.id.cart_value_info);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
-
+        clear=(TextView)findViewById(R.id.clear);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ShoppingcartActivity.this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
         checkout_btn = (TextView) findViewById(R.id.checkout_btn);
         checkout_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +176,8 @@ public class ShoppingcartActivity extends Activity {
         public View generateView(final int position, ViewGroup parent) {
             final View v = LayoutInflater.from(mContext).inflate(R.layout.cart_list_item, null);
             SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
-
+            swipeLayout.setRightSwipeEnabled(false);
+            swipeLayout.setLeftSwipeEnabled(false);
             swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
                 public void onStartOpen(SwipeLayout layout) {

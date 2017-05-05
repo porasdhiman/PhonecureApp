@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -135,13 +136,13 @@ String lat,lng;
         zip_ed = (EditText) findViewById(R.id.zip_ed);*/
 
         if (!sp.getString("first name", "").equalsIgnoreCase("")) {
-            first_name_ed.setText(sp.getString("first name", ""));
+            first_name_ed.setText(cap(sp.getString("first name", "")));
         }
         if (!sp.getString("last name", "").equalsIgnoreCase("")) {
-            last_name_ed.setText(sp.getString("last name", ""));
+            last_name_ed.setText(cap(sp.getString("last name", "")));
         }
         if (!sp.getString(GlobalConstant.address, "").equalsIgnoreCase("")) {
-            mAutocompleteView.setText(sp.getString(GlobalConstant.address, ""));
+            mAutocompleteView.setText(cap(sp.getString(GlobalConstant.address, "")));
         }
         lat=sp.getString(GlobalConstant.latitude,"");
         lng=sp.getString(GlobalConstant.longitude,"");
@@ -152,7 +153,7 @@ String lat,lng;
             zip_ed.setText(sp.getString("zip", ""));
         }*/
         if (!sp.getString(GlobalConstant.phone, "").equalsIgnoreCase("")) {
-            phone_ed.setText(sp.getString(GlobalConstant.phone, ""));
+            phone_ed.setText(cap(sp.getString(GlobalConstant.phone, "")));
         }
 
         submit_btn.setOnClickListener(new View.OnClickListener() {
@@ -208,8 +209,10 @@ String lat,lng;
                                 ed.putString(GlobalConstant.longitude,lng);
                                 ed.putString(GlobalConstant.phone, phone_ed.getText().toString());
                                 ed.commit();
-
-
+                                Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(AddressActivity.this, MainActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
                             } else {
                                 Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -385,5 +388,10 @@ String lat,lng;
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
                 .build();
+    }
+    public String cap(String name) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        return sb.toString();
     }
 }

@@ -28,7 +28,7 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="wrap_content"
 
 
             android:layout_alignParentLeft="true"
@@ -52,8 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp">
 
                     <TextView
                         android:id="@+id/current_device_txt"
@@ -123,9 +123,9 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginLeft="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp">
 
 
                     <TextView

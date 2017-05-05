@@ -255,7 +255,7 @@
                             android:layout_height="wrap_content"
 
 
-                            android:text="Total job"
+                            android:text="Total jobs"
                             android:textColor="@color/main_color"
                             android:textSize="@dimen/header_txt" />
 

@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
 
     public void init(View v) {
         user_name = (TextView) v.findViewById(R.id.user_name);
-        user_phone = (TextView) v.findViewById(R.id.user_phone);
+       // user_phone = (TextView) v.findViewById(R.id.user_phone);
         user_email = (TextView) v.findViewById(R.id.user_email);
         user_image = (ImageView) v.findViewById(R.id.user_img);
         location_name_txtView = (TextView) v.findViewById(R.id.location_name_txtView);
@@ -82,7 +82,7 @@ public class ProfileFragment extends Fragment {
         location_name_txtView.setText(sp.getString(GlobalConstant.address, ""));
 
 
-        user_phone.setText(sp.getString(GlobalConstant.phone, ""));
+        //user_phone.setText(sp.getString(GlobalConstant.phone, ""));
         user_email.setText(sp.getString(GlobalConstant.email, ""));
         profile_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +131,8 @@ public class ProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+
 
 
     }

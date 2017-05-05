@@ -371,7 +371,9 @@ public class UserProfileEdit extends FragmentActivity  {
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
                 Toast.makeText(UserProfileEdit.this, message, Toast.LENGTH_SHORT).show();
-
+                Intent i = new Intent(UserProfileEdit.this, MainActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             } else {
                 Toast.makeText(UserProfileEdit.this, message, Toast.LENGTH_SHORT).show();
             }

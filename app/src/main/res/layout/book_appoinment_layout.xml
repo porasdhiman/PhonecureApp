@@ -26,11 +26,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="Technicians profile"
             android:textColor="#fff"
-            android:layout_centerInParent="true"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
 
             android:padding="8dp"
             android:src="@drawable/note"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ScrollView
@@ -78,13 +78,13 @@
                     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                         android:id="@+id/calendarView"
                         android:layout_width="match_parent"
-                        android:layout_height="335dp"
+                        android:layout_height="345dp"
                         android:layout_gravity="top|center_horizontal"
-android:paddingRight="10dp"
-                        android:paddingLeft="10dp"
                         android:layout_marginBottom="5dp"
-
                         android:layout_marginTop="65dp"
+                        android:paddingLeft="10dp"
+
+                        android:paddingRight="10dp"
                         app:mcv_arrowColor="@color/main_color"
                         app:mcv_headerTextAppearance="@style/CustomDayTextAppearance"
                         app:mcv_selectionColor="@color/main_color"
@@ -140,8 +140,8 @@ android:paddingRight="10dp"
                     android:layout_toLeftOf="@+id/forward_img"
 
                     android:hint="Select time"
-                    android:textColorHint="@android:color/darker_gray"
                     android:textColor="@color/main_color"
+                    android:textColorHint="@android:color/darker_gray"
                     android:textSize="@dimen/header_txt" />
 
                 <ImageView
@@ -160,13 +160,13 @@ android:paddingRight="10dp"
                 android:id="@+id/pick_view"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:orientation="horizontal"
-                android:background="@drawable/calender_back"
                 android:layout_below="@+id/time_layout"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/calender_back"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -205,8 +205,9 @@ android:paddingRight="10dp"
 
 
                         />
+
                     <TextView
-android:id="@+id/distance_shop"
+                        android:id="@+id/distance_shop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -256,7 +257,8 @@ android:id="@+id/distance_shop"
 
                         android:text="Repair on location"
                         android:textColor="#000"
-                        android:textSize="12dp"/>
+                        android:textSize="12dp" />
+
                     <TextView
 
                         android:layout_width="wrap_content"
@@ -276,6 +278,7 @@ android:id="@+id/distance_shop"
                         />
                 </LinearLayout>
             </LinearLayout>
+
             <TextView
                 android:id="@+id/book_btn"
                 android:layout_width="match_parent"

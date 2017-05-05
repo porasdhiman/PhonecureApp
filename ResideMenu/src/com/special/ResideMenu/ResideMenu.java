@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -130,20 +131,20 @@ public class ResideMenu extends FrameLayout {
             user_name.setText(cap(name_txt));
             TextDrawable drawable = TextDrawable.builder()
                     .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#47c63d"));
-            if (image.contains("storage")||image.contains("")) {
-                if (image.equalsIgnoreCase("")) {
-                    user_img.setImageDrawable(drawable);
+            Log.e("profile image","http://worksdelight.com/phone_cure/uploads/users/" + image);
+            if (image.contains("storage")) {
 
-                } else {
                     Picasso.with(context).load(new File(image)).placeholder(drawable).transform(new CircleTransform()).into(user_img);
 
-                }
-            } else {
+
+            } else if(!image.equalsIgnoreCase("")){
 
                 Picasso.with(context).load("http://worksdelight.com/phone_cure/uploads/users/" + image).placeholder(drawable).transform(new CircleTransform()).into(user_img);
 
 
                 //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }else{
+                user_img.setImageDrawable(drawable);
             }
 
             // user_balance.setText(balance);
@@ -763,4 +764,5 @@ public class ResideMenu extends FrameLayout {
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         return sb.toString();
     }
+
 }

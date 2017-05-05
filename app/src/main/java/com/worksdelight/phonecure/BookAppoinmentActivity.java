@@ -7,11 +7,14 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -20,6 +23,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bruce.pickerview.LoopScrollListener;
+import com.bruce.pickerview.LoopView;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -34,13 +39,16 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -62,8 +70,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     TextView book_btn, technicians_name;
     List<CalendarDay> calenderlist = new ArrayList<CalendarDay>();
     CalendarDay selectDate;
-    Dialog dialog2;
-
+    Dialog PickerDialog;
     private Collection<CalendarDay> calendarDays = new Collection<CalendarDay>() {
         @Override
         public boolean add(CalendarDay object) {
@@ -134,7 +141,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         }
     };
     Global global;
-    List<String> list;
+    List<String> list = new ArrayList<>();
     RelativeLayout time_layout;
     TextView time_txtView;
     String sendDate = "";
@@ -153,6 +160,13 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     ImageView pickUp_img, dropoff_img;
     int p = 0;
     TextView distance_shop;
+    int monthsDayes[] = {Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH, Calendar.APRIL, Calendar.MAY, Calendar.JUNE, Calendar.JULY, Calendar.AUGUST, Calendar.SEPTEMBER, Calendar.OCTOBER, Calendar.NOVEMBER, Calendar.DECEMBER};
+    String weekDayes[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    ArrayList<String> availList = new ArrayList<>();
+    String output = "";
+    int item1, item2;
+    ArrayList<String> hours = new ArrayList<>();
+    ArrayList<String> minute = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,8 +227,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         String formattedDate = df.format(c.getTime());
 
         String date = formattedDate.split("-")[0];
-        String month = formattedDate.split("-")[1];
+        final String month = formattedDate.split("-")[1];
         String year = formattedDate.split("-")[2];
+
         // Toast.makeText(this,date+"-"+month+"-"+year,Toast.LENGTH_SHORT).show();
         mcv = (MaterialCalendarView) findViewById(calendarView);
         mcv.setOnDateChangedListener(this);
@@ -223,7 +238,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         mcv.state().edit()
 
                 .setMinimumDate(CalendarDay.from(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(date)))
-                .setMaximumDate(CalendarDay.from(2023, 12, 31))
+                .setMaximumDate(CalendarDay.from(Integer.parseInt(year), 12, 31))
 
                 .commit();
 
@@ -247,14 +262,38 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         minTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[1];
         maxTimehour = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[0];
         maxTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[1];
+        JSONObject obj = null;
+        try {
+            obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
+            JSONArray avail_arr = obj.getJSONArray(GlobalConstant.availability);
+            for (int i = 0; i < avail_arr.length(); i++) {
+                JSONObject sun_obj = avail_arr.getJSONObject(i);
+                if (sun_obj.getString(GlobalConstant.status).equalsIgnoreCase("closed")) {
+                    availList.add(sun_obj.getString(GlobalConstant.day));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("avail list", availList.toString());
+        for (int k = 0; k < weekDayes.length; k++) {
+            for (int i = 0; i < availList.size(); i++) {
+                if (weekDayes[k].equalsIgnoreCase(availList.get(i))) {
+                    for (int l = 0; l < monthsDayes.length; l++) {
 
-        list = new ArrayList<String>(Arrays.asList(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.off_days).split(",")));
+                        list.addAll(getDayNameInYear(l, k + 1));
+
+                    }
+                }
+            }
+
+        }
         Log.e("date list", String.valueOf(list));
         for (int i = 0; i < list.size(); i++) {
           /*  String date1=list.get(i).split("-")[2];
             String year1=list.get(i).split("-")[0];
             String month1=list.get(i).split("-")[1];*/
-            Log.e("loop value", String.valueOf(i));
+
             selectDate = new CalendarDay();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             try {
@@ -266,15 +305,28 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             calenderlist.add(selectDate);
 
         }
-
+        Log.e("calender list", calenderlist.toString());
         mcv.addDecorators(new EventDecorator(calenderlist));
 
         time_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 timePicker();
+                /*SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
+                Date convertedDate = null;
+                try {
+                    convertedDate = inputFormat.parse(global.getSendDate());
+                    String s = formatter.format(convertedDate);
+                    dialogWindow1(s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }*/
+               // dialogWindow1();
+
             }
         });
         if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
@@ -282,19 +334,12 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             pickUp_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (p == 0) {
-                        p = 1;
+
                         pickUp_img.setImageResource(R.drawable.pickup);
                         dropoff_img.setImageResource(R.drawable.dropoff_unselect);
                         global.setPickUp("1");
                         global.setDropOff("0");
-                    } else {
-                        p = 0;
-                        pickUp_img.setImageResource(R.drawable.pickup_unselect);
-                        dropoff_img.setImageResource(R.drawable.dropoff);
-                        global.setPickUp("0");
-                        global.setDropOff("1");
-                    }
+
 
                 }
             });
@@ -302,19 +347,12 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             dropoff_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (p == 1) {
-                        p = 0;
+
                         pickUp_img.setImageResource(R.drawable.pickup_unselect);
                         dropoff_img.setImageResource(R.drawable.dropoff);
                         global.setPickUp("0");
                         global.setDropOff("1");
-                    } else {
-                        p = 1;
-                        pickUp_img.setImageResource(R.drawable.pickup);
-                        dropoff_img.setImageResource(R.drawable.dropoff_unselect);
-                        global.setPickUp("1");
-                        global.setDropOff("0");
-                    }
+
                 }
             });
 
@@ -336,6 +374,24 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
         }
 
+        //  Log.e("monday date",getMondaysOfJanuary().toString());
+    }
+
+    private List<String> getDayNameInYear(int months, int days) {
+        ArrayList<String> d = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, months); // month starts by 0 = january
+        cal.set(Calendar.DAY_OF_WEEK, days);
+        cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
+        int month = cal.get(Calendar.MONTH);
+
+        while (cal.get(Calendar.MONTH) == month) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(cal.getTime());
+            d.add(formattedDate);
+            cal.add(Calendar.DAY_OF_MONTH, 7);
+        }
+        return d;
     }
 
     @Override
@@ -431,14 +487,14 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         // Launch Time Picker Dialog
         timePickerDialog = new TimePickerDialog(this,
                 this, mHour, mMinute, false);
-
         timePickerDialog.show();
+
     }
 
     private String getTime(int hr, int min) {
         Time tme = new Time(hr, min, 0);//seconds by default set to zero
         Format formatter;
-        formatter = new SimpleDateFormat("h:mm a");
+        formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(tme);
     }
 
@@ -466,60 +522,120 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
 
-    /*//---------------------------Progrees Dialog-----------------------
-    public void dialogWindow() {
-        dialog2 = new Dialog(this);
-        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog2.setCanceledOnTouchOutside(false);
-        dialog2.setCancelable(false);
-        dialog2.setContentView(R.layout.picker_timer);
-        TimePicker timePicker = (TimePicker) dialog2.findViewById(R.id.pickerView);
+    public static String convertTo24Hour(String Time) {
+        DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
+        Date d = null;
+        try {
+            d = f1.parse(Time);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        DateFormat f2 = new SimpleDateFormat("HH:mm");
+        String x = f2.format(d); // "23:00"
 
-        timePicker.setIs24HourView(true);
-        final Calendar c = Calendar.getInstance();
-        mHour = c.get(Calendar.HOUR_OF_DAY);
-        mMinute = c.get(Calendar.MINUTE);
-        timePicker.setCurrentHour(mHour);
-        timePicker.setCurrentMinute(mMinute);
+        return x;
+    }
 
-        setTimePickerInterval(timePicker);
+    public void dialogWindow1() {
+        PickerDialog = new Dialog(this);
+        PickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        PickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
+        PickerDialog.setContentView(R.layout.wheel_dialog);
+       /* int value = 0;
+        for (int i=0;i<availList.size();i++){
+            if(availList.get(i).equalsIgnoreCase(dayName)){
+                value=i;
+            }
+        }
+        JSONObject obj = null;
+        try {
+            obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
+            JSONArray avail_arr = obj.getJSONArray(GlobalConstant.availability);
+
+                JSONObject sun_obj = avail_arr.getJSONObject(value);
+                String openTime=convertTo24Hour(sun_obj.getString(GlobalConstant.opening_time));
+            String closeTime=convertTo24Hour(sun_obj.getString(GlobalConstant.closing_time));
+
+                int h = Integer.parseInt(openTime.split(":")[0]);
+            int m = Integer.parseInt(openTime.split(":")[1]);
+            int h1 = Integer.parseInt(closeTime.split(":")[0]);
+            int m1 = Integer.parseInt(closeTime.split(":")[1]);
+            for (int k=0;k<h;k++)
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+        TextView cancel_txtView = (TextView) PickerDialog.findViewById(R.id.cancel_txtView);
+        TextView done_txtView = (TextView) PickerDialog.findViewById(R.id.done_txtView);
+        final LoopView loopView = (LoopView) PickerDialog.findViewById(R.id.loop_view);
+        final LoopView loopView1 = (LoopView) PickerDialog.findViewById(R.id.loop_view1);
+
+        loopView.setCanLoop(false);
+
+        loopView.setTextSize(16);
+
+        hours = getListHour();
+
+        loopView.setDataList(hours);
+
+
+        loopView1.setCanLoop(false);
+
+        loopView1.setTextSize(16);
+        minute = getListMinute();
+        loopView1.setDataList(minute);
+        Log.e("value", hours.toString() + " " + minute.toString());
+        loopView.setLoopListener(new LoopScrollListener() {
             @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-                time_txtView.setText(i + ":" + i1);
-                dialog2.dismiss();
+            public void onItemSelect(int item) {
+                item1 = item;
+            }
+        });
+        loopView1.setLoopListener(new LoopScrollListener() {
+            @Override
+            public void onItemSelect(int item) {
+                item2 = item;
+            }
+        });
+        done_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickerDialog.dismiss();
+                time_txtView.setText(getTime(Integer.parseInt(hours.get(item1).split(":")[1]), Integer.parseInt(minute.get(item2).split(":")[0])));
+                global.setSendTime(time_txtView.getText().toString());
+
+            }
+        });
+        cancel_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PickerDialog.dismiss();
             }
         });
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
-        dialog2.show();
+        PickerDialog.show();
     }
 
-    @SuppressLint("NewApi")
-    private void setTimePickerInterval(TimePicker timePicker) {
-        try {
-            Class<?> classForid = Class.forName("com.android.internal.R$id");
-            // Field timePickerField = classForid.getField("timePicker");
-
-            Field field = classForid.getField("minute");
-            minutePicker = (NumberPicker) timePicker
-                    .findViewById(field.getInt(null));
-
-            minutePicker.setMinValue(Integer.parseInt(minTimehour));
-            minutePicker.setMaxValue(Integer.parseInt(maxTimehour));
-            ArrayList<String> displayedValues = new ArrayList<String>();
-            for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
-                displayedValues.add(String.format("%02d", i));
-            }
-            //  for (int i = 0; i < 60; i += TIME_PICKER_INTERVAL) {
-            //      displayedValues.add(String.format("%02d", i));
-            //  }
-            minutePicker.setDisplayedValues(displayedValues
-                    .toArray(new String[0]));
-            minutePicker.setWrapSelectorWheel(true);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public ArrayList<String> getListHour() {
+        ArrayList<String> list1 = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            int l = i + 1;
+            list1.add("hour:" + l);
         }
-    }*/
+        return list1;
+    }
+
+    public ArrayList<String> getListMinute() {
+        ArrayList<String> list1 = new ArrayList<>();
+        for (int i = 0; i < 60; i++) {
+            int l = i + 1;
+            list1.add(l + ":min");
+        }
+
+
+        return list1;
+    }
 }
