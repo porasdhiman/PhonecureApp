@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,6 +57,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import tourguide.tourguide.ChainTourGuide;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.Sequence;
+import tourguide.tourguide.ToolTip;
+
 import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
 
@@ -61,29 +70,32 @@ import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
  * Created by worksdelight on 01/03/17.
  */
 
-public class LoginActivity extends Activity implements OnClickListener{
+public class LoginActivity extends Activity implements OnClickListener {
     RelativeLayout facebook_layout, twitter_layout;
     TextView sign_in_btn, sign_up_btn, sign_up_user, forgot_view;
-    EditText password_view,email_view;
+    EditText password_view, email_view;
     //--------------facebook variable--------------
     CallbackManager callbackManager;
     LoginButton Login_TV;
     String token;
     Button facebook_btn;
-    String username_mString="", email_mString="", id_mString="";
+    String username_mString = "", email_mString = "", id_mString = "";
     SocialAuthAdapter adapter;
     Profile profileMap;
 
 
     Global global;
 
-String user_image;
+    String user_image;
     Dialog dialog2;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     ImageView img;
-    int i=0;
-    int imgArray[]={R.drawable.line1,R.drawable.line2,R.drawable.line3,R.drawable.line4,R.drawable.line5,R.drawable.line6,R.drawable.line7,R.drawable.line8,R.drawable.line9,R.drawable.line10,R.drawable.line11,R.drawable.line12};
+    int i = 0;
+    private Animation mEnterAnimation, mExitAnimation;
+
+    int imgArray[] = {R.drawable.line1, R.drawable.line2, R.drawable.line3, R.drawable.line4, R.drawable.line5, R.drawable.line6, R.drawable.line7, R.drawable.line8, R.drawable.line9, R.drawable.line10, R.drawable.line11, R.drawable.line12};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,18 +120,19 @@ String user_image;
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
         global = (Global) getApplicationContext();
-        img=(ImageView)findViewById(R.id.logo_img);
+        img = (ImageView) findViewById(R.id.logo_img);
 
-        new CountDownTimer(100,10) {
+        new CountDownTimer(100, 10) {
 
             @Override
-            public void onTick(long millisUntilFinished) {}
+            public void onTick(long millisUntilFinished) {
+            }
 
             @Override
             public void onFinish() {
                 img.setImageResource(imgArray[i]);
                 i++;
-                if(i== imgArray.length-1) i=0;
+                if (i == imgArray.length - 1) i = 0;
                 start();
             }
         }.start();
@@ -131,10 +144,10 @@ String user_image;
             e.printStackTrace();
         }*/
 
-        password_view=(EditText)findViewById(R.id.password_view);
+        password_view = (EditText) findViewById(R.id.password_view);
 
 
-        email_view=(EditText)findViewById(R.id.email_view);
+        email_view = (EditText) findViewById(R.id.email_view);
         facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
         twitter_layout = (RelativeLayout) findViewById(R.id.twiter_layout);
         sign_in_btn = (TextView) findViewById(R.id.sign_in_btn);
@@ -148,6 +161,51 @@ String user_image;
         sign_up_btn.setOnClickListener(this);
         sign_up_user.setOnClickListener(this);
         forgot_view.setOnClickListener(this);
+
+
+        ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Login with facebook")
+
+                        .setGravity(Gravity.TOP)
+                )
+                // note that there is no Overlay here, so the default one will be used
+                .playLater(facebook_layout);
+        ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Register as a user")
+
+                        .setGravity(Gravity.TOP)
+                )
+                // note that there is no Overlay here, so the default one will be used
+                .playLater(sign_up_user);
+        ChainTourGuide tourGuide3 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Register as a technician")
+
+                        .setGravity(Gravity.TOP)
+                )
+                // note that there is no Overlay here, so the default one will be used
+                .playLater(sign_up_btn);
+        mEnterAnimation = new AlphaAnimation(0f, 1f);
+        mEnterAnimation.setDuration(300);
+        mEnterAnimation.setFillAfter(true);
+
+        mExitAnimation = new AlphaAnimation(1f, 0f);
+        mExitAnimation.setDuration(300);
+        mExitAnimation.setFillAfter(true);
+        Sequence sequence = new Sequence.SequenceBuilder()
+                .add(tourGuide1, tourGuide2, tourGuide3)
+                .setDefaultOverlay(new Overlay()
+                        .setEnterAnimation(mEnterAnimation)
+                        .setExitAnimation(mExitAnimation)
+                )
+                .setDefaultPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)).setGravity(Gravity.CENTER))
+                .setContinueMethod(Sequence.ContinueMethod.Overlay)
+                .build();
+
+
+        ChainTourGuide.init(this).playInSequence(sequence);
 
     }
 
@@ -180,7 +238,7 @@ String user_image;
                                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                                     StrictMode.setThreadPolicy(policy);
                                     user_image = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                                    Log.e("profile image",user_image);
+                                    Log.e("profile image", user_image);
                                     /*URL fb_url = new URL(profilePicUrl);//small | noraml | large
                                     HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
                                     HttpsURLConnection.setFollowRedirects(true);
@@ -188,7 +246,7 @@ String user_image;
                                     Bitmap fb_img = BitmapFactory.decodeStream(conn1.getInputStream());
                                     //image.setImageBitmap(fb_img);*/
                                 }
-                            }catch (Exception ex) {
+                            } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                             //gender = object.getString("gender");
@@ -236,11 +294,11 @@ String user_image;
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.facebook_layout:
-                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
                     Login_TV.performClick();
-                }else{
+                } else {
                     CommonUtils.openInternetDialog(LoginActivity.this);
-            }
+                }
 
                 break;
             case R.id.twiter_layout:
@@ -248,54 +306,53 @@ String user_image;
 
                 break;
             case R.id.sign_in_btn:
-                if(email_view.getText().length()==0){
+                if (email_view.getText().length() == 0) {
                     email_view.setError("Please enter email");
 
-                }else if(password_view.getText().length()==0) {
+                } else if (password_view.getText().length() == 0) {
                     password_view.setError("Please enter password");
 
 
-                }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
+                } else if (!CommonUtils.isEmailValid(email_view.getText().toString())) {
                     email_view.setError("Please enter valid email");
 
-                }
-                else{
-                    if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                } else {
+                    if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
                         dialogWindow();
                         loginMethod();
-                    }else{
+                    } else {
                         CommonUtils.openInternetDialog(LoginActivity.this);
                     }
                 }
 
                 break;
             case R.id.sign_up_btn:
-                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
                     Intent su = new Intent(this, TechniciansRegister.class);
                     startActivity(su);
 
-                }else{
+                } else {
                     CommonUtils.openInternetDialog(this);
                 }
 
                 break;
             case R.id.sign_up_user:
-                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
                     Intent us = new Intent(this, RegisterActivity.class);
                     startActivity(us);
                     finish();
-                }else{
+                } else {
                     CommonUtils.openInternetDialog(this);
                 }
                 break;
             case R.id.forgot_view:
-                if(CommonUtils.getConnectivityStatus(LoginActivity.this)) {
+                if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
                     Intent f = new Intent(this, ForgotActivity.class);
                     startActivity(f);
-                }else{
+                } else {
                     CommonUtils.openInternetDialog(this);
                 }
 
@@ -350,7 +407,6 @@ String user_image;
     }
 
 
-
     private void loginMethod() {
 
 
@@ -366,17 +422,17 @@ String user_image;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
+                                JSONObject data = obj.getJSONObject("data");
 
 
-                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
-                                ed.putString("type","app");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString("type", "app");
 
-                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
-                                if(data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
-                                    ed.putString(GlobalConstant.name,data.getString(GlobalConstant.name));
-                                    ed.putString(GlobalConstant.email,data.getString(GlobalConstant.email));
+                                if (data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
+                                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                    ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
                                     ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
                                     ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
                                     ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
@@ -384,9 +440,9 @@ String user_image;
                                     if (intervention instanceof JSONArray) {
                                         // It's an array
 
-                                    }else{
+                                    } else {
 
-                                        JSONObject shipping_address=data.getJSONObject("shipping_address");
+                                        JSONObject shipping_address = data.getJSONObject("shipping_address");
                                         ed.putString("first name", shipping_address.getString("ship_firstname"));
                                         ed.putString("last name", shipping_address.getString("ship_lastname"));
                                         ed.putString(GlobalConstant.address, shipping_address.getString("ship_address"));
@@ -398,7 +454,7 @@ String user_image;
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
                                     finish();
-                                }else{
+                                } else {
                                     ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
                                     ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
                                     ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
@@ -443,7 +499,6 @@ String user_image;
                 params.put(GlobalConstant.device_type, "android");
 
 
-
                 Log.e("Parameter for Login", params.toString());
                 return params;
             }
@@ -453,7 +508,6 @@ String user_image;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
 
 
     //--------------------Facebook Social api method---------------------------------
@@ -472,22 +526,22 @@ String user_image;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
+                                JSONObject data = obj.getJSONObject("data");
 
 
-                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
                                 ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
                                 ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
                                 ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
-                                ed.putString("type","facebook");
-                                ed.putString(GlobalConstant.name,data.getString(GlobalConstant.name));
-                                ed.putString("email",data.getString(GlobalConstant.email));
-                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+                                ed.putString("type", "facebook");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString("email", data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
                                 Object intervention = data.get("shipping_address");
                                 if (intervention instanceof JSONArray) {
                                     // It's an array
 
-                                }else{
+                                } else {
 
                                     JSONObject shipping_address = data.getJSONObject("shipping_address");
                                     ed.putString("first name", shipping_address.getString("ship_firstname"));
@@ -545,6 +599,7 @@ String user_image;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
     //--------------------Facebook Social api method---------------------------------
     private void twittersocialMethod() {
 
@@ -561,9 +616,9 @@ String user_image;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
-                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
-                                ed.putString("type","app");
+                                JSONObject data = obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString("type", "app");
                                 ed.commit();
                                 Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(f);

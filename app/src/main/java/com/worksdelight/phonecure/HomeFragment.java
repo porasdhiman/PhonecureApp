@@ -30,6 +30,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -70,7 +72,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     SharedPreferences.Editor ed;
     int pos, measuredWidth, measuredHeight;
     Marker markers;
-
+TextView select_color_txt;
+    AdView mAdView;
+    AdRequest adRequest;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Mapbox.getInstance(getActivity(), "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
@@ -99,7 +103,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         global = (Global) getActivity().getApplicationContext();
         init(parentView);
         mapView = (MapView) parentView.findViewById(R.id.mapView);
-
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
@@ -130,6 +133,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init(View v) {
+        mAdView = (AdView)v.findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
+        select_color_txt=(TextView)v.findViewById(R.id.select_color_txt);
+
         current_device_name_txt = (TextView) v.findViewById(R.id.current_device_name_txt);
         cancel_txtView = (TextView) v.findViewById(R.id.cancel_txtView);
         done_txtView = (TextView) v.findViewById(R.id.done_txtView);
@@ -147,6 +156,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         colorMethod();
         cancel_txtView.setOnClickListener(this);
         done_txtView.setOnClickListener(this);
+        select_color_txt.setOnClickListener(this);
     }
 
     /*//---------------------------facebook method------------------------------
@@ -188,6 +198,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.select_color_txt:
+
+                bottome_layout.setVisibility(View.VISIBLE);
+                loopView.setDataList(getList());
+                break;
             case R.id.select_device_layout:
                 Intent i = new Intent(getActivity(), DeviceActivity.class);
                 startActivity(i);
@@ -301,6 +316,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        if (mAdView != null) {
+            mAdView.pause();
+        }
     }
 
     @Override
@@ -330,6 +348,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
 
         mapView.onDestroy();
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
 
     }
 

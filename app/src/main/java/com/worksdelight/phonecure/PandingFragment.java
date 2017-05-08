@@ -1,7 +1,9 @@
 package com.worksdelight.phonecure;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -122,7 +124,7 @@ public class PandingFragment extends Fragment {
 
         private Context mContext;
         Holder holder;
-
+AlertDialog builder;
         ArrayList<HashMap<String, String>> serviceListing = new ArrayList<>();
         int priceValue;
 
@@ -166,9 +168,26 @@ public class PandingFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 // Toast.makeText(mContext, "click delete", Toast.LENGTH_SHORT).show();
-                                dialogWindow();
-                                ComAdnDelMethod(list.get(position).get(GlobalConstant.id));
-                                notifyDataSetChanged();
+                                builder = new AlertDialog.Builder(mContext).setMessage("Do You Want To Mark as Done?")
+                                        .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialogWindow();
+                                                ComAdnDelMethod(list.get(position).get(GlobalConstant.id));
+                                                notifyDataSetChanged();
+                                                builder.dismiss();
+                                            }
+
+                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // TODO Auto-generated method stub
+
+                                                builder.dismiss();
+                                            }
+                                        }).show();
+
                             }
                         });
                     }
@@ -361,7 +380,7 @@ public class PandingFragment extends Fragment {
                 params.put(GlobalConstant.status, "completed");
 
 
-                Log.e("Parameter for cancel", params.toString());
+                Log.e("Parameter for comp", params.toString());
                 return params;
             }
 

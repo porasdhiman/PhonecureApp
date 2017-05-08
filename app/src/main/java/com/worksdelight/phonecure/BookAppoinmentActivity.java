@@ -275,7 +275,6 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("avail list", availList.toString());
         for (int k = 0; k < weekDayes.length; k++) {
             for (int i = 0; i < availList.size(); i++) {
                 if (weekDayes[k].equalsIgnoreCase(availList.get(i))) {
@@ -288,7 +287,6 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             }
 
         }
-        Log.e("date list", String.valueOf(list));
         for (int i = 0; i < list.size(); i++) {
           /*  String date1=list.get(i).split("-")[2];
             String year1=list.get(i).split("-")[0];

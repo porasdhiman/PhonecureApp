@@ -30,6 +30,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bruce.pickerview.LoopView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -72,7 +74,8 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     RelativeLayout appointment_layout, service_layout, profile_layout, setting_layout;
     TextView header_txt;
     ImageView message_img;
-
+    AdView mAdView;
+    AdRequest adRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +132,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
                 mapboxMap.addMarker(new MarkerOptions()
                         .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
 
-                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 15);
+                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 20);
 
 
             }
@@ -139,6 +142,10 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     }
 
     public void init() {
+        mAdView = (AdView)findViewById(R.id.adView);
+        adRequest = new AdRequest.Builder()
+                .build();
+        mAdView.loadAd(adRequest);
         header_txt = (TextView) findViewById(R.id.header_txt);
         message_img = (ImageView) findViewById(R.id.message_img);
         // techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
@@ -212,18 +219,25 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     protected void onStart() {
         super.onStart();
         mapView.onStart();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
+        if (mAdView != null) {
+            mAdView.pause();
+        }
     }
 
     @Override
@@ -246,6 +260,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     public void onStop() {
         super.onStop();
         mapView.onStop();
+
     }
 
     @Override
@@ -253,6 +268,9 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
         super.onDestroy();
 
         mapView.onDestroy();
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
 
     }
 

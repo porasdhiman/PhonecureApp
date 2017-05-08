@@ -2,9 +2,11 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -69,7 +71,7 @@ import java.util.Map;
 public class UserAppointmentActivity extends Activity {
     ImageView back_img;
     ImageView user_view;
-    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price,close_date_txt;
+    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price, close_date_txt;
     ListView service_list;
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
@@ -78,8 +80,10 @@ public class UserAppointmentActivity extends Activity {
     String booking_id;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
-    String statusValue,filePath,invoice;
+    String statusValue, filePath, invoice;
     File pdfFile;
+    AlertDialog builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,24 +117,26 @@ public class UserAppointmentActivity extends Activity {
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
-        user_view=(ImageView) findViewById(R.id.user_view);
+        user_view = (ImageView) findViewById(R.id.user_view);
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
-        close_date_txt=(TextView)findViewById(R.id.close_date_txt);
+        close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
 
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
-                booking_id=obj.getString(GlobalConstant.id);
-                invoice=obj.getString(GlobalConstant.invoice);
+                booking_id = obj.getString(GlobalConstant.id);
+                invoice = obj.getString(GlobalConstant.invoice);
 
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
+                address_txt.setText(objUser.getString(GlobalConstant.address));
+
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -143,9 +149,7 @@ public class UserAppointmentActivity extends Activity {
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
-                JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
-                JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
-                address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
+
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
                     JSONObject bookinObj = booking_item_arr.getJSONObject(i);
@@ -180,7 +184,7 @@ public class UserAppointmentActivity extends Activity {
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL+invoice, UserAppointmentActivity.this);
+                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL + invoice, UserAppointmentActivity.this);
 
                 }
             });
@@ -188,11 +192,12 @@ public class UserAppointmentActivity extends Activity {
 
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
-                booking_id=obj.getString(GlobalConstant.id);
+                booking_id = obj.getString(GlobalConstant.id);
 
-                statusValue=obj.getString(GlobalConstant.status);
+                statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
+                address_txt.setText(objUser.getString(GlobalConstant.address));
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
                 if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
@@ -204,9 +209,7 @@ public class UserAppointmentActivity extends Activity {
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
-                JSONObject objDetail = obj.getJSONObject(GlobalConstant.user_detail);
-                JSONObject shipping_address = objDetail.getJSONObject("shipping_address");
-                address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
+
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
                     JSONObject bookinObj = booking_item_arr.getJSONObject(i);
@@ -236,17 +239,34 @@ public class UserAppointmentActivity extends Activity {
                 e.printStackTrace();
             }
 
-            if(statusValue.equalsIgnoreCase("pending")){
+            if (statusValue.equalsIgnoreCase("pending")) {
                 cancel_request_txt.setVisibility(View.VISIBLE);
                 cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialogWindow();
-                        ComAdnDelMethod();
+                        builder = new AlertDialog.Builder(UserAppointmentActivity.this).setMessage("Do You Want To Cancel?")
+                                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        dialogWindow();
+                                        ComAdnDelMethod();
+                                        builder.dismiss();
+                                    }
+
+                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // TODO Auto-generated method stub
+
+                                        builder.dismiss();
+                                    }
+                                }).show();
+
                     }
                 });
-            }else{
-                cancel_request_txt.setText("Order "+statusValue);
+            } else {
+                cancel_request_txt.setText("Order " + statusValue);
             }
         }
 
@@ -259,7 +279,7 @@ public class UserAppointmentActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(UserAppointmentActivity.this,HistoryActivity.class);
+        Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
         startActivity(i);
         finish();
     }
@@ -355,7 +375,7 @@ public class UserAppointmentActivity extends Activity {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                                Intent i=new Intent(UserAppointmentActivity.this,HistoryActivity.class);
+                                Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {
@@ -411,6 +431,7 @@ public class UserAppointmentActivity extends Activity {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -434,6 +455,7 @@ public class UserAppointmentActivity extends Activity {
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
@@ -456,9 +478,7 @@ public class UserAppointmentActivity extends Activity {
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(UserAppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         } else {
@@ -515,7 +535,6 @@ public class UserAppointmentActivity extends Activity {
                 int lenghtOfFile = c.getContentLength();
 
 
-
                 byte data[] = new byte[MEGABYTE];
 
                 long total = 0;
@@ -547,16 +566,13 @@ public class UserAppointmentActivity extends Activity {
             Log.e("file path", filePath);
 
 
-            try
-            {
-                Intent intent=new Intent(Intent.ACTION_VIEW);
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri uri = Uri.fromFile(pdfFile);
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(UserAppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         }

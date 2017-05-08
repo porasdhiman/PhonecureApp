@@ -306,10 +306,10 @@ SharedPreferences sp;
                                 JSONObject data=obj.getJSONObject("data");
                                 ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
                                 ed.putString("type","app");
-                                ed.putString("user name",data.getString(GlobalConstant.name));
-                                ed.putString("email",data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.name,data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email,data.getString(GlobalConstant.email));
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
-
+                                ed.putString(GlobalConstant.image,data.getString(GlobalConstant.image));
                                 ed.commit();
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);

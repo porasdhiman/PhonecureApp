@@ -79,6 +79,8 @@ public class MapBoxActivity extends Activity {
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     ArrayList<HashMap<String, String>> serviceList = new ArrayList<>();
+    TextView price_txt;
+    float f = 0.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class MapBoxActivity extends Activity {
         }
         global = (Global) getApplicationContext();
         technicians_name_txtView = (TextView) findViewById(R.id.technicians_name_txtView);
+        price_txt=(TextView)findViewById(R.id.price_txt);
         average_rating_txt = (TextView) findViewById(R.id.average_rating_txt);
         book_appointment = (TextView) findViewById(R.id.book_appointment);
         tech_img = (CircleImageView) findViewById(R.id.tech_img);
@@ -98,7 +101,7 @@ public class MapBoxActivity extends Activity {
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(global.getDateList().size()>0){
+                if (global.getDateList().size() > 0) {
                     Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
 
                     i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
@@ -201,21 +204,21 @@ public class MapBoxActivity extends Activity {
                             .target(new LatLng(lat, longt))
                             .zoom(10)
                             .build());
-                    if(global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")&&global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+                    if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromResource(R.drawable.sccoteerhome);
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
                                 .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
-                    }else if(global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
+                    } else if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromResource(R.drawable.scooter);
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
                                 .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
-                    }else if(global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")){
+                    } else if (global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromResource(R.drawable.home_repair);
 
@@ -281,6 +284,22 @@ public class MapBoxActivity extends Activity {
 
                             }
                         });
+                        try {
+                            JSONObject obj = global.getCartData().getJSONObject(pos);
+                            JSONArray servicesArr = obj.getJSONArray("technician_services");
+
+                            for (int j = 0; j < servicesArr.length(); j++) {
+                                JSONObject serviceObj = servicesArr.getJSONObject(j);
+
+                                f = f + Float.parseFloat(serviceObj.getString(GlobalConstant.price));
+
+
+                            }
+                            price_txt.setText("Technician Charges $"+String.valueOf(f));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         return false;
                     }
                 });

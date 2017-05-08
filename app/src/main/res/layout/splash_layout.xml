@@ -5,8 +5,8 @@
     android:background="#f5f5f5"
     android:gravity="center">
     <RelativeLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:layout_centerHorizontal="true"
 
         android:background="@drawable/app_icon">

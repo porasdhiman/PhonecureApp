@@ -1,9 +1,11 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -60,16 +62,18 @@ import java.util.Map;
 
 public class AppointmentActivity extends Activity {
     ImageView back_img;
-    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price,close_date_txt;
+    TextView name_txt, address_txt, date_txt, cancel_request_txt, total_price, close_date_txt;
     ListView service_list;
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     ScrollView main_scroll;
     Dialog dialog2;
-String booking_id;
-    String statusValue,filePath,invoice;
-ImageView user_view;
+    String booking_id;
+    String statusValue, filePath, invoice;
+    ImageView user_view;
     File pdfFile;
+    AlertDialog builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +90,7 @@ ImageView user_view;
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
 
         back_img = (ImageView) findViewById(R.id.back_img);
-        user_view= (ImageView) findViewById(R.id.user_view);
+        user_view = (ImageView) findViewById(R.id.user_view);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,14 +103,14 @@ ImageView user_view;
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
-        close_date_txt=(TextView)findViewById(R.id.close_date_txt);
+        close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
 
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
-                booking_id=obj.getString(GlobalConstant.id);
-                invoice=obj.getString(GlobalConstant.invoice);
+                booking_id = obj.getString(GlobalConstant.id);
+                invoice = obj.getString(GlobalConstant.invoice);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
@@ -158,7 +162,7 @@ ImageView user_view;
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL+invoice, AppointmentActivity.this);
+                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL + invoice, AppointmentActivity.this);
 
                 }
             });
@@ -167,8 +171,8 @@ ImageView user_view;
             //cancel_request_txt.setVisibility(View.VISIBLE);
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
-                booking_id=obj.getString(GlobalConstant.id);
-                statusValue=obj.getString(GlobalConstant.status);
+                booking_id = obj.getString(GlobalConstant.id);
+                statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
@@ -213,17 +217,33 @@ ImageView user_view;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if(statusValue.equalsIgnoreCase("pending")){
+            if (statusValue.equalsIgnoreCase("pending")) {
                 cancel_request_txt.setVisibility(View.VISIBLE);
                 cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        dialogWindow();
-                        ComAdnDelMethod();
+                        builder = new AlertDialog.Builder(AppointmentActivity.this).setMessage("Do You Want To Cancel?")
+                                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        dialogWindow();
+                                        ComAdnDelMethod();
+                                        builder.dismiss();
+                                    }
+
+                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // TODO Auto-generated method stub
+
+                                        builder.dismiss();
+                                    }
+                                }).show();
                     }
                 });
-            }else{
-                cancel_request_txt.setText("Order "+statusValue);
+            } else {
+                cancel_request_txt.setText("Order " + statusValue);
             }
 
         }
@@ -233,13 +253,15 @@ ImageView user_view;
         main_scroll.smoothScrollBy(0, 0);
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(AppointmentActivity.this,HistoryActivity.class);
+        Intent i = new Intent(AppointmentActivity.this, HistoryActivity.class);
         startActivity(i);
         finish();
     }
+
     public String formatdate2(String fdate) {
         String datetime = null;
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -331,7 +353,7 @@ ImageView user_view;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                                Intent i=new Intent(AppointmentActivity.this,TechniciansHistory.class);
+                                Intent i = new Intent(AppointmentActivity.this, TechniciansHistory.class);
                                 startActivity(i);
                                 finish();
                             } else {
@@ -387,6 +409,7 @@ ImageView user_view;
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
@@ -409,9 +432,7 @@ ImageView user_view;
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(AppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         } else {
@@ -468,7 +489,6 @@ ImageView user_view;
                 int lenghtOfFile = c.getContentLength();
 
 
-
                 byte data[] = new byte[MEGABYTE];
 
                 long total = 0;
@@ -500,16 +520,13 @@ ImageView user_view;
             Log.e("file path", filePath);
 
 
-            try
-            {
-                Intent intent=new Intent(Intent.ACTION_VIEW);
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri uri = Uri.fromFile(pdfFile);
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(AppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         }

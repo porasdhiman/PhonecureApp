@@ -18,6 +18,8 @@ import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,6 +50,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     SharedPreferences.Editor ed;
     CallbackManager callbackManager;
     AlertDialog builder;
+    Button title_bar_left_menu;
+    private Animation mEnterAnimation, mExitAnimation;
+
+    public static final int OVERLAY_METHOD = 1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,8 +124,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
         // You can disable a direction by setting ->
         // resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
-
-        findViewById(R.id.title_bar_left_menu).setOnClickListener(new View.OnClickListener() {
+        title_bar_left_menu=(Button) findViewById(R.id.title_bar_left_menu);
+        title_bar_left_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -127,6 +133,42 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
 
+       /* ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Slide menu")
+
+                        .setGravity(Gravity.BOTTOM)
+                )
+                // note that there is no Overlay here, so the default one will be used
+                .playLater(title_bar_left_menu);
+        ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Notification")
+
+                        .setGravity(Gravity.BOTTOM)
+                )
+                // note that there is no Overlay here, so the default one will be used
+                .playLater(message_img);
+         *//* setup enter and exit animation *//*
+        mEnterAnimation = new AlphaAnimation(0f, 1f);
+        mEnterAnimation.setDuration(600);
+        mEnterAnimation.setFillAfter(true);
+
+        mExitAnimation = new AlphaAnimation(1f, 0f);
+        mExitAnimation.setDuration(600);
+        mExitAnimation.setFillAfter(true);
+        Sequence sequence = new Sequence.SequenceBuilder()
+                .add(tourGuide1, tourGuide2)
+                .setDefaultOverlay(new Overlay()
+                        .setEnterAnimation(mEnterAnimation)
+                        .setExitAnimation(mExitAnimation)
+                )
+                .setDefaultPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)).setGravity(Gravity.CENTER))
+                .setContinueMethod(Sequence.ContinueMethod.Overlay)
+                .build();
+
+
+        ChainTourGuide.init(this).playInSequence(sequence);*/
         header_txt = (TextView) findViewById(R.id.header_txt);
         message_img.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,7 +2,9 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -56,6 +58,7 @@ public class ShoppingcartActivity extends Activity {
     ImageView back;
     ArrayList<HashMap<String, String>> priceList = new ArrayList<>();
     float pricevalue=0.0f;
+    AlertDialog builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,9 +80,27 @@ public class ShoppingcartActivity extends Activity {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ShoppingcartActivity.this, MainActivity.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                builder = new AlertDialog.Builder(ShoppingcartActivity.this).setMessage("Do You Want To Clear Cart Data?")
+                        .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Intent i = new Intent(ShoppingcartActivity.this, MainActivity.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(i);
+                                finish();
+                            }
+
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+
+                                builder.dismiss();
+                            }
+                        }).show();
+
+
             }
         });
         checkout_btn = (TextView) findViewById(R.id.checkout_btn);

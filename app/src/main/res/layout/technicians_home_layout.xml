@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:mapbox="http://schemas.android.com/tools"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
@@ -14,6 +14,7 @@
         mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v9"
 
         />
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="50dp"
@@ -54,35 +55,44 @@
             android:src="@drawable/message_img" />-->
 
     </RelativeLayout>
+
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-       >
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_home_footer"></com.google.android.gms.ads.AdView>
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-android:alpha="0.9"
-            android:orientation="vertical"
-
-
-            android:layout_alignParentTop="true"
+            android:layout_above="@+id/adView"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-   <!-- <TextView
-        android:id="@+id/techniciansName_txtView"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="Hi"
-        android:textColor="#000"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical"
-        android:textSize="16sp"/>-->
+
+            android:layout_alignParentStart="true"
+
+            android:alpha="0.9"
+            android:orientation="vertical">
+            <!-- <TextView
+                 android:id="@+id/techniciansName_txtView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="20dp"
+                 android:text="Hi"
+                 android:textColor="#000"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginTop="10dp"
+                 android:gravity="center_vertical"
+                 android:textSize="16sp"/>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,8 +103,6 @@ android:alpha="0.9"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
-
-
 
 
                 <RelativeLayout
@@ -136,9 +144,8 @@ android:alpha="0.9"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:text=""
-                        android:textSize="14dp"
                         android:textColor="#fff"
-                        />
+                        android:textSize="14dp" />
 
 
                 </RelativeLayout>
@@ -181,14 +188,14 @@ android:alpha="0.9"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:text=""
-                        android:textSize="14dp"
                         android:textColor="#fff"
-                        />
+                        android:textSize="14dp" />
 
 
                 </RelativeLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -232,14 +239,14 @@ android:alpha="0.9"
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/cure_txt"
                         android:layout_marginLeft="10dp"
                         android:text="Adjust settings"
-                        android:textSize="14dp"
 
-android:textColor="#fff"
+                        android:textColor="#fff"
 
 
-                        android:layout_below="@+id/cure_txt" />
+                        android:textSize="14dp" />
 
 
                 </RelativeLayout>
@@ -281,8 +288,8 @@ android:textColor="#fff"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:text="Update Profile"
-                        android:textSize="14dp"
                         android:textColor="#fff"
+                        android:textSize="14dp"
 
 
                         />
@@ -293,9 +300,7 @@ android:textColor="#fff"
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -142,7 +142,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-
+android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
@@ -165,7 +166,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -252,6 +254,8 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -274,6 +278,8 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -344,6 +350,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
@@ -366,6 +374,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -436,6 +446,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
@@ -458,6 +470,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -532,6 +546,8 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -554,6 +570,8 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -625,6 +643,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
@@ -647,6 +667,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -720,6 +742,8 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
+                                android:hint="Open"
+                                android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -741,6 +765,8 @@
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:hint="Close"
+                                android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
                         </LinearLayout>
