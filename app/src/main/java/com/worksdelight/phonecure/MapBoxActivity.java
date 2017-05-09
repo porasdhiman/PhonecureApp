@@ -210,21 +210,21 @@ public class MapBoxActivity extends Activity {
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
-                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                                .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromResource(R.drawable.scooter);
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
-                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                                .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromResource(R.drawable.home_repair);
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
-                                .title(global.getDateList().get(i).get(GlobalConstant.name)).icon(icon));
+                                .icon(icon));
                     }
 
 

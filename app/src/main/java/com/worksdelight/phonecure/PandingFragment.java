@@ -231,7 +231,7 @@ AlertDialog builder;
             ImageView tech_img = (ImageView) convertView.findViewById(R.id.tech_view);
             if (list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
                 status_txt.setTextColor(getResources().getColor(R.color.main_color));
-                status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));
+
             } else {
                 status_txt.setTextColor(Color.parseColor("#ff0000"));
                 status_txt.setText(cap(list.get(position).get(GlobalConstant.status)));

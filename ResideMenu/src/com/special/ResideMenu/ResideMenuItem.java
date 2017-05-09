@@ -35,7 +35,9 @@ public class ResideMenuItem extends LinearLayout{
         super(context);
         initViews(context);
         //iv_icon.setImageResource(icon);
+       // tv_title.setTextColor(Color.parseColor("#000000"));
         tv_title.setText(title);
+
     }
 
     private void initViews(Context context){

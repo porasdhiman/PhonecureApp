@@ -68,7 +68,7 @@
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            ads:adSize="BANNER"
+            ads:adSize="SMART_BANNER"
             ads:adUnitId="@string/banner_home_footer"></com.google.android.gms.ads.AdView>
 
         <LinearLayout

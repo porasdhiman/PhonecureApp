@@ -182,13 +182,13 @@ public class RepairActivity extends Activity {
                 holder.tech_view.setImageResource(R.drawable.user_back);
             }
 
-            holder.setting_layout.setOnClickListener(new View.OnClickListener() {
+          /*  holder.setting_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     holder = (Holder) view.getTag();
                     holder.setting_call_layout.setVisibility(View.VISIBLE);
                 }
-            });
+            });*/
             holder.call.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -182,10 +182,10 @@ ImageView back_img;
             } else {
                 holder = (Holder) view.getTag();
             }
-            holder.delivered_txt.setText("Deliverd date:");
+            holder.delivered_txt.setText("Delivery date:");
             if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
                 holder.status_txt.setTextColor(getResources().getColor(R.color.main_color));
-                holder.status_txt.setText(cap(list.get(i).get(GlobalConstant.status)));
+
             } else {
                 holder.status_txt.setTextColor(Color.parseColor("#ff0000"));
                 holder.status_txt.setText(cap(list.get(i).get(GlobalConstant.status)));

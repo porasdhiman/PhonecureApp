@@ -55,7 +55,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/time_txt"
             android:layout_toRightOf="@+id/user_img"
-            android:singleLine="true"
+
             android:text="message"
 
             android:textColor="@android:color/darker_gray"

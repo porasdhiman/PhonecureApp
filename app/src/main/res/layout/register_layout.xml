@@ -50,6 +50,45 @@
                     android:layout_marginTop="20dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/phone_cure" />
+                <RelativeLayout
+                    android:id="@+id/facebook_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+
+                    android:background="@drawable/facebook_view_back">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/facebook_txt"
+                        android:src="@drawable/facebook" />
+
+                    <TextView
+                        android:id="@+id/facebook_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Sign in with facebook"
+                        android:textColor="#fff" />
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/Fb_Login"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:visibility="invisible"
+
+
+                        />
+                </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -137,21 +176,7 @@ android:id="@+id/sign_up_btn"
             android:textSize="@dimen/header_txt"
             android:textStyle="bold" />
 
-        <TextView
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Or using"
-            android:textColor="@color/mainTextColor"
-            android:textSize="@dimen/header_txt"
-
-
-            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,43 +188,7 @@ android:id="@+id/sign_up_btn"
             android:gravity="center_horizontal"
             android:weightSum="2">
 
-            <RelativeLayout
-                android:id="@+id/facebook_layout"
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/facebook_view_back">
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/facebook_txt"
-                    android:src="@drawable/facebook" />
-
-               <!-- <TextView
-                    android:id="@+id/facebook_txt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="Sign in with facebook"
-                    android:textColor="#fff"
-                    android:textStyle="bold" />-->
-                <com.facebook.login.widget.LoginButton
-                    android:id="@+id/Fb_Login"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:visibility="invisible"
-
-
-                    />
-
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/twiter_layout"

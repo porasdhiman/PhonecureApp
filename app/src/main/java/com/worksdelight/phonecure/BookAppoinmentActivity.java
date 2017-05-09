@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -167,6 +168,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     int item1, item2;
     ArrayList<String> hours = new ArrayList<>();
     ArrayList<String> minute = new ArrayList<>();
+    Calendar mCalendarOpeningTime, mCalendarClosingTime, finalTime;
+    String openTimeMode, closeTimeMode;
+    String openTime = "", popenTime = "", closeTime = "", pclosetime = "";
+    LinearLayout dropoff_layout, pickup_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +191,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+        pickup_layout = (LinearLayout) findViewById(R.id.pickup_layout);
+        dropoff_layout = (LinearLayout) findViewById(R.id.dropoff_layout);
+
         pickUp_img = (ImageView) findViewById(R.id.pickUp_img);
         dropoff_img = (ImageView) findViewById(R.id.dropoff_img);
         back = (ImageView) findViewById(R.id.back);
@@ -258,10 +266,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
             }
         });
-        minTimehour = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[0];
-        minTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.opening_time).split(":")[1];
-        maxTimehour = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[0];
-        maxTimeminute = global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.closing_time).split(":")[1];
+
         JSONObject obj = null;
         try {
             obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
@@ -310,6 +315,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             @Override
             public void onClick(View view) {
                 timePicker();
+                time_txtView.setText("");
                 /*SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
                 DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -323,7 +329,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }*/
-               // dialogWindow1();
+                // dialogWindow1();
 
             }
         });
@@ -333,10 +339,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 @Override
                 public void onClick(View view) {
 
-                        pickUp_img.setImageResource(R.drawable.pickup);
-                        dropoff_img.setImageResource(R.drawable.dropoff_unselect);
-                        global.setPickUp("1");
-                        global.setDropOff("0");
+                    pickUp_img.setImageResource(R.drawable.pickup);
+                    dropoff_img.setImageResource(R.drawable.dropoff_unselect);
+                    global.setPickUp("1");
+                    global.setDropOff("0");
 
 
                 }
@@ -346,10 +352,10 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
                 @Override
                 public void onClick(View view) {
 
-                        pickUp_img.setImageResource(R.drawable.pickup_unselect);
-                        dropoff_img.setImageResource(R.drawable.dropoff);
-                        global.setPickUp("0");
-                        global.setDropOff("1");
+                    pickUp_img.setImageResource(R.drawable.pickup_unselect);
+                    dropoff_img.setImageResource(R.drawable.dropoff);
+                    global.setPickUp("0");
+                    global.setDropOff("1");
 
                 }
             });
@@ -361,6 +367,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             dropoff_img.setImageResource(R.drawable.dropoff_unselect);
             global.setPickUp("1");
             global.setDropOff("0");
+            dropoff_layout.setAlpha(0.5f);
 
 
         } else if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
@@ -368,11 +375,28 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             dropoff_img.setImageResource(R.drawable.dropoff);
             global.setPickUp("0");
             global.setDropOff("1");
+            pickup_layout.setAlpha(0.5f);
 
 
         }
 
         //  Log.e("monday date",getMondaysOfJanuary().toString());
+    }
+
+    public String dayName(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String s = "";
+        Date convertedDate = null;
+        try {
+            convertedDate = inputFormat.parse(date);
+            s = formatter.format(convertedDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 
     private List<String> getDayNameInYear(int months, int days) {
@@ -396,13 +420,18 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         boolean value = false;
 
-        if (list.contains(formatdate2(getSelectedDatesString()))) {
-            Toast.makeText(BookAppoinmentActivity.this, "this date technician not available", Toast.LENGTH_SHORT).show();
 
+        if (isValidFormat(getSelectedDatesString())) {
+            // Toast.makeText(BookAppoinmentActivity.this, formatdate(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
+            sendDate = getSelectedDatesString();
+            global.setSendDate(formatdate(sendDate));
+            setOpeningAndClosingTimes(dayName(global.getSendDate()));
         } else {
-            Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
             sendDate = getSelectedDatesString();
             global.setSendDate(formatdate2(sendDate));
+            setOpeningAndClosingTimes(dayName(global.getSendDate()));
+
         }
 
 
@@ -419,9 +448,45 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
     }
 
+    public boolean isValidFormat(String value) {
+        Date date = null;
+        boolean isTrue = false;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+            date = sdf.parse(value);
+
+            if (value.equals(sdf.format(date))) {
+                isTrue = true;
+            }
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return isTrue;
+    }
+
     public String formatdate2(String fdate) {
         String datetime = null;
+
         DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date convertedDate = inputFormat.parse(fdate);
+            datetime = d.format(convertedDate);
+
+        } catch (ParseException e) {
+
+        }
+        return datetime;
+
+
+    }
+
+    public String formatdate(String fdate) {
+        String datetime = null;
+
+        DateFormat inputFormat = new SimpleDateFormat("MMM dd, yyyy");
 
         SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -446,9 +511,36 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        String fDate = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
 
-        time_txtView.setText(getTime(hourOfDay, minute));
-        global.setSendTime(time_txtView.getText().toString());
+        if (isTimeWith_in_Interval(fDate, closeTime, openTime)) {
+
+            time_txtView.setText(getTime(hourOfDay, minute));
+            global.setSendTime(time_txtView.getText().toString());
+        } else {
+            Toast.makeText(BookAppoinmentActivity.this, "Technician Available between " + popenTime + " to " + pclosetime, Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
+
+    public boolean isTimeWith_in_Interval(String valueToCheck, String endTime, String startTime) {
+        boolean isBetween = false;
+        try {
+            Date time1 = new SimpleDateFormat("HH:mm").parse(endTime);
+
+            Date time2 = new SimpleDateFormat("HH:mm").parse(startTime);
+
+            Date d = new SimpleDateFormat("HH:mm").parse(valueToCheck);
+
+            if (time1.after(d) && time2.before(d)) {
+                isBetween = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return isBetween;
     }
 
     class EventDecorator implements DayViewDecorator {
@@ -472,6 +564,58 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             view.setDaysDisabled(true);
             // view.addSpan(new DotSpan(7, color));
 
+        }
+
+    }
+
+    private void setOpeningAndClosingTimes(String dayName) {
+
+        JSONObject obj = null;
+        try {
+            obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
+            JSONArray avail_arr = obj.getJSONArray(GlobalConstant.availability);
+            for (int i = 0; i < avail_arr.length(); i++) {
+                JSONObject sun_obj = avail_arr.getJSONObject(i);
+                if (dayName.equalsIgnoreCase(sun_obj.getString(GlobalConstant.day))) {
+                    openTime = sun_obj.getString(GlobalConstant.opening_time);
+                    closeTime = sun_obj.getString(GlobalConstant.closing_time);
+                    popenTime = openTime;
+                    pclosetime = closeTime;
+                }
+
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (openTime.contains("AM") || openTime.contains("PM")) {
+            openTime = convertTo24Hour(openTime);
+            minTimehour = openTime.split(":")[0];
+            minTimeminute = openTime.split(":")[1];
+            mCalendarOpeningTime = Calendar.getInstance();
+            mCalendarOpeningTime.set(Calendar.HOUR, Integer.parseInt(minTimehour));
+            mCalendarOpeningTime.set(Calendar.MINUTE, Integer.parseInt(minTimeminute));
+        } else {
+            minTimehour = openTime.split(":")[0];
+            minTimeminute = openTime.split(":")[1];
+            mCalendarOpeningTime = Calendar.getInstance();
+            mCalendarOpeningTime.set(Calendar.HOUR, Integer.parseInt(minTimehour));
+            mCalendarOpeningTime.set(Calendar.MINUTE, Integer.parseInt(minTimeminute));
+        }
+
+        if (closeTime.contains("AM") || closeTime.contains("PM")) {
+            closeTime = convertTo24Hour(closeTime);
+            maxTimehour = closeTime.split(":")[0];
+            maxTimeminute = closeTime.split(":")[1];
+            mCalendarClosingTime = Calendar.getInstance();
+            mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
+            mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
+        } else {
+            maxTimehour = closeTime.split(":")[0];
+            maxTimeminute = closeTime.split(":")[1];
+            mCalendarClosingTime = Calendar.getInstance();
+            mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
+            mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
         }
 
     }
