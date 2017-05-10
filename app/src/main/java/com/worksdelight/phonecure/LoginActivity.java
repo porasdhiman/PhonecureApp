@@ -12,12 +12,10 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,12 +54,6 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import tourguide.tourguide.ChainTourGuide;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Pointer;
-import tourguide.tourguide.Sequence;
-import tourguide.tourguide.ToolTip;
 
 import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
@@ -163,7 +155,7 @@ public class LoginActivity extends Activity implements OnClickListener {
         forgot_view.setOnClickListener(this);
 
 
-        ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
+       /* ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
                 .setToolTip(new ToolTip()
                         .setDescription("Login with facebook")
 
@@ -205,7 +197,7 @@ public class LoginActivity extends Activity implements OnClickListener {
                 .build();
 
 
-        ChainTourGuide.init(this).playInSequence(sequence);
+        ChainTourGuide.init(this).playInSequence(sequence);*/
 
     }
 

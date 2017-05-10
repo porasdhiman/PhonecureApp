@@ -5,6 +5,7 @@
     android:background="#f5f5f5">
 
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal"
@@ -37,8 +38,8 @@
             android:textColor="#000"
             android:textSize="@dimen/sab_txt"/>
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/select_img"
                 android:layout_width="35dp"

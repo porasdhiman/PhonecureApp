@@ -11,11 +11,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -47,6 +50,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 /**
  * Created by worksdelight on 14/04/17.
  */
@@ -65,6 +73,7 @@ public class TechniciansDevice extends Activity {
     ArrayList<HashMap<String, String>> nextList = new ArrayList<>();
     Global global;
     TextView done,device_name;
+    public TourGuide mTutorialHandler, mTutorialHandler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +113,7 @@ public class TechniciansDevice extends Activity {
             back.setVisibility(View.GONE);
             done.setVisibility(View.VISIBLE);
         }
+        global.setRegisterTechType(getIntent().getExtras().getString("type"));
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,6 +132,7 @@ public class TechniciansDevice extends Activity {
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                     iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
                     iPhone.putExtra(GlobalConstant.sub_category_id, "1");
+
                     global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
                     startActivityForResult(iPhone, 0);
                 } else {
@@ -291,7 +302,7 @@ public class TechniciansDevice extends Activity {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             holder = new Holder();
             if (view == null) {
 
@@ -301,12 +312,51 @@ public class TechniciansDevice extends Activity {
                 holder.device_count = (TextView) view.findViewById(R.id.device_count);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                holder.device_view=(RelativeLayout) view.findViewById(R.id.device_view);
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 view.setTag(holder);
+                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                    if(i==0){
+                        Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                        enterAnimation.setDuration(600);
+                        enterAnimation.setFillAfter(true);
+
+                        Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                        exitAnimation.setDuration(600);
+                        exitAnimation.setFillAfter(true);
+
+
+                        mTutorialHandler = TourGuide.init(TechniciansDevice.this).with(TourGuide.Technique.Click)
+                                .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                                .setToolTip(new ToolTip()
+
+                                        .setDescription("Add your devices")
+                                        .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                )
+                                .setOverlay(new Overlay()
+                                        .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                        .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                );
+                        mTutorialHandler.playOn(holder.device_view);
+
+                    }
+                }
             } else {
                 holder = (Holder) view.getTag();
             }
+
+
             url = GlobalConstant.IMAGE_URL + deviceList.get(i).get(GlobalConstant.id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
@@ -380,6 +430,7 @@ public class TechniciansDevice extends Activity {
         class Holder {
             ImageView device_image, select_img, unselect_img;
             TextView device_name, device_count;
+            RelativeLayout device_view;
         }
     }
 

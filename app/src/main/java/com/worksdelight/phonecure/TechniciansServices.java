@@ -11,15 +11,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +54,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 import static com.worksdelight.phonecure.GlobalConstant.technician_service_id;
 
 /**
@@ -70,6 +79,7 @@ public class TechniciansServices extends Activity {
     DisplayImageOptions options;
     String serviceID = "";
     Global global;
+    public TourGuide mTutorialHandler, mTutorialHandler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +117,7 @@ public class TechniciansServices extends Activity {
                 map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
                 map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
                 map.putExtra("pos", String.valueOf(i));
+
                 startActivityForResult(map, 0);
             }
         });
@@ -190,8 +201,7 @@ public class TechniciansServices extends Activity {
                                 }
                                 if (list.size() != 0) {
                                     service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
-                                    CommonUtils.getListViewSize(service_list);
-                                    main_scrollView.smoothScrollTo(0, 0);
+
 
                                     global.setServiceList(list);
                                 }
@@ -261,6 +271,16 @@ public class TechniciansServices extends Activity {
         }
 
         @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return deviceList.size();
+        }
+
+        @Override
         public int getCount() {
             return deviceList.size();
         }
@@ -285,13 +305,56 @@ public class TechniciansServices extends Activity {
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                holder.main_layout=(RelativeLayout)view.findViewById(R.id.main_layout);
                 view.setTag(holder);
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
+                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                if(i==0){
+                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                    enterAnimation.setDuration(600);
+                    enterAnimation.setFillAfter(true);
+
+                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                    exitAnimation.setDuration(600);
+                    exitAnimation.setFillAfter(true);
+
+
+                    mTutorialHandler = TourGuide.init(TechniciansServices.this).with(TourGuide.Technique.Click)
+                            .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                            .setToolTip(new ToolTip()
+
+                                    .setDescription("Select your services")
+                                    .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            mTutorialHandler.cleanUp();
+                                        }
+                                    })
+                            )
+                            .setOverlay(new Overlay()
+                                    .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                    .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            mTutorialHandler.cleanUp();
+                                        }
+                                    })
+                            );
+                    mTutorialHandler.playOn(holder.main_layout);
+
+                }
+                 }
+
             } else {
                 holder = (Holder) view.getTag();
             }
+
+
+
+
             holder.select_img.setImageResource(R.drawable.toggle);
             holder.unselect_img.setImageResource(R.drawable.toogle2);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
@@ -365,6 +428,7 @@ public class TechniciansServices extends Activity {
         class Holder {
             ImageView device_image, select_img, unselect_img;
             TextView device_name;
+            RelativeLayout main_layout;
         }
     }
 
@@ -425,8 +489,8 @@ public class TechniciansServices extends Activity {
                                 list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
 
                                 service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
-                                CommonUtils.getListViewSize(service_list);
-                                main_scrollView.smoothScrollTo(0, 0);
+                              /*  CommonUtils.getListViewSize(service_list);
+                                main_scrollView.smoothScrollTo(0, 0);*/
 
                             } else {
                                 Toast.makeText(TechniciansServices.this, response.getString("message"), Toast.LENGTH_SHORT).show();

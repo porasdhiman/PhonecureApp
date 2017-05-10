@@ -3,6 +3,7 @@ package com.worksdelight.phonecure;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +49,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.worksdelight.phonecure.GlobalConstant.favorite;
 
 /**
  * Created by worksdelight on 28/02/17.
@@ -83,6 +87,15 @@ public class FavoriteFragment extends Fragment {
         header_view = (RelativeLayout) v.findViewById(R.id.header_view);
         header_view.setVisibility(View.GONE);
         repair_listView = (ListView) v.findViewById(R.id.repair_listView);
+        repair_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), TechniciansDetailActivity.class);
+                intent.putExtra("pos", String.valueOf(i));
+                intent.putExtra("type", "1");
+                startActivity(intent);
+            }
+        });
         dialogWindow();
         favoritesMethod();
         return v;
@@ -106,6 +119,7 @@ public class FavoriteFragment extends Fragment {
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONArray arr = obj.getJSONArray("data");
+                                global.setCartData(arr);
                                 for (int i = 0; i < arr.length(); i++) {
                                     JSONObject objArr = arr.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
@@ -114,19 +128,26 @@ public class FavoriteFragment extends Fragment {
                                     map.put(GlobalConstant.name, objArr.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.image, objArr.getString(GlobalConstant.image));
 
-                                    map.put(GlobalConstant.availability, objArr.getString(GlobalConstant.availability));
+                                   // map.put(GlobalConstant.availability, objArr.getString(GlobalConstant.availability));
                                     map.put(GlobalConstant.off_days, objArr.getString(GlobalConstant.off_days));
                                     map.put(GlobalConstant.distance, objArr.getString(GlobalConstant.distance));
+                                    map.put(GlobalConstant.repair_at_shop, objArr.getString(GlobalConstant.repair_at_shop));
+
+                                    map.put(GlobalConstant.repair_on_location, objArr.getString(GlobalConstant.repair_on_location));
+                                    map.put(GlobalConstant.total_bookings, objArr.getString(GlobalConstant.total_bookings));
+                                    map.put(GlobalConstant.reviews, objArr.getString(GlobalConstant.reviews));
 
                                     map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
                                     map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
 
-
+                                    map.put(favorite, objArr.getString(favorite));
+                                   // map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));
                                     map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
                                     map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
                                     map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
                                     list.add(map);
                                 }
+                                global.setDateList(list);
                                 repair_listView.setAdapter(new RepairAdapter(getActivity(), list));
                             } else {
                                 Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();

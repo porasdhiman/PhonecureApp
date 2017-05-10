@@ -11,11 +11,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -47,6 +50,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 /**
  * Created by worksdelight on 15/04/17.
  */
@@ -64,6 +72,7 @@ public class TechniciansShowDeviceActivity extends Activity {
     int valueof_selected_item = 1, pos;
     ArrayList<String> value = new ArrayList<>();
     Global global;
+  TourGuide mTutorialHandler, mTutorialHandler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,7 @@ public class TechniciansShowDeviceActivity extends Activity {
                 iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
                 iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
                 iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+
 
                 global.setPostion(i);
 
@@ -280,11 +290,58 @@ public class TechniciansShowDeviceActivity extends Activity {
                 holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
                 holder.status = (TextView) view.findViewById(R.id.status);
 
-
+                holder.device_image.setTag(holder);
                 view.setTag(holder);
+                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                    if(i==0){
+                        Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                        enterAnimation.setDuration(600);
+                        enterAnimation.setFillAfter(true);
+
+                        Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                        exitAnimation.setDuration(600);
+                        exitAnimation.setFillAfter(true);
+
+
+                        mTutorialHandler2 = TourGuide.init(TechniciansShowDeviceActivity.this);
+                        mTutorialHandler2.with(TourGuide.Technique.Click)
+                                .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                                .setToolTip(new ToolTip()
+
+                                        .setDescription("Select device model")
+                                        .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                try {
+                                                    mTutorialHandler2.cleanUp();
+                                                }catch (Exception c){
+                                                    Log.e("exception",c.toString());
+                                                }
+                                            }
+                                        })
+                                )
+                                .setOverlay(new Overlay()
+                                        .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                        .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                try {
+                                                    mTutorialHandler2.cleanUp();
+                                                }catch (Exception c){
+                                                    Log.e("exception",c.toString());
+                                                }
+                                            }
+                                        })
+                                );
+                        mTutorialHandler2.playOn(holder.device_image);
+
+                    }
+               }
             } else {
                 holder = (Holder) view.getTag();
             }
+
+
             holder.color_layout.setVisibility(View.GONE);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count) + " Services added");

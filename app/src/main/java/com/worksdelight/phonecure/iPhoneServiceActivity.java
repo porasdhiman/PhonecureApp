@@ -149,9 +149,9 @@ Global global;
                                 }
                                 if(list.size()!=0) {
                                     service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this, list));
-                                    CommonUtils.getListViewSize(service_list);
-                                    main_scrollView.smoothScrollTo(0, 0);
-                                    submit_btn.setVisibility(View.VISIBLE);
+                                    /*CommonUtils.getListViewSize(service_list);
+                                    main_scrollView.smoothScrollTo(0, 0);*/
+
                                     global.setServiceList(list);
                                 }
                             } else {
@@ -220,6 +220,16 @@ Global global;
         }
 
         @Override
+        public int getViewTypeCount() {
+            return deviceList.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
         public int getCount() {
             return deviceList.size();
         }
@@ -283,6 +293,7 @@ Global global;
                         }
                     }
                     Log.e("service id minus",serviceID);
+                    submit_btn.setVisibility(View.VISIBLE);
 
                 }
             });

@@ -5,16 +5,22 @@ import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +63,10 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 import static com.worksdelight.phonecure.GlobalConstant.favorite;
 
@@ -81,6 +91,12 @@ public class MapBoxActivity extends Activity {
     ArrayList<HashMap<String, String>> serviceList = new ArrayList<>();
     TextView price_txt;
     float f = 0.0f;
+    LinearLayout service_type_layout;
+    ImageView repair_shop_image, repair_location_image, both_image;
+    private Animation mEnterAnimation, mExitAnimation;
+    public TourGuide mTutorialHandler, mTutorialHandler2;
+    SharedPreferences sp;
+    SharedPreferences.Editor ed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +107,11 @@ public class MapBoxActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp = getSharedPreferences("tour", Context.MODE_PRIVATE);
+        ed = sp.edit();
         global = (Global) getApplicationContext();
         technicians_name_txtView = (TextView) findViewById(R.id.technicians_name_txtView);
-        price_txt=(TextView)findViewById(R.id.price_txt);
+        price_txt = (TextView) findViewById(R.id.price_txt);
         average_rating_txt = (TextView) findViewById(R.id.average_rating_txt);
         book_appointment = (TextView) findViewById(R.id.book_appointment);
         tech_img = (CircleImageView) findViewById(R.id.tech_img);
@@ -104,7 +122,7 @@ public class MapBoxActivity extends Activity {
                 if (global.getDateList().size() > 0) {
                     Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
 
-                    i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                    //i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     startActivity(i);
                 }
 
@@ -141,7 +159,60 @@ public class MapBoxActivity extends Activity {
 
         dialogWindow();
         SearchMethod();
+        service_type_layout = (LinearLayout) findViewById(R.id.service_type_layout);
+        repair_shop_image = (ImageView) findViewById(R.id.repair_shop_image);
+        repair_location_image = (ImageView) findViewById(R.id.repair_location_image);
+        both_image = (ImageView) findViewById(R.id.both_image);
+        if (sp.getString("tourValue", "").equalsIgnoreCase("")) {
+            service_type_layout.setVisibility(View.VISIBLE);
+               /* setup enter and exit animation */
+            Animation enterAnimation = new AlphaAnimation(0f, 1f);
+            enterAnimation.setDuration(600);
+            enterAnimation.setFillAfter(true);
 
+            Animation exitAnimation = new AlphaAnimation(1f, 0f);
+            exitAnimation.setDuration(600);
+            exitAnimation.setFillAfter(true);
+
+        /* initialize TourGuide without playOn() */
+            mTutorialHandler = TourGuide.init(this).with(TourGuide.Technique.Click)
+                    .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                    .setToolTip(new ToolTip()
+
+                            .setDescription("REPAIR AT TECHNICIAN / SHOP")
+                            .setGravity(Gravity.TOP)
+                    )
+                    .setOverlay(new Overlay()
+                            .setEnterAnimation(enterAnimation)
+                            .setExitAnimation(exitAnimation)
+                    );
+
+
+            both_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTutorialHandler.cleanUp();
+                    service_type_layout.setVisibility(View.GONE);
+                    ed.putString("tourValue","1");
+                    ed.commit();
+                }
+            });
+            repair_shop_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTutorialHandler.cleanUp();
+                    mTutorialHandler.setToolTip(new ToolTip().setDescription("REPAIR ON DESIRED LOCATION").setGravity(Gravity.TOP)).playOn(repair_location_image);
+                }
+            });
+            repair_location_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTutorialHandler.cleanUp();
+                    mTutorialHandler.setToolTip(new ToolTip().setDescription("IT’S UP TO YOU, BOTH ARE POSSIBLE").setGravity(Gravity.TOP)).playOn(both_image);
+                }
+            });
+            mTutorialHandler.playOn(repair_shop_image);
+        }
     }
 
     @Override
@@ -205,23 +276,32 @@ public class MapBoxActivity extends Activity {
                             .zoom(10)
                             .build());
                     if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
+                       BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.sccoteerhome);
+                       Bitmap originalBitmap = bitmapDrawable.getBitmap();
+                       Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
-                        Icon icon = iconFactory.fromResource(R.drawable.sccoteerhome);
+                        Icon icon = iconFactory.fromBitmap(resizedBitmap);
 
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
                                 .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
-                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
-                        Icon icon = iconFactory.fromResource(R.drawable.scooter);
 
+                        BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.home_repair);
+                        Bitmap originalBitmap = bitmapDrawable.getBitmap();
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
                                 .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
-                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
-                        Icon icon = iconFactory.fromResource(R.drawable.home_repair);
 
+                        BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.scooter);
+                        Bitmap originalBitmap = bitmapDrawable.getBitmap();
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
                                 .position(new LatLng(lat, longt))
                                 .icon(icon));
@@ -249,7 +329,8 @@ public class MapBoxActivity extends Activity {
                             public void onClick(View view) {
                                 Intent intent = new Intent(MapBoxActivity.this, TechniciansDetailActivity.class);
                                 intent.putExtra("pos", String.valueOf(pos));
-                                intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                                //intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                                intent.putExtra("type", "0");
                                 startActivity(intent);
                             }
                         });
@@ -279,7 +360,8 @@ public class MapBoxActivity extends Activity {
                             public void onClick(View v) {
                                 Intent i = new Intent(MapBoxActivity.this, BookAppoinmentActivity.class);
                                 i.putExtra("pos", String.valueOf(pos));
-                                i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                               // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+
                                 startActivity(i);
 
                             }
@@ -295,7 +377,7 @@ public class MapBoxActivity extends Activity {
 
 
                             }
-                            price_txt.setText("Technician Charges $"+String.valueOf(f));
+                            price_txt.setText("You will be charged $" + String.valueOf(f));
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -76,7 +76,8 @@ public class RepairActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(RepairActivity.this, TechniciansDetailActivity.class);
                 intent.putExtra("pos", String.valueOf(i));
-                intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                //intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                intent.putExtra("type", "0");
                 startActivity(intent);
             }
         });

@@ -108,16 +108,19 @@ ImageView back;
         book_appointment = (TextView) findViewById(R.id.book_appointment);
         pos = Integer.parseInt(getIntent().getExtras().getString("pos"));
         workingHoursShowMehod(pos);
-        book_appointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TechniciansDetailActivity.this, BookAppoinmentActivity.class);
-                intent.putExtra("pos", String.valueOf(pos));
-                intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                startActivity(intent);
-            }
-        });
-
+        if(getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
+            book_appointment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(TechniciansDetailActivity.this, BookAppoinmentActivity.class);
+                    intent.putExtra("pos", String.valueOf(pos));
+                  //  intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                    startActivity(intent);
+                }
+            });
+        }else{
+            book_appointment.setVisibility(View.GONE);
+        }
         if(global.getDateList().get(pos).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")){
             repair_at_shop.setText("Yes");
         }else{

@@ -285,6 +285,17 @@ public class Global extends Application {
     }
 
     String curencySymbol;
+
+    public String getRegisterTechType() {
+        return registerTechType;
+    }
+
+    public void setRegisterTechType(String registerTechType) {
+        this.registerTechType = registerTechType;
+    }
+
+    String registerTechType="0";
+
     @Override
     public void onCreate() {
         super.onCreate();

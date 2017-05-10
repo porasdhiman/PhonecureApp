@@ -12,15 +12,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -54,6 +58,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 /**
  * Created by worksdelight on 14/04/17.
  */
@@ -77,6 +86,7 @@ public class TechniciansRegisterProduct extends Activity {
     String serviceID = "";
     JSONArray arr;
     int pos, pos1;
+    public TourGuide mTutorialHandler, mTutorialHandler2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -352,14 +362,53 @@ public class TechniciansRegisterProduct extends Activity {
                 holder.device_name = (TextView) view.findViewById(R.id.color_name);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                holder.main_layout=(LinearLayout)view.findViewById(R.id.main_layout);
                 view.setTag(holder);
                 holder.color_img.setTag(holder);
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
+                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                if(i==0){
+                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                    enterAnimation.setDuration(600);
+                    enterAnimation.setFillAfter(true);
+
+                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                    exitAnimation.setDuration(600);
+                    exitAnimation.setFillAfter(true);
+
+
+                    mTutorialHandler = TourGuide.init(TechniciansRegisterProduct.this).with(TourGuide.Technique.Click)
+                            .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                            .setToolTip(new ToolTip()
+
+                                    .setDescription("Add your services color")
+                                    .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            mTutorialHandler.cleanUp();
+                                        }
+                                    })
+                            )
+                            .setOverlay(new Overlay()
+                                    .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                    .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            mTutorialHandler.cleanUp();
+                                        }
+                                    })
+                            );
+                    mTutorialHandler.playOn(holder.main_layout);
+
+                }
+                  }
             } else {
                 holder = (Holder) view.getTag();
             }
+
+
             holder.device_name.setText(color_name_list.get(i).get(GlobalConstant.color_name));
             url = GlobalConstant.COLOR_IMAGE_URL + color_name_list.get(i).get(GlobalConstant.color_image);
             if (url != null && !url.equalsIgnoreCase("null")
@@ -460,6 +509,7 @@ public class TechniciansRegisterProduct extends Activity {
         class Holder {
             ImageView color_img, select_img, unselect_img;
             TextView device_name;
+            LinearLayout main_layout;
         }
     }
 
@@ -546,6 +596,7 @@ public class TechniciansRegisterProduct extends Activity {
 
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
+                                global.setRegisterTechType("1");
                                 finish();
 
                             } else {
