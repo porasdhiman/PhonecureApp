@@ -403,7 +403,7 @@ public class TechniciansRegisterProduct extends Activity {
                     mTutorialHandler.playOn(holder.main_layout);
 
                 }
-                  }
+                 }
             } else {
                 holder = (Holder) view.getTag();
             }

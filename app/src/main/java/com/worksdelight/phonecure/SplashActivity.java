@@ -147,9 +147,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
             } else {
 
-                if (checkGPSStatus()) {
 
-                    locatioMethod();
+                if(checkGPSStatus()) {
+
                     Handler splashhandler = new Handler();
                     splashhandler.postDelayed(new Runnable() {
                         @Override
@@ -180,13 +180,13 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                             }
                         }
                     }, 3000);
-                }
-                global.setDeviceName(getDeviceName());
-                Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+
+                    global.setDeviceName(getDeviceName());
+                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
 
 
-                // We already have permission, so handle as norma
-                //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
+                    // We already have permission, so handle as norma
+                }  //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
             }
         } else {
             if (checkGPSStatus()) {
@@ -223,8 +223,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                     }
                 }, 3000);
             }
-            // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
         }
+            // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
+
 
 
     }
@@ -255,10 +256,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         perms.get(android.Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED &&
                         perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
-                    if (checkGPSStatus()) {
+                    if(checkGPSStatus()) {
                         global.setDeviceName(getDeviceName());
                         Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                        locatioMethod();
                         Handler splashhandler = new Handler();
                         splashhandler.postDelayed(new Runnable() {
                             @Override
@@ -494,11 +494,11 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
         }
-        try {
+      /*  try {
             network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (Exception ex) {
-        }
-        if (!gps_enabled && !network_enabled) {
+        }*/
+        if (!gps_enabled /*&& !network_enabled*/) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(SplashActivity.this);
             dialog.setMessage("Your Location Services are not enabled for PhoneCure");
             dialog.setPositiveButton("Allow", new DialogInterface.OnClickListener() {
@@ -521,8 +521,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         } else {
 
         }
-        return gps_enabled && network_enabled;
+        return gps_enabled /*&& network_enabled*/;
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -553,7 +554,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         finish();
                     }
                 }
-            }, 1000);
+            }, 2000);
         } else {
 
         }
@@ -632,6 +633,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
 
         } else {
+
            /* mLocationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
             if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 buildAlertMessageNoGPS();
