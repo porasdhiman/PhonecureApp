@@ -1,15 +1,21 @@
 package com.worksdelight.phonecure;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -32,6 +38,10 @@ import com.android.volley.toolbox.Volley;
 import com.bruce.pickerview.LoopView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
@@ -55,7 +65,7 @@ import java.util.HashMap;
  * Created by worksdelight on 20/04/17.
  */
 
-public class TechniciansHomeActivity extends Activity implements View.OnClickListener {
+public class TechniciansHomeActivity extends FragmentActivity implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private View parentView;
 
     TextView current_device_name_txt, done_txtView, cancel_txtView;
@@ -76,6 +86,19 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     ImageView message_img;
     AdView mAdView;
     AdRequest adRequest;
+
+    //--------------Location lat long variable---------
+
+    private Location mLastLocation, myLocation;
+    LocationManager mLocationManager;
+    protected GoogleApiClient mGoogleApiClient;
+
+    /**
+     * Represents a geographical location.
+     */
+
+    protected LocationRequest locationRequest;
+    int REQUEST_CHECK_SETTINGS = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +109,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-
+        buildGoogleApiClient();
 
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
@@ -115,28 +138,7 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
 
         mapView.onCreate(savedInstanceState);
         mapView.setStyleUrl(Style.MAPBOX_STREETS);
-        IconFactory iconFactory = IconFactory.getInstance(this);
 
-        final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(MapboxMap mapboxMap) {
-                mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                        .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
-                        .zoom(10)
-
-                        .build());
-                ;
-
-
-                mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
-
-                mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 20);
-
-
-            }
-        });
         dialogWindow();
         showDeviceMethod();
     }
@@ -218,7 +220,9 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
+        mGoogleApiClient.connect();
         mapView.onStart();
+
 
     }
 
@@ -259,6 +263,9 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
     @Override
     public void onStop() {
         super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
         mapView.onStop();
 
     }
@@ -335,5 +342,80 @@ public class TechniciansHomeActivity extends Activity implements View.OnClickLis
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
+    //---------------------------Location lat long method-----------------
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+    }
+
+
+
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            global.setLat(String.valueOf(mLastLocation.getLatitude()));
+            global.setLong(String.valueOf(mLastLocation.getLongitude()));
+            Log.e("lat long", global.getLat() + " " + global.getLong());
+
+            IconFactory iconFactory = IconFactory.getInstance(this);
+
+            final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
+            mapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(MapboxMap mapboxMap) {
+                    mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                            .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
+                            .zoom(10)
+
+                            .build());
+                    ;
+
+
+                    mapboxMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
+
+                    mapboxMap.setPadding(0, 0, 0, measuredHeight / 2 + 20);
+
+
+                }
+            });
+        } else {
+
+
+        }
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        mGoogleApiClient.connect();
+    }
+
 
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -13,6 +14,8 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by worksdelight on 10/03/17.
@@ -299,6 +302,7 @@ public class Global extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())

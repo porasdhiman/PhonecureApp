@@ -159,9 +159,9 @@ public class ServiceActivity extends Activity {
 
                                 if (list.size() != 0) {
                                     service_list.setAdapter(new DeviceAdapter(ServiceActivity.this, list));
-                                    CommonUtils.getListViewSize(service_list);
-                                    main_scrollView.smoothScrollTo(0, 0);
-                                    submit_btn.setVisibility(View.VISIBLE);
+                                   /* CommonUtils.getListViewSize(service_list);
+                                    main_scrollView.smoothScrollTo(0, 0);*/
+                                   // submit_btn.setVisibility(View.VISIBLE);
                                     global.setServiceList(list);
                                 }
                             } else {
@@ -293,6 +293,7 @@ public class ServiceActivity extends Activity {
                         }
                     }
                     Log.e("service id minus", serviceID);
+                    submit_btn.setVisibility(View.VISIBLE);
 
                 }
             });

@@ -5,16 +5,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +32,10 @@ import android.widget.TextView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -33,7 +43,7 @@ import com.special.ResideMenu.ResideMenuItem;
  * Created by worksdelight on 28/02/17.
  */
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ResideMenu resideMenu;
     private ResideMenuItem itemHome;
     private ResideMenuItem drug;
@@ -54,6 +64,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private Animation mEnterAnimation, mExitAnimation;
 
     public static final int OVERLAY_METHOD = 1;
+
+    //--------------Location lat long variable---------
+
+    private Location mLastLocation, myLocation;
+    LocationManager mLocationManager;
+    protected GoogleApiClient mGoogleApiClient;
+
+    /**
+     * Represents a geographical location.
+     */
+
+    protected LocationRequest locationRequest;
+    int REQUEST_CHECK_SETTINGS = 100;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +89,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        buildGoogleApiClient();
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
         global = (Global) getApplicationContext();
@@ -310,6 +335,72 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     }
                 }).show();
 
+    }
+
+    //---------------------------Location lat long method-----------------
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+    }
+
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            // Toast.makeText(SplashActivity.this, "" + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            global.setLat(String.valueOf(mLastLocation.getLatitude()));
+            global.setLong(String.valueOf(mLastLocation.getLongitude()));
+            Log.e("lat long", global.getLat() + " " + global.getLong());
+
+
+        } else {
+
+
+        }
+    }
+
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        mGoogleApiClient.connect();
     }
 
 }
