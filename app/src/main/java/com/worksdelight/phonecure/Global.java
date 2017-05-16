@@ -297,7 +297,7 @@ public class Global extends Application {
         this.registerTechType = registerTechType;
     }
 
-    String registerTechType="0";
+    String registerTechType="1";
 
     @Override
     public void onCreate() {

@@ -109,6 +109,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                     global.setDeviceId(list.get(i).get(GlobalConstant.id));
                     Intent iPhone = new Intent(DeviceActivity.this, OtherDeviceActivity.class);
                     iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.category_id));
                     iPhone.putExtra("pos", String.valueOf(i));
 
 
@@ -170,7 +171,7 @@ public class DeviceActivity extends Activity implements View.OnClickListener {
                                     JSONObject arryObj = data.getJSONObject(i);
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
-
+                                    map.put(GlobalConstant.category_id, arryObj.getString(GlobalConstant.category_id));
                                     map.put(GlobalConstant.name, arryObj.getString(GlobalConstant.name));
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     if (arryObj.has(GlobalConstant.sub_category_id)) {

@@ -63,9 +63,10 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     HttpEntity resEntity;
     String message;
     Dialog dialog2;
-    String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+    String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     int o = 0;
 String errorInfo;
+    Global global;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +75,7 @@ String errorInfo;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        global=(Global)getApplicationContext();
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
@@ -234,6 +236,11 @@ String errorInfo;
             time_txt_closs.setText(getTime(hourOfDay, minute));
             list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 
@@ -526,8 +533,9 @@ String errorInfo;
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
+                global.setRegisterTechType("0");
                 Intent f = new Intent(WoorkingHourSecondActivity.this, TechniciansDevice.class);
-                f.putExtra("type", "0");
+
                 startActivity(f);
                 finish();
                // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();

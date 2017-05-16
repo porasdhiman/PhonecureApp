@@ -124,6 +124,8 @@ public class MapBoxActivity extends Activity {
 
                     //i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     startActivity(i);
+                }else{
+
                 }
 
             }

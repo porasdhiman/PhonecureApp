@@ -69,7 +69,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     HttpEntity resEntity;
     String message,errorInfo;
     Dialog dialog2;
-    String daysNAme[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+    String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 int o=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

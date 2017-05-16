@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,10 +123,11 @@ ImageView back_img;
 
                 Intent iPhone = new Intent(OtherDeviceActivity.this, ShowDeviceActivity.class);
                 iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.sub_category));
-                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                iPhone.putExtra("id", getIntent().getExtras().getString("id"));
                 iPhone.putExtra(GlobalConstant.sub_category_id, list.get(i).get(GlobalConstant.sub_category_id));
 
-                global.setDeviceId(list.get(i).get(GlobalConstant.id));
+                global.setDeviceId(getIntent().getExtras().getString("id"));
+                Log.e("device id",global.getDeviceId());
 
                 startActivity(iPhone);
 

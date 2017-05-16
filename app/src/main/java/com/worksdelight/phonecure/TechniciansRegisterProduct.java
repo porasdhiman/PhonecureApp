@@ -167,6 +167,8 @@ public class TechniciansRegisterProduct extends Activity {
 
                 }else if (price_ed.getText().toString().equalsIgnoreCase("$")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
+                }else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length()-1)).equalsIgnoreCase(".")) {
+                    Toast.makeText(TechniciansRegisterProduct.this, "Please enter valid price", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dialogWindow();

@@ -183,6 +183,9 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                 }
                 else if (phone_ed.length() == 0) {
                     phone_ed.setError("Please enter Phone number");
+                }else if (lat.equalsIgnoreCase("")) {
+                    Toast.makeText(AlmostdoneActivity.this,"Please enter valid location name",Toast.LENGTH_SHORT).show();
+
                 } else {
 
                     DropInRequest dropInRequest = new DropInRequest()

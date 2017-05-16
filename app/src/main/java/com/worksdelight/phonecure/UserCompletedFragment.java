@@ -151,7 +151,15 @@ String filePath;
             inflatore = LayoutInflater.from(c);
         }
 
+        @Override
+        public int getViewTypeCount() {
+            return list.size();
+        }
 
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
         @Override
         public int getCount() {
             return list.size();

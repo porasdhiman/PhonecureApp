@@ -106,14 +106,14 @@ public class TechniciansDevice extends Activity {
                 finish();
             }
         });
-        if(getIntent().getExtras().getString("type").equalsIgnoreCase("1")){
+        if(global.getRegisterTechType().equalsIgnoreCase("1")){
             back.setVisibility(View.VISIBLE);
             done.setVisibility(View.GONE);
         }else{
             back.setVisibility(View.GONE);
             done.setVisibility(View.VISIBLE);
         }
-        global.setRegisterTechType(getIntent().getExtras().getString("type"));
+
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

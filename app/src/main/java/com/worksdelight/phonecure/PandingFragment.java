@@ -124,7 +124,7 @@ public class PandingFragment extends Fragment {
 
         private Context mContext;
         Holder holder;
-AlertDialog builder;
+        AlertDialog builder;
         ArrayList<HashMap<String, String>> serviceListing = new ArrayList<>();
         int priceValue;
 
@@ -142,6 +142,16 @@ AlertDialog builder;
                     .cacheInMemory()
                     .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
             initImageLoader();*/
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return list.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
         }
 
         @Override
@@ -449,7 +459,14 @@ AlertDialog builder;
                                     }
 
                                 }
-                                completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+                                if (list.size() > 0) {
+                                    completed_listView.setVisibility(View.VISIBLE);
+                                    back_img.setVisibility(View.GONE);
+                                    completed_listView.setAdapter(new ShoppingAdapter(getActivity()));
+                                } else {
+                                    completed_listView.setVisibility(View.GONE);
+                                    back_img.setVisibility(View.VISIBLE);
+                                }
 
                             } else {
                                 Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();

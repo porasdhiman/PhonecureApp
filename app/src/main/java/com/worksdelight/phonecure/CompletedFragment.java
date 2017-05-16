@@ -130,7 +130,15 @@ public class CompletedFragment extends Fragment {
             //this.list = list;
             inflatore = LayoutInflater.from(c);
         }
+        @Override
+        public int getViewTypeCount() {
+            return list.size();
+        }
 
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
 
         @Override
         public int getCount() {
