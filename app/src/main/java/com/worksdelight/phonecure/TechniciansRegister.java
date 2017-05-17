@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,9 +24,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -57,27 +69,42 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 
 
 /**
  * Created by worksdelight on 10/04/17.
  */
 
-public class TechniciansRegister extends Activity {
-    EditText name_ed, email_ed, vat_ed,password_ed;
+public class TechniciansRegister extends Activity implements View.OnClickListener, View.OnTouchListener {
+    EditText name_ed, email_ed, vat_ed, password_ed;
     ImageView tech_img;
     Dialog camgllry, dialog2;
     String selectedImagePath = "", message;
-    TextView see_text, register_txtView,org_ed, address_ed;
+    TextView see_text, register_txtView, org_ed, address_ed;
     Global global;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     boolean isVat = false;
     HttpEntity resEntity;
-ImageView back;
+    ImageView back;
+    CallbackManager callbackManager;
+    LoginButton Login_TV;
+    String token;
+    Button facebook_btn;
+    String username_mString = "", email_mString = "", id_mString = "", user_image = "";
+    String type = "app";
+    RelativeLayout facebook_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+
         setContentView(R.layout.technicians_profile_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -90,7 +117,12 @@ ImageView back;
     }
 
     public void init() {
-        back=(ImageView)findViewById(R.id.back);
+        callbackManager = CallbackManager.Factory.create();
+        Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
+        Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
+        fbMethod();
+        back = (ImageView) findViewById(R.id.back);
+        facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
@@ -100,18 +132,8 @@ ImageView back;
         address_ed = (TextView) findViewById(R.id.address_ed);
         tech_img = (ImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        tech_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dailog();
-            }
-        });
+        back.setOnClickListener(this);
+        tech_img.setOnClickListener(this);
         vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
@@ -122,72 +144,160 @@ ImageView back;
 
             }
         });
-        org_ed.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+        org_ed.setOnTouchListener(this);
+        address_ed.setOnTouchListener(this);
+        see_text.setOnClickListener(this);
+        vat_ed.setOnTouchListener(this);
+        facebook_layout.setOnClickListener(this);
+        register_txtView.setOnClickListener(this);
+
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (view.getId()) {
+            case R.id.org_ed:
                 vat_ed.setFocusable(false);
-                return false;
-            }
-        });
-        address_ed.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+                break;
+            case R.id.address_ed:
                 vat_ed.setFocusable(false);
-                return false;
-            }
-        });
-        see_text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(TechniciansRegister.this, WebActivity.class);
-                startActivity(i);
-            }
-        });
-        vat_ed.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
+                break;
+            case R.id.vat_ed:
                 see_text.setVisibility(View.GONE);
-                return false;
+                break;
 
-            }
-        });
-        org_ed.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                vat_ed.setFocusable(false);
-                return false;
-            }
-        });
-        register_txtView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (name_ed.getText().length() == 0) {
-                    name_ed.setError("Please enter name");
-                } else if (email_ed.getText().length() == 0) {
-                    email_ed.setError("Please enter email");
+        }
+        return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.register_txtView:
+                if (type.equalsIgnoreCase("app")) {
+                    if (name_ed.getText().length() == 0) {
+                        name_ed.setError("Please enter name");
+                    } else if (email_ed.getText().length() == 0) {
+                        email_ed.setError("Please enter email");
 
 
-                } else if (password_ed.getText().length() == 0) {
-                    password_ed.setError("Please enter password");
+                    } else if (password_ed.getText().length() == 0) {
+                        password_ed.setError("Please enter password");
 
-                } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
-                    email_ed.setError("Please enter valid email");
-                } else if (vat_ed.getText().length() == 0) {
-                    vat_ed.setError("Please enter vat number");
-                } else if (org_ed.getText().length() == 0) {
-                    org_ed.setError("Please enter organization");
-                } else if (address_ed.getText().length() == 0) {
-                    address_ed.setError("Please enter address");
-                } else if (selectedImagePath.equalsIgnoreCase("")) {
-                    Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
-                } else if (isVat == false) {
-                    Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
+                    } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
+                        email_ed.setError("Please enter valid email");
+                    } else if (vat_ed.getText().length() == 0) {
+                        vat_ed.setError("Please enter vat number");
+                    } else if (org_ed.getText().length() == 0) {
+                        org_ed.setError("Please enter organization");
+                    } else if (address_ed.getText().length() == 0) {
+                        address_ed.setError("Please enter address");
+                    } else if (selectedImagePath.equalsIgnoreCase("")) {
+                        Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
+                    } else if (isVat == false) {
+                        Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        dialogWindow();
+                        //editprofile();
+                        new Thread(null, address_request, "")
+                                .start();
+                    }
                 } else {
                     dialogWindow();
-                    //editprofile();
-                    new Thread(null, address_request, "")
-                            .start();
+                    FacebooksocialMethod();
                 }
+                break;
+            case R.id.tech_img:
+                dailog();
+                break;
+            case R.id.see_text:
+                Intent i = new Intent(TechniciansRegister.this, WebActivity.class);
+                startActivity(i);
+                break;
+            case R.id.back:
+                finish();
+                break;
+            case R.id.facebook_layout:
+                Login_TV.performClick();
+
+
+                break;
+        }
+    }
+
+    //---------------------------facebook method------------------------------
+    public void fbMethod() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+                token = loginResult.getAccessToken().getToken();
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object,
+                                            GraphResponse response) {
+                        // Application code
+
+                        Log.e("date", object.toString());
+                        try {
+                            username_mString = object.getString("name");
+                            if (object.has("email")) {
+                                email_mString = object.getString("email");
+                            } else {
+                                //  email = "";
+                            }
+                            id_mString = object.getString("id");
+                            try {
+                                if (android.os.Build.VERSION.SDK_INT > 9) {
+                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    StrictMode.setThreadPolicy(policy);
+                                    user_image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    Log.e("profile image", user_image);
+                                    /*URL fb_url = new URL(profilePicUrl);//small | noraml | large
+                                    HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
+                                    HttpsURLConnection.setFollowRedirects(true);
+                                    conn1.setInstanceFollowRedirects(true);
+                                    Bitmap fb_img = BitmapFactory.decodeStream(conn1.getInputStream());
+                                    //image.setImageBitmap(fb_img);*/
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            type = "facebook";
+                            name_ed.setText(username_mString);
+                            email_ed.setText(email_mString);
+                            Picasso.with(TechniciansRegister.this).load(user_image).into(tech_img);
+                            name_ed.setEnabled(false);
+                            email_ed.setEnabled(false);
+                            password_ed.setEnabled(false);
+
+                            tech_img.setEnabled(false);
+                            //gender = object.getString("gender");
+                            //birthday = object.getString("birthday");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "picture.type(large),bio,id,name,link,gender,email, birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
             }
         });
     }
@@ -232,7 +342,7 @@ ImageView back;
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
@@ -505,15 +615,15 @@ ImageView back;
 
             post.setEntity(reqEntity);
 
-            Log.e("params",  selectedImagePath + " " + name_ed.getText().toString()
-                    + " " + email_ed.getText().toString() + " " + password_ed.getText().toString() + " " + vat_ed.getText().toString()+" "+org_ed.getText().toString()
-                    +" "+address_ed.getText().toString()+" "+global.getDeviceToken()+" "+global.getLong()+" "+global.getLat()+" android"+" technician");
+            Log.e("params", selectedImagePath + " " + name_ed.getText().toString()
+                    + " " + email_ed.getText().toString() + " " + password_ed.getText().toString() + " " + vat_ed.getText().toString() + " " + org_ed.getText().toString()
+                    + " " + address_ed.getText().toString() + " " + global.getDeviceToken() + " " + global.getLong() + " " + global.getLat() + " android" + " technician");
             HttpResponse response = client.execute(post);
             resEntity = response.getEntity();
 
             final String response_str = EntityUtils.toString(resEntity);
             if (resEntity != null) {
-                Log.e("response str",response_str);
+                Log.e("response str", response_str);
                 JSONObject obj = new JSONObject(response_str);
                 String status = obj.getString("status");
                 if (status.equalsIgnoreCase("1")) {
@@ -544,6 +654,84 @@ ImageView back;
         } catch (Exception ex) {
         }
         return success;
+    }
+
+    //--------------------Facebook Social api method---------------------------------
+    private void FacebooksocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
+                                ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
+                                ed.putString("type", "facebook");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+
+                                ed.commit();
+                                Intent s = new Intent(TechniciansRegister.this, WoorkingHourSecondActivity.class);
+                                startActivity(s);
+                                finish();
+                            } else {
+                                LoginManager.getInstance().logOut();
+                                Toast.makeText(TechniciansRegister.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, email_mString);
+                params.put(facebook_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "technician");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+                params.put(GlobalConstant.image, user_image);
+                params.put(GlobalConstant.vat_number, vat_ed.getText().toString());
+                params.put(GlobalConstant.organization, org_ed.getText().toString());
+                params.put(GlobalConstant.address, address_ed.getText().toString());
+
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 

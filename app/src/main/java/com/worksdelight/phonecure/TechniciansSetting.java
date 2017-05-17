@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 
 /**
  * Created by worksdelight on 15/04/17.
@@ -81,13 +82,32 @@ public class TechniciansSetting extends Activity {
                 ed.clear();
                 ed.commit();
                 global.setDateList(null);
-                Intent i = new Intent(TechniciansSetting.this, LoginActivity.class);
-                if (Build.VERSION.SDK_INT >= 11) {
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                if (sp.getString("type", "app").equalsIgnoreCase("app")) {
+                    ed.clear();
+                    ed.commit();
+                    global.setDateList(null);
+                    Intent i = new Intent(TechniciansSetting.this, LoginActivity.class);
+                    if (Build.VERSION.SDK_INT >= 11) {
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    } else {
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    }
+                    startActivity(i);
                 } else {
-                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    ed.clear();
+                    ed.commit();
+                    global.setDateList(null);
+                    LoginManager.getInstance().logOut();
+                    Intent i = new Intent(TechniciansSetting.this, LoginActivity.class);
+                    if (Build.VERSION.SDK_INT >= 11) {
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    } else {
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    }
+                    startActivity(i);
                 }
-                startActivity(i);
+
 
 
             }

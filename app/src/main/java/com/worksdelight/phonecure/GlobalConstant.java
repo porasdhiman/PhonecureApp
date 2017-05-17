@@ -10,6 +10,10 @@ public class GlobalConstant {
     public static String FORGOT_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/forgetpassword";
     public static String TWITTER_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/twitterlogin";
     public static String FACEBOOK_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/facebooklogin";
+    public static String FACEBOOK_REGISTER_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/facebookSignup";
+
+
+
     public static String SIGNUP_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/register";
     public static String TECHSIGNUP_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/users/register";
     public static String CATEGORY_URL = "http://ec2-54-146-172-33.compute-1.amazonaws.com/index.php/api/categories/all";

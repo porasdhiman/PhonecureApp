@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -31,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
@@ -68,7 +70,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     LoginButton Login_TV;
     String token;
     Button facebook_btn;
-    String username_mString = "", email_mString = "", id_mString = "";
+    String username_mString = "", email_mString = "", id_mString = "",user_image="";
     SocialAuthAdapter adapter;
     Profile profileMap;
     int REQUEST_CHECK_SETTINGS = 100;
@@ -81,11 +83,13 @@ SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        setContentView(R.layout.register_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        setContentView(R.layout.register_layout);
         sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed=sp.edit();
         global = (Global) getApplicationContext();
@@ -238,6 +242,22 @@ SharedPreferences sp;
                                 //  email = "";
                             }
                             id_mString = object.getString("id");
+                            try {
+                                if (android.os.Build.VERSION.SDK_INT > 9) {
+                                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                    StrictMode.setThreadPolicy(policy);
+                                    user_image = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    Log.e("profile image", user_image);
+                                    /*URL fb_url = new URL(profilePicUrl);//small | noraml | large
+                                    HttpsURLConnection conn1 = (HttpsURLConnection) fb_url.openConnection();
+                                    HttpsURLConnection.setFollowRedirects(true);
+                                    conn1.setInstanceFollowRedirects(true);
+                                    Bitmap fb_img = BitmapFactory.decodeStream(conn1.getInputStream());
+                                    //image.setImageBitmap(fb_img);*/
+                                }
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
                             //gender = object.getString("gender");
                             //birthday = object.getString("birthday");
                             dialogWindow();
@@ -412,7 +432,7 @@ SharedPreferences sp;
     private void FacebooksocialMethod() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_REGISTER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -425,17 +445,21 @@ SharedPreferences sp;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data=obj.getJSONObject("data");
-                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
-                                ed.putString("type","app");
-                                ed.putString("user name",data.getString(GlobalConstant.name));
-                                ed.putString("email",data.getString(GlobalConstant.email));
-                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
+                                ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
+                                ed.putString("type", "facebook");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                                 ed.commit();
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
                                 finish();
                             } else {
+                                LoginManager.getInstance().logOut();
                                 Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
@@ -466,6 +490,7 @@ SharedPreferences sp;
                 params.put(GlobalConstant.latitude, global.getLat());
                 params.put(GlobalConstant.longitude, global.getLong());
                 params.put(GlobalConstant.device_type, "android");
+                params.put(GlobalConstant.image, user_image);
 
 
                 Log.e("Parameter for social", params.toString());

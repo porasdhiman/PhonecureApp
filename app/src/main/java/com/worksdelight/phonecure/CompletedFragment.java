@@ -58,6 +58,7 @@ public class CompletedFragment extends Fragment {
     String filePath;
     File pdfFile;
     ImageView back_img;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,46 +66,82 @@ public class CompletedFragment extends Fragment {
         completed_listView = (ListView) v.findViewById(R.id.completed_listView);
 
         global = (Global) getActivity().getApplicationContext();
-        back_img=(ImageView)v.findViewById(R.id.back_img);
+        back_img = (ImageView) v.findViewById(R.id.back_img);
 
-        for (int i = 0; i < global.getCompletedaar().length(); i++) {
-            try {
-                JSONObject obj = global.getCompletedaar().getJSONObject(i);
-                HashMap<String, String> map = new HashMap<>();
-                map.put(GlobalConstant.total_amount, obj.getString(GlobalConstant.total_amount));
-                map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
-                map.put(GlobalConstant.invoice, obj.getString(GlobalConstant.invoice));
 
-                JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
-                map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
-                map.put(GlobalConstant.image,user_detail.getString(GlobalConstant.image));
-                list.add(map);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        if(list.size()>0) {
-            completed_listView.setVisibility(View.VISIBLE);
-            back_img.setVisibility(View.GONE);
-            completed_listView.setAdapter(new CompletedAdapter(getActivity()));
-        }else{
-            completed_listView.setVisibility(View.GONE);
-            back_img.setVisibility(View.VISIBLE);
-        }
         completed_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent detail=new Intent(getActivity(),AppointmentActivity.class);
-                detail.putExtra("pos",String.valueOf(i));
-                detail.putExtra("type","0");
+                Intent detail = new Intent(getActivity(), AppointmentActivity.class);
+                detail.putExtra("pos", String.valueOf(i));
+                detail.putExtra("type", "0");
                 startActivity(detail);
                 getActivity().finish();
             }
         });
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (list.size() > 0) {
+            list.clear();
+            for (int i = 0; i < global.getCompletedaar().length(); i++) {
+                try {
+                    JSONObject obj = global.getCompletedaar().getJSONObject(i);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(GlobalConstant.total_amount, obj.getString(GlobalConstant.total_amount));
+                    map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
+                    map.put(GlobalConstant.invoice, obj.getString(GlobalConstant.invoice));
+
+                    JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
+                    map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                    map.put(GlobalConstant.image, user_detail.getString(GlobalConstant.image));
+                    list.add(map);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (list.size() > 0) {
+                completed_listView.setVisibility(View.VISIBLE);
+                back_img.setVisibility(View.GONE);
+                completed_listView.setAdapter(new CompletedAdapter(getActivity()));
+            } else {
+                completed_listView.setVisibility(View.GONE);
+                back_img.setVisibility(View.VISIBLE);
+            }
+        } else {
+            for (int i = 0; i < global.getCompletedaar().length(); i++) {
+                try {
+                    JSONObject obj = global.getCompletedaar().getJSONObject(i);
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put(GlobalConstant.total_amount, obj.getString(GlobalConstant.total_amount));
+                    map.put(GlobalConstant.date, obj.getString(GlobalConstant.date));
+                    map.put(GlobalConstant.invoice, obj.getString(GlobalConstant.invoice));
+
+                    JSONObject user_detail = obj.getJSONObject(GlobalConstant.user_detail);
+                    map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
+                    map.put(GlobalConstant.image, user_detail.getString(GlobalConstant.image));
+                    list.add(map);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (list.size() > 0) {
+                completed_listView.setVisibility(View.VISIBLE);
+                back_img.setVisibility(View.GONE);
+                completed_listView.setAdapter(new CompletedAdapter(getActivity()));
+            } else {
+                completed_listView.setVisibility(View.GONE);
+                back_img.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public static CompletedFragment newInstance(String text) {
@@ -130,6 +167,7 @@ public class CompletedFragment extends Fragment {
             //this.list = list;
             inflatore = LayoutInflater.from(c);
         }
+
         @Override
         public int getViewTypeCount() {
             return list.size();
@@ -165,7 +203,7 @@ public class CompletedFragment extends Fragment {
                 holder.delivered_date_txt = (TextView) view.findViewById(R.id.delivered_date_txt);
                 holder.download_img = (ImageView) view.findViewById(R.id.download_img);
                 holder.price_txt = (TextView) view.findViewById(R.id.price_txt);
-                holder.tech_view=(ImageView)view.findViewById(R.id.tech_view);
+                holder.tech_view = (ImageView) view.findViewById(R.id.tech_view);
                 view.setTag(holder);
                 holder.download_img.setTag(holder);
 
@@ -174,19 +212,19 @@ public class CompletedFragment extends Fragment {
             }
 
 
-                holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
-                holder.price_txt.setText("$"+list.get(i).get(GlobalConstant.total_amount));
-                holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
+            holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
+            holder.price_txt.setText("$" + list.get(i).get(GlobalConstant.total_amount));
+            holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
 // generate random color
             int color1 = generator.getRandomColor();
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(),color1);
+                    .buildRound(holder.name.getText().toString().substring(0, 1).toUpperCase(), color1);
             if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
                 holder.tech_view.setImageDrawable(drawable);
             } else {
-                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into( holder.tech_view);
+                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(holder.tech_view);
 
 
                 //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
@@ -217,8 +255,8 @@ public class CompletedFragment extends Fragment {
             holder.download_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    holder=(Holder)view.getTag();
-                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL+list.get(i).get(GlobalConstant.invoice), getActivity());
+                    holder = (Holder) view.getTag();
+                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL + list.get(i).get(GlobalConstant.invoice), getActivity());
                 }
             });
 
@@ -226,13 +264,14 @@ public class CompletedFragment extends Fragment {
         }
 
         public class Holder {
-            ImageView cancel, chat, message, call,download_img;
+            ImageView cancel, chat, message, call, download_img;
             LinearLayout setting_layout, setting_call_layout;
             ImageView tech_view;
             TextView name, delivered_date_txt, price_txt, rating_value;
 
         }
     }
+
     public String formatdate2(String fdate) {
         String datetime = null;
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -249,31 +288,30 @@ public class CompletedFragment extends Fragment {
 
 
     }
+
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);
         sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
         return sb.toString();
     }
+
     //-------------------------background proceess for pdf file------------------
     public void loadProfileImage(String file_url, Context c) {
         String splitPath[] = file_url.split("/");
         String targetFileName = splitPath[splitPath.length - 1];
 
 
-         pdfFile = new File(Environment.getExternalStorageDirectory() + "/PhoneCure/" + targetFileName);
+        pdfFile = new File(Environment.getExternalStorageDirectory() + "/PhoneCure/" + targetFileName);
         if (pdfFile.exists()) {
 
 
-            try
-            {
-                Intent intent=new Intent(Intent.ACTION_VIEW);
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
                 Uri uri = Uri.fromFile(pdfFile);
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(getActivity(), "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         } else {
@@ -308,7 +346,7 @@ public class CompletedFragment extends Fragment {
                 File f = new File(Environment.getExternalStorageDirectory() + "/PhoneCure/");
                 f.mkdir();
 
-                 pdfFile = new File(f, targetFileName);
+                pdfFile = new File(f, targetFileName);
                 try {
                     pdfFile.createNewFile();
                 } catch (IOException e) {
@@ -328,7 +366,6 @@ public class CompletedFragment extends Fragment {
 
                 FileOutputStream output = new FileOutputStream(pdfFile);
                 int lenghtOfFile = c.getContentLength();
-
 
 
                 byte data[] = new byte[MEGABYTE];
@@ -366,13 +403,12 @@ public class CompletedFragment extends Fragment {
                 intent.setDataAndType(uri, "application/pdf");
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-            }
-            catch (ActivityNotFoundException e)
-            {
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(getActivity(), "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         }
     }
+
     //---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
         dialog2 = new Dialog(getActivity());
@@ -388,7 +424,6 @@ public class CompletedFragment extends Fragment {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
-
 
 
 }

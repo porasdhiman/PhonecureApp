@@ -544,32 +544,46 @@ public class LoginActivity extends FragmentActivity implements OnClickListener ,
 
 
                                 ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
-                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
-                                ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
-                                ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
                                 ed.putString("type", "facebook");
-                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
-                                ed.putString("email", data.getString(GlobalConstant.email));
+
                                 ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
-                                Object intervention = data.get("shipping_address");
-                                if (intervention instanceof JSONArray) {
-                                    // It's an array
 
+                                if (data.getString(GlobalConstant.type).equalsIgnoreCase("user")) {
+                                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                    ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                    ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                    ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
+                                    ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
+                                    Object intervention = data.get("shipping_address");
+                                    if (intervention instanceof JSONArray) {
+                                        // It's an array
+
+                                    } else {
+
+                                        JSONObject shipping_address = data.getJSONObject("shipping_address");
+                                        ed.putString("first name", shipping_address.getString("ship_firstname"));
+                                        ed.putString("last name", shipping_address.getString("ship_lastname"));
+                                        ed.putString(GlobalConstant.address, shipping_address.getString("ship_address"));
+
+                                        ed.putString(GlobalConstant.phone, shipping_address.getString("ship_phone"));
+                                    }
+
+                                    ed.commit();
+                                    Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                    startActivity(s);
+                                    finish();
                                 } else {
-
-                                    JSONObject shipping_address = data.getJSONObject("shipping_address");
-                                    ed.putString("first name", shipping_address.getString("ship_firstname"));
-                                    ed.putString("last name", shipping_address.getString("ship_lastname"));
-                                    ed.putString(GlobalConstant.address, shipping_address.getString("ship_address"));
-
-                                    ed.putString(GlobalConstant.phone, shipping_address.getString("ship_phone"));
+                                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                    ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                    ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                    ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
+                                    ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+                                    ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
+                                    ed.commit();
+                                    Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
+                                    startActivity(s);
+                                    finish();
                                 }
-
-
-                                ed.commit();
-                                Intent f = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
-                                startActivity(f);
-                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -593,12 +607,10 @@ public class LoginActivity extends FragmentActivity implements OnClickListener ,
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
 
-                params.put(GlobalConstant.name, username_mString);
-                params.put(GlobalConstant.email, email_mString);
-                params.put(GlobalConstant.image, user_image);
+
                 params.put(facebook_id, id_mString);
                 params.put(GlobalConstant.device_token, global.getDeviceToken());
-                params.put(GlobalConstant.type, "user");
+
                 params.put(GlobalConstant.latitude, global.getLat());
                 params.put(GlobalConstant.longitude, global.getLong());
                 params.put(GlobalConstant.device_type, "android");

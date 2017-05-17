@@ -15,6 +15,9 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class GcmIntentService extends IntentService {
     public int NOTIFICATION_ID;
     private NotificationManager mNotificationManager;
@@ -56,7 +59,12 @@ public class GcmIntentService extends IntentService {
                     } catch (InterruptedException e) {
                     }
                 }
-
+                try {
+                    JSONObject obj=new JSONObject(extras.getString("data"));
+                    Log.e("data",obj.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                /* Log.e("envago app", extras.toString());
                 if (extras.getString("content_title").contains("message")) {
@@ -90,7 +98,7 @@ public class GcmIntentService extends IntentService {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-            contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, WalkThroughtOneActivity.class), 0);
+            contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SplashActivity.class), 0);
 
 
 

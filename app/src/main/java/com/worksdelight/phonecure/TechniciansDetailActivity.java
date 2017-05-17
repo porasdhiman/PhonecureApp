@@ -118,6 +118,20 @@ ImageView back;
                     startActivity(intent);
                 }
             });
+            favorite_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isFavorite) {
+                        favorite = "0";
+                        dialogWindow();
+                        favoriteMethod();
+                    } else {
+                        favorite = "1";
+                        dialogWindow();
+                        favoriteMethod();
+                    }
+                }
+            });
         }else{
             book_appointment.setVisibility(View.GONE);
         }
@@ -153,20 +167,7 @@ ImageView back;
             user_view.setImageResource(R.drawable.user_back);
         }
         wishMethod();
-        favorite_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isFavorite) {
-                    favorite = "0";
-                    dialogWindow();
-                    favoriteMethod();
-                } else {
-                    favorite = "1";
-                    dialogWindow();
-                    favoriteMethod();
-                }
-            }
-        });
+
     }
     public String cap(String name) {
         StringBuilder sb = new StringBuilder(name);

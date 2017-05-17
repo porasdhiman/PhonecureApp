@@ -595,10 +595,10 @@ public class TechniciansRegisterProduct extends Activity {
                         dialog2.dismiss();
                         try {
 
-
+                            global.setRegisterTechType("1");
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                global.setRegisterTechType("1");
+
                                 finish();
 
                             } else {
