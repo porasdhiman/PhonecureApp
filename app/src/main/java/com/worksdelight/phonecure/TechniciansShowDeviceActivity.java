@@ -91,6 +91,7 @@ public class TechniciansShowDeviceActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                global.setRegisterTechType(0);
                 finish();
             }
         });
@@ -116,12 +117,19 @@ public class TechniciansShowDeviceActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+            new DeviceAdapter(TechniciansShowDeviceActivity.this,list).notifyDataSetChanged();
             list.clear();
             dialogWindow();
             showDeviceMethod();
         } else {
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        global.setRegisterTechType(1);
     }
 
     //--------------------Category api method---------------------------------
@@ -292,7 +300,7 @@ public class TechniciansShowDeviceActivity extends Activity {
 
                 holder.device_image.setTag(holder);
                 view.setTag(holder);
-                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                if(global.getRegisterTechType()==0){
                     if(i==0){
                         Animation enterAnimation = new AlphaAnimation(0f, 1f);
                         enterAnimation.setDuration(600);
@@ -308,7 +316,7 @@ public class TechniciansShowDeviceActivity extends Activity {
                                 .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                                 .setToolTip(new ToolTip()
 
-                                        .setDescription("Select device model")
+                                        .setDescription("ADD SERVICABLE MODEL(S)")
                                         .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -339,6 +347,7 @@ public class TechniciansShowDeviceActivity extends Activity {
                }
             } else {
                 holder = (Holder) view.getTag();
+
             }
 
 

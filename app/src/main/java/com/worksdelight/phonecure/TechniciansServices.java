@@ -137,9 +137,16 @@ public class TechniciansServices extends Activity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        global.setRegisterTechType(1);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+            new DeviceAdapter(TechniciansServices.this,list).notifyDataSetChanged();
             list.clear();
             dialogWindow();
             subcategoryMethod();
@@ -310,7 +317,7 @@ public class TechniciansServices extends Activity {
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
-                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                if(global.getRegisterTechType()==0){
                 if(i==0){
                     Animation enterAnimation = new AlphaAnimation(0f, 1f);
                     enterAnimation.setDuration(600);
@@ -325,7 +332,7 @@ public class TechniciansServices extends Activity {
                             .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                             .setToolTip(new ToolTip()
 
-                                    .setDescription("Select your services")
+                                    .setDescription("SELECT THE ISSUE(S)")
                                     .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -350,6 +357,7 @@ public class TechniciansServices extends Activity {
 
             } else {
                 holder = (Holder) view.getTag();
+
             }
 
 

@@ -289,16 +289,33 @@ public class Global extends Application {
 
     String curencySymbol;
 
-    public String getRegisterTechType() {
+    public int getRegisterTechType() {
         return registerTechType;
     }
 
-    public void setRegisterTechType(String registerTechType) {
+    public void setRegisterTechType(int registerTechType) {
         this.registerTechType = registerTechType;
     }
 
-    String registerTechType="1";
+    int registerTechType=1;
 
+    public String getPushNotificationType() {
+        return pushNotificationType;
+    }
+
+    public void setPushNotificationType(String pushNotificationType) {
+        this.pushNotificationType = pushNotificationType;
+    }
+
+    public String getPushValue() {
+        return pushValue;
+    }
+
+    public void setPushValue(String pushValue) {
+        this.pushValue = pushValue;
+    }
+
+    String pushNotificationType="",pushValue="0";
     @Override
     public void onCreate() {
         super.onCreate();

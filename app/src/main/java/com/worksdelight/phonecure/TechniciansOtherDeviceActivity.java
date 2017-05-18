@@ -143,6 +143,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+            new DeviceAdapter(TechniciansOtherDeviceActivity.this,list).notifyDataSetChanged();
             list.clear();
             dialogWindow();
             categoryMethod();
@@ -237,8 +238,13 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
         dialog2.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        global.setRegisterTechType(1);
+    }
 
-    //------------------------Device adapter--------------------------------
+//------------------------Device adapter--------------------------------
 
     class DeviceAdapter extends BaseAdapter {
         Context c;
@@ -292,46 +298,48 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 view.setTag(holder);
+                if(global.getRegisterTechType()==0){
+                    if(i==0){
+                        Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                        enterAnimation.setDuration(600);
+                        enterAnimation.setFillAfter(true);
+
+                        Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                        exitAnimation.setDuration(600);
+                        exitAnimation.setFillAfter(true);
+
+
+                        mTutorialHandler = TourGuide.init(TechniciansOtherDeviceActivity.this).with(TourGuide.Technique.Click)
+                                .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                                .setToolTip(new ToolTip()
+
+                                        .setDescription("ADD ALL DEVICES YOU ABLE TO REPAIR")
+                                        .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                )
+                                .setOverlay(new Overlay()
+                                        .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                        .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                );
+                        mTutorialHandler.playOn(holder.device_view);
+
+                    }
+                }
             } else {
                 holder = (Holder) view.getTag();
+
             }
 
-           if(global.getRegisterTechType().equalsIgnoreCase("0")){
-                if(i==0){
-                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
-                    enterAnimation.setDuration(600);
-                    enterAnimation.setFillAfter(true);
 
-                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
-                    exitAnimation.setDuration(600);
-                    exitAnimation.setFillAfter(true);
-
-
-                    mTutorialHandler = TourGuide.init(TechniciansOtherDeviceActivity.this).with(TourGuide.Technique.Click)
-                            .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
-                            .setToolTip(new ToolTip()
-
-                                    .setDescription("Add your devices")
-                                    .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            )
-                            .setOverlay(new Overlay()
-                                    .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
-                                    .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            );
-                    mTutorialHandler.playOn(holder.device_view);
-
-                }
-            }
             url = GlobalConstant.IMAGE_URL + global.getDeviceId() + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {

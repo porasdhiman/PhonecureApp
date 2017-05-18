@@ -52,7 +52,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     ImageView sun_toggle_img, mon_toggle_img, tue_toggle_img, wed_toggle_img, thu_toggle_img, fri_toggle_img, sat_toggle_img;
     int sun = 0, mon = 0, tue = 0, wed = 0, thu = 0, fri = 0, sat = 0, p = 0, d = 0, pos;
     ImageView pickUp_img, dropoff_img;
-    TextView submit_txt, time_txt_open,time_txt_closs;
+    TextView submit_txt, time_txt_open, time_txt_closs;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
     TimePickerDialog timePickerDialog;
@@ -65,8 +65,9 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     Dialog dialog2;
     String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     int o = 0;
-String errorInfo;
+    String errorInfo;
     Global global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +76,7 @@ String errorInfo;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        global=(Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
@@ -228,11 +229,11 @@ String errorInfo;
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         if (o == 0) {
-            Log.e("postion value",String.valueOf(pos));
+            Log.e("postion value", String.valueOf(pos));
             time_txt_open.setText(getTime(hourOfDay, minute));
             list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
         } else {
-            Log.e("postion value",String.valueOf(pos));
+            Log.e("postion value", String.valueOf(pos));
             time_txt_closs.setText(getTime(hourOfDay, minute));
             list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
         }
@@ -407,9 +408,10 @@ String errorInfo;
             case R.id.submit_txt:
 
                 //editprofile();
-                boolean flag=false;
-                for (int i=0;i<list.size();i++){
-                    if(list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                boolean flag = false;
+                boolean closed = false;
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
                         if (list.get(i).get(GlobalConstant.opening_time).equalsIgnoreCase("") || list.get(i).get(GlobalConstant.closing_time).equalsIgnoreCase("")) {
                             errorInfo = "Please Enter " + list.get(i).get(GlobalConstant.day) + "Time";
                             flag = true;
@@ -417,9 +419,24 @@ String errorInfo;
                     }
 
                 }
-                if(flag==true){
-                    Toast.makeText(WoorkingHourSecondActivity.this,errorInfo,Toast.LENGTH_SHORT).show();
-                }else{
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+
+
+                        closed = true;
+
+                    }
+
+                }
+                if (flag == true) {
+                    Toast.makeText(WoorkingHourSecondActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                } else if (closed == false) {
+                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select Working hour", Toast.LENGTH_SHORT).show();
+
+                } else if (p == 0 && d == 0) {
+                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select any Delivery/Dropoff service", Toast.LENGTH_SHORT).show();
+
+                } else {
                     dialogWindow();
                     new Thread(null, address_request, "")
                             .start();
@@ -533,12 +550,12 @@ String errorInfo;
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
-                global.setRegisterTechType("0");
+                global.setRegisterTechType(0);
                 Intent f = new Intent(WoorkingHourSecondActivity.this, TechniciansDevice.class);
 
                 startActivity(f);
                 finish();
-               // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();

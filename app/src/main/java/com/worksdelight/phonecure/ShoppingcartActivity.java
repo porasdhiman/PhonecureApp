@@ -111,7 +111,7 @@ public class ShoppingcartActivity extends Activity {
                 Intent i = new Intent(ShoppingcartActivity.this, AlmostdoneActivity.class);
                 i.putExtra("pos", getIntent().getExtras().getString("pos"));
               //  i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                i.putExtra("total_price", total_price.getText().toString().replace("$", ""));
+                i.putExtra("total_price", total_price.getText().toString().replace("€", ""));
                 startActivity(i);
             }
         });
@@ -156,7 +156,7 @@ public class ShoppingcartActivity extends Activity {
 
             }
         }
-        total_price.setText("$" + pricevalue);
+        total_price.setText("€" + pricevalue);
         cart_list.setAdapter(new ShoppingAdapter(this));
         CommonUtils.getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
@@ -318,7 +318,7 @@ public class ShoppingcartActivity extends Activity {
             ImageView add_view = (ImageView) convertView.findViewById(R.id.plus);
             ImageView minus = (ImageView) convertView.findViewById(R.id.minus);
             final TextView price = (TextView) convertView.findViewById(R.id.price);
-            price.setText("$" + String.valueOf(Float.parseFloat(serviceList.get(position).get(GlobalConstant.price))));
+            price.setText("€" + String.valueOf(Float.parseFloat(serviceList.get(position).get(GlobalConstant.price))));
             t.setText(serviceList.get(position).get(GlobalConstant.name));
             person_count.setText(serviceList.get(position).get(GlobalConstant.count));
 
@@ -351,14 +351,14 @@ public class ShoppingcartActivity extends Activity {
                     j = j + 1;
                     person_count.setText(String.valueOf(j));
                     serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                    String priceFirstCat = price.getText().toString().replace("$", "");
-                    price.setText("$" + String.valueOf(Float.parseFloat(priceFirstCat) + priceValue));
-                    serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                    String priceFirstCat = price.getText().toString().replace("€", "");
+                    price.setText("€" + String.valueOf(Float.parseFloat(priceFirstCat) + priceValue));
+                    serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("€", ""));
                     float pricevalue = 0;
                     for (int k = 0; k < serviceList.size(); k++) {
                         pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                     }
-                    total_price.setText("$" + pricevalue);
+                    total_price.setText("€" + pricevalue);
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
@@ -370,25 +370,25 @@ public class ShoppingcartActivity extends Activity {
                         person_count.setText(String.valueOf(1));
                         Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
                         serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        price.setText("$" + priceValue);
-                        serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                        price.setText("€" + priceValue);
+                        serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("€", ""));
                         float pricevalue = 0;
                         for (int k = 0; k < serviceList.size(); k++) {
                             pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
-                        total_price.setText("$" + pricevalue);
+                        total_price.setText("€" + pricevalue);
                     } else {
                         j = j - 1;
                         person_count.setText(String.valueOf(j));
                         serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        String priceFirstCat = price.getText().toString().replace("$", "");
-                        price.setText("$" + String.valueOf(Float.parseFloat(priceFirstCat) - priceValue));
-                        serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("$", ""));
+                        String priceFirstCat = price.getText().toString().replace("€", "");
+                        price.setText("€" + String.valueOf(Float.parseFloat(priceFirstCat) - priceValue));
+                        serviceList.get(position).put(GlobalConstant.price, price.getText().toString().replace("€", ""));
                         float pricevalue = 0;
                         for (int k = 0; k < serviceList.size(); k++) {
                             pricevalue = pricevalue + Float.parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
-                        total_price.setText("$" + pricevalue);
+                        total_price.setText("€" + pricevalue);
                     }
                 }
             });

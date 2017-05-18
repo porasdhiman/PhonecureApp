@@ -58,7 +58,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     ImageView sun_toggle_img, mon_toggle_img, tue_toggle_img, wed_toggle_img, thu_toggle_img, fri_toggle_img, sat_toggle_img;
     int sun = 0, mon = 0, tue = 0, wed = 0, thu = 0, fri = 0, sat = 0, p = 0, d = 0, pos;
     ImageView pickUp_img, dropoff_img;
-    TextView submit_txt,  time_txt_open,time_txt_closs;
+    TextView submit_txt, time_txt_open, time_txt_closs;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
     TimePickerDialog timePickerDialog;
@@ -67,10 +67,11 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
             thu_openning, thu_clossing, fri_openning, fri_clossing, sat_openning, sat_clossing;
     String day;
     HttpEntity resEntity;
-    String message,errorInfo;
+    String message, errorInfo;
     Dialog dialog2;
     String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-int o=0;
+    int o = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,17 +236,16 @@ int o=0;
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         if (o == 0) {
-            Log.e("postion value",String.valueOf(pos));
+            Log.e("postion value", String.valueOf(pos));
             time_txt_open.setText(getTime(hourOfDay, minute));
             list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
         } else {
-            Log.e("postion value",String.valueOf(pos));
+            Log.e("postion value", String.valueOf(pos));
             time_txt_closs.setText(getTime(hourOfDay, minute));
             list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
         }
 
     }
-
 
 
     @Override
@@ -410,9 +410,9 @@ int o=0;
             case R.id.submit_txt:
 
                 //editprofile();
-                boolean flag=false;
-                for (int i=0;i<list.size();i++){
-                    if(list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                boolean flag = false;
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
                         if (list.get(i).get(GlobalConstant.opening_time).equalsIgnoreCase("") || list.get(i).get(GlobalConstant.closing_time).equalsIgnoreCase("")) {
                             errorInfo = "Please Enter " + list.get(i).get(GlobalConstant.day) + "Time";
                             flag = true;
@@ -420,9 +420,9 @@ int o=0;
                     }
 
                 }
-                if(flag==true){
-                    Toast.makeText(WorkingHoursUpdateActivity.this,errorInfo,Toast.LENGTH_SHORT).show();
-                }else{
+                if (flag == true) {
+                    Toast.makeText(WorkingHoursUpdateActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                } else {
                     dialogWindow();
                     new Thread(null, address_request, "")
                             .start();

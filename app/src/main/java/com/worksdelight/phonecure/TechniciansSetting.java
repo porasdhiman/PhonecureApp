@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
@@ -33,12 +34,14 @@ public class TechniciansSetting extends Activity {
     SharedPreferences.Editor ed;
     Global global;
     Dialog dialog2;
-
+    CallbackManager callbackManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.technicians_setting_layout);
+        callbackManager = CallbackManager.Factory.create();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
@@ -157,4 +160,10 @@ public class TechniciansSetting extends Activity {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+    }
+
 }

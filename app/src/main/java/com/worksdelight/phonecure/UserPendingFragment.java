@@ -203,7 +203,7 @@ ImageView back_img;
             }
 
             holder.name.setText(cap(list.get(i).get(GlobalConstant.name)));
-            holder.price_txt.setText("$" + list.get(i).get(GlobalConstant.total_amount));
+            holder.price_txt.setText("€" + list.get(i).get(GlobalConstant.total_amount));
             holder.delivered_date_txt.setText(formatdate2(list.get(i).get(GlobalConstant.date)));
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
 // generate random color

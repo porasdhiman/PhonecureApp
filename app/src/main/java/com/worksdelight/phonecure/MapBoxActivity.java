@@ -379,7 +379,7 @@ public class MapBoxActivity extends Activity {
 
 
                             }
-                            price_txt.setText("You will be charged $" + String.valueOf(f));
+                            price_txt.setText("You will be charged €" + String.valueOf(f));
 
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -148,28 +148,56 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             } else {
 
 
-                if(checkGPSStatus()) {
+                if (checkGPSStatus()) {
+                  //  if (global.getPushValue().equalsIgnoreCase("0")) {
+                        Handler splashhandler = new Handler();
+                        splashhandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
 
-                    Handler splashhandler = new Handler();
-                    splashhandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
 
+                                if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                            if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
-
-                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                finish();
-                            } else {
-                                if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
-                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                     finish();
+                                } else {
+                                    if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                        finish();
+                                    } else {
+                                        Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                        finish();
+                                    }
+                                }
+                            }
+                        }, 3000);
+
+                        global.setDeviceName(getDeviceName());
+                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+
+                    /*} else {
+                        Handler splashhandler = new Handler();
+                        splashhandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                    if(global.getPushNotificationType().equalsIgnoreCase("booking_completted")||global.getPushNotificationType().equalsIgnoreCase("booking_cancelled")){
+                                        Intent intent = new Intent(SplashActivity.this, HistoryActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                        finish();
+                                    }
                                 } else {
                                     Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                     startActivity(intent);
@@ -177,57 +205,59 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
                                     finish();
                                 }
+
+
+
+
+
                             }
-                        }
-                    }, 3000);
+                        }, 3000);
 
-                    global.setDeviceName(getDeviceName());
-                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-
-
+                        global.setDeviceName(getDeviceName());
+                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                    }*/
                     // We already have permission, so handle as norma
                 }  //Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
             }
         } else {
 
-                if (checkGPSStatus()) {
-                    global.setDeviceName(getDeviceName());
-                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                    Handler splashhandler = new Handler();
-                    splashhandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
+            if (checkGPSStatus()) {
+                global.setDeviceName(getDeviceName());
+                Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                Handler splashhandler = new Handler();
+                splashhandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
 
-                            if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+                        if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                            finish();
+                        } else {
+                            if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                 finish();
                             } else {
-                                if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
-                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                    finish();
-                                } else {
-                                    Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                    finish();
-                                }
+                                finish();
                             }
                         }
-                    }, 3000);
-                }
+                    }
+                }, 3000);
+            }
 
         }
-            // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
-
+        // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
 
 
     }
@@ -259,45 +289,45 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         perms.get(android.Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
 
-                        if (checkGPSStatus()) {
-                            global.setDeviceName(getDeviceName());
-                            Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
-                            Handler splashhandler = new Handler();
-                            splashhandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
+                    if (checkGPSStatus()) {
+                        global.setDeviceName(getDeviceName());
+                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                        Handler splashhandler = new Handler();
+                        splashhandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
 
 
-                                    if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+                                if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                    finish();
+                                } else {
+                                    if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                         finish();
                                     } else {
-                                        if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
-                                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                            finish();
-                                        } else {
-                                            Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
-                                            startActivity(intent);
-                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                            finish();
-                                        }
+                                        finish();
                                     }
                                 }
-                            }, 3000);
-                            // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        finish();
-                        Toast.makeText(SplashActivity.this,"Internet not working",Toast.LENGTH_SHORT);
+                            }
+                        }, 3000);
+                        // Toast.makeText(MainActivity.this,gps.getLatitude()+""+   gps.getLongitude(),Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    finish();
+                    Toast.makeText(SplashActivity.this, "Internet not working", Toast.LENGTH_SHORT);
+                }
 
             }
             break;

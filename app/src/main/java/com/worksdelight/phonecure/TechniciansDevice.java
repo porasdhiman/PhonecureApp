@@ -106,7 +106,7 @@ public class TechniciansDevice extends Activity {
                 finish();
             }
         });
-        if(global.getRegisterTechType().equalsIgnoreCase("1")){
+        if(global.getRegisterTechType()==0){
             back.setVisibility(View.VISIBLE);
             done.setVisibility(View.GONE);
         }else{
@@ -151,11 +151,17 @@ public class TechniciansDevice extends Activity {
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+
+
+
             list.clear();
+
             dialogWindow();
             categoryMethod();
         } else {
@@ -316,7 +322,8 @@ public class TechniciansDevice extends Activity {
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 view.setTag(holder);
-                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+
+               if(global.getRegisterTechType()==0){
                     if(i==0){
                         Animation enterAnimation = new AlphaAnimation(0f, 1f);
                         enterAnimation.setDuration(600);
@@ -331,7 +338,7 @@ public class TechniciansDevice extends Activity {
                                 .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                                 .setToolTip(new ToolTip()
 
-                                        .setDescription("Add your devices")
+                                        .setDescription("ADD ALL DEVICES YOU ABLE TO REPAIR")
                                         .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -351,9 +358,10 @@ public class TechniciansDevice extends Activity {
                         mTutorialHandler.playOn(holder.device_view);
 
                     }
-                }
+               }
             } else {
                 holder = (Holder) view.getTag();
+
             }
 
 

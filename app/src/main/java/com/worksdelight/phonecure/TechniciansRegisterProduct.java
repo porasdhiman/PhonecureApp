@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -87,7 +88,8 @@ public class TechniciansRegisterProduct extends Activity {
     JSONArray arr;
     int pos, pos1;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-
+SharedPreferences sp;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,8 @@ public class TechniciansRegisterProduct extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp=getSharedPreferences("type",Context.MODE_PRIVATE);
+        ed=sp.edit();
         global = (Global) getApplicationContext();
         init();
     }
@@ -122,19 +126,19 @@ public class TechniciansRegisterProduct extends Activity {
             }
         });
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
-        price_ed.setText("$" + global.getServiceList().get(p).get(GlobalConstant.price));
+        price_ed.setText("€" + global.getServiceList().get(p).get(GlobalConstant.price));
         price_ed.setSelection(price_ed.getText().length());
         price_ed.addTextChangedListener(new TextWatcher()
         {
             public void afterTextChanged(Editable s)
             {
                 String x = s.toString();
-                if(x.startsWith("$"))
+                if(x.startsWith("€"))
                 {
                     price_ed.setSelection(price_ed.getText().length());
 
                 }else{
-                    price_ed.setText("$");
+                    price_ed.setText("€");
                 }
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
@@ -165,7 +169,7 @@ public class TechniciansRegisterProduct extends Activity {
                 } else if (serviceID.equalsIgnoreCase("")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please select atleast one color", Toast.LENGTH_SHORT).show();
 
-                }else if (price_ed.getText().toString().equalsIgnoreCase("$")) {
+                }else if (price_ed.getText().toString().equalsIgnoreCase("€")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
                 }else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length()-1)).equalsIgnoreCase(".")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter valid price", Toast.LENGTH_SHORT).show();
@@ -224,6 +228,13 @@ public class TechniciansRegisterProduct extends Activity {
         CommonUtils.getListViewSize(product_listView);
         main_scroll.smoothScrollTo(0, 0);
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        global.setRegisterTechType(1);
+        super.onBackPressed();
 
     }
 
@@ -370,7 +381,7 @@ public class TechniciansRegisterProduct extends Activity {
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
-                if(global.getRegisterTechType().equalsIgnoreCase("0")){
+                if(global.getRegisterTechType()==0){
                 if(i==0){
                     Animation enterAnimation = new AlphaAnimation(0f, 1f);
                     enterAnimation.setDuration(600);
@@ -385,7 +396,7 @@ public class TechniciansRegisterProduct extends Activity {
                             .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                             .setToolTip(new ToolTip()
 
-                                    .setDescription("Add your services color")
+                                    .setDescription("SETUP SERVICE PRICE & SERVICE TIME FOR ALL COLOR(S)")
                                     .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -567,7 +578,7 @@ public class TechniciansRegisterProduct extends Activity {
                 installedPackage.put(GlobalConstant.service_id, getIntent().getExtras().getString(GlobalConstant.service_id));
                 installedPackage.put("dm_service_id", getIntent().getExtras().getString(GlobalConstant.id));
                 installedPackage.put("model_color", serviceID);
-                installedPackage.put("price", price_ed.getText().toString().replace("$", ""));
+                installedPackage.put("price", price_ed.getText().toString().replace("€", ""));
                 installedPackage.put(GlobalConstant.expected_time, time_ed.getText().toString());
 
 
@@ -595,7 +606,7 @@ public class TechniciansRegisterProduct extends Activity {
                         dialog2.dismiss();
                         try {
 
-                            global.setRegisterTechType("1");
+                            global.setRegisterTechType(1);
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
 

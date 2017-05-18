@@ -24,7 +24,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
     static final String TAG = "PhoneCure";
     String datamessage, senderid, userreply, reciverid, identity_type = "0";
-   // Global global;
+    Global global;
     Context context;
     SharedPreferences mSharedPreferences;
     Editor mEditor;
@@ -39,7 +39,7 @@ public class GcmIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Log.d("in gcm", "we are in pushnotification");
-       // global = (Global) getApplicationContext();
+        global = (Global) getApplicationContext();
         mSharedPreferences = getSharedPreferences("chat", Context.MODE_PRIVATE);
         extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
@@ -48,12 +48,12 @@ public class GcmIntentService extends IntentService {
 
         if (!extras.isEmpty()) { // has effect of unparcelling Bundle
             if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-                sendNotification("Delico App", "Send error: " + extras.toString());
+                sendNotification("PhoneCure App", "Send error: " + extras.toString());
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-                sendNotification("Delico App", "Deleted messages on server: " + extras.toString());
+                sendNotification("PhoneCure App", "Deleted messages on server: " + extras.toString());
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 for (int i = 0; i < 3; i++) {
-                    Log.i(TAG, "Working... " + (i + 1) + "/5 @ " + SystemClock.elapsedRealtime());
+                    Log.i(TAG, "Working... " + (i + 1) + "/3 @ " + SystemClock.elapsedRealtime());
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -61,6 +61,8 @@ public class GcmIntentService extends IntentService {
                 }
                 try {
                     JSONObject obj=new JSONObject(extras.getString("data"));
+                    global.setPushValue("1");
+                    global.setPushNotificationType(obj.getString("push_notification_type"));
                     Log.e("data",obj.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

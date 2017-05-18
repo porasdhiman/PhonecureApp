@@ -31,6 +31,16 @@
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/navigation_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/navigation_icon" />
 
     </RelativeLayout>
 

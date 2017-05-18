@@ -83,7 +83,7 @@ public class UserAppointmentActivity extends Activity {
     String statusValue, filePath, invoice;
     File pdfFile;
     AlertDialog builder;
-
+ImageView navigation_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +98,8 @@ public class UserAppointmentActivity extends Activity {
 
     public void init() {
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
-
+        navigation_img=(ImageView)findViewById(R.id.navigation_img);
+        navigation_img.setVisibility(View.GONE);
         back_img = (ImageView) findViewById(R.id.back_img);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +177,7 @@ public class UserAppointmentActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                total_price.setText("$" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
+                total_price.setText("€" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -234,7 +235,7 @@ public class UserAppointmentActivity extends Activity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("$" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
+                total_price.setText("€" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -346,7 +347,7 @@ public class UserAppointmentActivity extends Activity {
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
-            holder.service_price.setText("$" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
+            holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
 
             return view;
         }

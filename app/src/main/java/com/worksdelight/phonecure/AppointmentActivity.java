@@ -73,6 +73,9 @@ public class AppointmentActivity extends Activity {
     ImageView user_view;
     File pdfFile;
     AlertDialog builder;
+ImageView navigation_img;
+    //String sourceLatitude="30.7046",sourceLongitude="76.7179",destinationLatitude="30.7398339",destinationLongitude="76.78270199999997";
+    String sourceLatitude="",sourceLongitude="",destinationLatitude="",destinationLongitude="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,9 @@ public class AppointmentActivity extends Activity {
 
     public void init() {
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
+        navigation_img=(ImageView)findViewById(R.id.navigation_img);
+
+
 
         back_img = (ImageView) findViewById(R.id.back_img);
         user_view = (ImageView) findViewById(R.id.user_view);
@@ -106,12 +112,14 @@ public class AppointmentActivity extends Activity {
         close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
-
+            navigation_img.setVisibility(View.GONE);
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
                 invoice = obj.getString(GlobalConstant.invoice);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
+                destinationLatitude=objUser.getString(GlobalConstant.latitude);
+                destinationLongitude=objUser.getString(GlobalConstant.longitude);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -154,7 +162,7 @@ public class AppointmentActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                total_price.setText("$" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
+                total_price.setText("€" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -174,6 +182,8 @@ public class AppointmentActivity extends Activity {
                 booking_id = obj.getString(GlobalConstant.id);
                 statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
+                destinationLatitude=objUser.getString(GlobalConstant.latitude);
+                destinationLongitude=objUser.getString(GlobalConstant.longitude);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -212,7 +222,7 @@ public class AppointmentActivity extends Activity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("$" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
+                total_price.setText("€" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -243,6 +253,7 @@ public class AppointmentActivity extends Activity {
                     }
                 });
             } else {
+                navigation_img.setVisibility(View.GONE);
                 cancel_request_txt.setText("Order " + statusValue);
             }
 
@@ -251,6 +262,23 @@ public class AppointmentActivity extends Activity {
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
+        sourceLatitude=global.getLat();
+        sourceLongitude=global.getLong();
+        navigation_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  WebView webview = (WebView) findViewById(R.id.webView1);
+                webview.setWebViewClient(new WebViewClient());
+                webview.getSettings().setJavaScriptEnabled(true);
+                webview.loadUrl("http://maps.google.com/maps?" + "saddr=43.0054446,-87.9678884" + "&daddr=42.9257104,-88.0508355");
+            }*/
+
+                String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -324,7 +352,7 @@ public class AppointmentActivity extends Activity {
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
-            holder.service_price.setText("$" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
+            holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
 
             return view;
         }

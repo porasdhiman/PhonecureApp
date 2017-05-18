@@ -72,7 +72,7 @@ import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
  * Created by worksdelight on 01/03/17.
  */
 
-public class LoginActivity extends FragmentActivity implements OnClickListener ,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends FragmentActivity implements OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     RelativeLayout facebook_layout, twitter_layout;
     TextView sign_in_btn, sign_up_btn, sign_up_user, forgot_view;
     EditText password_view, email_view;
@@ -109,6 +109,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener ,
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -346,7 +347,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener ,
 
                     Intent su = new Intent(this, TechniciansRegister.class);
                     startActivity(su);
-
+                    finish();
                 } else {
                     CommonUtils.openInternetDialog(this);
                 }
@@ -717,8 +718,6 @@ public class LoginActivity extends FragmentActivity implements OnClickListener ,
                 .build();
 
     }
-
-
 
 
     @Override
