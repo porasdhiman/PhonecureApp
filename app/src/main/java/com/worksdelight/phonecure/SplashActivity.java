@@ -73,7 +73,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
-    SharedPreferences sp;
+    SharedPreferences sp, sp1;
+    SharedPreferences.Editor ed1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         }
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         global = (Global) getApplicationContext();
+        sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed1 = sp1.edit();
         buildGoogleApiClient();
         //----------Check play service---------------------------
         if (checkPlayServices()) {
@@ -149,40 +152,52 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
 
                 if (checkGPSStatus()) {
-                  //  if (global.getPushValue().equalsIgnoreCase("0")) {
-                        Handler splashhandler = new Handler();
-                        splashhandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+                    //  if (global.getPushValue().equalsIgnoreCase("0")) {
+                    Handler splashhandler = new Handler();
+                    splashhandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
 
-                                if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
+                            if (CommonUtils.UserID(SplashActivity.this).equalsIgnoreCase("")) {
 
-                                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                                finish();
+                            } else {
+                                if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+
+                                    ed1.putString("type","login");
+
+
+                                    ed1.commit();
+                                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                     finish();
                                 } else {
-                                    if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
-                                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    ed1.putString("type", "login");
+                                    ed1.putString("techDevice","1");
+                                    ed1.putString("techShowDevice","1");
+                                    ed1.putString("techService","1");
+                                    ed1.putString("techProduct","1");
+                                    ed1.putString("techOtherDevice","1");
+                                    ed1.commit();
+                                    Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                                        finish();
-                                    } else {
-                                        Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
-                                        startActivity(intent);
-                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-                                        finish();
-                                    }
+                                    finish();
                                 }
                             }
-                        }, 3000);
+                        }
+                    }, 3000);
 
-                        global.setDeviceName(getDeviceName());
-                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                    global.setDeviceName(getDeviceName());
+                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
 
                     /*} else {
                         Handler splashhandler = new Handler();
@@ -239,12 +254,21 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                             finish();
                         } else {
                             if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                ed1.putString("type","login");
+                                ed1.commit();
                                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                 finish();
                             } else {
+                                ed1.putString("type", "login");
+                                ed1.putString("techDevice","1");
+                                ed1.putString("techShowDevice","1");
+                                ed1.putString("techService","1");
+                                ed1.putString("techProduct","1");
+                                ed1.putString("techOtherDevice","1");
+                                ed1.commit();
                                 Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -307,12 +331,21 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                                     finish();
                                 } else {
                                     if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                                        ed1.putString("type","login");
+                                        ed1.commit();
                                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                                         finish();
                                     } else {
+                                        ed1.putString("type", "login");
+                                        ed1.putString("techDevice","1");
+                                        ed1.putString("techShowDevice","1");
+                                        ed1.putString("techService","1");
+                                        ed1.putString("techProduct","1");
+                                        ed1.putString("techOtherDevice","1");
+                                        ed1.commit();
                                         Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

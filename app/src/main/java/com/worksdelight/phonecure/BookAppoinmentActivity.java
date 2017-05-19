@@ -210,7 +210,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         time_txtView = (TextView) findViewById(R.id.time_txtView);
         pos = getIntent().getExtras().getString("pos");
         technicians_name.setText(cap(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name)));
-        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance));
+        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance)+" Km away");
         user_img = (CircleImageView) findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")

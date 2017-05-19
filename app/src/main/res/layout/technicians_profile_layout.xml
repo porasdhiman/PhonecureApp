@@ -24,7 +24,7 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:text="Technicians sign up"
-             android:textSize="@dimen/header_txt"
+             android:textSize="16sp"
              android:textStyle="bold"
              android:textColor="#fff"
              android:gravity="center"
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
-                android:text="Don't have an vat number?"
+                android:text="Invalid Vat Number"
                 android:textColor="#0000ff"
                 android:textSize="12sp"
                 android:visibility="gone" />

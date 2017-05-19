@@ -237,12 +237,12 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         if (o == 0) {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_open.setText(getTime(hourOfDay, minute));
-            list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
+            time_txt_open.setText(hourOfDay+":"+minute);
+            list.get(pos).put(GlobalConstant.opening_time, hourOfDay+":"+minute);
         } else {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_closs.setText(getTime(hourOfDay, minute));
-            list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
+            time_txt_closs.setText(hourOfDay+":"+minute);
+            list.get(pos).put(GlobalConstant.closing_time, hourOfDay+":"+minute);
         }
 
     }
@@ -411,6 +411,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
 
                 //editprofile();
                 boolean flag = false;
+                boolean closed=false;
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
                         if (list.get(i).get(GlobalConstant.opening_time).equalsIgnoreCase("") || list.get(i).get(GlobalConstant.closing_time).equalsIgnoreCase("")) {
@@ -420,9 +421,27 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     }
 
                 }
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+
+
+                        closed = true;
+
+                    }
+
+                }
                 if (flag == true) {
                     Toast.makeText(WorkingHoursUpdateActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                } else {
+                }else if (closed == false) {
+                    Toast.makeText(WorkingHoursUpdateActivity.this, "Please select Working Hours", Toast.LENGTH_SHORT).show();
+
+                }
+
+                else if(p==0&&d==0){
+                    Toast.makeText(WorkingHoursUpdateActivity.this, "Please select any Delivery/Dropoff service", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
                     dialogWindow();
                     new Thread(null, address_request, "")
                             .start();

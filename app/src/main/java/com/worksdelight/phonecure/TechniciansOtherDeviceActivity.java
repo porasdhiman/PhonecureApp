@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -79,7 +80,8 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
     TextView device_name;
     ImageView back_img;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-
+SharedPreferences sp;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,8 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp=getSharedPreferences("register",Context.MODE_PRIVATE);
+        ed=sp.edit();
         global = (Global) getApplicationContext();
         init();
     }
@@ -143,7 +147,8 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            new DeviceAdapter(TechniciansOtherDeviceActivity.this,list).notifyDataSetChanged();
+            ed.putString("techOtherDevice","1");
+            ed.commit();
             list.clear();
             dialogWindow();
             categoryMethod();
@@ -298,7 +303,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 view.setTag(holder);
-                if(global.getRegisterTechType()==0){
+                if(sp.getString("techOtherDevice","").equalsIgnoreCase("")){
                     if(i==0){
                         Animation enterAnimation = new AlphaAnimation(0f, 1f);
                         enterAnimation.setDuration(600);

@@ -95,8 +95,8 @@ public class MapBoxActivity extends Activity {
     ImageView repair_shop_image, repair_location_image, both_image;
     private Animation mEnterAnimation, mExitAnimation;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-    SharedPreferences sp;
-    SharedPreferences.Editor ed;
+    SharedPreferences sp,sp1;
+    SharedPreferences.Editor ed,ed1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,8 @@ public class MapBoxActivity extends Activity {
         }
         sp = getSharedPreferences("tour", Context.MODE_PRIVATE);
         ed = sp.edit();
+        sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed1 = sp1.edit();
         global = (Global) getApplicationContext();
         technicians_name_txtView = (TextView) findViewById(R.id.technicians_name_txtView);
         price_txt = (TextView) findViewById(R.id.price_txt);
@@ -165,7 +167,7 @@ public class MapBoxActivity extends Activity {
         repair_shop_image = (ImageView) findViewById(R.id.repair_shop_image);
         repair_location_image = (ImageView) findViewById(R.id.repair_location_image);
         both_image = (ImageView) findViewById(R.id.both_image);
-        if (sp.getString("tourValue", "").equalsIgnoreCase("")) {
+        if (sp1.getString("type", "").equalsIgnoreCase("register")) {
             service_type_layout.setVisibility(View.VISIBLE);
                /* setup enter and exit animation */
             Animation enterAnimation = new AlphaAnimation(0f, 1f);
@@ -195,8 +197,8 @@ public class MapBoxActivity extends Activity {
                 public void onClick(View view) {
                     mTutorialHandler.cleanUp();
                     service_type_layout.setVisibility(View.GONE);
-                    ed.putString("tourValue","1");
-                    ed.commit();
+                    ed1.putString("type","login");
+                    ed1.commit();
                 }
             });
             repair_shop_image.setOnClickListener(new View.OnClickListener() {

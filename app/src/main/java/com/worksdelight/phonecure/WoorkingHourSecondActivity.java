@@ -3,7 +3,9 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -67,7 +69,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     int o = 0;
     String errorInfo;
     Global global;
-
+SharedPreferences sp;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,8 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
+        sp=getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed=sp.edit();
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
@@ -230,12 +235,12 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         if (o == 0) {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_open.setText(getTime(hourOfDay, minute));
-            list.get(pos).put(GlobalConstant.opening_time, getTime(hourOfDay, minute));
+            time_txt_open.setText(hourOfDay+":"+minute);
+            list.get(pos).put(GlobalConstant.opening_time, hourOfDay+":"+minute);
         } else {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_closs.setText(getTime(hourOfDay, minute));
-            list.get(pos).put(GlobalConstant.closing_time, getTime(hourOfDay, minute));
+            time_txt_closs.setText(hourOfDay+":"+minute);
+            list.get(pos).put(GlobalConstant.closing_time, hourOfDay+":"+minute);
         }
 
     }
@@ -431,7 +436,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 if (flag == true) {
                     Toast.makeText(WoorkingHourSecondActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 } else if (closed == false) {
-                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select Working hour", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select Working Hours", Toast.LENGTH_SHORT).show();
 
                 } else if (p == 0 && d == 0) {
                     Toast.makeText(WoorkingHourSecondActivity.this, "Please select any Delivery/Dropoff service", Toast.LENGTH_SHORT).show();
@@ -550,10 +555,13 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
-                global.setRegisterTechType(0);
+               ed.clear();
+                ed.commit();
                 Intent f = new Intent(WoorkingHourSecondActivity.this, TechniciansDevice.class);
 
                 startActivity(f);
+                ed.putString("type","register");
+                ed.commit();
                 finish();
                 // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
 

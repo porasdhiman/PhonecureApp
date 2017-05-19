@@ -90,8 +90,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
     String user_image;
     Dialog dialog2;
-    SharedPreferences sp;
-    SharedPreferences.Editor ed;
+    SharedPreferences sp,sp1;
+    SharedPreferences.Editor ed,ed1;
     ImageView img;
     int i = 0;
     private Animation mEnterAnimation, mExitAnimation;
@@ -122,6 +122,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
         }
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
+        sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed1 = sp1.edit();
         buildGoogleApiClient();
         init();
     }
@@ -466,6 +468,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     }
 
                                     ed.commit();
+                                    ed1.putString("type","login");
+                                    ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
                                     finish();
@@ -477,6 +481,13 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
                                     ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
                                     ed.commit();
+                                    ed1.putString("type","login");
+                                    ed1.putString("techDevice","1");
+                                    ed1.putString("techShowDevice","1");
+                                    ed1.putString("techService","1");
+                                    ed1.putString("techProduct","1");
+                                    ed1.putString("techOtherDevice","1");
+                                    ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
                                     finish();
@@ -570,6 +581,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     }
 
                                     ed.commit();
+                                    ed1.putString("type","login");
+                                    ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
                                     finish();
@@ -581,6 +594,13 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
                                     ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
                                     ed.commit();
+                                    ed1.putString("type","login");
+                                    ed1.putString("techDevice","1");
+                                    ed1.putString("techShowDevice","1");
+                                    ed1.putString("techService","1");
+                                    ed1.putString("techProduct","1");
+                                    ed1.putString("techOtherDevice","1");
+                                    ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
                                     finish();

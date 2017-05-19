@@ -44,8 +44,8 @@
             android:layout_centerVertical="true"
 
 
-            android:padding="8dp"
-            android:src="@drawable/search_img" />
+            android:padding="9dp"
+            android:src="@drawable/titlebar_menu_selector" />
     </RelativeLayout>
 
     <com.mapbox.mapboxsdk.maps.MapView

@@ -20,6 +20,7 @@ import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -140,6 +141,8 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                 if (!hasFocus) {
                     dialogWindow();
                     vatApiMethod(vat_ed.getText().toString());
+                }else{
+                    vat_ed.setText("");
                 }
 
             }
@@ -150,6 +153,25 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
         vat_ed.setOnTouchListener(this);
         facebook_layout.setOnClickListener(this);
         register_txtView.setOnClickListener(this);
+        vat_ed.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    switch (keyCode) {
+
+                        case KeyEvent.KEYCODE_ENTER:
+                            if(vat_ed.getText().toString().length()>0) {
+                                dialogWindow();
+                                vatApiMethod(vat_ed.getText().toString());
+                            }
+                            return true;
+
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -157,13 +179,15 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
     public boolean onTouch(View view, MotionEvent motionEvent) {
         switch (view.getId()) {
             case R.id.org_ed:
-                vat_ed.setFocusable(false);
+
                 break;
             case R.id.address_ed:
-                vat_ed.setFocusable(false);
+
                 break;
             case R.id.vat_ed:
+                vat_ed.setFocusable(true);
                 see_text.setVisibility(View.GONE);
+
                 break;
 
         }
@@ -215,7 +239,9 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                 startActivity(i);
                 break;
             case R.id.back:
-                finish();
+                Intent k = new Intent(TechniciansRegister.this, LoginActivity.class);
+                k.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(k);
                 break;
             case R.id.facebook_layout:
                 Login_TV.performClick();
@@ -223,6 +249,11 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
 
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     //---------------------------facebook method------------------------------
@@ -508,7 +539,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                                 address_ed.setText(obj.getString("company_address"));
                                 isVat = true;
                             } else {
-                                vat_ed.setError("Please enter valid VAT no.");
+                                vat_ed.setFocusable(true);
                                 see_text.setVisibility(View.VISIBLE);
                                 isVat = false;
                             }
@@ -522,7 +553,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                dialog2.dismiss();
             }
         });
 

@@ -5,6 +5,7 @@ import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -73,7 +74,8 @@ public class TechniciansShowDeviceActivity extends Activity {
     ArrayList<String> value = new ArrayList<>();
     Global global;
   TourGuide mTutorialHandler, mTutorialHandler2;
-
+SharedPreferences sp;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class TechniciansShowDeviceActivity extends Activity {
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
+        sp=getSharedPreferences("register",Context.MODE_PRIVATE);
+        ed=sp.edit();
         device_view = (GridView) findViewById(R.id.device);
         dialogWindow();
         showDeviceMethod();
@@ -91,7 +95,7 @@ public class TechniciansShowDeviceActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                global.setRegisterTechType(0);
+
                 finish();
             }
         });
@@ -117,7 +121,8 @@ public class TechniciansShowDeviceActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            new DeviceAdapter(TechniciansShowDeviceActivity.this,list).notifyDataSetChanged();
+            ed.putString("techShowDevice","1");
+            ed.commit();
             list.clear();
             dialogWindow();
             showDeviceMethod();
@@ -129,7 +134,7 @@ public class TechniciansShowDeviceActivity extends Activity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        global.setRegisterTechType(1);
+
     }
 
     //--------------------Category api method---------------------------------
@@ -299,8 +304,9 @@ public class TechniciansShowDeviceActivity extends Activity {
                 holder.status = (TextView) view.findViewById(R.id.status);
 
                 holder.device_image.setTag(holder);
+
                 view.setTag(holder);
-                if(global.getRegisterTechType()==0){
+                if(sp.getString("techShowDevice","").equalsIgnoreCase("")){
                     if(i==0){
                         Animation enterAnimation = new AlphaAnimation(0f, 1f);
                         enterAnimation.setDuration(600);
@@ -341,7 +347,7 @@ public class TechniciansShowDeviceActivity extends Activity {
                                             }
                                         })
                                 );
-                        mTutorialHandler2.playOn(holder.device_image);
+                        mTutorialHandler2.playOn(holder.main_layout);
 
                     }
                }

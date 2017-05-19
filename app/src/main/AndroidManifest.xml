@@ -243,7 +243,7 @@
         <activity
             android:name=".TechniciansEditProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".NotifyActivity"
             android:screenOrientation="portrait"

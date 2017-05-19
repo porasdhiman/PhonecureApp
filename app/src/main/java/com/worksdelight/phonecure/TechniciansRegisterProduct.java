@@ -70,7 +70,7 @@ import tourguide.tourguide.TourGuide;
 
 public class TechniciansRegisterProduct extends Activity {
     ImageView back;
-    TextView service_txtView, done, time_ed;
+    TextView service_txtView, done, time_ed,available_txt;
     ListView product_listView;
     EditText price_ed;
     RelativeLayout all_select_layout;
@@ -88,8 +88,9 @@ public class TechniciansRegisterProduct extends Activity {
     JSONArray arr;
     int pos, pos1;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-SharedPreferences sp;
+    SharedPreferences sp;
     SharedPreferences.Editor ed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +99,8 @@ SharedPreferences sp;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        sp=getSharedPreferences("type",Context.MODE_PRIVATE);
-        ed=sp.edit();
+        sp = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed = sp.edit();
         global = (Global) getApplicationContext();
         init();
     }
@@ -108,10 +109,13 @@ SharedPreferences sp;
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         back = (ImageView) findViewById(R.id.back);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
+        available_txt=(TextView) findViewById(R.id.available_txt);
         product_listView = (ListView) findViewById(R.id.product_listView);
         price_ed = (EditText) findViewById(R.id.price_ed);
         time_ed = (TextView) findViewById(R.id.time_ed);
         done = (TextView) findViewById(R.id.done);
+        service_txtView.setText(getIntent().getExtras().getString("service name"));
+        available_txt.setText("Select Colours for "+getIntent().getExtras().getString("device_type"));
         /*all_select_layout = (RelativeLayout) findViewById(R.id.all_select_layout);
         all_select_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,31 +126,30 @@ SharedPreferences sp;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ed.putString("techProduct", "1");
+                ed.commit();
                 finish();
             }
         });
         int p = Integer.parseInt(getIntent().getExtras().getString("pos"));
         price_ed.setText("€" + global.getServiceList().get(p).get(GlobalConstant.price));
         price_ed.setSelection(price_ed.getText().length());
-        price_ed.addTextChangedListener(new TextWatcher()
-        {
-            public void afterTextChanged(Editable s)
-            {
+        price_ed.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
                 String x = s.toString();
-                if(x.startsWith("€"))
-                {
+                if (x.startsWith("€")) {
                     price_ed.setSelection(price_ed.getText().length());
 
-                }else{
+                } else {
                     price_ed.setText("€");
                 }
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
         });
@@ -169,10 +172,14 @@ SharedPreferences sp;
                 } else if (serviceID.equalsIgnoreCase("")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please select atleast one color", Toast.LENGTH_SHORT).show();
 
-                }else if (price_ed.getText().toString().equalsIgnoreCase("€")) {
+                } else if (price_ed.getText().toString().equalsIgnoreCase("€")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
-                }else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length()-1)).equalsIgnoreCase(".")) {
+                } else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length() - 1)).equalsIgnoreCase(".")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter valid price", Toast.LENGTH_SHORT).show();
+                }else if (time_ed.getText().toString().contains("0:00")) {
+                    Toast.makeText(TechniciansRegisterProduct.this, "Please select valid estimated time", Toast.LENGTH_SHORT).show();
+
+
                 }
                 else {
                     dialogWindow();
@@ -233,8 +240,10 @@ SharedPreferences sp;
 
     @Override
     public void onBackPressed() {
-        global.setRegisterTechType(1);
+
         super.onBackPressed();
+        ed.putString("techProduct", "1");
+        ed.commit();
 
     }
 
@@ -375,48 +384,48 @@ SharedPreferences sp;
                 holder.device_name = (TextView) view.findViewById(R.id.color_name);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
-                holder.main_layout=(LinearLayout)view.findViewById(R.id.main_layout);
+                holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
                 view.setTag(holder);
                 holder.color_img.setTag(holder);
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
-                if(global.getRegisterTechType()==0){
-                if(i==0){
-                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
-                    enterAnimation.setDuration(600);
-                    enterAnimation.setFillAfter(true);
+                if (sp.getString("techProduct", "").equalsIgnoreCase("")) {
+                    if (i == 0) {
+                        Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                        enterAnimation.setDuration(600);
+                        enterAnimation.setFillAfter(true);
 
-                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
-                    exitAnimation.setDuration(600);
-                    exitAnimation.setFillAfter(true);
+                        Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                        exitAnimation.setDuration(600);
+                        exitAnimation.setFillAfter(true);
 
 
-                    mTutorialHandler = TourGuide.init(TechniciansRegisterProduct.this).with(TourGuide.Technique.Click)
-                            .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
-                            .setToolTip(new ToolTip()
+                        mTutorialHandler = TourGuide.init(TechniciansRegisterProduct.this).with(TourGuide.Technique.Click)
+                                .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                                .setToolTip(new ToolTip()
 
-                                    .setDescription("SETUP SERVICE PRICE & SERVICE TIME FOR ALL COLOR(S)")
-                                    .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            )
-                            .setOverlay(new Overlay()
-                                    .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
-                                    .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            );
-                    mTutorialHandler.playOn(holder.main_layout);
+                                        .setDescription("SETUP SERVICE PRICE & SERVICE TIME FOR ALL COLOR(S)")
+                                        .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                )
+                                .setOverlay(new Overlay()
+                                        .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                        .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                );
+                        mTutorialHandler.playOn(holder.main_layout);
 
+                    }
                 }
-                 }
             } else {
                 holder = (Holder) view.getTag();
             }
@@ -605,8 +614,13 @@ SharedPreferences sp;
                         Log.e("response", response.toString());
                         dialog2.dismiss();
                         try {
+                            ed.putString("techDevice","1");
+                            ed.putString("techShowDevice","1");
+                            ed.putString("techService","1");
+                            ed.putString("techProduct","1");
+                            ed.putString("techOtherDevice","1");
+                            ed.commit();
 
-                            global.setRegisterTechType(1);
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
 
@@ -660,7 +674,7 @@ SharedPreferences sp;
         final LoopView loopView = (LoopView) PickerDialog.findViewById(R.id.loop_view);
         final LoopView loopView1 = (LoopView) PickerDialog.findViewById(R.id.loop_view1);
         if (time_ed.getText().length() != 0) {
-            if(time_ed.getText().toString().contains(":")) {
+            if (time_ed.getText().toString().contains(":")) {
                 int t = Integer.parseInt(time_ed.getText().toString().split(":")[0]);
                 loopView.setInitPosition(t);
             }
@@ -676,7 +690,7 @@ SharedPreferences sp;
 
         loopView.setDataList(hours);
         if (time_ed.getText().length() != 0) {
-            if(time_ed.getText().toString().contains(":")) {
+            if (time_ed.getText().toString().contains(":")) {
                 int t = Integer.parseInt(time_ed.getText().toString().split(":")[1]);
                 loopView1.setInitPosition(t);
             }

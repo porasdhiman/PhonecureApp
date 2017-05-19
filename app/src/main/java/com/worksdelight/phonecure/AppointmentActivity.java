@@ -75,7 +75,7 @@ public class AppointmentActivity extends Activity {
     AlertDialog builder;
 ImageView navigation_img;
     //String sourceLatitude="30.7046",sourceLongitude="76.7179",destinationLatitude="30.7398339",destinationLongitude="76.78270199999997";
-    String sourceLatitude="",sourceLongitude="",destinationLatitude="",destinationLongitude="";
+    String sourceLatitude="30.7046",sourceLongitude="76.7179",destinationLatitude="",destinationLongitude="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,8 +262,8 @@ ImageView navigation_img;
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
-        sourceLatitude=global.getLat();
-        sourceLongitude=global.getLong();
+        //sourceLatitude=global.getLat();
+       // sourceLongitude=global.getLong();
         navigation_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -274,6 +274,7 @@ ImageView navigation_img;
             }*/
 
                 String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
+                Log.e("navi url",uri);
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
                 intent.setPackage("com.google.android.apps.maps");
                 startActivity(intent);
@@ -285,8 +286,7 @@ ImageView navigation_img;
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i = new Intent(AppointmentActivity.this, HistoryActivity.class);
-        startActivity(i);
+
         finish();
     }
 

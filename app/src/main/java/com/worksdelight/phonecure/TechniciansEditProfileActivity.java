@@ -161,7 +161,7 @@ public class TechniciansEditProfileActivity extends Activity {
         address_ed.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                vat_ed.setFocusable(false);
+
                 return false;
             }
         });
@@ -169,7 +169,7 @@ public class TechniciansEditProfileActivity extends Activity {
         org_ed.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                vat_ed.setFocusable(false);
+
                 return false;
             }
         });
@@ -179,8 +179,12 @@ public class TechniciansEditProfileActivity extends Activity {
                     switch (keyCode) {
 
                         case KeyEvent.KEYCODE_ENTER:
-                            vat_ed.setFocusable(false);
+                            if(vat_ed.getText().toString().length()>0) {
+                                dialogWindow();
+                                vatApiMethod(vat_ed.getText().toString());
+                            }
                             return true;
+
                         default:
                             break;
                     }

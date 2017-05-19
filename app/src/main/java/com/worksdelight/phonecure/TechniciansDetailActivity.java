@@ -118,7 +118,7 @@ ImageView back;
                     startActivity(intent);
                 }
             });
-            favorite_img.setOnClickListener(new View.OnClickListener() {
+           /* favorite_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isFavorite) {
@@ -131,7 +131,7 @@ ImageView back;
                         favoriteMethod();
                     }
                 }
-            });
+            });*/
         }else{
             book_appointment.setVisibility(View.GONE);
         }
@@ -316,7 +316,7 @@ ImageView back;
                 JSONObject sun_obj=avail_arr.getJSONObject(0);
                 if(sun_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     sun_txt.setText(cap(sun_obj.getString(GlobalConstant.day)));
-                    sun_time.setText(sun_obj.getString(GlobalConstant.opening_time)+":"+sun_obj.getString(GlobalConstant.closing_time));
+                    sun_time.setText(sun_obj.getString(GlobalConstant.opening_time)+" - "+sun_obj.getString(GlobalConstant.closing_time));
                 }else{
                     sun_txt.setText(cap(sun_obj.getString(GlobalConstant.day)));
                     sun_time.setText(cap(sun_obj.getString(GlobalConstant.status)));
@@ -325,7 +325,7 @@ ImageView back;
                 JSONObject mon_obj=avail_arr.getJSONObject(1);
                 if(mon_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     mon_txt.setText(cap(mon_obj.getString(GlobalConstant.day)));
-                    mon_time.setText(mon_obj.getString(GlobalConstant.opening_time)+":"+mon_obj.getString(GlobalConstant.closing_time));
+                    mon_time.setText(mon_obj.getString(GlobalConstant.opening_time)+" - "+mon_obj.getString(GlobalConstant.closing_time));
                 }else{
                     mon_txt.setText(cap(mon_obj.getString(GlobalConstant.day)));
                     mon_time.setText(cap(mon_obj.getString(GlobalConstant.status)));
@@ -334,7 +334,7 @@ ImageView back;
                 JSONObject tue_obj=avail_arr.getJSONObject(2);
                 if(tue_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     tue_txt.setText(cap(tue_obj.getString(GlobalConstant.day)));
-                    tue_time.setText(tue_obj.getString(GlobalConstant.opening_time)+":"+tue_obj.getString(GlobalConstant.closing_time));
+                    tue_time.setText(tue_obj.getString(GlobalConstant.opening_time)+" - "+tue_obj.getString(GlobalConstant.closing_time));
                 }else{
                     tue_txt.setText(cap(tue_obj.getString(GlobalConstant.day)));
                     tue_time.setText(cap(tue_obj.getString(GlobalConstant.status)));
@@ -343,7 +343,7 @@ ImageView back;
                 JSONObject wed_obj=avail_arr.getJSONObject(3);
                 if(wed_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     wed_txt.setText(cap(wed_obj.getString(GlobalConstant.day)));
-                    wed_time.setText(wed_obj.getString(GlobalConstant.opening_time)+":"+wed_obj.getString(GlobalConstant.closing_time));
+                    wed_time.setText(wed_obj.getString(GlobalConstant.opening_time)+" - "+wed_obj.getString(GlobalConstant.closing_time));
                 }else{
                     wed_txt.setText(cap(wed_obj.getString(GlobalConstant.day)));
                     wed_time.setText(cap(wed_obj.getString(GlobalConstant.status)));
@@ -352,7 +352,7 @@ ImageView back;
                 JSONObject thu_obj=avail_arr.getJSONObject(4);
                 if(thu_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     thu_txt.setText(cap(thu_obj.getString(GlobalConstant.day)));
-                    thu_time.setText(thu_obj.getString(GlobalConstant.opening_time)+":"+thu_obj.getString(GlobalConstant.closing_time));
+                    thu_time.setText(thu_obj.getString(GlobalConstant.opening_time)+" - "+thu_obj.getString(GlobalConstant.closing_time));
                 }else{
                     thu_txt.setText(cap(thu_obj.getString(GlobalConstant.day)));
                     thu_time.setText(cap(thu_obj.getString(GlobalConstant.status)));
@@ -361,7 +361,7 @@ ImageView back;
                 JSONObject fri_obj=avail_arr.getJSONObject(5);
                 if(fri_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     fri_txt.setText(cap(fri_obj.getString(GlobalConstant.day)));
-                    fri_time.setText(fri_obj.getString(GlobalConstant.opening_time)+":"+fri_obj.getString(GlobalConstant.closing_time));
+                    fri_time.setText(fri_obj.getString(GlobalConstant.opening_time)+" - "+fri_obj.getString(GlobalConstant.closing_time));
                 }else{
                     fri_txt.setText(cap(fri_obj.getString(GlobalConstant.day)));
                     fri_time.setText(cap(fri_obj.getString(GlobalConstant.status)));
@@ -370,7 +370,7 @@ ImageView back;
                 JSONObject sat_obj=avail_arr.getJSONObject(6);
                 if(sat_obj.getString(GlobalConstant.status).equalsIgnoreCase("open")){
                     sat_txt.setText(cap(sat_obj.getString(GlobalConstant.day)));
-                    sat_time.setText(sat_obj.getString(GlobalConstant.opening_time)+":"+sat_obj.getString(GlobalConstant.closing_time));
+                    sat_time.setText(sat_obj.getString(GlobalConstant.opening_time)+" - "+sat_obj.getString(GlobalConstant.closing_time));
                 }else{
                     sat_txt.setText(cap(sat_obj.getString(GlobalConstant.day)));
                     sat_time.setText(cap(sat_obj.getString(GlobalConstant.status)));

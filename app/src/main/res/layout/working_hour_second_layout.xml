@@ -54,14 +54,139 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_back">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="center"
+                        android:text="Delivery/Dropoff option"
+
+
+                        android:textColor="#373737"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/pickUp_img"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+
+
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+                                android:src="@drawable/pickup_unselect"
+
+
+                                />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+
+                                android:text="Repair at Service Point"
+                                android:textColor="#000"
+                                android:textSize="12dp"
+
+
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/dropoff_img"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+
+
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="10dp"
+
+                                android:src="@drawable/dropoff_unselect"
+
+
+                                />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_horizontal"
+
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+
+                                android:text="Repair at your location"
+                                android:textColor="#000"
+                                android:textSize="12dp"
+
+
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/item_back">
 
                 <LinearLayout
@@ -92,7 +217,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -137,11 +262,12 @@
                                 android:id="@+id/sun_openning"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:gravity="center"
 android:hint="Open"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
@@ -161,11 +287,13 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:gravity="center"
+
                                 android:hint="Close"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
@@ -189,7 +317,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -248,7 +376,9 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
+                                android:gravity="center"
+
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
@@ -272,9 +402,11 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:gravity="center"
+
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
@@ -286,7 +418,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -345,11 +477,13 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:gravity="center"
+
                                 android:hint="Open"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
@@ -369,7 +503,9 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
+                                android:gravity="center"
+
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
@@ -383,7 +519,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -441,11 +577,13 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
+                                android:gravity="center"
+
                                 android:hint="Open"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
@@ -456,6 +594,7 @@ android:hint="Open"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:text="-"
+
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
 
@@ -465,10 +604,12 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
+                                android:gravity="center"
+
                                 android:paddingBottom="5dp"
                                 android:hint="Close"
                                 android:textColorHint="@color/LightGrey"
@@ -479,7 +620,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -540,7 +681,9 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
+                                android:gravity="center"
+
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
@@ -564,7 +707,9 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
+                                android:gravity="center"
+
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
@@ -578,7 +723,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -638,9 +783,11 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:gravity="center"
+
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:hint="Open"
@@ -662,9 +809,11 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:gravity="center"
+
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:hint="Close"
@@ -676,7 +825,7 @@ android:hint="Open"
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="2">
@@ -736,9 +885,11 @@ android:hint="Open"
 
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:gravity="center"
+
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
@@ -760,9 +911,11 @@ android:hint="Open"
                                 android:layout_width="65dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/inc_and_dec_back"
+                                android:background="@drawable/calender_back"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
+                                android:gravity="center"
+
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:hint="Close"
@@ -782,131 +935,7 @@ android:hint="Open"
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/item_back">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:text="Delivery/Dropoff option"
-
-
-                        android:textColor="#373737"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-
-                        />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@android:color/darker_gray" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/pickUp_img"
-                                android:layout_width="wrap_content"
-                                android:layout_height="50dp"
-
-
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="10dp"
-
-                                android:src="@drawable/pickup_unselect"
-
-
-                                />
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="10dp"
-
-
-                                android:text="Repair at shop"
-                                android:textColor="#000"
-                                android:textSize="12dp"
-
-
-                                />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/dropoff_img"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-
-
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="10dp"
-
-                                android:src="@drawable/dropoff_unselect"
-
-
-                                />
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_centerInParent="true"
-                                android:layout_gravity="center_horizontal"
-
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-
-                                android:text="Repair on location"
-                                android:textColor="#000"
-                                android:textSize="12dp"
-
-
-                                />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/submit_txt"

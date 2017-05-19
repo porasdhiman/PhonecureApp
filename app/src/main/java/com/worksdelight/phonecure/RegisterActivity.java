@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +62,8 @@ import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     RelativeLayout facebook_layout, twitter_layout;
-    TextView sign_in_btn, sign_up_btn;
+    TextView sign_up_btn;
+    LinearLayout sign_in_btn;
     Dialog dialog2;
     EditText password_view, name_view, email_view;
     Global global;
@@ -74,8 +76,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     SocialAuthAdapter adapter;
     Profile profileMap;
     int REQUEST_CHECK_SETTINGS = 100;
-SharedPreferences sp;
-    SharedPreferences.Editor ed;
+SharedPreferences sp,sp1;
+    SharedPreferences.Editor ed,ed1;
 
     ImageView img;
     int i=0;
@@ -92,6 +94,8 @@ SharedPreferences sp;
         }
         sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed=sp.edit();
+        sp1=getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed1=sp1.edit();
         global = (Global) getApplicationContext();
         init();
     }
@@ -123,7 +127,7 @@ SharedPreferences sp;
 
         facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
         twitter_layout = (RelativeLayout) findViewById(R.id.twiter_layout);
-        sign_in_btn = (TextView) findViewById(R.id.sign_in_btn);
+        sign_in_btn = (LinearLayout) findViewById(R.id.sign_in_linear_layout);
         sign_up_btn = (TextView) findViewById(R.id.sign_up_btn);
         facebook_layout.setOnClickListener(this);
         twitter_layout.setOnClickListener(this);
@@ -144,7 +148,7 @@ SharedPreferences sp;
 
 
                 break;
-            case R.id.sign_in_btn:
+            case R.id.sign_in_linear_layout:
 
                 Intent s = new Intent(this, LoginActivity.class);
                 startActivity(s);
@@ -172,6 +176,11 @@ SharedPreferences sp;
 
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     private final class ResponseListener implements DialogListener {
@@ -331,8 +340,14 @@ SharedPreferences sp;
                                 ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
                                 ed.putString(GlobalConstant.image,data.getString(GlobalConstant.image));
                                 ed.commit();
+                                ed1.clear();
+                                ed1.commit();
+
+
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
+                                ed1.putString("type","register");
+                                ed1.commit();
                                 finish();
                             } else {
                                 Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
@@ -453,10 +468,18 @@ SharedPreferences sp;
                                 ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
                                 ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
                                 ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
-
                                 ed.commit();
+                                ed1.clear();
+                                ed1.commit();
+
+
+
+
+
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
+                                ed1.putString("type","register");
+                                ed1.commit();
                                 finish();
                             } else {
                                 LoginManager.getInstance().logOut();

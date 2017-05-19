@@ -200,7 +200,7 @@
                         android:layout_marginLeft="10dp"
 
 
-                        android:text="Repair at shop"
+                        android:text="Repair at Service Point"
                         android:textColor="#000"
                         android:textSize="12dp"
 
@@ -258,7 +258,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
 
-                        android:text="Repair on location"
+                        android:text="Repair at your location"
                         android:textColor="#000"
                         android:textSize="12dp" />
 
@@ -273,7 +273,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
 
-                        android:text="Repair on location"
+                        android:text="Est. time 10 min"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="12dp"
 
