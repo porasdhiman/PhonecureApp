@@ -233,7 +233,7 @@ String filePath;
                 @Override
                 public void onClick(View view) {
                     holder=(Holder)view.getTag();
-                    loadProfileImage(GlobalConstant.PDF_DOWNLOAD_URL+list.get(i).get(GlobalConstant.invoice), getActivity());
+                    loadPdf(GlobalConstant.PDF_DOWNLOAD_URL+list.get(i).get(GlobalConstant.invoice), getActivity());
 
                 }
             });
@@ -297,7 +297,7 @@ String filePath;
     }
 
     //-------------------------background proceess for pdf file------------------
-    public void loadProfileImage(String file_url, Context c) {
+    public void loadPdf(String file_url, Context c) {
         String splitPath[] = file_url.split("/");
         String targetFileName = splitPath[splitPath.length - 1];
 

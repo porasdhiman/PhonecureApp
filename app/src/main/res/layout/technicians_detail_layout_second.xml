@@ -312,7 +312,7 @@
                                 android:id="@+id/total_job"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="342"
+                                android:text=""
                                 android:textColor="#000"
                                 android:textSize="@dimen/header_txt" />
 
@@ -356,7 +356,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom"
-                                android:text="22"
+                                android:text=""
                                 android:textColor="#000"
                                 android:textSize="@dimen/header_txt" />
 
@@ -412,7 +412,7 @@
                                 android:id="@+id/repair_at_shop"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Yes"
+                                android:text=""
                                 android:textColor="#000"
                                 android:textSize="@dimen/header_txt" />
 
@@ -453,7 +453,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Yes"
+                                android:text=""
                                 android:textColor="#000"
                                 android:textSize="@dimen/header_txt" />
 
@@ -502,7 +502,7 @@
 
                     <TextView
                         android:id="@+id/sun_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -526,7 +526,7 @@
 
                     <TextView
                         android:id="@+id/mon_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -551,7 +551,7 @@
 
                     <TextView
                         android:id="@+id/tue_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -576,7 +576,7 @@
 
                     <TextView
                         android:id="@+id/wed_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -601,7 +601,7 @@
 
                     <TextView
                         android:id="@+id/thu_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -626,7 +626,7 @@
 
                     <TextView
                         android:id="@+id/fri_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"
@@ -651,7 +651,7 @@
 
                     <TextView
                         android:id="@+id/sat_time"
-                        android:layout_width="100dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:text="9:00 Am - 6:30 Pm"
                         android:textColor="@color/mainTextColor"

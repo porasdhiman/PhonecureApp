@@ -131,7 +131,7 @@ public class ResideMenu extends FrameLayout {
             user_name.setText(cap(name_txt));
             TextDrawable drawable = TextDrawable.builder()
                     .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#47c63d"));
-            Log.e("profile image","http://ec2-54-146-172-33.compute-1.amazonaws.com/uploads/users/" + image);
+            Log.e("profile image","http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/users/" + image);
             if (image.contains("storage")) {
 
                     Picasso.with(context).load(new File(image)).placeholder(drawable).transform(new CircleTransform()).into(user_img);
@@ -139,7 +139,7 @@ public class ResideMenu extends FrameLayout {
 
             } else if(!image.equalsIgnoreCase("")){
 
-                Picasso.with(context).load("http://ec2-54-146-172-33.compute-1.amazonaws.com/uploads/users/" + image).placeholder(drawable).transform(new CircleTransform()).into(user_img);
+                Picasso.with(context).load("http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/users/" + image).placeholder(drawable).transform(new CircleTransform()).into(user_img);
 
 
                 //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));

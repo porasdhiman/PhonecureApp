@@ -76,7 +76,7 @@ public class UserAppointmentActivity extends Activity {
     Global global;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     ScrollView main_scroll;
-    Dialog dialog2;
+    Dialog dialog2,ratingDialog;
     String booking_id;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
@@ -84,6 +84,7 @@ public class UserAppointmentActivity extends Activity {
     File pdfFile;
     AlertDialog builder;
 ImageView navigation_img;
+    String com_star = "0", time_star = "0", service_star = "0", skill_star = "0",user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +126,7 @@ ImageView navigation_img;
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
-        close_date_txt = (TextView) findViewById(R.id.close_date_txt);
+       // close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
 
@@ -172,7 +173,7 @@ ImageView navigation_img;
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
-                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    //close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -197,6 +198,7 @@ ImageView navigation_img;
 
                 statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
+                user_id=objUser.getString(GlobalConstant.id);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
                 TextDrawable drawable = TextDrawable.builder()
@@ -231,7 +233,7 @@ ImageView navigation_img;
                     convertedDate = inputFormat.parse(obj.getString(GlobalConstant.date));
                     String s = formatter.format(convertedDate);
                     date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
-                    close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
+                    //close_date_txt.setText(s + " " + formatdate2(obj.getString(GlobalConstant.date)) + " " + obj.getString(GlobalConstant.time));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -376,9 +378,7 @@ ImageView navigation_img;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                                Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
-                                startActivity(i);
-                                finish();
+                               ratingWindow();
                             } else {
                                 Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -577,5 +577,340 @@ ImageView navigation_img;
                 Toast.makeText(UserAppointmentActivity.this, "No PDF Viewer Installed", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+    public void ratingWindow() {
+        ratingDialog = new Dialog(this);
+        ratingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ratingDialog.setCanceledOnTouchOutside(false);
+        ratingDialog.setCancelable(false);
+        ratingDialog.setContentView(R.layout.rateing_dialog_layout);
+        TextView submit_rating = (TextView) ratingDialog.findViewById(R.id.submit_rating);
+        ratingStarinit(ratingDialog);
+        submit_rating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogWindow();
+                ratingMethod();
+            }
+        });
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        ratingDialog.show();
+    }
+
+    public void ratingStarinit(Dialog d) {
+        final ImageView com_star1 = (ImageView) d.findViewById(R.id.com_star1);
+        final ImageView com_star2 = (ImageView) d.findViewById(R.id.com_star2);
+        final ImageView com_star3 = (ImageView) d.findViewById(R.id.com_star3);
+        final ImageView com_star4 = (ImageView) d.findViewById(R.id.com_star4);
+        final ImageView com_star5 = (ImageView) d.findViewById(R.id.com_star5);
+
+        final ImageView timing_star1 = (ImageView) d.findViewById(R.id.timing_star1);
+        final ImageView timing_star2 = (ImageView) d.findViewById(R.id.timing_star2);
+        final ImageView timing_star3 = (ImageView) d.findViewById(R.id.timing_star3);
+        final ImageView timing_star4 = (ImageView) d.findViewById(R.id.timing_star4);
+        final ImageView timing_star5 = (ImageView) d.findViewById(R.id.timing_star5);
+
+        final ImageView service_star1 = (ImageView) d.findViewById(R.id.service_star1);
+        final ImageView service_star2 = (ImageView) d.findViewById(R.id.service_star2);
+        final ImageView service_star3 = (ImageView) d.findViewById(R.id.service_star3);
+        final ImageView service_star4 = (ImageView) d.findViewById(R.id.service_star4);
+        final ImageView service_star5 = (ImageView) d.findViewById(R.id.service_star5);
+
+
+        final ImageView skill_star1 = (ImageView) d.findViewById(R.id.skill_star1);
+        final ImageView skill_star2 = (ImageView) d.findViewById(R.id.skill_star2);
+        final ImageView skill_star3 = (ImageView) d.findViewById(R.id.skill_star3);
+        final ImageView skill_star4 = (ImageView) d.findViewById(R.id.skill_star4);
+        final ImageView skill_star5 = (ImageView) d.findViewById(R.id.skill_star5);
+
+
+        com_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com_star = "1";
+                com_star1.setImageResource(R.drawable.star_fill);
+                com_star2.setImageResource(R.drawable.green_star);
+                com_star3.setImageResource(R.drawable.green_star);
+                com_star4.setImageResource(R.drawable.green_star);
+                com_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        com_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com_star = "2";
+                com_star1.setImageResource(R.drawable.star_fill);
+                com_star2.setImageResource(R.drawable.star_fill);
+                com_star3.setImageResource(R.drawable.green_star);
+                com_star4.setImageResource(R.drawable.green_star);
+                com_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        com_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com_star = "3";
+                com_star1.setImageResource(R.drawable.star_fill);
+                com_star2.setImageResource(R.drawable.star_fill);
+                com_star3.setImageResource(R.drawable.star_fill);
+                com_star4.setImageResource(R.drawable.green_star);
+                com_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        com_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com_star = "4";
+                com_star1.setImageResource(R.drawable.star_fill);
+                com_star2.setImageResource(R.drawable.star_fill);
+                com_star3.setImageResource(R.drawable.star_fill);
+                com_star4.setImageResource(R.drawable.star_fill);
+                com_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        com_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                com_star = "5";
+                com_star1.setImageResource(R.drawable.star_fill);
+                com_star2.setImageResource(R.drawable.star_fill);
+                com_star3.setImageResource(R.drawable.star_fill);
+                com_star4.setImageResource(R.drawable.star_fill);
+                com_star5.setImageResource(R.drawable.star_fill);
+            }
+        });
+        timing_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                time_star = "1";
+                timing_star1.setImageResource(R.drawable.star_fill);
+                timing_star2.setImageResource(R.drawable.green_star);
+                timing_star3.setImageResource(R.drawable.green_star);
+                timing_star4.setImageResource(R.drawable.green_star);
+                timing_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        timing_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                time_star = "2";
+                timing_star1.setImageResource(R.drawable.star_fill);
+                timing_star2.setImageResource(R.drawable.star_fill);
+                timing_star3.setImageResource(R.drawable.green_star);
+                timing_star4.setImageResource(R.drawable.green_star);
+                timing_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        timing_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                time_star = "3";
+                timing_star1.setImageResource(R.drawable.star_fill);
+                timing_star2.setImageResource(R.drawable.star_fill);
+                timing_star3.setImageResource(R.drawable.star_fill);
+                timing_star4.setImageResource(R.drawable.green_star);
+                timing_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        timing_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                time_star = "4";
+                timing_star1.setImageResource(R.drawable.star_fill);
+                timing_star2.setImageResource(R.drawable.star_fill);
+                timing_star3.setImageResource(R.drawable.star_fill);
+                timing_star4.setImageResource(R.drawable.star_fill);
+                timing_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        timing_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                time_star = "5";
+                timing_star1.setImageResource(R.drawable.star_fill);
+                timing_star2.setImageResource(R.drawable.star_fill);
+                timing_star3.setImageResource(R.drawable.star_fill);
+                timing_star4.setImageResource(R.drawable.star_fill);
+                timing_star5.setImageResource(R.drawable.star_fill);
+            }
+        });
+
+        service_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service_star = "1";
+                service_star1.setImageResource(R.drawable.star_fill);
+                service_star2.setImageResource(R.drawable.green_star);
+                service_star3.setImageResource(R.drawable.green_star);
+                service_star4.setImageResource(R.drawable.green_star);
+                service_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        service_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service_star = "2";
+                service_star1.setImageResource(R.drawable.star_fill);
+                service_star2.setImageResource(R.drawable.star_fill);
+                service_star3.setImageResource(R.drawable.green_star);
+                service_star4.setImageResource(R.drawable.green_star);
+                service_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        service_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service_star = "3";
+                service_star1.setImageResource(R.drawable.star_fill);
+                service_star2.setImageResource(R.drawable.star_fill);
+                service_star3.setImageResource(R.drawable.star_fill);
+                service_star4.setImageResource(R.drawable.green_star);
+                service_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        service_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service_star = "4";
+                service_star1.setImageResource(R.drawable.star_fill);
+                service_star2.setImageResource(R.drawable.star_fill);
+                service_star3.setImageResource(R.drawable.star_fill);
+                service_star4.setImageResource(R.drawable.star_fill);
+                service_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        service_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service_star = "5";
+                service_star1.setImageResource(R.drawable.star_fill);
+                service_star2.setImageResource(R.drawable.star_fill);
+                service_star3.setImageResource(R.drawable.star_fill);
+                service_star4.setImageResource(R.drawable.star_fill);
+                service_star5.setImageResource(R.drawable.star_fill);
+            }
+        });
+
+        skill_star1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_star = "1";
+                skill_star1.setImageResource(R.drawable.star_fill);
+                skill_star2.setImageResource(R.drawable.green_star);
+                skill_star3.setImageResource(R.drawable.green_star);
+                skill_star4.setImageResource(R.drawable.green_star);
+                skill_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        skill_star2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_star = "2";
+                skill_star1.setImageResource(R.drawable.star_fill);
+                skill_star2.setImageResource(R.drawable.star_fill);
+                skill_star3.setImageResource(R.drawable.green_star);
+                skill_star4.setImageResource(R.drawable.green_star);
+                skill_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        skill_star3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_star = "3";
+                skill_star1.setImageResource(R.drawable.star_fill);
+                skill_star2.setImageResource(R.drawable.star_fill);
+                skill_star3.setImageResource(R.drawable.star_fill);
+                skill_star4.setImageResource(R.drawable.green_star);
+                skill_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        skill_star4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_star = "4";
+                skill_star1.setImageResource(R.drawable.star_fill);
+                skill_star2.setImageResource(R.drawable.star_fill);
+                skill_star3.setImageResource(R.drawable.star_fill);
+                skill_star4.setImageResource(R.drawable.star_fill);
+                skill_star5.setImageResource(R.drawable.green_star);
+            }
+        });
+        skill_star5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skill_star = "5";
+                skill_star1.setImageResource(R.drawable.star_fill);
+                skill_star2.setImageResource(R.drawable.star_fill);
+                skill_star3.setImageResource(R.drawable.star_fill);
+                skill_star4.setImageResource(R.drawable.star_fill);
+                skill_star5.setImageResource(R.drawable.star_fill);
+            }
+        });
+
+    }
+    //--------------------DEL And COMPLETED api method---------------------------------
+    private void ratingMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.RATING_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                //JSONObject data=obj.getJSONObject("data");
+                                ratingDialog.dismiss();
+                                Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
+                                startActivity(i);
+                                finish();
+                            } else {
+                                Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put(GlobalConstant.USERID, CommonUtils.UserID(UserAppointmentActivity.this));
+                params.put(GlobalConstant.favorite_user_id, user_id);
+                params.put("rating", com_star);
+                params.put("rating1", service_star);
+                params.put("rating2", time_star);
+                params.put("rating3", skill_star);
+
+
+                Log.e("Parameter for rating", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(UserAppointmentActivity.this);
+        requestQueue.add(stringRequest);
     }
 }

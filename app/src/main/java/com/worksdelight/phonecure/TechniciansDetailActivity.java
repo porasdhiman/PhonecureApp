@@ -118,7 +118,7 @@ ImageView back;
                     startActivity(intent);
                 }
             });
-           /* favorite_img.setOnClickListener(new View.OnClickListener() {
+            favorite_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isFavorite) {
@@ -131,7 +131,7 @@ ImageView back;
                         favoriteMethod();
                     }
                 }
-            });*/
+            });
         }else{
             book_appointment.setVisibility(View.GONE);
         }

@@ -59,7 +59,7 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/item_back">
 
                 <RelativeLayout
@@ -72,163 +72,350 @@
 
                     <ImageView
                         android:id="@+id/user_view"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:src="@drawable/user_back" />
 
                     <TextView
                         android:id="@+id/name_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
                         android:layout_toRightOf="@+id/user_view"
                         android:text=""
                         android:textColor="#000"
                         android:textSize="@dimen/header_txt" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/name_txt"
+                        android:layout_marginLeft="10dp"
+
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/user_view">
+                        <ImageView
+                            android:id="@+id/address_img"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/address_loc"/>
 
                     <TextView
                         android:id="@+id/address_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/name_txt"
-                        android:layout_marginLeft="20dp"
-
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/user_view"
+                        android:layout_toRightOf="@+id/address_img"
+                        android:layout_marginLeft="5dp"
                         android:text=""
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="@dimen/header_txt" />
+                        android:textSize="@dimen/sab_txt" />
 
+                    </RelativeLayout>
 
                 </RelativeLayout>
             </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_back"
+                android:orientation="vertical">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+
+                    android:text="Mode of service"
+
+
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/sab_txt"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#e6e4e4" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    >
+
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/service_img">
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_centerInParent="true"
+                            android:text="Repair at service point"
+
+
+                            android:textColor="#000"
+                            android:textSize="@dimen/sab_txt" />
+
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/service_img"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/home_repair" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_centerInParent="true">
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+
+                            android:layout_marginTop="5dp"
+
+                            android:text="Est. Travel Time"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="@dimen/sab_txt" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/close_txt"
+
+                            android:layout_centerInParent="true"
+                            android:text="2 Hours"
+
+
+                            android:textColor="#000"
+                            android:textSize="@dimen/sab_txt" />
+
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_back"
+            android:orientation="vertical">
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+
+                android:text="Appointment Details"
+
+
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/sab_txt"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/item_back">
 
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="1dp"
-                    android:layout_height="32dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/calender_img"
-                    android:background="#e6e4e4" />
+                >
+
+
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
 
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/view">
-
-                    <TextView
-                        android:id="@+id/order_txt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/calender_img">
 
 
-                        android:layout_marginTop="5dp"
-
-                        android:text="Order date"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="@dimen/sab_txt" />
 
                     <TextView
                         android:id="@+id/date_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/order_txt"
+
 
                         android:layout_centerInParent="true"
                         android:text=""
 
 
                         android:textColor="#000"
-                        android:textSize="@dimen/header_txt" />
+                        android:textSize="@dimen/sab_txt" />
 
 
                 </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/calender_img"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignBottom="@+id/view"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/calendar_img" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/item_back">
-
-                <View
-                    android:id="@+id/close_view"
-                    android:layout_width="1dp"
-                    android:layout_height="32dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/calender_img2"
-                    android:background="#e6e4e4" />
-
-                <RelativeLayout
+                    android:src="@drawable/calendar_img" />
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/close_view">
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_centerInParent="true">
                     <TextView
-                        android:id="@+id/close_txt"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
 
                         android:layout_marginTop="5dp"
 
-                        android:text="Close date"
+                        android:text="Est. Service Time"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="@dimen/sab_txt" />
 
                     <TextView
-                        android:id="@+id/close_date_txt"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/close_txt"
 
                         android:layout_centerInParent="true"
-                        android:text=""
+                        android:text="2 Hours"
 
 
                         android:textColor="#000"
-                        android:textSize="@dimen/header_txt" />
+                        android:textSize="@dimen/sab_txt" />
 
+
+                </LinearLayout>
+            </RelativeLayout>
+</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_back"
+                android:orientation="vertical">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+
+                    android:text="Device Details"
+
+
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="@dimen/sab_txt"
+
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#e6e4e4" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+
+                    >
+
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/model_img">
+
+
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_centerInParent="true"
+                            android:text="iPhone 5s (Gold)"
+
+
+                            android:textColor="#000"
+                            android:textSize="@dimen/sab_txt" />
+
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/model_img"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:scaleType="centerCrop"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/device_img" />
 
                 </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/calender_img2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignBottom="@+id/close_view"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/calendar_img" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -251,7 +438,7 @@
                     <TextView
                         android:id="@+id/order_serview_txt"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="30dp"
 
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="10dp"
@@ -259,7 +446,7 @@
                         android:text="Order Services"
 
 
-                        android:textColor="#000"
+                        android:textColor="@android:color/darker_gray"
                         android:textSize="@dimen/header_txt"
 
                         />
@@ -273,6 +460,8 @@
                         android:id="@+id/service_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
                         android:divider="@android:color/darker_gray"
                         android:dividerHeight="0.5dp"></ListView>
 
@@ -280,13 +469,60 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="#e6e4e4" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="right"
+    android:orientation="vertical"
+    android:weightSum="2">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
 
+        <TextView
+            android:id="@+id/othertxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="Other Charges"
+
+
+            android:textColor="#000"
+            android:textSize="@dimen/sab_txt"
+
+            />
+
+        <TextView
+            android:id="@+id/other_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="10dp"
+
+            android:text="$0"
+            android:textColor="@color/main_color"
+            android:textSize="@dimen/sab_txt"
+
+            />
+    </LinearLayout>
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_weight="1"
+                       >
 
                         <TextView
                             android:id="@+id/totaltxt"
@@ -297,10 +533,9 @@
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
                             android:text="Total"
-                            android:textAllCaps="true"
 
                             android:textColor="#000"
-                            android:textSize="@dimen/header_txt"
+                            android:textSize="@dimen/sab_txt"
 
                             />
 
@@ -317,12 +552,13 @@
 
                             android:text="$70"
                             android:textColor="@color/main_color"
-                            android:textSize="@dimen/header_txt"
+                            android:textSize="@dimen/sab_txt"
 
                             />
                     </LinearLayout>
 
 
+                </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
 

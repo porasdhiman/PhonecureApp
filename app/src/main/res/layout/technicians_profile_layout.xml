@@ -100,21 +100,21 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/calender_back">
 
-                <ImageView
+             <!--   <ImageView
                     android:id="@+id/down_img5"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/down" />
+                    android:src="@drawable/down" />-->
 
                 <EditText
                     android:id="@+id/name_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@+id/down_img5"
+
                     android:background="@null"
                     android:hint="Name"
                     android:textColor="#000"
@@ -132,21 +132,21 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/calender_back">
 
-                <ImageView
+               <!-- <ImageView
                     android:id="@+id/down_img3"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/down" />
+                    android:src="@drawable/down" />-->
 
                 <EditText
                     android:id="@+id/email_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@+id/down_img3"
+
                     android:background="@null"
                     android:hint="E-mail"
                     android:inputType="textEmailAddress"
@@ -164,21 +164,20 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/calender_back">
 
-                <ImageView
+               <!-- <ImageView
                     android:id="@+id/down_img6"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@drawable/down" />
+                    android:src="@drawable/down" />-->
 
                 <EditText
                     android:id="@+id/password_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@+id/down_img6"
                     android:background="@null"
                     android:hint="Password"
                     android:inputType="textPassword"
@@ -196,21 +195,12 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/calender_back">
 
-                <ImageView
-                    android:id="@+id/down_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="16dp"
-                    android:src="@drawable/down" />
 
                 <EditText
                     android:id="@+id/vat_ed"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
-                    android:layout_toLeftOf="@+id/down_img"
                     android:background="@null"
                     android:gravity="center_vertical"
                     android:hint="VAT - number"
@@ -249,21 +239,20 @@
 
                     >
 
-                    <ImageView
+                  <!--  <ImageView
                         android:id="@+id/down_img1"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
-                        android:src="@drawable/down" />
+                        android:src="@drawable/down" />-->
 
                     <TextView
                         android:id="@+id/org_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@+id/down_img1"
                         android:background="@null"
                         android:hint="Your organization"
                         android:singleLine="true"
@@ -289,21 +278,12 @@
 
                     >
 
-                    <ImageView
-                        android:id="@+id/down_img4"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:src="@drawable/down" />
-
                     <TextView
                         android:id="@+id/address_ed"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16dp"
-                        android:layout_toLeftOf="@+id/down_img4"
+
                         android:background="@null"
                         android:hint="Address"
                         android:singleLine="true"
@@ -312,6 +292,17 @@
 
                         android:textColorHint="@android:color/darker_gray"
                         android:textSize="@dimen/main_txt" />
+
+                   <!-- <ImageView
+                        android:id="@+id/down_img4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="17dp"
+                        android:src="@drawable/down"
+                        android:layout_marginEnd="17dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />-->
                 </RelativeLayout>
             </LinearLayout>
 

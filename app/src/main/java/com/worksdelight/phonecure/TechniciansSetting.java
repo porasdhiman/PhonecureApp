@@ -82,9 +82,7 @@ public class TechniciansSetting extends Activity {
             @Override
             public void onClick(View view) {
 
-                ed.clear();
-                ed.commit();
-                global.setDateList(null);
+
 
                 if (sp.getString("type", "app").equalsIgnoreCase("app")) {
                     ed.clear();
