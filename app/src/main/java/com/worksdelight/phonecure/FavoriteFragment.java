@@ -259,6 +259,8 @@ public class FavoriteFragment extends Fragment {
             holder.rating_value.setText(list.get(i).get(GlobalConstant.average_rating));
             // holder.specilist.setText(list.get(i).get(GlobalConstant.average_rating));
             String url = GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image);
+
+
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.tech_view, options,

@@ -104,7 +104,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         Locale current = getResources().getConfiguration().locale;
         global.setCurencySymbol(Currency.getInstance(current).getSymbol(current));
         Log.e("locale", Currency.getInstance(current).getSymbol(current));
-     /*   global.setLat("30.701990");
+    /*    global.setLat("30.701990");
         global.setLong("76.682625");*/
         //-----------------Permission value----------------------
         String locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;

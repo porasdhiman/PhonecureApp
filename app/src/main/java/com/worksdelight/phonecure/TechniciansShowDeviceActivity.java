@@ -307,6 +307,7 @@ SharedPreferences sp;
 
                 view.setTag(holder);
                 if(sp.getString("techShowDevice","").equalsIgnoreCase("")){
+
                     if(i==0){
                         Animation enterAnimation = new AlphaAnimation(0f, 1f);
                         enterAnimation.setDuration(600);

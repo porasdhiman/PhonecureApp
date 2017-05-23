@@ -172,16 +172,24 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     String openTimeMode, closeTimeMode;
     String openTime = "", popenTime = "", closeTime = "", pclosetime = "";
     LinearLayout dropoff_layout, pickup_layout;
+    int dayOfWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       /* Locale locale = new Locale("es_US");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getApplicationContext().getResources().updateConfiguration(config, null);*/
         setContentView(R.layout.book_appoinment_layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
+
+
         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -210,7 +218,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         time_txtView = (TextView) findViewById(R.id.time_txtView);
         pos = getIntent().getExtras().getString("pos");
         technicians_name.setText(cap(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name)));
-        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance)+" Km away");
+        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance) + " Km away");
         user_img = (CircleImageView) findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")
@@ -402,6 +410,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     private List<String> getDayNameInYear(int months, int days) {
         ArrayList<String> d = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
+
         cal.set(Calendar.MONTH, months); // month starts by 0 = january
         cal.set(Calendar.DAY_OF_WEEK, days);
         cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
@@ -425,12 +434,14 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             // Toast.makeText(BookAppoinmentActivity.this, formatdate(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
             sendDate = getSelectedDatesString();
             global.setSendDate(formatdate(sendDate));
-            setOpeningAndClosingTimes(dayName(global.getSendDate()));
+
+            setOpeningAndClosingTimes(dayOfWeek - 1);
         } else {
             // Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
             sendDate = getSelectedDatesString();
             global.setSendDate(formatdate2(sendDate));
-            setOpeningAndClosingTimes(dayName(global.getSendDate()));
+
+            setOpeningAndClosingTimes(dayOfWeek - 1);
 
         }
 
@@ -474,6 +485,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         try {
             Date convertedDate = inputFormat.parse(fdate);
             datetime = d.format(convertedDate);
+            Calendar c = Calendar.getInstance();
+            c.setTime(convertedDate);
+            dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 
         } catch (ParseException e) {
 
@@ -492,7 +506,9 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         try {
             Date convertedDate = inputFormat.parse(fdate);
             datetime = d.format(convertedDate);
-
+            Calendar c = Calendar.getInstance();
+            c.setTime(convertedDate);
+            dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         } catch (ParseException e) {
 
         }
@@ -515,7 +531,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
         if (isTimeWith_in_Interval(fDate, closeTime, openTime)) {
 
-            time_txtView.setText(getTime(hourOfDay, minute));
+            time_txtView.setText(hourOfDay + ":" + minute);
             global.setSendTime(time_txtView.getText().toString());
         } else {
             Toast.makeText(BookAppoinmentActivity.this, "Technician Available between " + popenTime + " to " + pclosetime, Toast.LENGTH_SHORT).show();
@@ -568,55 +584,38 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
 
     }
 
-    private void setOpeningAndClosingTimes(String dayName) {
+    private void setOpeningAndClosingTimes(int dayName) {
 
         JSONObject obj = null;
         try {
             obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
             JSONArray avail_arr = obj.getJSONArray(GlobalConstant.availability);
-            for (int i = 0; i < avail_arr.length(); i++) {
-                JSONObject sun_obj = avail_arr.getJSONObject(i);
-                if (dayName.equalsIgnoreCase(sun_obj.getString(GlobalConstant.day))) {
-                    openTime = sun_obj.getString(GlobalConstant.opening_time);
-                    closeTime = sun_obj.getString(GlobalConstant.closing_time);
-                    popenTime = openTime;
-                    pclosetime = closeTime;
-                }
+            JSONObject sun_obj = avail_arr.getJSONObject(dayName);
 
 
-            }
+            openTime = sun_obj.getString(GlobalConstant.opening_time);
+            closeTime = sun_obj.getString(GlobalConstant.closing_time);
+            popenTime = openTime;
+            pclosetime = closeTime;
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (openTime.contains("AM") || openTime.contains("PM")) {
-            openTime = convertTo24Hour(openTime);
-            minTimehour = openTime.split(":")[0];
-            minTimeminute = openTime.split(":")[1];
-            mCalendarOpeningTime = Calendar.getInstance();
-            mCalendarOpeningTime.set(Calendar.HOUR, Integer.parseInt(minTimehour));
-            mCalendarOpeningTime.set(Calendar.MINUTE, Integer.parseInt(minTimeminute));
-        } else {
-            minTimehour = openTime.split(":")[0];
-            minTimeminute = openTime.split(":")[1];
-            mCalendarOpeningTime = Calendar.getInstance();
-            mCalendarOpeningTime.set(Calendar.HOUR, Integer.parseInt(minTimehour));
-            mCalendarOpeningTime.set(Calendar.MINUTE, Integer.parseInt(minTimeminute));
-        }
 
-        if (closeTime.contains("AM") || closeTime.contains("PM")) {
-            closeTime = convertTo24Hour(closeTime);
-            maxTimehour = closeTime.split(":")[0];
-            maxTimeminute = closeTime.split(":")[1];
-            mCalendarClosingTime = Calendar.getInstance();
-            mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
-            mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
-        } else {
-            maxTimehour = closeTime.split(":")[0];
-            maxTimeminute = closeTime.split(":")[1];
-            mCalendarClosingTime = Calendar.getInstance();
-            mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
-            mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
-        }
+        minTimehour = openTime.split(":")[0];
+        minTimeminute = openTime.split(":")[1];
+        mCalendarOpeningTime = Calendar.getInstance();
+        mCalendarOpeningTime.set(Calendar.HOUR, Integer.parseInt(minTimehour));
+        mCalendarOpeningTime.set(Calendar.MINUTE, Integer.parseInt(minTimeminute));
+
+
+        maxTimehour = closeTime.split(":")[0];
+        maxTimeminute = closeTime.split(":")[1];
+        mCalendarClosingTime = Calendar.getInstance();
+        mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
+        mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
+
 
     }
 

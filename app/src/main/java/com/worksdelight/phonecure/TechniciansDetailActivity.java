@@ -150,7 +150,11 @@ ImageView back;
 
         tech_name.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
         rating_value.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
+
+
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
+
+
         if (url != null && !url.equalsIgnoreCase("null")
                 && !url.equalsIgnoreCase("")) {
             imageLoader.displayImage(url, user_view, options,

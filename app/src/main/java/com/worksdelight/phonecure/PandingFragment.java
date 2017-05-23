@@ -348,7 +348,7 @@ public class PandingFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
 
-
+dialog2.dismiss();
                         Log.e("response", response);
                         try {
                             JSONObject obj = new JSONObject(response);
@@ -380,7 +380,7 @@ public class PandingFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        dialog2.dismiss();
 
                     }
                 }) {
@@ -452,6 +452,7 @@ public class PandingFragment extends Fragment {
                                         map.put(GlobalConstant.date, obj1.getString(GlobalConstant.date));
                                         map.put(GlobalConstant.status, obj1.getString(GlobalConstant.status));
                                         JSONObject user_detail = obj1.getJSONObject(GlobalConstant.user_detail);
+                                        map.put(GlobalConstant.USERID, user_detail.getString(GlobalConstant.id));
                                         map.put(GlobalConstant.name, user_detail.getString(GlobalConstant.name));
                                         map.put(GlobalConstant.image, user_detail.getString(GlobalConstant.image));
 
@@ -780,7 +781,7 @@ public class PandingFragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        dialog2.dismiss();
+
 
                         Log.e("response", response);
                         try {
@@ -806,7 +807,7 @@ public class PandingFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        dialog2.dismiss();
+
 
                     }
                 }) {
