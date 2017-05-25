@@ -316,6 +316,26 @@ public class Global extends Application {
     }
 
     String pushNotificationType="",pushValue="0";
+
+    public String getColor_id() {
+        return color_id;
+    }
+
+    public void setColor_id(String color_id) {
+        this.color_id = color_id;
+    }
+
+    String color_id;
+
+    public String getEstimated_travel_time() {
+        return estimated_travel_time;
+    }
+
+    public void setEstimated_travel_time(String estimated_travel_time) {
+        this.estimated_travel_time = estimated_travel_time;
+    }
+
+    String estimated_travel_time;
     @Override
     public void onCreate() {
         super.onCreate();

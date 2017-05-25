@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -19,12 +20,20 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -49,6 +58,17 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -74,6 +94,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.worksdelight.phonecure.GlobalConstant.address;
 import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 
 
@@ -81,12 +102,13 @@ import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
  * Created by worksdelight on 10/04/17.
  */
 
-public class TechniciansRegister extends Activity implements View.OnClickListener, View.OnTouchListener {
+public class TechniciansRegister extends FragmentActivity implements View.OnClickListener, View.OnTouchListener , GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
     EditText name_ed, email_ed, vat_ed, password_ed;
     ImageView tech_img;
     Dialog camgllry, dialog2;
     String selectedImagePath = "", message;
-    TextView see_text, register_txtView, org_ed, address_ed;
+    TextView see_text, register_txtView, org_ed;
     Global global;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
@@ -101,6 +123,15 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
     String type = "app";
     RelativeLayout facebook_layout;
 
+    String lat,lng;
+    protected GoogleApiClient mGoogleApiClient;
+    private GoogleMap mMap;
+    private PlaceAutocompleteAdapter mAdapter;
+
+    private AutoCompleteTextView mAutocompleteView;
+    private static final int GOOGLE_API_CLIENT_ID = 0;
+    private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
+            new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +153,26 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
         Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
+        buildGoogleApiClient();
+        //-------------------------------Call AutocompleteTxtView-----------------
+        mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.address_ed);
+
+        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
+                BOUNDS_MOUNTAIN_VIEW, null) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                text.setTextSize(14);
+                return view;
+            }
+        };
+
+        mAutocompleteView.setThreshold(1);
+
+        mAutocompleteView.setAdapter(mAdapter);
         back = (ImageView) findViewById(R.id.back);
         facebook_layout = (RelativeLayout) findViewById(R.id.facebook_layout);
         name_ed = (EditText) findViewById(R.id.name_ed);
@@ -130,16 +181,17 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
         org_ed = (TextView) findViewById(R.id.org_ed);
         password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
-        address_ed = (TextView) findViewById(R.id.address_ed);
+       // address_ed = (TextView) findViewById(R.id.address_ed);
         tech_img = (ImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
         back.setOnClickListener(this);
         tech_img.setOnClickListener(this);
+
         vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    dialogWindow();
+
                     vatApiMethod(vat_ed.getText().toString());
                 }else{
                     vat_ed.setText("");
@@ -148,7 +200,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
             }
         });
         org_ed.setOnTouchListener(this);
-        address_ed.setOnTouchListener(this);
+        mAutocompleteView.setOnTouchListener(this);
         see_text.setOnClickListener(this);
         vat_ed.setOnTouchListener(this);
         facebook_layout.setOnClickListener(this);
@@ -160,7 +212,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
 
                         case KeyEvent.KEYCODE_ENTER:
                             if(vat_ed.getText().toString().length()>0) {
-                                dialogWindow();
+
                                 vatApiMethod(vat_ed.getText().toString());
                             }
                             return true;
@@ -193,7 +245,24 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
         }
         return false;
     }
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            lat=locationAddress.split(" ")[0];
+            lng=locationAddress.split(" ")[1];
 
+
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -214,13 +283,14 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                         vat_ed.setError("Please enter vat number");
                     } else if (org_ed.getText().length() == 0) {
                         org_ed.setError("Please enter organization");
-                    } else if (address_ed.getText().length() == 0) {
-                        address_ed.setError("Please enter address");
+                    } else if (mAutocompleteView.getText().length() == 0) {
+                        mAutocompleteView.setError("Please enter address");
                     } else if (selectedImagePath.equalsIgnoreCase("")) {
                         Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
                     } else if (isVat == false) {
                         Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
                     } else {
+
                         dialogWindow();
                         //editprofile();
                         new Thread(null, address_request, "")
@@ -527,7 +597,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        dialog2.dismiss();
+
 
                         Log.e("response", response);
                         try {
@@ -536,8 +606,12 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                             String status = obj.getString("valid");
                             if (status.equalsIgnoreCase("true")) {
                                 org_ed.setText(obj.getString("company_name"));
-                                address_ed.setText(obj.getString("company_address"));
+                                mAutocompleteView.setText(obj.getString("company_address"));
+
                                 isVat = true;
+                                GeocodingLocation locationAddress = new GeocodingLocation();
+                                locationAddress.getAddressFromLocation(mAutocompleteView.getText().toString(),
+                                        getApplicationContext(), new GeocoderHandler());
                             } else {
                                 vat_ed.setFocusable(true);
                                 see_text.setVisibility(View.VISIBLE);
@@ -553,7 +627,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                dialog2.dismiss();
+
             }
         });
 
@@ -636,8 +710,9 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
             reqEntity.addPart(GlobalConstant.password, new StringBody(password_ed.getText().toString()));
             reqEntity.addPart(GlobalConstant.vat_number, new StringBody(vat_ed.getText().toString()));
             reqEntity.addPart(GlobalConstant.organization, new StringBody(org_ed.getText().toString()));
-            reqEntity.addPart(GlobalConstant.address, new StringBody(address_ed.getText().toString()));
-
+            reqEntity.addPart(GlobalConstant.address, new StringBody(mAutocompleteView.getText().toString()));
+            reqEntity.addPart("address_latitude", new StringBody(lat));
+            reqEntity.addPart("address_longitude", new StringBody(lng));
             reqEntity.addPart(GlobalConstant.device_token, new StringBody(global.getDeviceToken()));
             reqEntity.addPart(GlobalConstant.type, new StringBody("technician"));
             reqEntity.addPart(GlobalConstant.latitude, new StringBody(global.getLat()));
@@ -648,7 +723,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
 
             Log.e("params", selectedImagePath + " " + name_ed.getText().toString()
                     + " " + email_ed.getText().toString() + " " + password_ed.getText().toString() + " " + vat_ed.getText().toString() + " " + org_ed.getText().toString()
-                    + " " + address_ed.getText().toString() + " " + global.getDeviceToken() + " " + global.getLong() + " " + global.getLat() + " android" + " technician");
+                    + " " + mAutocompleteView.getText().toString() + " " + global.getDeviceToken() + " " + global.getLong() + " " + global.getLat() + " android" + " technician"+ lat + lng);
             HttpResponse response = client.execute(post);
             resEntity = response.getEntity();
 
@@ -668,7 +743,7 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                     ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
                     ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
                     ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
-                    ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
+                    ed.putString(address, data.getString(address));
                     ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
 
                     ed.commit();
@@ -752,7 +827,10 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
                 params.put(GlobalConstant.image, user_image);
                 params.put(GlobalConstant.vat_number, vat_ed.getText().toString());
                 params.put(GlobalConstant.organization, org_ed.getText().toString());
-                params.put(GlobalConstant.address, address_ed.getText().toString());
+                params.put(GlobalConstant.address, mAutocompleteView.getText().toString());
+                params.put("address_latitude", lat);
+                params.put("address_longitude", lng);
+
 
 
                 Log.e("Parameter for social", params.toString());
@@ -765,5 +843,120 @@ public class TechniciansRegister extends Activity implements View.OnClickListene
         requestQueue.add(stringRequest);
     }
 
+    //-------------------------------Autolocation Method------------------------
+    private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             * Retrieve the place ID of the selected item from the Adapter. The
+			 * adapter stores each Place suggestion in a PlaceAutocomplete
+			 * object from which we read the place ID.
+			 */
+
+            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+
+            //  Log.i("TAG", "placeid: " + global.getPlace_id());
+            Log.i("TAG", "Autocomplete item selected: " + item.description);
+
+			/*
+             * Issue a request to the Places Geo Data API to retrieve a Place
+			 * object with additional details about the place.
+			 */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            //Toast.makeText(getApplicationContext(), "Clicked: " + item.description, Toast.LENGTH_SHORT).show();
+            Log.i("TAG", "Called getPlaceById to get Place details for " + item.placeId);
+
+        }
+    };
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the
+     * first place result in the details view on screen.
+     */
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+
+                Log.e("Tag", "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+
+            final Place place = places.get(0);
+
+            final CharSequence thirdPartyAttribution = places.getAttributions();
+            CharSequence attributions = places.getAttributions();
+
+
+            //------------Place.getLatLng use for get Lat long According to select location name-------------------
+            String latlong = place.getLatLng().toString().split(":")[1];
+            String completeLatLng = latlong.substring(1, latlong.length() - 1);
+            // Toast.makeText(MapsActivity.this,completeLatLng,Toast.LENGTH_SHORT).show();
+            lat = completeLatLng.split(",")[0];
+            lat = lat.substring(1, lat.length());
+            lng = completeLatLng.split(",")[1];
+
+
+            places.release();
+        }
+    };
+
+    private static Spanned formatPlaceDetails(Resources res, CharSequence name, String id, CharSequence address,
+                                              CharSequence phoneNumber, Uri websiteUri) {
+        Log.e("Tag", res.getString(R.string.place_details, name, id, address, phoneNumber, websiteUri));
+        return Html.fromHtml(res.getString(R.string.place_details, name, id, address, phoneNumber, websiteUri));
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("TAG", "onConnectionFailed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+
+        // TODO(Developer): Check error code and notify the user of error state
+        // and resolution.
+        Toast.makeText(this, "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
+
+
+        Log.i("search", "Google Places API connected.");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mAdapter.setGoogleApiClient(null);
+        Log.e("search", "Google Places API connection suspended.");
+    }
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
+                .build();
+    }
 
 }

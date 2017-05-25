@@ -83,8 +83,12 @@ public class UserAppointmentActivity extends Activity {
     String statusValue, filePath, invoice;
     File pdfFile;
     AlertDialog builder;
-ImageView navigation_img;
+ImageView navigation_img,service_img;
     String com_star = "0", time_star = "0", service_star = "0", skill_star = "0",user_id;
+
+    TextView service_name,device_name,total_est_time,othertxt,estimate_travel_txt;
+    String home_repair="",scoter_repair="";
+    String device_model_name,total_expected_time,other_charges,estimated_travel_time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +103,12 @@ ImageView navigation_img;
 
     public void init() {
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
+        service_img = (ImageView) findViewById(R.id.service_img);
+        service_name = (TextView) findViewById(R.id.service_name);
+        device_name= (TextView) findViewById(R.id.device_name);
+        othertxt=(TextView) findViewById(R.id.other_price);
+        total_est_time= (TextView) findViewById(R.id.total_est_time);
+        estimate_travel_txt=(TextView) findViewById(R.id.estimate_travel_txt);
         navigation_img=(ImageView)findViewById(R.id.navigation_img);
         navigation_img.setVisibility(View.GONE);
         back_img = (ImageView) findViewById(R.id.back_img);
@@ -134,7 +144,12 @@ ImageView navigation_img;
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
                 invoice = obj.getString(GlobalConstant.invoice);
-
+                home_repair=obj.getString(GlobalConstant.repair_at_shop);
+                scoter_repair=obj.getString(GlobalConstant.repair_on_location);
+                device_model_name=obj.getString("device_model_name");
+                total_expected_time=obj.getString("total_expected_time");
+                other_charges=obj.getString("other_charges");
+                estimated_travel_time=obj.getString("estimated_travel_time");
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
@@ -159,6 +174,7 @@ ImageView navigation_img;
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
+                    map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
                     list.add(map);
                 }
 
@@ -195,7 +211,12 @@ ImageView navigation_img;
             try {
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
-
+                home_repair=obj.getString(GlobalConstant.repair_at_shop);
+                scoter_repair=obj.getString(GlobalConstant.repair_on_location);
+                device_model_name=obj.getString("device_model_name");
+                total_expected_time=obj.getString("total_expected_time");
+                other_charges=obj.getString("other_charges");
+                estimated_travel_time=obj.getString("estimated_travel_time");
                 statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 user_id=objUser.getString(GlobalConstant.id);
@@ -220,6 +241,7 @@ ImageView navigation_img;
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
+                    map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
                     list.add(map);
                 }
 
@@ -277,6 +299,19 @@ ImageView navigation_img;
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
 
+        if(home_repair.equalsIgnoreCase("1")){
+            service_img.setImageResource(R.drawable.home_repair);
+            service_name.setText("Repair at service point");
+        }
+        if(scoter_repair.equalsIgnoreCase("1")){
+            service_img.setImageResource(R.drawable.scooter);
+            service_name.setText("Repair at your location");
+        }
+        device_name.setText(device_model_name);
+        total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" Hours");
+        othertxt.setText("€"+other_charges);
+
+        estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
     }
 
     @Override
@@ -350,7 +385,7 @@ ImageView navigation_img;
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
             holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
-
+            holder.service_time.setText("Expected time "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" Hours");
             return view;
         }
 
@@ -360,7 +395,34 @@ ImageView navigation_img;
 
         }
     }
+    private String getDurationString(int seconds) {
 
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return twoDigitString(hours) + " : " + twoDigitString(minutes);
+    }
+
+    private String twoDigitString(int number) {
+
+        if (number == 0) {
+            return "00";
+        }
+
+        if (number % 10 == 0) {
+            return "0" + number;
+        }
+
+        return String.valueOf(number);
+    }
+    public void secondValue(String time){
+
+        String timeSplit[] = time.split(":");
+        int seconds = Integer.parseInt(timeSplit[0].replace(" ","")) * 60 * 60 +  Integer.parseInt(timeSplit[1].replace(" ","")) * 60;
+        Toast.makeText(UserAppointmentActivity.this,String.valueOf(seconds),Toast.LENGTH_SHORT).show();
+
+    }
     //--------------------DEL And COMPLETED api method---------------------------------
     private void ComAdnDelMethod() {
 

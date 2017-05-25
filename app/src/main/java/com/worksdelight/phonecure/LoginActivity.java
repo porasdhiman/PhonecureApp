@@ -480,6 +480,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
                                     ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
                                     ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
+                                    ed.putString(GlobalConstant.address_latitude, data.getString(GlobalConstant.address_latitude));
+                                    ed.putString(GlobalConstant.address_longitude, data.getString(GlobalConstant.address_longitude));
                                     ed.commit();
                                     ed1.putString("type","login");
                                     ed1.putString("techDevice","1");
@@ -593,6 +595,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
                                     ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
                                     ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
+                                    ed.putString(GlobalConstant.address_latitude, data.getString(GlobalConstant.address_latitude));
+                                    ed.putString(GlobalConstant.address_longitude, data.getString(GlobalConstant.address_longitude));
                                     ed.commit();
                                     ed1.putString("type","login");
                                     ed1.putString("techDevice","1");

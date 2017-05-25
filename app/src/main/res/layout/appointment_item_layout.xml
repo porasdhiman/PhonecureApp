@@ -48,7 +48,7 @@
 
                 android:text="Expected time 1day"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="13sp"
+                android:textSize="12sp"
 
                 />
         </LinearLayout>

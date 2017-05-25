@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,13 +19,21 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +48,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -67,7 +87,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by worksdelight on 20/04/17.
  */
 
-public class TechniciansEditProfileActivity extends Activity {
+public class TechniciansEditProfileActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
     ImageView back;
     RelativeLayout main_layout;
 
@@ -84,6 +105,16 @@ public class TechniciansEditProfileActivity extends Activity {
     HttpEntity resEntity;
     boolean isVat = false;
 
+    String lat, lng;
+    protected GoogleApiClient mGoogleApiClient;
+    private GoogleMap mMap;
+    private PlaceAutocompleteAdapter mAdapter;
+
+    private AutoCompleteTextView mAutocompleteView;
+    private static final int GOOGLE_API_CLIENT_ID = 0;
+    private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
+            new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +125,26 @@ public class TechniciansEditProfileActivity extends Activity {
         }
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
+        buildGoogleApiClient();
+        //-------------------------------Call AutocompleteTxtView-----------------
+        mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.address_ed);
+
+        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+        mAdapter = new PlaceAutocompleteAdapter(this, android.R.layout.simple_list_item_1,
+                BOUNDS_MOUNTAIN_VIEW, null) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                text.setTextSize(14);
+                return view;
+            }
+        };
+
+        mAutocompleteView.setThreshold(1);
+
+        mAutocompleteView.setAdapter(mAdapter);
         camer_click = (ImageView) findViewById(R.id.camer_click);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +169,7 @@ public class TechniciansEditProfileActivity extends Activity {
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
         org_ed = (TextView) findViewById(R.id.org_ed);
-        address_ed = (TextView) findViewById(R.id.address_ed);
+
         name_ed.setEnabled(false);
         email_ed.setEnabled(false);
         vat_ed.setEnabled(false);
@@ -129,8 +180,10 @@ public class TechniciansEditProfileActivity extends Activity {
         email_ed.setText(sp.getString(GlobalConstant.email, ""));
         vat_ed.setText(sp.getString(GlobalConstant.vat_number, ""));
         vat_ed.setSelection(vat_ed.getText().length());
-        address_ed.setText(sp.getString(GlobalConstant.address, ""));
+        mAutocompleteView.setText(sp.getString(GlobalConstant.address, ""));
         org_ed.setText(sp.getString(GlobalConstant.organization, ""));
+        lat = sp.getString(GlobalConstant.address_latitude, "");
+        lng = sp.getString(GlobalConstant.address_longitude, "");
         camer_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +195,7 @@ public class TechniciansEditProfileActivity extends Activity {
             public void onClick(View view) {
                 edit_txt.setVisibility(View.GONE);
                 email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
-                address_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
                 org_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
 
                 name_ed.setEnabled(true);
@@ -160,7 +213,7 @@ public class TechniciansEditProfileActivity extends Activity {
 
             }
         });
-        address_ed.setOnTouchListener(new View.OnTouchListener() {
+        mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
@@ -181,8 +234,8 @@ public class TechniciansEditProfileActivity extends Activity {
                     switch (keyCode) {
 
                         case KeyEvent.KEYCODE_ENTER:
-                            if(vat_ed.getText().toString().length()>0) {
-                                dialogWindow();
+                            if (vat_ed.getText().toString().length() > 0) {
+
                                 vatApiMethod(vat_ed.getText().toString());
                             }
                             return true;
@@ -199,15 +252,15 @@ public class TechniciansEditProfileActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (name_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this,"Please enter name",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
 
                 } else if (vat_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this,"Please enter vat no.",Toast.LENGTH_SHORT).show();
-                } else if (address_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this,"your vat no. is invalid",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter vat no.", Toast.LENGTH_SHORT).show();
+                } else if (mAutocompleteView.getText().length() == 0) {
+                    Toast.makeText(TechniciansEditProfileActivity.this, "your vat no. is invalid", Toast.LENGTH_SHORT).show();
 
                 } else if (org_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this,"your vat no. is invalid",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, "your vat no. is invalid", Toast.LENGTH_SHORT).show();
 
                 } else {
                     dialogWindow();
@@ -230,13 +283,15 @@ public class TechniciansEditProfileActivity extends Activity {
         onclick();
 
     }
-    public  void hideSoftKeyboard(Activity activity) {
+
+    public void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
+
     public void onclick() {
         LinearLayout camera, gallery;
 
@@ -467,25 +522,26 @@ public class TechniciansEditProfileActivity extends Activity {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(urlString);
             MultipartEntity reqEntity = new MultipartEntity();
-
-            File file1 = new File(selectedImagePath);
-            FileBody bin1 = new FileBody(file1);
-            reqEntity.addPart(GlobalConstant.image, bin1);
-
+            if (!selectedImagePath.equalsIgnoreCase("")) {
+                File file1 = new File(selectedImagePath);
+                FileBody bin1 = new FileBody(file1);
+                reqEntity.addPart(GlobalConstant.image, bin1);
+            }
 
             reqEntity.addPart(GlobalConstant.name, new StringBody(name_ed.getText().toString()));
 
 
             reqEntity.addPart(GlobalConstant.vat_number, new StringBody(vat_ed.getText().toString()));
             reqEntity.addPart(GlobalConstant.organization, new StringBody(org_ed.getText().toString()));
-            reqEntity.addPart(GlobalConstant.address, new StringBody(address_ed.getText().toString()));
-
+            reqEntity.addPart(GlobalConstant.address, new StringBody(mAutocompleteView.getText().toString()));
+            reqEntity.addPart(GlobalConstant.address_latitude, new StringBody(lat));
+            reqEntity.addPart(GlobalConstant.address_longitude, new StringBody(lng));
 
             post.setEntity(reqEntity);
 
             Log.e("params", selectedImagePath + " " + name_ed.getText().toString()
                     + " " + vat_ed.getText().toString() + " " + org_ed.getText().toString()
-                    + " " + address_ed.getText().toString());
+                    + " " + mAutocompleteView.getText().toString() + lat + " " + lng);
             HttpResponse response = client.execute(post);
             resEntity = response.getEntity();
 
@@ -510,6 +566,24 @@ public class TechniciansEditProfileActivity extends Activity {
         return success;
     }
 
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            lat = locationAddress.split(" ")[0];
+            lng = locationAddress.split(" ")[1];
+
+
+        }
+    }
 
     //--------------------Vat api method---------------------------------
     private void vatApiMethod(String vatNumber) {
@@ -520,7 +594,7 @@ public class TechniciansEditProfileActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        dialog2.dismiss();
+
 
                         Log.e("response", response);
                         try {
@@ -529,12 +603,15 @@ public class TechniciansEditProfileActivity extends Activity {
                             String status = obj.getString("valid");
                             if (status.equalsIgnoreCase("true")) {
                                 org_ed.setText(obj.getString("company_name"));
-                                address_ed.setText(obj.getString("company_address"));
+                                mAutocompleteView.setText(obj.getString("company_address"));
                                 isVat = true;
+                                GeocodingLocation locationAddress = new GeocodingLocation();
+                                locationAddress.getAddressFromLocation(mAutocompleteView.getText().toString(),
+                                        getApplicationContext(), new GeocoderHandler());
                             } else {
                                 vat_ed.setError("Please enter valid VAT no.");
                                 org_ed.setText("");
-                                address_ed.setText("");
+                                mAutocompleteView.setText("");
                                 isVat = false;
                             }
 
@@ -556,4 +633,121 @@ public class TechniciansEditProfileActivity extends Activity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    //-------------------------------Autolocation Method------------------------
+    private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            /*
+             * Retrieve the place ID of the selected item from the Adapter. The
+			 * adapter stores each Place suggestion in a PlaceAutocomplete
+			 * object from which we read the place ID.
+			 */
+
+            final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+
+            //  Log.i("TAG", "placeid: " + global.getPlace_id());
+            Log.i("TAG", "Autocomplete item selected: " + item.description);
+
+			/*
+             * Issue a request to the Places Geo Data API to retrieve a Place
+			 * object with additional details about the place.
+			 */
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            //Toast.makeText(getApplicationContext(), "Clicked: " + item.description, Toast.LENGTH_SHORT).show();
+            Log.i("TAG", "Called getPlaceById to get Place details for " + item.placeId);
+
+        }
+    };
+
+    /**
+     * Callback for results from a Places Geo Data API query that shows the
+     * first place result in the details view on screen.
+     */
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+
+                Log.e("Tag", "Place query did not complete. Error: " + places.getStatus().toString());
+                places.release();
+                return;
+            }
+
+            final Place place = places.get(0);
+
+            final CharSequence thirdPartyAttribution = places.getAttributions();
+            CharSequence attributions = places.getAttributions();
+
+
+            //------------Place.getLatLng use for get Lat long According to select location name-------------------
+            String latlong = place.getLatLng().toString().split(":")[1];
+            String completeLatLng = latlong.substring(1, latlong.length() - 1);
+            // Toast.makeText(MapsActivity.this,completeLatLng,Toast.LENGTH_SHORT).show();
+            lat = completeLatLng.split(",")[0];
+            lat = lat.substring(1, lat.length());
+            lng = completeLatLng.split(",")[1];
+
+
+            places.release();
+        }
+    };
+
+    private static Spanned formatPlaceDetails(Resources res, CharSequence name, String id, CharSequence address,
+                                              CharSequence phoneNumber, Uri websiteUri) {
+        Log.e("Tag", res.getString(R.string.place_details, name, id, address, phoneNumber, websiteUri));
+        return Html.fromHtml(res.getString(R.string.place_details, name, id, address, phoneNumber, websiteUri));
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("TAG", "onConnectionFailed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+
+        // TODO(Developer): Check error code and notify the user of error state
+        // and resolution.
+        Toast.makeText(this, "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        mAdapter.setGoogleApiClient(mGoogleApiClient);
+
+
+        Log.i("search", "Google Places API connected.");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mAdapter.setGoogleApiClient(null);
+        Log.e("search", "Google Places API connection suspended.");
+    }
+
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
+                .build();
+    }
+
 }

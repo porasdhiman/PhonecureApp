@@ -497,6 +497,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img6.setLayoutParams(vp1);
 
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);
@@ -581,6 +583,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img5.setLayoutParams(vp1);
                     holder.img6.setLayoutParams(vp1);
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);
@@ -663,6 +667,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img5.setLayoutParams(vp1);
                     holder.img6.setLayoutParams(vp1);
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);
@@ -745,6 +751,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img5.setLayoutParams(vp1);
                     holder.img6.setLayoutParams(vp1);
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);
@@ -828,6 +836,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img5.setLayoutParams(vp);
                     holder.img6.setLayoutParams(vp1);
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);
@@ -910,6 +920,8 @@ public class ShowDeviceActivity extends Activity {
                     holder.img5.setLayoutParams(vp1);
                     holder.img6.setLayoutParams(vp);
                     final ArrayList<HashMap<String, String>> model_image = convertToHashMapForModelImage(deviceList.get(i).get(GlobalConstant.color_images));
+                    final ArrayList<HashMap<String, String>> color_id = convertToHashMapForModelId(deviceList.get(i).get(GlobalConstant.color_images));
+                    global.setColor_id(color_id.get(j).get(GlobalConstant.color_id));
                     if (model_image.size() >= 6) {
 
                         next_txtView.setVisibility(View.VISIBLE);

@@ -403,6 +403,9 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
 
             params.put(GlobalConstant.date, global.getSendDate());
             params.put(GlobalConstant.time, global.getSendTime());
+            params.put(GlobalConstant.selected_color_id, global.getColor_id());
+            params.put(GlobalConstant.estimated_travel_time, global.getEstimated_travel_time());
+
             params.put(GlobalConstant.total_amount, getIntent().getExtras().getString("total_price"));
             params.put(GlobalConstant.payment_method_nonce, payment_method_nonce);
             JSONArray installedList = new JSONArray();

@@ -272,7 +272,7 @@ android:inputType="textEmailAddress"
                         android:text="Address"
                         android:textColor="@android:color/darker_gray" />
 
-                    <TextView
+                    <AutoCompleteTextView
                         android:id="@+id/address_ed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -282,6 +282,7 @@ android:inputType="textEmailAddress"
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="right"
+                        android:popupBackground="#fff"
 
 
                         android:textColor="#000"

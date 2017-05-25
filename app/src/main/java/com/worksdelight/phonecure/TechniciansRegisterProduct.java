@@ -70,7 +70,7 @@ import tourguide.tourguide.TourGuide;
 
 public class TechniciansRegisterProduct extends Activity {
     ImageView back;
-    TextView service_txtView, done, time_ed,available_txt;
+    TextView service_txtView, done, time_ed, available_txt;
     ListView product_listView;
     EditText price_ed;
     RelativeLayout all_select_layout;
@@ -90,6 +90,7 @@ public class TechniciansRegisterProduct extends Activity {
     public TourGuide mTutorialHandler, mTutorialHandler2;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
+    String secondTime = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,13 +110,13 @@ public class TechniciansRegisterProduct extends Activity {
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         back = (ImageView) findViewById(R.id.back);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
-        available_txt=(TextView) findViewById(R.id.available_txt);
+        available_txt = (TextView) findViewById(R.id.available_txt);
         product_listView = (ListView) findViewById(R.id.product_listView);
         price_ed = (EditText) findViewById(R.id.price_ed);
         time_ed = (TextView) findViewById(R.id.time_ed);
         done = (TextView) findViewById(R.id.done);
         service_txtView.setText(getIntent().getExtras().getString("service name"));
-        available_txt.setText("Select Colours for "+getIntent().getExtras().getString("device_type"));
+        available_txt.setText("Select Colours for " + getIntent().getExtras().getString("device_type"));
         /*all_select_layout = (RelativeLayout) findViewById(R.id.all_select_layout);
         all_select_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +154,9 @@ public class TechniciansRegisterProduct extends Activity {
 
             }
         });
-
-        time_ed.setText(global.getServiceList().get(p).get(GlobalConstant.expected_time));
+        if (!global.getServiceList().get(p).get(GlobalConstant.expected_time).equalsIgnoreCase("")) {
+            time_ed.setText(getDurationString(Integer.parseInt(global.getServiceList().get(p).get(GlobalConstant.expected_time))));
+        }
         if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
             done.setText("Update Service");
         } else {
@@ -176,12 +178,11 @@ public class TechniciansRegisterProduct extends Activity {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
                 } else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length() - 1)).equalsIgnoreCase(".")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please enter valid price", Toast.LENGTH_SHORT).show();
-                }else if (time_ed.getText().toString().contains("0:00")) {
+                } else if (time_ed.getText().toString().contains("0:00")) {
                     Toast.makeText(TechniciansRegisterProduct.this, "Please select valid estimated time", Toast.LENGTH_SHORT).show();
 
 
-                }
-                else {
+                } else {
                     dialogWindow();
                     addServiceMethod();
 
@@ -235,6 +236,36 @@ public class TechniciansRegisterProduct extends Activity {
         CommonUtils.getListViewSize(product_listView);
         main_scroll.smoothScrollTo(0, 0);
 
+
+    }
+
+    private String getDurationString(int seconds) {
+
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return twoDigitString(hours) + ":" + twoDigitString(minutes);
+    }
+
+    private String twoDigitString(int number) {
+
+        if (number == 0) {
+            return "00";
+        }
+
+        if (number % 10 == 0) {
+            return "0" + number;
+        }
+
+        return String.valueOf(number);
+    }
+
+    public void secondValue(String time) {
+
+        String timeSplit[] = time.split(":");
+        int seconds = Integer.parseInt(timeSplit[0]) * 60 * 60 + Integer.parseInt(timeSplit[1]) * 60;
+        secondTime = String.valueOf(seconds);
 
     }
 
@@ -588,7 +619,7 @@ public class TechniciansRegisterProduct extends Activity {
                 installedPackage.put("dm_service_id", getIntent().getExtras().getString(GlobalConstant.id));
                 installedPackage.put("model_color", serviceID);
                 installedPackage.put("price", price_ed.getText().toString().replace("€", ""));
-                installedPackage.put(GlobalConstant.expected_time, time_ed.getText().toString());
+                installedPackage.put(GlobalConstant.expected_time, secondTime);
 
 
                 installedList.put(installedPackage);
@@ -614,11 +645,11 @@ public class TechniciansRegisterProduct extends Activity {
                         Log.e("response", response.toString());
                         dialog2.dismiss();
                         try {
-                            ed.putString("techDevice","1");
-                            ed.putString("techShowDevice","1");
-                            ed.putString("techService","1");
-                            ed.putString("techProduct","1");
-                            ed.putString("techOtherDevice","1");
+                            ed.putString("techDevice", "1");
+                            ed.putString("techShowDevice", "1");
+                            ed.putString("techService", "1");
+                            ed.putString("techProduct", "1");
+                            ed.putString("techOtherDevice", "1");
                             ed.commit();
 
                             String status = response.getString("status");
@@ -722,6 +753,7 @@ public class TechniciansRegisterProduct extends Activity {
             public void onClick(View view) {
                 PickerDialog.dismiss();
                 time_ed.setText(hours.get(pos).split(":")[1] + ":" + minute.get(pos1).split(":")[0]);
+                secondValue(time_ed.getText().toString());
 
             }
         });

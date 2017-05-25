@@ -74,6 +74,8 @@ public class RepairActivity extends Activity {
         repair_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                global.setEstimated_travel_time(global.getDateList().get(i).get(GlobalConstant.estimated_travel_time));
+
                 Intent intent = new Intent(RepairActivity.this, TechniciansDetailActivity.class);
                 intent.putExtra("pos", String.valueOf(i));
                 //intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));

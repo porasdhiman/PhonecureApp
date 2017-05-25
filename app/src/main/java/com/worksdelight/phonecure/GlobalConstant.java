@@ -145,4 +145,8 @@ public class GlobalConstant {
     public static String invoice="invoice";
     public static String notification="notification";
     public static String RATING_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/wishlist/rating";
+    public static String selected_color_id="selected_color_id";
+    public static String estimated_travel_time="estimated_travel_time";
+    public static String address_latitude="address_latitude";
+    public static String address_longitude="address_longitude";
 }
