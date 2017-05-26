@@ -139,6 +139,7 @@ public class FavoriteFragment extends Fragment {
 
                                     map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
                                     map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
+                                    map.put(GlobalConstant.favorite_count, objArr.getString(GlobalConstant.favorite_count));
 
                                     map.put(favorite, objArr.getString(favorite));
                                    // map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));

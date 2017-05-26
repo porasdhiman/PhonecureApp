@@ -1,217 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="vertical">
+
     <RelativeLayout
+        android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/header_view"
-        android:background="#000"
-        >
+        android:background="#000">
+
         <ImageView
             android:id="@+id/back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-
-
             android:layout_alignParentLeft="true"
-            android:src="@drawable/white_back"/>
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shopping cart"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            />
-       <!-- <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
+            android:gravity="center"
+            android:text="Shopping cart"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <!-- <ImageView
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_centerVertical="true"
+             android:padding="8dp"
 
 
-            android:layout_alignParentRight="true"
-            android:src="@drawable/heart_img"/>-->
+             android:layout_alignParentRight="true"
+             android:src="@drawable/heart_img"/>-->
     </RelativeLayout>
+
     <ScrollView
         android:id="@+id/main_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/main_color"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/main_color"
 
 
-        >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/line_img"
-            android:layout_marginLeft="-5dp"
-            android:layout_toRightOf="@+id/first_count_img"
-            android:layout_toLeftOf="@+id/second_count_img"
-            android:layout_centerVertical="true"/>
-        <ImageView
-            android:id="@+id/first_count_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/step_one_light"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-          />
+                >
 
-        <TextView
-            android:id="@+id/second_count_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/step_two_dark"
-            android:layout_centerInParent="true"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="-5dp"
+                    android:layout_toLeftOf="@+id/second_count_img"
+                    android:layout_toRightOf="@+id/first_count_img"
+                    android:background="@drawable/line_img" />
 
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@drawable/line_img"
-            android:layout_toRightOf="@+id/second_count_img"
-            android:layout_toLeftOf="@+id/third_count_img"
-            android:layout_centerVertical="true"/>
-        <TextView
-            android:id="@+id/third_count_img"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/step_three_dark"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-           />
+                <ImageView
+                    android:id="@+id/first_count_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/step_one_light" />
 
+                <TextView
+                    android:id="@+id/second_count_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/step_two_dark"
 
-    </RelativeLayout>
+                    />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <TextView
-            android:id="@+id/cart_value_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 Item in Your Cart"
-            android:textColor="#000"
-            android:layout_centerInParent="true"/>
-        <TextView
-            android:id="@+id/clear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear"
-            android:textColor="#0000ff"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"/>
-    </RelativeLayout>
-    <View
-    android:layout_width="match_parent"
-    android:layout_height="0.5dp"
-    android:background="#e6e4e4"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/third_count_img"
+                    android:layout_toRightOf="@+id/second_count_img"
+                    android:background="@drawable/line_img" />
 
-    <ListView
-        android:id="@+id/cart_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="0.5dp"
-        android:divider="#e6e4e4"
-        android:scrollbars="none"
-       ></ListView>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#e6e4e4"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:hint="Promo code"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:padding="20dp"/>
-        <View
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:background="#e6e4e4"/>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Subtotal:"
-                android:textColor="@android:color/darker_gray"
-                android:layout_alignParentLeft="true"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-               />
-            <TextView
-                android:id="@+id/total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#000"
-                android:layout_alignParentRight="true"
-                android:paddingRight="20dp"
-                android:textSize="16sp"
-                android:layout_centerVertical="true"
-
-                />
+                <TextView
+                    android:id="@+id/third_count_img"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/step_three_dark" />
 
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-    </LinearLayout>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="0.5dp"
-    android:background="#e6e4e4"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:id="@+id/cart_value_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="3 Item in Your Cart"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="Clear"
+                    android:textColor="#0000ff" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4" />
+
+            <ListView
+                android:id="@+id/cart_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#e6e4e4"
+                android:dividerHeight="0.5dp"
+                android:scrollbars="none"
+
+                ></ListView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#e6e4e4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="right"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/othertxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Travel fee"
+
+
+                        android:textColor="#000"
+                        android:textSize="@dimen/header_txt"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/other_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+
+                        android:text="€0"
+                        android:textColor="@color/main_color"
+                        android:textSize="@dimen/header_txt"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/totaltxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Total"
+
+                        android:textColor="#000"
+                        android:textSize="@dimen/header_txt"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/total_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:paddingRight="10dp"
+
+                        android:text="$70"
+                        android:textColor="@color/main_color"
+                        android:textSize="@dimen/header_txt"
+
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4" />
 
             <TextView
                 android:id="@+id/checkout_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@drawable/green_btn"
-                android:text="Checkout"
-                android:gravity="center"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
-                android:textColor="#fff"
-                android:textStyle="bold"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/green_btn"
+                android:gravity="center"
+                android:text="Checkout"
                 android:textAllCaps="true"
-                android:textSize="@dimen/header_txt"/>
+                android:textColor="#fff"
+                android:textSize="@dimen/header_txt"
+                android:textStyle="bold" />
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="10dp"/>
+                android:layout_height="10dp" />
         </LinearLayout>
 
 

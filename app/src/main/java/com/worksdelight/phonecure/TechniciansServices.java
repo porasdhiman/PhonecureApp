@@ -117,14 +117,29 @@ SharedPreferences sp;
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
-                map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
-                map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
-                map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                map.putExtra("service name",list.get(i).get(GlobalConstant.name));
-                map.putExtra("pos", String.valueOf(i));
+                if(sp.getString("techService","").equalsIgnoreCase("")) {
+                    if (i == 0) {
+                        mTutorialHandler.cleanUp();
+                        Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
+                        map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
+                        map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
+                        map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                        map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                        map.putExtra("pos", String.valueOf(i));
 
-                startActivityForResult(map, 0);
+                        startActivityForResult(map, 0);
+                    }
+                }else{
+                    Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
+                    map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
+                    map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
+                    map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                    map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                    map.putExtra("pos", String.valueOf(i));
+
+                    startActivityForResult(map, 0);
+                }
+
             }
         });
         submit_btn.setVisibility(View.GONE);

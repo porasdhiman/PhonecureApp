@@ -121,12 +121,19 @@ public class MapBoxActivity extends Activity {
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (global.getDateList().size() > 0) {
-                    Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
+                try {
+                if (list.size() > 0) {
 
-                    //i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                    startActivity(i);
+                        Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
+
+                        //i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                        startActivity(i);
+
+
                 }else{
+
+                }
+                }catch (Exception c){
 
                 }
 
@@ -459,6 +466,9 @@ public class MapBoxActivity extends Activity {
                                         map.put(GlobalConstant.estimated_travel_time, objArr.getString(GlobalConstant.estimated_travel_time));
                                         map.put(GlobalConstant.opening_time, objArr.getString(GlobalConstant.opening_time));
                                         map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
+                                        map.put(GlobalConstant.other_charges, objArr.getString(GlobalConstant.other_charges));
+                                        map.put(GlobalConstant.favorite_count, objArr.getString(GlobalConstant.favorite_count));
+
 
                                         map.put(favorite, objArr.getString(favorite));
                                         map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));

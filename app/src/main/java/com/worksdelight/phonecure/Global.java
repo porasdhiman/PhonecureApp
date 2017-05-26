@@ -257,7 +257,7 @@ public class Global extends Application {
         OtherData = otherData;
     }
 
-    String dropOff;
+    String dropOff="0";
 
     public String getPickUp() {
         return pickUp;
@@ -275,7 +275,7 @@ public class Global extends Application {
         this.dropOff = dropOff;
     }
 
-    String pickUp;
+    String pickUp="0";
 
     JSONArray OtherData;
 

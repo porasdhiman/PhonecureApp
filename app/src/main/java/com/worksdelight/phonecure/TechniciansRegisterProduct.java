@@ -255,7 +255,7 @@ public class TechniciansRegisterProduct extends Activity {
         }
 
         if (number % 10 == 0) {
-            return "0" + number;
+            return ""+number;
         }
 
         return String.valueOf(number);

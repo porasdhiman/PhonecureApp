@@ -75,7 +75,7 @@ public class GlobalConstant {
 
     public static String FAVORITE_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/getFavoriteTechnicians?";
 
-    public static String VAT_INFO_URL="http://apilayer.net/api/validate?access_key=c7de04418ecfb37ef90a7c17892dedf7&vat_number=";
+    public static String VAT_INFO_URL="http://apilayer.net/api/validate?access_key=fe47111e1c0d975bb965f58f1c975d9d&vat_number=";
 
     public static String WISHLIST_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/wishlist/add";
 
@@ -149,4 +149,6 @@ public class GlobalConstant {
     public static String estimated_travel_time="estimated_travel_time";
     public static String address_latitude="address_latitude";
     public static String address_longitude="address_longitude";
+    public static String other_charges="other_charges";
+    public static String favorite_count="favorite_count";
 }

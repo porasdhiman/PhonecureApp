@@ -309,7 +309,7 @@ ImageView navigation_img,service_img;
         }
         device_name.setText(device_model_name);
         total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" Hours");
-        othertxt.setText("€"+other_charges);
+        othertxt.setText("€"+String.valueOf(Float.parseFloat(other_charges)));
 
         estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
     }
@@ -411,7 +411,7 @@ ImageView navigation_img,service_img;
         }
 
         if (number % 10 == 0) {
-            return "0" + number;
+            return "" + number;
         }
 
         return String.valueOf(number);

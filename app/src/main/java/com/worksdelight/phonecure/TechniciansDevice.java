@@ -133,22 +133,45 @@ SharedPreferences sp;
         device_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
-                    iPhone.putExtra(GlobalConstant.sub_category_id, "1");
+                if(sp.getString("techDevice","").equalsIgnoreCase("")) {
+                    if (i == 0) {
+                        mTutorialHandler.cleanUp();
+                        if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
+                            Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
+                            iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                            iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                            iPhone.putExtra(GlobalConstant.sub_category_id, "1");
 
-                    global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
-                    startActivityForResult(iPhone, 0);
-                } else {
-                    Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
-                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.category_id));
-                    global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
+                            global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
+                            startActivityForResult(iPhone, 0);
+                        } else {
+                            Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
+                            iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                            iPhone.putExtra("id", list.get(i).get(GlobalConstant.category_id));
+                            global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
 
-                    startActivityForResult(iPhone,0);
+                            startActivityForResult(iPhone,0);
+                        }
+                    }
+                }else{
+                    if (list.get(i).get(GlobalConstant.value).equalsIgnoreCase("true")) {
+                        Intent iPhone = new Intent(TechniciansDevice.this, TechniciansShowDeviceActivity.class);
+                        iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                        iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                        iPhone.putExtra(GlobalConstant.sub_category_id, "1");
+
+                        global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
+                        startActivityForResult(iPhone, 0);
+                    } else {
+                        Intent iPhone = new Intent(TechniciansDevice.this, TechniciansOtherDeviceActivity.class);
+                        iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                        iPhone.putExtra("id", list.get(i).get(GlobalConstant.category_id));
+                        global.setDeviceId(list.get(i).get(GlobalConstant.category_id));
+
+                        startActivityForResult(iPhone,0);
+                    }
                 }
+
 
 
             }

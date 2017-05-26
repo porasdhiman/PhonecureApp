@@ -50,6 +50,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.brickred.socialauth.Profile;
@@ -302,7 +304,13 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                Place selectedPlace = PlacePicker.getPlace(data, this);
+                Toast.makeText(LoginActivity.this,selectedPlace.toString(),Toast.LENGTH_SHORT).show();
+                // Do something with the place
+            }
+        }
 
     }
 
@@ -323,6 +331,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
                 break;
             case R.id.sign_in_btn:
+
                 if (email_view.getText().length() == 0) {
                     email_view.setError("Please enter email");
 
@@ -334,6 +343,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                     email_view.setError("Please enter valid email");
 
                 } else {
+
                     if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
                         dialogWindow();

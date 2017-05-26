@@ -64,7 +64,7 @@ ImageView back;
     LinearLayout sun_layout,mon_layout,tue_layout,wed_layout,thu_layout,fri_layout,sat_layout,working_layout;
     TextView sun_txt,mon_txt,tue_txt,wed_txt,thu_txt,fri_txt,sat_txt;
 
-    TextView sun_time,mon_time,tue_time,wed_time,thu_time,fri_time,sat_time;
+    TextView sun_time,mon_time,tue_time,wed_time,thu_time,fri_time,sat_time,wish_list_count_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +98,7 @@ ImageView back;
             }
         });
         repair_at_shop = (TextView) findViewById(R.id.repair_at_shop);
+        wish_list_count_value= (TextView) findViewById(R.id.wish_list_count_value);
         repair_on_location = (TextView) findViewById(R.id.repair_on_location);
         total_job= (TextView) findViewById(R.id.total_job);
         total_review = (TextView) findViewById(R.id.total_review);
@@ -150,7 +151,7 @@ ImageView back;
 
         tech_name.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
         rating_value.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
-
+        wish_list_count_value.setText(global.getDateList().get(pos).get(GlobalConstant.favorite_count));
 
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
 

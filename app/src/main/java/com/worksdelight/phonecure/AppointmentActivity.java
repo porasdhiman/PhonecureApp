@@ -289,7 +289,7 @@ String home_repair="",scoter_repair="";
             }
             device_name.setText(device_model_name);
             total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" Hours");
-            othertxt.setText("€"+other_charges);
+            othertxt.setText("€"+String.valueOf(Float.parseFloat(other_charges)));
             estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
 
         }
@@ -297,8 +297,8 @@ String home_repair="",scoter_repair="";
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
-        //sourceLatitude=global.getLat();
-        // sourceLongitude=global.getLong();
+        sourceLatitude=global.getLat();
+        sourceLongitude=global.getLong();
         navigation_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -414,7 +414,7 @@ String home_repair="",scoter_repair="";
         }
 
         if (number % 10 == 0) {
-            return "0" + number;
+            return "" + number;
         }
 
         return String.valueOf(number);

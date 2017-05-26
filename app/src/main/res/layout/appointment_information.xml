@@ -499,7 +499,7 @@
                                 android:layout_centerInParent="true"
                                 android:layout_marginLeft="10dp"
                                 android:layout_weight="1"
-                                android:text="Other Charges"
+                                android:text="Travel fee"
 
 
                                 android:textColor="#000"

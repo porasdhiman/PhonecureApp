@@ -103,16 +103,36 @@ SharedPreferences sp;
         device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(sp.getString("techShowDevice","").equalsIgnoreCase("")) {
 
-                Intent iPhone = new Intent(TechniciansShowDeviceActivity.this, TechniciansServices.class);
-                iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
-                iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
-                iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+                    if (i == 0) {
+                        try {
+                            mTutorialHandler2.cleanUp();
+                        }catch (Exception c){
+                            Log.e("exception",c.toString());
+                        }
+                        Intent iPhone = new Intent(TechniciansShowDeviceActivity.this, TechniciansServices.class);
+                        iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                        iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                        iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
 
 
-                global.setPostion(i);
+                        global.setPostion(i);
 
-                startActivityForResult(iPhone, 0);
+                        startActivityForResult(iPhone, 0);
+                    }
+                }else{
+                    Intent iPhone = new Intent(TechniciansShowDeviceActivity.this, TechniciansServices.class);
+                    iPhone.putExtra("device_type", list.get(i).get(GlobalConstant.name));
+                    iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                    iPhone.putExtra("id", list.get(i).get(GlobalConstant.id));
+
+
+                    global.setPostion(i);
+
+                    startActivityForResult(iPhone, 0);
+                }
+
             }
         });
     }
