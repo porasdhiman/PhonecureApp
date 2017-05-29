@@ -89,6 +89,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
         ed1 = sp1.edit();
         buildGoogleApiClient();
+
         //----------Check play service---------------------------
         if (checkPlayServices()) {
             gcm = GoogleCloudMessaging.getInstance(this);

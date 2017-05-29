@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +70,9 @@ public class ShowDeviceActivity extends Activity {
     ArrayList<String> value = new ArrayList<>();
     int j;
     Global global;
+    int measuredWidth = 0;
+    int measuredHeight = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +81,18 @@ public class ShowDeviceActivity extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        global=(Global)getApplicationContext();
+        global = (Global) getApplicationContext();
+        WindowManager w = getWindowManager();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point size = new Point();
+            w.getDefaultDisplay().getSize(size);
+            measuredWidth = size.x;
+            measuredHeight = size.y;
+        } else {
+            Display d = w.getDefaultDisplay();
+            measuredWidth = d.getWidth();
+            measuredHeight = d.getHeight();
+        }
         device_view = (GridView) findViewById(R.id.device);
         dialogWindow();
         showDeviceMethod();
@@ -123,7 +140,7 @@ public class ShowDeviceActivity extends Activity {
     private void showDeviceMethod() {
         Log.e("davice_id", String.valueOf(getIntent().getExtras().get("id")));
 // Request a string response from the provided URL.
-        final String appUrl=GlobalConstant.DEVICE_URL + "category_id="+ global.getDeviceId() +"&"+GlobalConstant.sub_category_id+"="+getIntent().getExtras().getString(GlobalConstant.sub_category_id)+"&user_id=" + CommonUtils.UserID(ShowDeviceActivity.this);
+        final String appUrl = GlobalConstant.DEVICE_URL + "category_id=" + global.getDeviceId() + "&" + GlobalConstant.sub_category_id + "=" + getIntent().getExtras().getString(GlobalConstant.sub_category_id) + "&user_id=" + CommonUtils.UserID(ShowDeviceActivity.this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, appUrl,
                 new Response.Listener<String>() {
@@ -209,7 +226,7 @@ public class ShowDeviceActivity extends Activity {
     //------------------------Device adapter--------------------------------
 
     class DeviceAdapter extends BaseAdapter {
-        int  l = -1;
+        int l = -1;
         Context c;
         LayoutInflater inflator;
         Holder holder = null;
@@ -272,31 +289,37 @@ public class ShowDeviceActivity extends Activity {
                 holder.device_image = (ImageView) view.findViewById(R.id.device_item);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
                 holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
-                holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
+                holder.main_layout = (RelativeLayout) view.findViewById(R.id.main_layout);
+                LinearLayout.LayoutParams vp = null;
+                if (measuredHeight > 1280) {
+                    vp = new LinearLayout.LayoutParams(75, 75);
+                    vp.setMargins(0, 25, 0, 0);
+                } else {
+                    vp = new LinearLayout.LayoutParams(45, 45);
+                    vp.setMargins(0, 15, 0, 0);
+                }
 
-                LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(55, 55);
-                vp.setMargins(0, 15, 0, 0);
                 holder.img1 = new ImageView(c);
                 holder.img1.setLayoutParams(vp);
 
               /*  holder.img1.setMaxHeight(55);
                 holder.img1.setMaxWidth(55);*/
-                holder.img2= new ImageView(c);
+                holder.img2 = new ImageView(c);
                 holder.img2.setLayoutParams(vp);
 
                /* holder.img2.setMaxHeight(55);
                 holder.img2.setMaxWidth(55);*/
-                holder.img3= new ImageView(c);
+                holder.img3 = new ImageView(c);
                 holder.img3.setLayoutParams(vp);
 
                 /*holder.img3.setMaxHeight(55);
                 holder.img3.setMaxWidth(55);*/
-                holder.img4= new ImageView(c);
+                holder.img4 = new ImageView(c);
                 holder.img4.setLayoutParams(vp);
 
                 /*holder.img4.setMaxHeight(55);
                 holder.img4.setMaxWidth(55);*/
-                holder.img5= new ImageView(c);
+                holder.img5 = new ImageView(c);
                 holder.img5.setLayoutParams(vp);
 
                /* holder.img5.setMaxHeight(55);
@@ -479,15 +502,26 @@ public class ShowDeviceActivity extends Activity {
             holder.img1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     holder = (Holder) view.getTag();
                     j = 0;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
 
                     holder.img1.setLayoutParams(vp);
                     holder.img2.setLayoutParams(vp1);
@@ -567,15 +601,26 @@ public class ShowDeviceActivity extends Activity {
             holder.img2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     holder = (Holder) view.getTag();
                     j = 1;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
                     holder.img1.setLayoutParams(vp1);
                     holder.img2.setLayoutParams(vp);
                     holder.img3.setLayoutParams(vp1);
@@ -651,15 +696,26 @@ public class ShowDeviceActivity extends Activity {
             holder.img3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     holder = (Holder) view.getTag();
                     j = 2;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
                     holder.img1.setLayoutParams(vp1);
                     holder.img2.setLayoutParams(vp1);
                     holder.img3.setLayoutParams(vp);
@@ -735,15 +791,26 @@ public class ShowDeviceActivity extends Activity {
             holder.img4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     holder = (Holder) view.getTag();
                     j = 3;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
                     holder.img1.setLayoutParams(vp1);
                     holder.img2.setLayoutParams(vp1);
                     holder.img3.setLayoutParams(vp1);
@@ -820,15 +887,26 @@ public class ShowDeviceActivity extends Activity {
             holder.img5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     holder = (Holder) view.getTag();
                     j = 4;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
                     holder.img1.setLayoutParams(vp1);
                     holder.img2.setLayoutParams(vp1);
                     holder.img3.setLayoutParams(vp1);
@@ -905,14 +983,26 @@ public class ShowDeviceActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     holder = (Holder) view.getTag();
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     j = 5;
-                    LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(70, 70);
-                    LinearLayout.LayoutParams vp1 = new LinearLayout.LayoutParams(55, 55);
-                    vp.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp1.gravity = Gravity.CENTER_HORIZONTAL;
-                    vp.setMargins(0, 15, 0, 0);
-                    vp1.setMargins(0, 15, 0, 0);
+                    LinearLayout.LayoutParams vp = null;
+                    LinearLayout.LayoutParams vp1 = null;
+                    if (measuredHeight > 1280) {
+                        vp = new LinearLayout.LayoutParams(90, 90);
+                        vp1 = new LinearLayout.LayoutParams(75, 75);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 25, 0, 0);
+                        vp1.setMargins(0, 25, 0, 0);
+                    } else {
+                        vp = new LinearLayout.LayoutParams(55, 55);
+                        vp1 = new LinearLayout.LayoutParams(45, 45);
+                        vp.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp1.gravity = Gravity.CENTER_HORIZONTAL;
+                        vp.setMargins(0, 15, 0, 0);
+                        vp1.setMargins(0, 15, 0, 0);
+                    }
+
                     holder.img1.setLayoutParams(vp1);
                     holder.img2.setLayoutParams(vp1);
                     holder.img3.setLayoutParams(vp1);
@@ -989,7 +1079,7 @@ public class ShowDeviceActivity extends Activity {
             holder.main_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    valueof_selected_item=i;
+                    valueof_selected_item = i;
                     next_txtView.setVisibility(View.GONE);
                     for (int p = 0; p < value.size(); p++) {
                         if (p == i) {
@@ -1030,7 +1120,8 @@ public class ShowDeviceActivity extends Activity {
         class Holder {
             ImageView device_image, v, img1, img2, img3, img4, img5, img6;
             TextView device_name;
-            LinearLayout color_layout, main_layout;
+            LinearLayout color_layout;
+            RelativeLayout main_layout;
         }
     }
 
@@ -1103,6 +1194,7 @@ public class ShowDeviceActivity extends Activity {
         }
         return list;
     }
+
     public ArrayList<HashMap<String, String>> convertToHashMapForModelId(String jsonString) {
         ArrayList<HashMap<String, String>> list = new ArrayList<>();
 

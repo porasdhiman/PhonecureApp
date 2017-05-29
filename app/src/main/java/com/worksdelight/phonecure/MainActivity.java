@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         global = (Global) getApplicationContext();
         setUpMenu();
         if (savedInstanceState == null)
-            changeFragment(new HomeFragment(), "PhoneCure");
+            changeFragment(new HomeFragment(), "Phonecure");
 
     }
 
@@ -213,7 +213,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
 
         if (view == itemHome) {
-            changeFragment(new HomeFragment(), "PhoneCure");
+            changeFragment(new HomeFragment(), "Phonecure");
 
         } else if (view == itemProfile) {
             changeFragment(new ProfileFragment(), "Profile");
@@ -270,7 +270,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     };
 
     private void changeFragment(Fragment targetFragment, String titel) {
-        if (titel.equalsIgnoreCase("PhoneCure")) {
+        if (titel.equalsIgnoreCase("Phonecure")) {
             SpannableStringBuilder builder = new SpannableStringBuilder();
 
             SpannableString str1 = new SpannableString(titel);

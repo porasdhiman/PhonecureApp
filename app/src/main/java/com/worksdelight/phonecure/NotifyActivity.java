@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -107,18 +106,18 @@ public class NotifyActivity extends Activity {
             message_txt.setText(list.get(i).get(GlobalConstant.notification));
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
 // generate random color
-            int color1 = generator.getRandomColor();
+           /* int color1 = generator.getRandomColor();
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), color1);
+                    .buildRound(list.get(i).get(GlobalConstant.name).substring(0, 1).toUpperCase(), color1);
             if (list.get(i).get(GlobalConstant.image).equalsIgnoreCase("")) {
 
                 user_img.setImageDrawable(drawable);
-            } else {
-                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(drawable).transform(new CircleTransform()).into(user_img);
+            } else {*/
+                Picasso.with(c).load(GlobalConstant.TECHNICIANS_IMAGE_URL + list.get(i).get(GlobalConstant.image)).placeholder(R.drawable.user_back).transform(new CircleTransform()).into(user_img);
 
 
                 //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
-            }
+            //}
             return view;
         }
     }

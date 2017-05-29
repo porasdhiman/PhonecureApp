@@ -25,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -320,7 +321,7 @@ SharedPreferences sp;
                 holder.device_image = (ImageView) view.findViewById(R.id.device_item);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
                 holder.color_layout = (LinearLayout) view.findViewById(R.id.color_layout);
-                holder.main_layout = (LinearLayout) view.findViewById(R.id.main_layout);
+                holder.main_layout = (RelativeLayout) view.findViewById(R.id.main_layout);
                 holder.status = (TextView) view.findViewById(R.id.status);
 
                 holder.device_image.setTag(holder);
@@ -412,7 +413,8 @@ SharedPreferences sp;
         class Holder {
             ImageView device_image, v, img1, img2, img3, img4, img5, img6;
             TextView device_name, status;
-            LinearLayout color_layout, main_layout;
+            LinearLayout color_layout;
+            RelativeLayout main_layout;
 
         }
     }

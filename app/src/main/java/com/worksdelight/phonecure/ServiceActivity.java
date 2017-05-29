@@ -123,7 +123,7 @@ public class ServiceActivity extends Activity {
 
     //--------------------Category api method---------------------------------
     private void subcategoryMethod() {
-        String url = GlobalConstant.ACCORDING_TO_NAME_URL + "iphone-7-plus";
+        String url = GlobalConstant.ACCORDING_TO_NAME_URL + global.getDeviceName();
         Log.e("url", url);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

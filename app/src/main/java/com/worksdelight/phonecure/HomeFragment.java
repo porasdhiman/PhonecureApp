@@ -19,7 +19,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -51,6 +50,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by worksdelight on 27/02/17.
@@ -65,16 +65,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout select_device_layout;
     MapView mapView;
     RelativeLayout select_color, bottome_layout;
-    Dialog dialog2;
+    Dialog dialog2,messageDialog;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     LoopView loopView;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     int pos, measuredWidth, measuredHeight;
     Marker markers;
-TextView select_color_txt;
+    TextView select_color_txt;
     AdView mAdView;
     AdRequest adRequest;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Mapbox.getInstance(getActivity(), "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
@@ -133,16 +134,16 @@ TextView select_color_txt;
     }
 
     public void init(View v) {
-        mAdView = (AdView)v.findViewById(R.id.adView);
+        mAdView = (AdView) v.findViewById(R.id.adView);
         adRequest = new AdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
-        select_color_txt=(TextView)v.findViewById(R.id.select_color_txt);
+        select_color_txt = (TextView) v.findViewById(R.id.select_color_txt);
 
         current_device_name_txt = (TextView) v.findViewById(R.id.current_device_name_txt);
         cancel_txtView = (TextView) v.findViewById(R.id.cancel_txtView);
         done_txtView = (TextView) v.findViewById(R.id.done_txtView);
-        current_device_name_txt.setText(global.getDeviceName()+" "+sp.getString("color name",""));
+        current_device_name_txt.setText(global.getDeviceName() + " " + sp.getString("color name", ""));
         select_device_layout = (RelativeLayout) v.findViewById(R.id.select_device_layout);
         select_device_layout.setOnClickListener(this);
         select_color = (RelativeLayout) v.findViewById(R.id.select_color);
@@ -199,9 +200,12 @@ TextView select_color_txt;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.select_color_txt:
-
-                bottome_layout.setVisibility(View.VISIBLE);
-                loopView.setDataList(getList());
+                if (list.size() > 0) {
+                    bottome_layout.setVisibility(View.VISIBLE);
+                    loopView.setDataList(getList());
+                } else {
+                    messageWindow();
+                }
                 break;
             case R.id.select_device_layout:
                 Intent i = new Intent(getActivity(), DeviceActivity.class);
@@ -210,13 +214,17 @@ TextView select_color_txt;
                 break;
             case R.id.select_color:
                 // dialogWindow();
-                if (sp.getBoolean("pos", false) != true) {
-                    bottome_layout.setVisibility(View.VISIBLE);
-                    loopView.setDataList(getList());
-                } else {
-                    global.setColorId(sp.getString("id", ""));
-                    Intent home = new Intent(getActivity(), ServiceActivity.class);
-                    startActivity(home);
+                if(list.size()>0) {
+                    if (sp.getBoolean("pos", false) != true) {
+                        bottome_layout.setVisibility(View.VISIBLE);
+                        loopView.setDataList(getList());
+                    } else {
+                        global.setColorId(sp.getString("id", ""));
+                        Intent home = new Intent(getActivity(), ServiceActivity.class);
+                        startActivity(home);
+                    }
+                }else{
+                    messageWindow();
                 }
                 break;
             case R.id.done_txtView:
@@ -232,8 +240,9 @@ TextView select_color_txt;
                 ed.putString("color name", list.get(pos).get(GlobalConstant.color));
                 ed.putBoolean("pos", true);
                 ed.commit();
-                current_device_name_txt.setText(global.getDeviceName()+" "+list.get(pos).get(GlobalConstant.color));
+                current_device_name_txt.setText(global.getDeviceName() + " " + list.get(pos).get(GlobalConstant.color));
                 global.setColorId(sp.getString("id", ""));
+                bottome_layout.setVisibility(View.GONE);
                 Intent home = new Intent(getActivity(), ServiceActivity.class);
                 startActivity(home);
                 break;
@@ -254,9 +263,9 @@ TextView select_color_txt;
     }
 
 
-    //--------------------Category api method---------------------------------
+    /*//--------------------Category api method---------------------------------
     private void colorMethod() {
-        String url = GlobalConstant.COLORGET_URL + "iphone-7-plus";
+        String url = GlobalConstant.COLORGET_URL + global.getDeviceName();
         Log.e("url", url);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -284,7 +293,7 @@ TextView select_color_txt;
 
 
                             } else {
-                                Toast.makeText(getActivity(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+
                             }
 
 
@@ -305,7 +314,7 @@ TextView select_color_txt;
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
-
+*/
     @Override
     public void onStart() {
         super.onStart();
@@ -368,5 +377,87 @@ TextView select_color_txt;
 
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
+    }
+    //---------------------------Progrees Dialog-----------------------
+    public void messageWindow() {
+        messageDialog = new Dialog(getActivity());
+        messageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        messageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        messageDialog.setCanceledOnTouchOutside(false);
+        messageDialog.setCancelable(false);
+        messageDialog.setContentView(R.layout.messagenot_support_layout);
+TextView ok_txtView=(TextView)messageDialog.findViewById(R.id.ok_txtView);
+        ok_txtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                messageDialog.dismiss();
+            }
+        });
+TextView phonecure_txt=(TextView)messageDialog.findViewById(R.id.phonecure_txt);
+        phonecure_txt.setText("We currently doesn’t offer rapair for \n"+global.getDeviceName()+"\n We have registered your device with \n" +
+                "us and will contact you soon.");
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        messageDialog.show();
+    }
+
+    private void colorMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.COLORGET_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONArray data = obj.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject arryObj = data.getJSONObject(i);
+                                    HashMap<String, String> map = new HashMap<>();
+                                    map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
+                                    map.put(GlobalConstant.color, arryObj.getString(GlobalConstant.color));
+                                    map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
+                                    list.add(map);
+                                }
+
+
+                            } else {
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("slug", global.getDeviceName());
+
+
+                Log.e("Parameter for color", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+        requestQueue.add(stringRequest);
     }
 }

@@ -103,7 +103,7 @@ public class GlobalConstant {
     public static String service_id="service_id";
     public static String quantity="quantity";
     public static String color="color";
-    public static String COLORGET_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/devicemodels/getColorsWithSlug?slug=";
+    public static String COLORGET_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/devicemodels/getColorsWithSlug";
     public static String ship_firstname="ship_firstname";
     public static String ship_lastname="ship_lastname";
     public static String ship_address="ship_address";
