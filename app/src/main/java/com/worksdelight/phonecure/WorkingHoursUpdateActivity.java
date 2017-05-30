@@ -267,7 +267,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sun_layout.setVisibility(View.GONE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
 
                 }
                 break;
@@ -288,7 +288,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     mon_layout.setVisibility(View.GONE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
 
 
                 }
@@ -309,7 +309,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     tue_closs_txt.setVisibility(View.VISIBLE);
                     tue_layout.setVisibility(View.GONE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.wed_toggle_img:
@@ -329,7 +329,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     wed_layout.setVisibility(View.GONE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.thu_toggle_img:
@@ -349,7 +349,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     thu_layout.setVisibility(View.GONE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.fri_toggle_img:
@@ -368,7 +368,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     fri_closs_txt.setVisibility(View.VISIBLE);
                     fri_layout.setVisibility(View.GONE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.sat_toggle_img:
@@ -386,7 +386,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sat_closs_txt.setVisibility(View.VISIBLE);
                     sat_layout.setVisibility(View.GONE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.pickUp_img:
@@ -699,8 +699,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                                     for (int i = 0; i < 7; i++) {
                                         HashMap<String, String> map = new HashMap<>();
                                         map.put(GlobalConstant.day, daysNAme[i]);
-                                        map.put(GlobalConstant.opening_time, "");
-                                        map.put(GlobalConstant.closing_time, "");
+                                        map.put(GlobalConstant.opening_time, "9:00");
+                                        map.put(GlobalConstant.closing_time, "19:00");
                                         map.put(GlobalConstant.status, "closed");
                                         list.add(map);
                                     }
@@ -758,8 +758,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
                     sun_layout.setVisibility(View.GONE);
                     sun_closs_txt.setVisibility(View.VISIBLE);
-                    sun_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    sun_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    sun_openning.setText("9:00");
+                    sun_clossing.setText("19:00");
                 }
 
             } else if (k == 1) {
@@ -775,8 +775,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
                     mon_layout.setVisibility(View.GONE);
                     mon_closs_txt.setVisibility(View.VISIBLE);
-                    mon_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    mon_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    mon_openning.setText("9:00");
+                    mon_clossing.setText("19:00");
                 }
             } else if (k == 2) {
                 if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
@@ -791,8 +791,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
                     tue_layout.setVisibility(View.GONE);
                     tue_closs_txt.setVisibility(View.VISIBLE);
-                    tue_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    tue_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    tue_openning.setText("9:00");
+                    tue_clossing.setText("19:00");
                 }
             } else if (k == 3) {
                 if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
@@ -807,8 +807,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
                     wed_layout.setVisibility(View.GONE);
                     wed_closs_txt.setVisibility(View.VISIBLE);
-                    wed_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    wed_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    wed_openning.setText("9:00");
+                    wed_clossing.setText("19:00");
                 }
             } else if (k == 4) {
                 if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
@@ -823,8 +823,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
                     thu_layout.setVisibility(View.GONE);
                     thu_closs_txt.setVisibility(View.VISIBLE);
-                    thu_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    thu_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    thu_openning.setText("9:00");
+                    thu_clossing.setText("19:00");
                 }
             } else if (k == 5) {
                 if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
@@ -832,15 +832,15 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     fri_toggle_img.setImageResource(R.drawable.toggle_on);
                     fri_layout.setVisibility(View.VISIBLE);
                     fri_closs_txt.setVisibility(View.GONE);
-                    fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    fri_openning.setText("9:00");
+                    fri_clossing.setText("19:00");
                 } else {
                     fri = 0;
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
                     fri_layout.setVisibility(View.GONE);
                     fri_closs_txt.setVisibility(View.VISIBLE);
-                    fri_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    fri_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    fri_openning.setText("9:00");
+                    fri_clossing.setText("19:00");
                 }
             } else if (k == 6) {
                 if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("open")) {
@@ -855,8 +855,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
                     sat_layout.setVisibility(View.GONE);
                     sat_closs_txt.setVisibility(View.VISIBLE);
-                    sat_openning.setText(list.get(k).get(GlobalConstant.opening_time));
-                    sat_clossing.setText(list.get(k).get(GlobalConstant.closing_time));
+                    sat_openning.setText("9:00");
+                    sat_clossing.setText("19:00");
                 }
             }
 

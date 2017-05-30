@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/back_color"
     android:orientation="vertical">
      <RelativeLayout
@@ -80,8 +81,21 @@
 
                     />
             </RelativeLayout>
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:id="@+id/tech_img"
+                android:src="@drawable/img_click"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="5dip"
+                app:riv_border_width="1dip"
+                app:riv_border_color="#ffffff"
+                app:riv_mutate_background="true"
 
-            <ImageView
+                />
+            <!--<ImageView
                 android:id="@+id/tech_img"
                 android:layout_width="100dp"
                 android:layout_height="120dp"
@@ -89,7 +103,7 @@
                 android:layout_marginTop="10dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_click" />
+                android:src="@drawable/img_click" />-->
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -88,14 +88,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), UserProfileEdit.class);
-                startActivity(i);
+                startActivityForResult(i,1);
             }
         });
         address_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), AddressActivity.class);
-                startActivity(i);
+                startActivityForResult(i,0);
             }
         });
         change_password_layout.setOnClickListener(new View.OnClickListener() {
@@ -132,9 +132,35 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
+if(requestCode==0) {
+
+    location_name_txtView.setText(sp.getString(GlobalConstant.address, ""));
 
 
 
+}else if(requestCode==1) {
+    user_name.setText(cap(sp.getString(GlobalConstant.name, "")));
+
+    TextDrawable drawable = TextDrawable.builder()
+            .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+    if (sp.getString(GlobalConstant.image, "").contains("storage")) {
+        if (sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")) {
+            user_image.setImageDrawable(drawable);
+        } else {
+            Picasso.with(getActivity()).load(new File(sp.getString(GlobalConstant.image, ""))).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+
+        }
+    } else {
+        Picasso.with(getActivity()).load(GlobalConstant.TECHNICIANS_IMAGE_URL + sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+
+
+        //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+    }
+
+
+
+
+}
     }
 
     public String cap(String name) {

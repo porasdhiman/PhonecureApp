@@ -1089,7 +1089,7 @@ public class ShowDeviceActivity extends Activity {
 
                         }
                     }
-
+                   // notifyDataSetChanged();
                     device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this, list));
                     device_view.smoothScrollToPosition(valueof_selected_item);
 

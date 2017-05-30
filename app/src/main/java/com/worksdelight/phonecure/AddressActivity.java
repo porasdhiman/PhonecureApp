@@ -129,6 +129,7 @@ String lat,lng;
                 phone_ed.setEnabled(true);
                 mAutocompleteView.setEnabled(true);
                 submit_btn.setVisibility(View.VISIBLE);
+                edit_txt.setVisibility(View.GONE);
             }
         });
         //address_ed = (EditText) findViewById(R.id.address_ed);
@@ -180,9 +181,18 @@ String lat,lng;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i=new Intent();
+                setResult(0);
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent();
+        setResult(0);
     }
 
     //--------------------search api method---------------------------------
@@ -201,7 +211,7 @@ String lat,lng;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
                                 ed.putString("first name", first_name_ed.getText().toString());
                                 ed.putString("last name", last_name_ed.getText().toString());
                                 ed.putString(GlobalConstant.address, mAutocompleteView.getText().toString());
@@ -210,9 +220,9 @@ String lat,lng;
                                 ed.putString(GlobalConstant.phone, phone_ed.getText().toString());
                                 ed.commit();
                                 Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(AddressActivity.this, MainActivity.class);
+                               /* Intent i = new Intent(AddressActivity.this, MainActivity.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(i);
+                                startActivity(i);*/
                             } else {
                                 Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }

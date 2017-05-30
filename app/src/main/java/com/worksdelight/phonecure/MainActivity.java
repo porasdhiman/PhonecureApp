@@ -31,7 +31,6 @@ import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -121,7 +120,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         dashboard = new ResideMenuItem(this, "PRIVACY POLICY");
         itemProfile = new ResideMenuItem(this, "PROFILE");
        // new_cure = new ResideMenuItem(this, "ABOUT US");
-        logout = new ResideMenuItem(this, "LOGOUT");
+       // logout = new ResideMenuItem(this, "LOGOUT");
 
 
         itemHome.setOnClickListener(this);
@@ -131,7 +130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         services.setOnClickListener(this);
         dashboard.setOnClickListener(this);
        // new_cure.setOnClickListener(this);
-        logout.setOnClickListener(this);
+        //logout.setOnClickListener(this);
 
 
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
@@ -144,7 +143,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
 
 
-        resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
+        //resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
         resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         //resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
         // You can disable a direction by setting ->
@@ -231,7 +230,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             changeFragment(new DashBoradFragment(), "Privacy Policy");
         } /*else if (view == new_cure) {
             changeFragment(new NewCureFragment(), "About us");
-        }*/ else if (view == logout) {
+        }*/ /*else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
             if (sp.getString("type", "app").equalsIgnoreCase("app")) {
                 ed.clear();
@@ -251,7 +250,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
 
 
-        }
+        }*/
 
 
         resideMenu.closeMenu();
@@ -311,6 +310,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        setUpMenu();
 
     }
 

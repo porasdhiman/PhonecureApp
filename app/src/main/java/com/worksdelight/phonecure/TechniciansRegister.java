@@ -69,6 +69,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -105,7 +106,7 @@ import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 public class TechniciansRegister extends FragmentActivity implements View.OnClickListener, View.OnTouchListener , GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
     EditText name_ed, email_ed, vat_ed, password_ed;
-    ImageView tech_img;
+    RoundedImageView tech_img;
     Dialog camgllry, dialog2;
     String selectedImagePath = "", message;
     TextView see_text, register_txtView, org_ed;
@@ -182,7 +183,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
         password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
        // address_ed = (TextView) findViewById(R.id.address_ed);
-        tech_img = (ImageView) findViewById(R.id.tech_img);
+        tech_img = (RoundedImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
         back.setOnClickListener(this);
         tech_img.setOnClickListener(this);

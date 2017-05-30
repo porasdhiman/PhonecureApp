@@ -268,7 +268,7 @@
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:gravity="center"
-android:hint="Open"
+android:text="9:00"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -294,7 +294,7 @@ android:hint="Open"
                                 android:paddingBottom="5dp"
                                 android:gravity="center"
 
-                                android:hint="Close"
+                                android:text="19:00"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -384,7 +384,8 @@ android:hint="Open"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
-                                android:hint="Open"
+                                android:text="9:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
@@ -410,7 +411,8 @@ android:hint="Open"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
-                                android:hint="Close"
+                                android:text="19:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -484,7 +486,7 @@ android:hint="Open"
                                 android:paddingBottom="5dp"
                                 android:gravity="center"
 
-                                android:hint="Open"
+                                android:text="9:00"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -510,7 +512,7 @@ android:hint="Open"
                                 android:paddingRight="5dp"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-                                android:hint="Close"
+                                android:text="19:00"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -584,7 +586,8 @@ android:hint="Open"
                                 android:paddingBottom="5dp"
                                 android:gravity="center"
 
-                                android:hint="Open"
+                                android:text="9:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -611,7 +614,8 @@ android:hint="Open"
                                 android:gravity="center"
 
                                 android:paddingBottom="5dp"
-                                android:hint="Close"
+                                android:text="19:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -689,7 +693,8 @@ android:hint="Open"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
-                                android:hint="Open"
+                                android:text="9:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
@@ -715,7 +720,8 @@ android:hint="Open"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
-                                android:hint="Close"
+                                android:text="19:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -790,7 +796,8 @@ android:hint="Open"
 
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-                                android:hint="Open"
+                                android:text="9:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -816,7 +823,7 @@ android:hint="Open"
 
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-                                android:hint="Close"
+                                android:text="19:00"
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />
@@ -893,7 +900,8 @@ android:hint="Open"
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
                                 android:textColor="@color/mainTextColor"
-                                android:hint="Open"
+                                android:text="9:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textSize="12sp" />
 
@@ -918,7 +926,8 @@ android:hint="Open"
 
                                 android:paddingTop="5dp"
                                 android:paddingBottom="5dp"
-                                android:hint="Close"
+                                android:text="19:00"
+
                                 android:textColorHint="@color/LightGrey"
                                 android:textColor="@color/mainTextColor"
                                 android:textSize="12sp" />

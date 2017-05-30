@@ -41,6 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -114,6 +115,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
+    boolean clickValue = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideSoftKeyboard(TechniciansEditProfileActivity.this);
+                //hideSoftKeyboard(TechniciansEditProfileActivity.this);
                 finish();
             }
         });
@@ -173,26 +175,68 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         name_ed.setEnabled(false);
         email_ed.setEnabled(false);
         vat_ed.setEnabled(false);
-        Log.e("url", GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, ""));
-        Picasso.with(this).load(GlobalConstant.TECH_IMAGE_URL + sp.getString(GlobalConstant.image, "")).into(tech_img);
         name_ed.setText(sp.getString(GlobalConstant.name, ""));
-        name_ed.setSelection(name_ed.getText().length());
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(name_ed.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+        if (sp.getString(GlobalConstant.image, "").contains("storage")) {
+            if(sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")){
+                tech_img.setImageDrawable(drawable);
+            }else{
+                Picasso.with(this).load(new File(sp.getString(GlobalConstant.image, ""))).placeholder(drawable).transform(new CircleTransform()).into(tech_img);
+
+            }
+        } else {
+            Picasso.with(this).load(GlobalConstant.TECH_IMAGE_URL+sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(tech_img);
+
+
+            //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+        }
+
+
+
+
+
+
+
         email_ed.setText(sp.getString(GlobalConstant.email, ""));
         vat_ed.setText(sp.getString(GlobalConstant.vat_number, ""));
-        vat_ed.setSelection(vat_ed.getText().length());
+
         mAutocompleteView.setText(sp.getString(GlobalConstant.address, ""));
         org_ed.setText(sp.getString(GlobalConstant.organization, ""));
         lat = sp.getString(GlobalConstant.address_latitude, "");
         lng = sp.getString(GlobalConstant.address_longitude, "");
+
         camer_click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dailog();
             }
         });
+        name_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                name_ed.setSelection(name_ed.getText().length());
+                return false;
+            }
+        });
+        vat_ed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                vat_ed.setSelection(vat_ed.getText().length());
+                return false;
+            }
+        });
+        mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                mAutocompleteView.setSelection(mAutocompleteView.getText().length());
+                return false;
+            }
+        });
         edit_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                name_ed.setSelection(name_ed.getText().length());
                 edit_txt.setVisibility(View.GONE);
                 email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
 
@@ -201,13 +245,14 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 name_ed.setEnabled(true);
                 vat_ed.setEnabled(true);
                 update_profile.setVisibility(View.VISIBLE);
+                edit_txt.setVisibility(View.GONE);
             }
         });
         vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    dialogWindow();
+
                     vatApiMethod(vat_ed.getText().toString());
                 }
 
@@ -327,12 +372,30 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
 
                     onSelectFromGalleryResult(data);
                     camgllry.dismiss();
+                    edit_txt.setVisibility(View.GONE);
+                    email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
+                    org_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
+                    name_ed.setEnabled(true);
+                    vat_ed.setEnabled(true);
+                    update_profile.setVisibility(View.VISIBLE);
+                    edit_txt.setVisibility(View.GONE);
 
                 }
             }
         } else if (requestCode == 1) {
             onCaptureImageResult(data);
             camgllry.dismiss();
+            edit_txt.setVisibility(View.GONE);
+            email_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
+            org_ed.setTextColor(getResources().getColor(R.color.mainTextColor));
+
+            name_ed.setEnabled(true);
+            vat_ed.setEnabled(true);
+            update_profile.setVisibility(View.VISIBLE);
+            edit_txt.setVisibility(View.GONE);
         } else {
 
         }
@@ -353,6 +416,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         //profilepic.setImageBitmap(bm);
         Uri uri = getImageUri(TechniciansEditProfileActivity.this, bm);
         try {
+            clickValue = true;
             selectedImagePath = getFilePath(TechniciansEditProfileActivity.this, uri);
             Picasso.with(TechniciansEditProfileActivity.this).load(new File(selectedImagePath)).into(tech_img);
 
@@ -385,6 +449,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         // profilepic.setImageBitmap(thumbnail);
         Uri uri = getImageUri(TechniciansEditProfileActivity.this, thumbnail);
         try {
+            clickValue = true;
             selectedImagePath = getFilePath(TechniciansEditProfileActivity.this, uri);
             Picasso.with(TechniciansEditProfileActivity.this).load(new File(selectedImagePath)).into(tech_img);
 
@@ -522,11 +587,12 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(urlString);
             MultipartEntity reqEntity = new MultipartEntity();
-            if (!selectedImagePath.equalsIgnoreCase("")) {
+            if (clickValue == true) {
                 File file1 = new File(selectedImagePath);
                 FileBody bin1 = new FileBody(file1);
                 reqEntity.addPart(GlobalConstant.image, bin1);
             }
+            reqEntity.addPart(GlobalConstant.id, new StringBody(CommonUtils.UserID(TechniciansEditProfileActivity.this)));
 
             reqEntity.addPart(GlobalConstant.name, new StringBody(name_ed.getText().toString()));
 
@@ -553,7 +619,18 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 if (status.equalsIgnoreCase("1")) {
                     success = "true";
                     message = obj.getString("message");
+                    JSONObject data = obj.getJSONObject("data");
+                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                    if (clickValue == true) {
+                        ed.putString(GlobalConstant.image, selectedImagePath);
 
+                    }
+                    ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
+                    ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+                    ed.putString(GlobalConstant.address, data.getString(GlobalConstant.address));
+                    ed.putString(GlobalConstant.address_latitude, data.getString(GlobalConstant.address_latitude));
+                    ed.putString(GlobalConstant.address_longitude, data.getString(GlobalConstant.address_longitude));
+                    ed.commit();
 
                 } else {
                     success = "false";

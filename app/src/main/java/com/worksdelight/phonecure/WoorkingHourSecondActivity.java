@@ -269,7 +269,7 @@ SharedPreferences sp;
                     sun_layout.setVisibility(View.GONE);
                     sun_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
 
                 }
                 break;
@@ -290,7 +290,7 @@ SharedPreferences sp;
                     mon_layout.setVisibility(View.GONE);
                     mon_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
 
 
                 }
@@ -310,7 +310,7 @@ SharedPreferences sp;
                     tue_closs_txt.setVisibility(View.VISIBLE);
                     tue_layout.setVisibility(View.GONE);
                     tue_toggle_img.setImageResource(R.drawable.toggle_off);
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.wed_toggle_img:
@@ -330,7 +330,7 @@ SharedPreferences sp;
                     wed_layout.setVisibility(View.GONE);
                     wed_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.thu_toggle_img:
@@ -349,7 +349,7 @@ SharedPreferences sp;
                     thu_closs_txt.setVisibility(View.VISIBLE);
                     thu_layout.setVisibility(View.GONE);
                     thu_toggle_img.setImageResource(R.drawable.toggle_off);
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.fri_toggle_img:
@@ -369,7 +369,7 @@ SharedPreferences sp;
                     fri_layout.setVisibility(View.GONE);
                     fri_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.sat_toggle_img:
@@ -389,7 +389,7 @@ SharedPreferences sp;
                     sat_layout.setVisibility(View.GONE);
                     sat_toggle_img.setImageResource(R.drawable.toggle_off);
 
-                    updateData("closed", "", "");
+                    updateData("closed", "9:00", "19:00");
                 }
                 break;
             case R.id.pickUp_img:

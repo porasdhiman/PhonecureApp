@@ -94,6 +94,8 @@ public class UserProfileEdit extends FragmentActivity  {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i=new Intent();
+                setResult(1);
                 finish();
             }
         });
@@ -109,11 +111,13 @@ public class UserProfileEdit extends FragmentActivity  {
 
 
         name_ed.setText(cap(sp.getString(GlobalConstant.name, "")));
+        name_ed.setSelection(name_ed.getText().toString().length());
         email_ed.setText(sp.getString(GlobalConstant.email, ""));
        camer_click.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                dailog();
+
            }
        });
         edit_txt.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +125,7 @@ public class UserProfileEdit extends FragmentActivity  {
             public void onClick(View view) {
                 name_ed.setEnabled(true);
                 update_profile.setVisibility(View.VISIBLE);
+                edit_txt.setVisibility(View.GONE);
             }
         });
         TextDrawable drawable = TextDrawable.builder()
@@ -199,12 +204,17 @@ public class UserProfileEdit extends FragmentActivity  {
 
                     onSelectFromGalleryResult(data);
                     camgllry.dismiss();
-
+                    name_ed.setEnabled(true);
+                    update_profile.setVisibility(View.VISIBLE);
+                    edit_txt.setVisibility(View.GONE);
                 }
             }
         } else if (requestCode == 1) {
             onCaptureImageResult(data);
             camgllry.dismiss();
+            name_ed.setEnabled(true);
+            update_profile.setVisibility(View.VISIBLE);
+            edit_txt.setVisibility(View.GONE);
         } else {
 
         }
@@ -371,9 +381,9 @@ public class UserProfileEdit extends FragmentActivity  {
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
                 Toast.makeText(UserProfileEdit.this, message, Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(UserProfileEdit.this, MainActivity.class);
+               /* Intent i = new Intent(UserProfileEdit.this, MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
+                startActivity(i);*/
             } else {
                 Toast.makeText(UserProfileEdit.this, message, Toast.LENGTH_SHORT).show();
             }
@@ -381,7 +391,12 @@ public class UserProfileEdit extends FragmentActivity  {
         }
 
     };
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i=new Intent();
+        setResult(1);
+    }
     //---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
         dialog2 = new Dialog(this);
@@ -406,23 +421,19 @@ public class UserProfileEdit extends FragmentActivity  {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(urlString);
             MultipartEntity reqEntity = new MultipartEntity();
-            if (clickValue = true) {
+            if (clickValue == true) {
                 File file1 = new File(selectedImagePath);
                 FileBody bin1 = new FileBody(file1);
                 reqEntity.addPart(GlobalConstant.image, bin1);
             }
-
-
             reqEntity.addPart(GlobalConstant.id, new StringBody(CommonUtils.UserID(UserProfileEdit.this)));
+
             reqEntity.addPart(GlobalConstant.name, new StringBody(name_ed.getText().toString()));
-
-
-
 
 
             post.setEntity(reqEntity);
 
-            Log.e("params", selectedImagePath + " " + name_ed.getText().toString());
+            Log.e("params", selectedImagePath + CommonUtils.UserID(UserProfileEdit.this) + name_ed.getText().toString());
             HttpResponse response = client.execute(post);
             resEntity = response.getEntity();
 
@@ -433,12 +444,15 @@ public class UserProfileEdit extends FragmentActivity  {
                 String status = obj.getString("status");
                 if (status.equalsIgnoreCase("1")) {
                     success = "true";
-                    ed.putString(GlobalConstant.image, selectedImagePath);
-                    ed.putString(GlobalConstant.name, name_ed.getText().toString());
+                    message = obj.getString("message");
+                    JSONObject data = obj.getJSONObject("data");
+                    ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                    if (clickValue == true) {
+                        ed.putString(GlobalConstant.image, selectedImagePath);
+
+                    }
 
                     ed.commit();
-                    message = obj.getString("message");
-
 
                 } else {
                     success = "false";
@@ -450,6 +464,4 @@ public class UserProfileEdit extends FragmentActivity  {
         }
         return success;
     }
-
-
 }

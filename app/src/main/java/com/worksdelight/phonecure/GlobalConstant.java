@@ -7,35 +7,35 @@ package com.worksdelight.phonecure;
 public class GlobalConstant {
     public static String PREF_NAME = "PhoneCure";
     public static String USERID = "user_id";
-    public static String FORGOT_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/forgetpassword";
-    public static String TWITTER_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/twitterlogin";
-    public static String FACEBOOK_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/facebooklogin";
-    public static String FACEBOOK_REGISTER_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/facebookSignup";
+    public static String FORGOT_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/forgetpassword";
+    public static String TWITTER_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/twitterlogin";
+    public static String FACEBOOK_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/facebooklogin";
+    public static String FACEBOOK_REGISTER_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/facebookSignup";
 
 
 
-    public static String SIGNUP_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/register";
-    public static String TECHSIGNUP_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/register";
-    public static String CATEGORY_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/categories/all";
-    public static String SUB_CATEGORY_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/deviceModelServices/all?device_model_id=";
-    public static String LOGIN_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/login";
-    public static String IMAGE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/categories/";
-    public static String DEVICE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/devicemodels/all?";
-    public static String DEVICE_IMAGE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/device_models/";
-    public static String SEARCH_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/search";
-    public static String SUB_CAETGORY_IMAGE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/services/";
-    public static String TECHNICIANS_IMAGE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/users/";
-    public static String COLOR_IMAGE_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/colors/";
-    public static String BOOKING_URL = "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/bookings/add";
-    public static String ACCORDING_TO_NAME_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/devicemodels/onewithslug?slug=";
+    public static String SIGNUP_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/register";
+    public static String TECHSIGNUP_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/register";
+    public static String CATEGORY_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/categories/all";
+    public static String SUB_CATEGORY_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/deviceModelServices/all?device_model_id=";
+    public static String LOGIN_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/login";
+    public static String IMAGE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/categories/";
+    public static String DEVICE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/devicemodels/all?";
+    public static String DEVICE_IMAGE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/device_models/";
+    public static String SEARCH_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/search";
+    public static String SUB_CAETGORY_IMAGE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/services/";
+    public static String TECHNICIANS_IMAGE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/users/";
+    public static String COLOR_IMAGE_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/colors/";
+    public static String BOOKING_URL = "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/bookings/add";
+    public static String ACCORDING_TO_NAME_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/devicemodels/onewithslug?slug=";
 
-    public static String PROFILE_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/profile";
-    public static String CHANGEPASSWORD_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/changePassword";
-    public static String TECH_IMAGE_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/users/";
-    public static String COM_AND_DEL_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/bookings/action";
-    public static String SERVICE_ENABLE_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/technicianServices/action";
+    public static String PROFILE_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/profile";
+    public static String CHANGEPASSWORD_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/changePassword";
+    public static String TECH_IMAGE_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/users/";
+    public static String COM_AND_DEL_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/bookings/action";
+    public static String SERVICE_ENABLE_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/technicianServices/action";
 
-    public static String NOTIFY_URL= "http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/systemNotifications/all?user_id=";
+    public static String NOTIFY_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/systemNotifications/all?user_id=";
 
 
     
@@ -70,22 +70,21 @@ public class GlobalConstant {
     public static String service="service";
     public static String opening_time="opening_time";
     public static String closing_time="closing_time";
-    public static String STARTING_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/technicians/welcome?";
+    public static String STARTING_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/technicians/welcome?";
 
 
-    public static String FAVORITE_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/users/getFavoriteTechnicians?";
+    public static String FAVORITE_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/users/getFavoriteTechnicians?";
 
     public static String VAT_INFO_URL="http://apilayer.net/api/validate?access_key=fe47111e1c0d975bb965f58f1c975d9d&vat_number=";
 
-    public static String WISHLIST_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/wishlist/add";
+    public static String WISHLIST_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/wishlist/add";
 
     public static String favorite_user_id="favorite_user_id";
-    public static String SERVICEADD_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/technicianServices/add";
-    public static String BRANDNAME_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/subcategories/all?";
+    public static String SERVICEADD_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/technicianServices/add";
+    public static String BRANDNAME_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/subcategories/all?";
 
-    public static String BOOKINGINFO_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/bookings/get?";
-    public static String PDF_DOWNLOAD_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/uploads/invoices/";
-
+    public static String BOOKINGINFO_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/bookings/get?";
+    public static String PDF_DOWNLOAD_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/invoices/";
 
 
     public static String technician_id="technician_id";
@@ -103,7 +102,7 @@ public class GlobalConstant {
     public static String service_id="service_id";
     public static String quantity="quantity";
     public static String color="color";
-    public static String COLORGET_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/devicemodels/getColorsWithSlug";
+    public static String COLORGET_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/devicemodels/getColorsWithSlug";
     public static String ship_firstname="ship_firstname";
     public static String ship_lastname="ship_lastname";
     public static String ship_address="ship_address";
@@ -144,7 +143,7 @@ public class GlobalConstant {
     public static String reviews="reviews";
     public static String invoice="invoice";
     public static String notification="notification";
-    public static String RATING_URL="http://ec2-54-208-18-173.compute-1.amazonaws.com/index.php/api/wishlist/rating";
+    public static String RATING_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/wishlist/rating";
     public static String selected_color_id="selected_color_id";
     public static String estimated_travel_time="estimated_travel_time";
     public static String address_latitude="address_latitude";

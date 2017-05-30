@@ -42,13 +42,13 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden">
 
             </activity>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,73 +58,73 @@
         <activity
             android:name=".RegisterActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".BirthDayActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".TechniciansDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".BookAppoinmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".DeviceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".AfterPaymentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".iPhoneServiceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".ShoppingcartActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".AlmostdoneActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".ForgotActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".PaymentInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <activity
             android:name=".MapBoxActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
 
             />
         <meta-data
@@ -178,23 +178,30 @@
         android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ChangePasswordActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+
+            ></activity>
         <activity
             android:name=".AddressActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansRegister"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".WebActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".HistoryActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".OtherDeviceActivity"
             android:screenOrientation="portrait"
@@ -202,23 +209,28 @@
         <activity
             android:name=".TechniciansDevice"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansMainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansHistory"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansShowDeviceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansServices"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansRegisterProduct"
             android:screenOrientation="portrait"
@@ -227,35 +239,42 @@
         <activity
             android:name=".TechniciansOtherDeviceActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansSetting"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".AppointmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".WorkingHourActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansEditProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity
             android:name=".NotifyActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".TechniciansHomeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".UserAppointmentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".DeactivationActivity"
             android:screenOrientation="portrait"
@@ -267,11 +286,13 @@
         <activity
             android:name=".WorkingHoursUpdateActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <activity
             android:name=".UserProfileEdit"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="554ef2077694defe3f304217687a150a944de5f2" />
