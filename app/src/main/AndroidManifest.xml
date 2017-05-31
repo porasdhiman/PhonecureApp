@@ -293,6 +293,26 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
             ></activity>
+        <activity
+            android:name=".GuidePhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
+        <activity
+            android:name=".GuideSubCatgoryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
+        <activity
+            android:name=".GuideServiceListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
+        <activity
+            android:name=".ServiceWebViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            ></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="554ef2077694defe3f304217687a150a944de5f2" />

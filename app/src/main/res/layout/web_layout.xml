@@ -21,12 +21,15 @@
             android:src="@drawable/white_back"/>
         <TextView
             android:id="@+id/service_txtView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#fff"
+            android:layout_marginRight="10dp"
+            android:singleLine="true"
+            android:layout_toRightOf="@+id/back"
             android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"

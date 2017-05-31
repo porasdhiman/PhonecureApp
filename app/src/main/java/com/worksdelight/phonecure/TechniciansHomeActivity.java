@@ -65,7 +65,7 @@ import java.util.HashMap;
  * Created by worksdelight on 20/04/17.
  */
 
-public class TechniciansHomeActivity extends FragmentActivity implements View.OnClickListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class TechniciansHomeActivity extends FragmentActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private View parentView;
 
     TextView current_device_name_txt, done_txtView, cancel_txtView;
@@ -99,6 +99,10 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
+
+    //-------------Guide text-----------
+    RelativeLayout guide_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,10 +148,11 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
     }
 
     public void init() {
-        mAdView = (AdView)findViewById(R.id.adView);
+        mAdView = (AdView) findViewById(R.id.adView);
         adRequest = new AdRequest.Builder()
                 .build();
         mAdView.loadAd(adRequest);
+        guide_layout = (RelativeLayout) findViewById(R.id.guide_layout);
         header_txt = (TextView) findViewById(R.id.header_txt);
         message_img = (ImageView) findViewById(R.id.message_img);
         // techniciansName_txtView = (TextView) findViewById(R.id.techniciansName_txtView);
@@ -167,6 +172,13 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
         str1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.main_color)), 5, str1.length(), str1.length() - 1);
         builder.append(str1);
         header_txt.setText(builder, TextView.BufferType.SPANNABLE);
+        guide_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(TechniciansHomeActivity.this, GuidePhoneActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -352,9 +364,6 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
                 .build();
 
     }
-
-
-
 
 
     @Override

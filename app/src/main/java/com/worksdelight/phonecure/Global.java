@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -336,6 +337,17 @@ public class Global extends Application {
     }
 
     String estimated_travel_time;
+
+    public ArrayList<JSONObject> getObjArray() {
+        return objArray;
+    }
+
+    public void setObjArray(ArrayList<JSONObject> objArray) {
+        this.objArray = objArray;
+    }
+
+    ArrayList<JSONObject> objArray=new ArrayList<>();
+
     @Override
     public void onCreate() {
         super.onCreate();

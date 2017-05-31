@@ -37,8 +37,9 @@ public class GlobalConstant {
 
     public static String NOTIFY_URL= "http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/systemNotifications/all?user_id=";
 
+    public static String DEVICE_GUIDE_URL= "https://www.ifixit.com/api/2.0/categories";
 
-    
+    public static String SERVICE_GUIDE_URL= "https://www.ifixit.com/api/2.0/categories/";
     public static String email = "email";
     public static String password = "password";
     public static String name = "name";
