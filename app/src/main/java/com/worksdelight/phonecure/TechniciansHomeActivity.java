@@ -175,7 +175,7 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
         guide_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(TechniciansHomeActivity.this, GuidePhoneActivity.class);
+                Intent i = new Intent(TechniciansHomeActivity.this, SearchServiceActivity.class);
                 startActivity(i);
             }
         });

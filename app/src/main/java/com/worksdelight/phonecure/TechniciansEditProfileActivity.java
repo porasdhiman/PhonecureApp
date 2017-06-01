@@ -175,6 +175,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         name_ed.setEnabled(false);
         email_ed.setEnabled(false);
         vat_ed.setEnabled(false);
+        mAutocompleteView.setEnabled(false);
         name_ed.setText(sp.getString(GlobalConstant.name, ""));
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(name_ed.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -244,6 +245,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
 
                 name_ed.setEnabled(true);
                 vat_ed.setEnabled(true);
+                mAutocompleteView.setEnabled(true);
                 update_profile.setVisibility(View.VISIBLE);
                 edit_txt.setVisibility(View.GONE);
             }

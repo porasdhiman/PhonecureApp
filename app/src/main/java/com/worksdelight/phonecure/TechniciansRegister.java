@@ -103,7 +103,7 @@ import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
  * Created by worksdelight on 10/04/17.
  */
 
-public class TechniciansRegister extends FragmentActivity implements View.OnClickListener, View.OnTouchListener , GoogleApiClient.OnConnectionFailedListener,
+public class TechniciansRegister extends FragmentActivity implements View.OnClickListener, View.OnTouchListener, GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
     EditText name_ed, email_ed, vat_ed, password_ed;
     RoundedImageView tech_img;
@@ -124,7 +124,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     String type = "app";
     RelativeLayout facebook_layout;
 
-    String lat,lng;
+    String lat, lng;
     protected GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
     private PlaceAutocompleteAdapter mAdapter;
@@ -133,6 +133,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -182,7 +183,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
         org_ed = (TextView) findViewById(R.id.org_ed);
         password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
-       // address_ed = (TextView) findViewById(R.id.address_ed);
+        // address_ed = (TextView) findViewById(R.id.address_ed);
         tech_img = (RoundedImageView) findViewById(R.id.tech_img);
         register_txtView = (TextView) findViewById(R.id.register_txtView);
         back.setOnClickListener(this);
@@ -194,7 +195,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                 if (!hasFocus) {
 
                     vatApiMethod(vat_ed.getText().toString());
-                }else{
+                } else {
                     vat_ed.setText("");
                 }
 
@@ -212,7 +213,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                     switch (keyCode) {
 
                         case KeyEvent.KEYCODE_ENTER:
-                            if(vat_ed.getText().toString().length()>0) {
+                            if (vat_ed.getText().toString().length() > 0) {
 
                                 vatApiMethod(vat_ed.getText().toString());
                             }
@@ -225,7 +226,21 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                 return false;
             }
         });
+        if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
+            type = "facebook";
+            id_mString = getIntent().getExtras().getString("fb_id");
+            name_ed.setText(getIntent().getExtras().getString("name"));
+            email_ed.setText(getIntent().getExtras().getString("email"));
+            username_mString=getIntent().getExtras().getString("name");
+            email_mString=getIntent().getExtras().getString("email");
+            password_ed.setHint("Not required");
+            Picasso.with(TechniciansRegister.this).load(getIntent().getExtras().getString("image")).into(tech_img);
+            name_ed.setEnabled(false);
+            email_ed.setEnabled(false);
+            password_ed.setEnabled(false);
 
+            tech_img.setEnabled(false);
+        }
     }
 
     @Override
@@ -246,6 +261,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
         }
         return false;
     }
+
     private class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
@@ -258,12 +274,13 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                 default:
                     locationAddress = null;
             }
-            lat=locationAddress.split(" ")[0];
-            lng=locationAddress.split(" ")[1];
+            lat = locationAddress.split(" ")[0];
+            lng = locationAddress.split(" ")[1];
 
 
         }
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -724,7 +741,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
 
             Log.e("params", selectedImagePath + " " + name_ed.getText().toString()
                     + " " + email_ed.getText().toString() + " " + password_ed.getText().toString() + " " + vat_ed.getText().toString() + " " + org_ed.getText().toString()
-                    + " " + mAutocompleteView.getText().toString() + " " + global.getDeviceToken() + " " + global.getLong() + " " + global.getLat() + " android" + " technician"+ lat + lng);
+                    + " " + mAutocompleteView.getText().toString() + " " + global.getDeviceToken() + " " + global.getLong() + " " + global.getLat() + " android" + " technician" + lat + lng);
             HttpResponse response = client.execute(post);
             resEntity = response.getEntity();
 
@@ -831,7 +848,6 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                 params.put(GlobalConstant.address, mAutocompleteView.getText().toString());
                 params.put("address_latitude", lat);
                 params.put("address_longitude", lng);
-
 
 
                 Log.e("Parameter for social", params.toString());

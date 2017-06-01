@@ -113,7 +113,7 @@ public class ShoppingcartActivity extends Activity {
             @Override
             public void onClick(View view) {
                 global.setNewListing(serviceList);
-                float finalTotel=Float.parseFloat(total_price.getText().toString().replace("€", ""))+Float.parseFloat(other_price.getText().toString().replace("€", ""));
+                float finalTotel=Float.parseFloat(total_price.getText().toString().replace("€", ""));
                 Intent i = new Intent(ShoppingcartActivity.this, AlmostdoneActivity.class);
                 i.putExtra("pos", getIntent().getExtras().getString("pos"));
               //  i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
@@ -162,10 +162,12 @@ public class ShoppingcartActivity extends Activity {
 
             }
         }
+        pricevalue=  pricevalue+20.0f;
+
         total_price.setText("€" + pricevalue);
         other_Charges =Float.parseFloat(global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.other_charges));
         if(global.getDropOff().equalsIgnoreCase("1")){
-            other_price.setText("€"+20);
+            other_price.setText("€"+20.0);
         }
         if(global.getPickUp().equalsIgnoreCase("1")){
             other_price.setText("€"+0);
@@ -372,7 +374,10 @@ public class ShoppingcartActivity extends Activity {
                     for (int k = 0; k < serviceList.size(); k++) {
                         pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                     }
-                    total_price.setText("€" + pricevalue);
+                    pricevalue=pricevalue+20.0f;
+                        total_price.setText("€" + pricevalue);
+
+
                 }
             });
             minus.setOnClickListener(new View.OnClickListener() {
@@ -390,6 +395,7 @@ public class ShoppingcartActivity extends Activity {
                         for (int k = 0; k < serviceList.size(); k++) {
                             pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
+                        pricevalue=pricevalue+20.0f;
                         total_price.setText("€" + pricevalue);
                     } else {
                         j = j - 1;
@@ -402,7 +408,10 @@ public class ShoppingcartActivity extends Activity {
                         for (int k = 0; k < serviceList.size(); k++) {
                             pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
-                        total_price.setText("€" + pricevalue);
+                        pricevalue=pricevalue+20.0f;
+                            total_price.setText("€" + pricevalue);
+
+
                     }
                 }
             });

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+    <ImageView
+        android:id="@+id/empty_state_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/guide_empty"
+        android:scaleType="centerCrop"/>
+    <RelativeLayout
+        android:id="@+id/header_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#000">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Search"
+            android:layout_centerInParent="true"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/header_view">
+     <TextView
+         android:id="@+id/search_txt"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:src="@drawable/search_img"
+         android:layout_alignParentRight="true"
+         android:text="Cancel"
+         android:visibility="gone"
+         android:textColor="@color/mainTextColor"
+         android:layout_centerVertical="true"
+         android:layout_marginRight="10dp"/>
+
+        <EditText
+            android:id="@+id/search_editext"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/search_txt"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/calender_back"
+            android:hint="Search device service"
+            android:textColorHint="#000"
+            android:textSize="12sp"
+            android:paddingLeft="10dp"
+            android:textColor="#000"
+            />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/service_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:layout_below="@+id/search_layout"></ListView>
+
+</RelativeLayout>

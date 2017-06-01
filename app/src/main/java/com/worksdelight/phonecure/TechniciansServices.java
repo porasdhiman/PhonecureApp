@@ -61,6 +61,7 @@ import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 import static com.worksdelight.phonecure.GlobalConstant.technician_service_id;
+import static com.worksdelight.phonecure.R.id.time_ed;
 
 /**
  * Created by worksdelight on 15/04/17.
@@ -117,6 +118,7 @@ SharedPreferences sp;
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(TechniciansServices.this,"service",Toast.LENGTH_SHORT).show();
                 if(sp.getString("techService","").equalsIgnoreCase("")) {
                     if (i == 0) {
                         mTutorialHandler.cleanUp();
@@ -329,9 +331,11 @@ SharedPreferences sp;
             holder = new Holder();
             if (view == null) {
 
-                view = inflator.inflate(R.layout.iphone_service_list_item, null);
+                view = inflator.inflate(R.layout.device_service_with_price_layout, null);
                 holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
+                holder.price_ed = (TextView) view.findViewById(R.id.price_ed);
+                holder.time_ed = (TextView) view.findViewById(time_ed);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
                 holder.main_layout=(RelativeLayout)view.findViewById(R.id.main_layout);
@@ -339,6 +343,7 @@ SharedPreferences sp;
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
+                holder.main_layout.setTag(holder);
                 if(sp.getString("techService","").equalsIgnoreCase("")){
                 if(i==0){
                     Animation enterAnimation = new AlphaAnimation(0f, 1f);
@@ -383,8 +388,34 @@ SharedPreferences sp;
             }
 
 
+            holder.main_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(sp.getString("techService","").equalsIgnoreCase("")) {
+                        if (i == 0) {
+                            mTutorialHandler.cleanUp();
+                            Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
+                            map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
+                            map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
+                            map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                            map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                            map.putExtra("pos", String.valueOf(i));
+                            startActivityForResult(map, 0);
+                        }
+                    }else{
+                        Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
+                        map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
+                        map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
+                        map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
+                        map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                        map.putExtra("pos", String.valueOf(i));
+                        startActivityForResult(map, 0);
+                    }
 
-
+                }
+            });
+            holder.price_ed.setText("€"+deviceList.get(i).get(GlobalConstant.price));
+            holder.time_ed.setText("Estimate time: "+getDurationString(Integer.parseInt(deviceList.get(i).get(GlobalConstant.expected_time)))+" Hours");
             holder.select_img.setImageResource(R.drawable.toggle);
             holder.unselect_img.setImageResource(R.drawable.toogle2);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
@@ -459,11 +490,31 @@ SharedPreferences sp;
 
         class Holder {
             ImageView device_image, select_img, unselect_img;
-            TextView device_name;
+            TextView device_name,price_ed,time_ed;
             RelativeLayout main_layout;
         }
     }
+    private String getDurationString(int seconds) {
 
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return twoDigitString(hours) + ":" + twoDigitString(minutes);
+    }
+
+    private String twoDigitString(int number) {
+
+        if (number == 0) {
+            return "00";
+        }
+
+        if (number % 10 == 0) {
+            return ""+number;
+        }
+
+        return String.valueOf(number);
+    }
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {

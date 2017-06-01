@@ -85,6 +85,7 @@ public class UserAppointmentActivity extends Activity {
     AlertDialog builder;
 ImageView navigation_img,service_img;
     String com_star = "0", time_star = "0", service_star = "0", skill_star = "0",user_id;
+    String sourceLatitude = "30.7046", sourceLongitude = "76.7179", destinationLatitude = "", destinationLongitude = "";
 
     TextView service_name,device_name,total_est_time,othertxt,estimate_travel_txt;
     String home_repair="",scoter_repair="";
@@ -110,7 +111,7 @@ ImageView navigation_img,service_img;
         total_est_time= (TextView) findViewById(R.id.total_est_time);
         estimate_travel_txt=(TextView) findViewById(R.id.estimate_travel_txt);
         navigation_img=(ImageView)findViewById(R.id.navigation_img);
-        navigation_img.setVisibility(View.GONE);
+
         back_img = (ImageView) findViewById(R.id.back_img);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +140,7 @@ ImageView navigation_img,service_img;
        // close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
-
+            navigation_img.setVisibility(View.GONE);
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
@@ -220,6 +221,8 @@ ImageView navigation_img,service_img;
                 statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 user_id=objUser.getString(GlobalConstant.id);
+                destinationLatitude = objUser.getString(GlobalConstant.latitude);
+                destinationLongitude = objUser.getString(GlobalConstant.longitude);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
                 TextDrawable drawable = TextDrawable.builder()
@@ -312,6 +315,25 @@ ImageView navigation_img,service_img;
         othertxt.setText("€"+String.valueOf(Float.parseFloat(other_charges)));
 
         estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
+           sourceLatitude=global.getLat();
+        sourceLongitude=global.getLong();
+
+        navigation_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              /*  WebView webview = (WebView) findViewById(R.id.webView1);
+                webview.setWebViewClient(new WebViewClient());
+                webview.getSettings().setJavaScriptEnabled(true);
+                webview.loadUrl("http://maps.google.com/maps?" + "saddr=43.0054446,-87.9678884" + "&daddr=42.9257104,-88.0508355");
+            }*/
+
+                String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," + sourceLongitude + "&daddr=" + destinationLatitude + "," + destinationLongitude;
+                Log.e("navi url", uri);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage("com.google.android.apps.maps");
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

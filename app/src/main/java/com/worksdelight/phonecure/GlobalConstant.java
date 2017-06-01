@@ -40,6 +40,7 @@ public class GlobalConstant {
     public static String DEVICE_GUIDE_URL= "https://www.ifixit.com/api/2.0/categories";
 
     public static String SERVICE_GUIDE_URL= "https://www.ifixit.com/api/2.0/categories/";
+    public static String SEARCH_SERVICE_GUIDE_URL= "https://www.ifixit.com/api/2.0/search/";
     public static String email = "email";
     public static String password = "password";
     public static String name = "name";

@@ -91,9 +91,9 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
     Global global;
 
     String user_image;
-    Dialog dialog2;
-    SharedPreferences sp,sp1;
-    SharedPreferences.Editor ed,ed1;
+    Dialog dialog2, fb_dialog;
+    SharedPreferences sp, sp1;
+    SharedPreferences.Editor ed, ed1;
     ImageView img;
     int i = 0;
     private Animation mEnterAnimation, mExitAnimation;
@@ -307,7 +307,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
         if (requestCode == 3) {
             if (resultCode == RESULT_OK) {
                 Place selectedPlace = PlacePicker.getPlace(data, this);
-                Toast.makeText(LoginActivity.this,selectedPlace.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, selectedPlace.toString(), Toast.LENGTH_SHORT).show();
                 // Do something with the place
             }
         }
@@ -358,6 +358,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                 if (CommonUtils.getConnectivityStatus(LoginActivity.this)) {
 
                     Intent su = new Intent(this, TechniciansRegister.class);
+                    su.putExtra("type","1");
                     startActivity(su);
                     finish();
                 } else {
@@ -478,7 +479,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     }
 
                                     ed.commit();
-                                    ed1.putString("type","login");
+                                    ed1.putString("type", "login");
                                     ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
@@ -493,12 +494,12 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.address_latitude, data.getString(GlobalConstant.address_latitude));
                                     ed.putString(GlobalConstant.address_longitude, data.getString(GlobalConstant.address_longitude));
                                     ed.commit();
-                                    ed1.putString("type","login");
-                                    ed1.putString("techDevice","1");
-                                    ed1.putString("techShowDevice","1");
-                                    ed1.putString("techService","1");
-                                    ed1.putString("techProduct","1");
-                                    ed1.putString("techOtherDevice","1");
+                                    ed1.putString("type", "login");
+                                    ed1.putString("techDevice", "1");
+                                    ed1.putString("techShowDevice", "1");
+                                    ed1.putString("techService", "1");
+                                    ed1.putString("techProduct", "1");
+                                    ed1.putString("techOtherDevice", "1");
                                     ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
@@ -593,7 +594,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     }
 
                                     ed.commit();
-                                    ed1.putString("type","login");
+                                    ed1.putString("type", "login");
                                     ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
                                     startActivity(s);
@@ -608,19 +609,19 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.putString(GlobalConstant.address_latitude, data.getString(GlobalConstant.address_latitude));
                                     ed.putString(GlobalConstant.address_longitude, data.getString(GlobalConstant.address_longitude));
                                     ed.commit();
-                                    ed1.putString("type","login");
-                                    ed1.putString("techDevice","1");
-                                    ed1.putString("techShowDevice","1");
-                                    ed1.putString("techService","1");
-                                    ed1.putString("techProduct","1");
-                                    ed1.putString("techOtherDevice","1");
+                                    ed1.putString("type", "login");
+                                    ed1.putString("techDevice", "1");
+                                    ed1.putString("techShowDevice", "1");
+                                    ed1.putString("techService", "1");
+                                    ed1.putString("techProduct", "1");
+                                    ed1.putString("techOtherDevice", "1");
                                     ed1.commit();
                                     Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
                                     finish();
                                 }
                             } else {
-                                Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                facebookdialogWindow();
                             }
 
 
@@ -661,6 +662,89 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
         requestQueue.add(stringRequest);
     }
 
+
+    //--------------------Facebook Social api method---------------------------------
+    private void FacebookRegistersocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
+                                ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
+                                ed.putString("type", "facebook");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+                                ed.commit();
+                                ed1.clear();
+                                ed1.commit();
+
+
+                                Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(s);
+                                ed1.putString("type", "register");
+                                ed1.commit();
+                                finish();
+                            } else {
+
+                                Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, email_mString);
+                params.put(facebook_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+                params.put(GlobalConstant.image, user_image);
+
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
     //--------------------Facebook Social api method---------------------------------
     private void twittersocialMethod() {
 
@@ -686,6 +770,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                                LoginManager.getInstance().logOut();
+                                fb_dialog.dismiss();
                             }
 
 
@@ -725,6 +811,49 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+    public void facebookdialogWindow() {
+        fb_dialog = new Dialog(this);
+        fb_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        fb_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        fb_dialog.setCanceledOnTouchOutside(false);
+        fb_dialog.setCancelable(false);
+        fb_dialog.setContentView(R.layout.facebook_layout_dialog);
+        TextView user = (TextView) fb_dialog.findViewById(R.id.user_txtView);
+        TextView tech = (TextView) fb_dialog.findViewById(R.id.tech_txtView);
+        TextView cancel = (TextView) fb_dialog.findViewById(R.id.cancel_txtView);
+        user.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogWindow();
+                FacebookRegistersocialMethod();
+            }
+        });
+        tech.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, TechniciansRegister.class);
+                i.putExtra("type","0");
+                i.putExtra("fb_id",id_mString);
+                i.putExtra("email",email_mString);
+                i.putExtra("name",username_mString);
+                i.putExtra("image",user_image);
+                startActivity(i);
+                finish();
+
+            }
+        });
+        cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginManager.getInstance().logOut();
+                fb_dialog.dismiss();
+            }
+        });
+        fb_dialog.show();
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
     }
 
     //---------------------------Progrees Dialog-----------------------
