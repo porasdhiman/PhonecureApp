@@ -84,6 +84,7 @@ public class TechniciansServices extends Activity {
     public TourGuide mTutorialHandler, mTutorialHandler2;
 SharedPreferences sp;
     SharedPreferences.Editor ed;
+    int p=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,11 +340,12 @@ SharedPreferences sp;
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
                 holder.main_layout=(RelativeLayout)view.findViewById(R.id.main_layout);
-                view.setTag(holder);
+
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
                 holder.main_layout.setTag(holder);
+                view.setTag(holder);
                 if(sp.getString("techService","").equalsIgnoreCase("")){
                 if(i==0){
                     Animation enterAnimation = new AlphaAnimation(0f, 1f);
@@ -421,6 +423,7 @@ SharedPreferences sp;
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.select_img.setVisibility(View.GONE);
                 holder.unselect_img.setVisibility(View.VISIBLE);
+                p=i;
             } else {
 
                 holder.select_img.setVisibility(View.VISIBLE);
@@ -457,33 +460,43 @@ SharedPreferences sp;
             }
 
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
-            if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
+
+
                 if (deviceList.get(i).get(GlobalConstant.enabled_status).equalsIgnoreCase("1")) {
                     holder.select_img.setVisibility(View.GONE);
                     holder.unselect_img.setVisibility(View.VISIBLE);
-                    holder.unselect_img.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            holder = (Holder) view.getTag();
-                            enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "0");
 
-                        }
-                    });
                 } else {
 
                     holder.select_img.setVisibility(View.VISIBLE);
                     holder.unselect_img.setVisibility(View.GONE);
-                    holder.select_img.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            holder = (Holder) view.getTag();
-                            enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "1");
-                        }
-                    });
 
 
                 }
-            }
+
+            holder.unselect_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    holder.select_img.setVisibility(View.VISIBLE);
+                    holder.unselect_img.setVisibility(View.GONE);
+                    deviceList.get(i).put(GlobalConstant.enabled_status,"0");
+                    enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "0");
+
+                }
+            });
+            holder.select_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    holder.select_img.setVisibility(View.GONE);
+                    holder.unselect_img.setVisibility(View.VISIBLE);
+                    deviceList.get(i).put(GlobalConstant.enabled_status,"1");
+                    enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "1");
+                }
+            });
+
+
 
             return view;
         }
@@ -569,9 +582,9 @@ SharedPreferences sp;
 
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
-
-                                service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
+                              //  list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
+                               // service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
+                                //service_list.setSelection(p);
                               /*  CommonUtils.getListViewSize(service_list);
                                 main_scrollView.smoothScrollTo(0, 0);*/
 

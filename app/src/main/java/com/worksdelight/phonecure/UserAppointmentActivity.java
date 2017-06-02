@@ -121,6 +121,8 @@ ImageView navigation_img,service_img;
                 finish();
             }
         });
+        sourceLatitude=global.getLat();
+        sourceLongitude=global.getLong();
         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -221,8 +223,8 @@ ImageView navigation_img,service_img;
                 statusValue = obj.getString(GlobalConstant.status);
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 user_id=objUser.getString(GlobalConstant.id);
-                destinationLatitude = objUser.getString(GlobalConstant.latitude);
-                destinationLongitude = objUser.getString(GlobalConstant.longitude);
+                destinationLatitude = objUser.getString("address_latitude");
+                destinationLongitude = objUser.getString("address_longitude");
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
                 TextDrawable drawable = TextDrawable.builder()
@@ -315,9 +317,8 @@ ImageView navigation_img,service_img;
         othertxt.setText("€"+String.valueOf(Float.parseFloat(other_charges)));
 
         estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
-           sourceLatitude=global.getLat();
-        sourceLongitude=global.getLong();
 
+Toast.makeText(UserAppointmentActivity.this,sourceLatitude+sourceLongitude+global.getLat()+global.getLong(),Toast.LENGTH_SHORT);
         navigation_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

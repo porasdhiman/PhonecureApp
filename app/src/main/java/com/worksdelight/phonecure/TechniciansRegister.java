@@ -189,7 +189,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
         back.setOnClickListener(this);
         tech_img.setOnClickListener(this);
 
-        vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -200,7 +200,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                 }
 
             }
-        });
+        });*/
         org_ed.setOnTouchListener(this);
         mAutocompleteView.setOnTouchListener(this);
         see_text.setOnClickListener(this);
@@ -235,6 +235,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
             email_mString=getIntent().getExtras().getString("email");
             password_ed.setHint("Not required");
             Picasso.with(TechniciansRegister.this).load(getIntent().getExtras().getString("image")).into(tech_img);
+            user_image=getIntent().getExtras().getString("image");
             name_ed.setEnabled(false);
             email_ed.setEnabled(false);
             password_ed.setEnabled(false);
@@ -805,6 +806,9 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
                                 ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
                                 ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
                                 ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+                                ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
+                                ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+                                ed.putString(address, data.getString(address));
 
                                 ed.commit();
                                 Intent s = new Intent(TechniciansRegister.this, WoorkingHourSecondActivity.class);

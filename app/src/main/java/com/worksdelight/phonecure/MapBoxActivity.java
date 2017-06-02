@@ -95,8 +95,8 @@ public class MapBoxActivity extends Activity {
     ImageView repair_shop_image, repair_location_image, both_image;
     private Animation mEnterAnimation, mExitAnimation;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-    SharedPreferences sp,sp1;
-    SharedPreferences.Editor ed,ed1;
+    SharedPreferences sp, sp1;
+    SharedPreferences.Editor ed, ed1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +122,7 @@ public class MapBoxActivity extends Activity {
             @Override
             public void onClick(View view) {
                 try {
-                if (list.size() > 0) {
+                    if (list.size() > 0) {
 
                         Intent i = new Intent(MapBoxActivity.this, RepairActivity.class);
 
@@ -130,10 +130,10 @@ public class MapBoxActivity extends Activity {
                         startActivity(i);
 
 
-                }else{
+                    } else {
 
-                }
-                }catch (Exception c){
+                    }
+                } catch (Exception c) {
 
                 }
 
@@ -204,7 +204,7 @@ public class MapBoxActivity extends Activity {
                 public void onClick(View view) {
                     mTutorialHandler.cleanUp();
                     service_type_layout.setVisibility(View.GONE);
-                    ed1.putString("type","login");
+                    ed1.putString("type", "login");
                     ed1.commit();
                 }
             });
@@ -287,9 +287,9 @@ public class MapBoxActivity extends Activity {
                             .zoom(10)
                             .build());
                     if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
-                       BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.sccoteerhome);
-                       Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                       Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.sccoteerhome);
+                        Bitmap originalBitmap = bitmapDrawable.getBitmap();
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
 
@@ -298,7 +298,7 @@ public class MapBoxActivity extends Activity {
                                 .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1")) {
 
-                        BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.home_repair);
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.home_repair);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
                         Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
@@ -308,7 +308,7 @@ public class MapBoxActivity extends Activity {
                                 .icon(icon));
                     } else if (global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
 
-                        BitmapDrawable bitmapDrawable =(BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.scooter);
+                        BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.scooter);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
                         Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
@@ -373,7 +373,7 @@ public class MapBoxActivity extends Activity {
                                 global.setEstimated_travel_time(global.getDateList().get(pos).get(GlobalConstant.estimated_travel_time));
                                 Intent i = new Intent(MapBoxActivity.this, BookAppoinmentActivity.class);
                                 i.putExtra("pos", String.valueOf(pos));
-                               // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                                // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
 
                                 startActivity(i);
 
@@ -383,7 +383,7 @@ public class MapBoxActivity extends Activity {
                         try {
                             JSONObject obj = global.getCartData().getJSONObject(pos);
                             JSONArray servicesArr = obj.getJSONArray("technician_services");
-
+                            f = 0;
                             for (int j = 0; j < servicesArr.length(); j++) {
                                 JSONObject serviceObj = servicesArr.getJSONObject(j);
 

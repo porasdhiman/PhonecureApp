@@ -481,7 +481,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.commit();
                                     ed1.putString("type", "login");
                                     ed1.commit();
-                                    Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                    Intent s = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(s);
                                     finish();
                                 } else {
@@ -596,7 +596,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed.commit();
                                     ed1.putString("type", "login");
                                     ed1.commit();
-                                    Intent s = new Intent(LoginActivity.this, WalkThroughtOneActivity.class);
+                                    Intent s = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(s);
                                     finish();
                                 } else {
@@ -616,7 +616,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed1.putString("techProduct", "1");
                                     ed1.putString("techOtherDevice", "1");
                                     ed1.commit();
-                                    Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
+                                    Intent s = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(s);
                                     finish();
                                 }

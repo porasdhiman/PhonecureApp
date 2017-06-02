@@ -25,8 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     SharedPreferences.Editor ed;
     CallbackManager callbackManager;
     AlertDialog builder;
-    Button title_bar_left_menu;
+    RelativeLayout title_bar_left_menu;
     private Animation mEnterAnimation, mExitAnimation;
 
     public static final int OVERLAY_METHOD = 1;
@@ -148,7 +148,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //resideMenu.setDirectionDisable(ResideMenu.DIRECTION_LEFT);
         // You can disable a direction by setting ->
         // resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
-        title_bar_left_menu=(Button) findViewById(R.id.title_bar_left_menu);
+        title_bar_left_menu=(RelativeLayout) findViewById(R.id.left_view);
         title_bar_left_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

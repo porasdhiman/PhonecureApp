@@ -252,9 +252,9 @@ String lat,lng;
                 params.put(GlobalConstant.ship_lastname, last_name_ed.getText().toString());
 
                 params.put(GlobalConstant.ship_address, mAutocompleteView.getText().toString());
-                params.put(GlobalConstant.latitude, lat);
+                params.put("ship_latitude", lat);
 
-                params.put(GlobalConstant.longitude, lng);
+                params.put("ship_longitude", lng);
                 params.put(GlobalConstant.ship_phone, phone_ed.getText().toString());
 
 

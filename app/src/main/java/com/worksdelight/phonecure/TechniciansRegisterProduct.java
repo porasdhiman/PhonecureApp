@@ -156,6 +156,7 @@ public class TechniciansRegisterProduct extends Activity {
         });
         if (!global.getServiceList().get(p).get(GlobalConstant.expected_time).equalsIgnoreCase("")) {
             time_ed.setText(getDurationString(Integer.parseInt(global.getServiceList().get(p).get(GlobalConstant.expected_time))));
+            secondValue(time_ed.getText().toString());
         }
         if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
             done.setText("Update Service");

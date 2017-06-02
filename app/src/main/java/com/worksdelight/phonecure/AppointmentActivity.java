@@ -118,6 +118,8 @@ String home_repair="",scoter_repair="";
         date_txt = (TextView) findViewById(R.id.date_txt);
         // close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
+        sourceLatitude=global.getLat();
+        sourceLongitude=global.getLong();
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
             navigation_img.setVisibility(View.GONE);
             try {
@@ -204,8 +206,9 @@ String home_repair="",scoter_repair="";
                 estimated_travel_time=obj.getString("estimated_travel_time");
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 user_id = objUser.getString(GlobalConstant.id);
-                destinationLatitude = objUser.getString(GlobalConstant.latitude);
-                destinationLongitude = objUser.getString(GlobalConstant.longitude);
+
+
+
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -219,6 +222,8 @@ String home_repair="",scoter_repair="";
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
+                destinationLatitude = shipping_address.getString("ship_latitude");
+                destinationLongitude = shipping_address.getString("ship_longitude");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
@@ -297,8 +302,7 @@ String home_repair="",scoter_repair="";
         service_list.setAdapter(new CompletedAdapter(this));
         CommonUtils.getListViewSize(service_list);
         main_scroll.smoothScrollBy(0, 0);
-        sourceLatitude=global.getLat();
-        sourceLongitude=global.getLong();
+
         navigation_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -179,7 +179,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         name_ed.setText(sp.getString(GlobalConstant.name, ""));
         TextDrawable drawable = TextDrawable.builder()
                 .buildRound(name_ed.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
-        if (sp.getString(GlobalConstant.image, "").contains("storage")) {
+        if (sp.getString(GlobalConstant.image, "").contains("storage")||sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")) {
             if(sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")){
                 tech_img.setImageDrawable(drawable);
             }else{
@@ -250,7 +250,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 edit_txt.setVisibility(View.GONE);
             }
         });
-        vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* vat_ed.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
@@ -259,7 +259,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 }
 
             }
-        });
+        });*/
         mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

@@ -105,7 +105,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
-    String lat,lng;
+    String lat, lng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,8 +170,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
         if (!sp.getString(GlobalConstant.phone, "").equalsIgnoreCase("")) {
             phone_ed.setText(sp.getString(GlobalConstant.phone, ""));
         }
-        lat=sp.getString(GlobalConstant.latitude, "");
-        lng=sp.getString(GlobalConstant.longitude, "");
+        lat = sp.getString(GlobalConstant.latitude, "");
+        lng = sp.getString(GlobalConstant.longitude, "");
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,11 +181,10 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                     last_name_ed.setError("Please enter last name");
                 } else if (mAutocompleteView.length() == 0) {
                     mAutocompleteView.setError("Please enter address");
-                }
-                else if (phone_ed.length() == 0) {
+                } else if (phone_ed.length() == 0) {
                     phone_ed.setError("Please enter Phone number");
-                }else if (lat.equalsIgnoreCase("")) {
-                    Toast.makeText(AlmostdoneActivity.this,"Please enter valid location name",Toast.LENGTH_SHORT).show();
+                } else if (lat.equalsIgnoreCase("")) {
+                    Toast.makeText(AlmostdoneActivity.this, "Please enter valid location name", Toast.LENGTH_SHORT).show();
 
                 } else {
 
@@ -362,9 +362,9 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                 params.put(GlobalConstant.ship_lastname, last_name_ed.getText().toString());
 
                 params.put(GlobalConstant.ship_address, mAutocompleteView.getText().toString());
-                params.put(GlobalConstant.latitude, lat);
+                params.put("ship_latitude", lat);
 
-                params.put(GlobalConstant.longitude, lng);
+                params.put("ship_longitude", lng);
                 params.put(GlobalConstant.ship_phone, phone_ed.getText().toString());
 
 
@@ -583,10 +583,9 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
             String latlong = place.getLatLng().toString().split(":")[1];
             String completeLatLng = latlong.substring(1, latlong.length() - 1);
             // Toast.makeText(MapsActivity.this,completeLatLng,Toast.LENGTH_SHORT).show();
-             lat = completeLatLng.split(",")[0];
+            lat = completeLatLng.split(",")[0];
             lat = lat.substring(1, lat.length());
-             lng = completeLatLng.split(",")[1];
-
+            lng = completeLatLng.split(",")[1];
 
             places.release();
         }
