@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ public class ProfileFragment extends Fragment {
     Global global;
     CallbackManager callbackManager;
     ImageView user_image;
-
+LinearLayout main_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
@@ -49,6 +50,8 @@ public class ProfileFragment extends Fragment {
     }
 
     public void init(View v) {
+        main_layout=(LinearLayout)v.findViewById(R.id.main_layout);
+        Fonts.overrideFonts(getActivity(), main_layout);
         user_name = (TextView) v.findViewById(R.id.user_name);
        // user_phone = (TextView) v.findViewById(R.id.user_phone);
         user_email = (TextView) v.findViewById(R.id.user_email);

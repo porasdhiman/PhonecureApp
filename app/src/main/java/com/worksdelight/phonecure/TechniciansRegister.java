@@ -133,7 +133,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
-
+LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +151,8 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         callbackManager = CallbackManager.Factory.create();
         Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
@@ -342,7 +344,9 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
-
+        Intent k = new Intent(TechniciansRegister.this, LoginActivity.class);
+        k.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(k);
     }
 
     //---------------------------facebook method------------------------------

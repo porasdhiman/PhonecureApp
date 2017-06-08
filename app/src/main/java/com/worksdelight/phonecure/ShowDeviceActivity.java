@@ -68,7 +68,7 @@ public class ShowDeviceActivity extends Activity {
     TextView next_txtView;
     int valueof_selected_item = 1, pos;
     ArrayList<String> value = new ArrayList<>();
-    int j;
+    int j=7;
     Global global;
     int measuredWidth = 0;
     int measuredHeight = 0;
@@ -98,6 +98,7 @@ public class ShowDeviceActivity extends Activity {
         showDeviceMethod();
         back = (ImageView) findViewById(R.id.back);
         next_txtView = (TextView) findViewById(R.id.next_txtView);
+        next_txtView.setVisibility(View.VISIBLE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,18 +108,22 @@ public class ShowDeviceActivity extends Activity {
         next_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<HashMap<String, String>> color = convertToHashMapForModelId(list.get(valueof_selected_item).get(GlobalConstant.color_images));
+                if(j==7){
+                    Toast.makeText(ShowDeviceActivity.this,"Please select device color",Toast.LENGTH_SHORT).show();
+                }else {
+                    ArrayList<HashMap<String, String>> color = convertToHashMapForModelId(list.get(valueof_selected_item).get(GlobalConstant.color_images));
 
-                Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
-                iPhone.putExtra("device_type", list.get(valueof_selected_item).get(GlobalConstant.name));
-                iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
-                iPhone.putExtra("id", list.get(valueof_selected_item).get(GlobalConstant.id));
+                    Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
+                    iPhone.putExtra("device_type", list.get(valueof_selected_item).get(GlobalConstant.name));
+                    iPhone.putExtra("device_id", getIntent().getExtras().getString("id"));
+                    iPhone.putExtra("id", list.get(valueof_selected_item).get(GlobalConstant.id));
 
-                global.setColorId(color.get(j).get(GlobalConstant.color_id));
-                global.setSubCatId(list.get(valueof_selected_item).get(GlobalConstant.sub_category_id));
+                    global.setColorId(color.get(j).get(GlobalConstant.color_id));
+                    global.setSubCatId(list.get(valueof_selected_item).get(GlobalConstant.sub_category_id));
 
 
-                startActivity(iPhone);
+                    startActivity(iPhone);
+                }
             }
         });
         device_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1080,7 +1085,7 @@ public class ShowDeviceActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     valueof_selected_item = i;
-                    next_txtView.setVisibility(View.GONE);
+
                     for (int p = 0; p < value.size(); p++) {
                         if (p == i) {
                             value.set(i, "true");

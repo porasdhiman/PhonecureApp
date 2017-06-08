@@ -55,7 +55,7 @@ public class iPhoneServiceActivity extends Activity {
     ListView service_list;
     //  int imgArray[] = {R.drawable.backcover, R.drawable.battey, R.drawable.camera, R.drawable.charger, R.drawable.home_btn, R.drawable.microphone, R.drawable.ios_txt};
     // String txtArray[] = {"Backcover", "Battery", "Front camera", "Dock charger", "Home Button", "Microphone", "Software"};
-    ImageView search_img,back;
+    ImageView search_img, back;
     ScrollView main_scrollView;
     TextView submit_btn, service_txtView;
     Dialog dialog2;
@@ -63,7 +63,8 @@ public class iPhoneServiceActivity extends Activity {
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     String serviceID = "";
-Global global;
+    Global global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +73,13 @@ Global global;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        global=(Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         init();
 
     }
 
     public void init() {
-        back=(ImageView)findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back);
         submit_btn = (TextView) findViewById(R.id.submit_btn);
         service_txtView = (TextView) findViewById(R.id.service_txtView);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
@@ -90,7 +91,7 @@ Global global;
                 finish();
             }
         });
-      //  search_img = (ImageView) findViewById(R.id.search_img);
+        //  search_img = (ImageView) findViewById(R.id.search_img);
         dialogWindow();
         subcategoryMethod();
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,9 +103,9 @@ Global global;
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(serviceID.equalsIgnoreCase("")){
-                    Toast.makeText(iPhoneServiceActivity.this,"Please select services",Toast.LENGTH_SHORT).show();
-                }else{
+                if (serviceID.equalsIgnoreCase("")) {
+                    Toast.makeText(iPhoneServiceActivity.this, "Please select services", Toast.LENGTH_SHORT).show();
+                } else {
                     Intent map = new Intent(iPhoneServiceActivity.this, MapBoxActivity.class);
                     map.putExtra("device_id", getIntent().getExtras().getString("device_id"));
                     map.putExtra("id", getIntent().getExtras().getString("id"));
@@ -122,7 +123,7 @@ Global global;
     private void subcategoryMethod() {
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL +getIntent().getExtras().getString("id"),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL + getIntent().getExtras().getString("id"),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -147,7 +148,7 @@ Global global;
                                     map.put(GlobalConstant.icon, arryObj.getString(GlobalConstant.icon));
                                     list.add(map);
                                 }
-                                if(list.size()!=0) {
+                                if (list.size() != 0) {
                                     service_list.setAdapter(new DeviceAdapter(iPhoneServiceActivity.this, list));
                                     /*CommonUtils.getListViewSize(service_list);
                                     main_scrollView.smoothScrollTo(0, 0);*/
@@ -292,7 +293,7 @@ Global global;
                             serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
                         }
                     }
-                    Log.e("service id minus",serviceID);
+                    Log.e("service id minus", serviceID);
                     submit_btn.setVisibility(View.VISIBLE);
 
                 }
@@ -303,7 +304,7 @@ Global global;
                     holder = (Holder) v.getTag();
                     holder.select_img.setVisibility(View.VISIBLE);
                     holder.unselect_img.setVisibility(View.GONE);
-                    String id = String.valueOf(serviceID.charAt(0));
+                    String id = String.valueOf(serviceID.split(",")[0]);
 
                     if (serviceID.contains(",")) {
                         if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
@@ -317,7 +318,7 @@ Global global;
                         serviceID = "";
 
                     }
-                    Log.e("service id",serviceID);
+                    Log.e("service id", serviceID);
 
                 }
             });

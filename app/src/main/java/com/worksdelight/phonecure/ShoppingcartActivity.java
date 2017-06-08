@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -63,6 +64,7 @@ public class ShoppingcartActivity extends Activity {
     float pricevalue=0.0f;
     AlertDialog builder;
     float other_Charges;
+    LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,8 @@ public class ShoppingcartActivity extends Activity {
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         cart_list = (ListView) findViewById(R.id.cart_list);
         other_price=(TextView)findViewById(R.id.other_price);
         cart_value_info = (TextView) findViewById(R.id.cart_value_info);
@@ -332,6 +336,9 @@ public class ShoppingcartActivity extends Activity {
                     }
                 }
             });*/
+            LinearLayout main_layout_cart=(LinearLayout)convertView.findViewById(R.id.main_layout_cart);
+
+            Fonts.overrideFonts(mContext, main_layout_cart);
             TextView t = (TextView) convertView.findViewById(R.id.name_view);
             final TextView person_count = (TextView) convertView.findViewById(R.id.person_count);
             ImageView service_view = (ImageView) convertView.findViewById(R.id.service_view);

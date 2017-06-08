@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class ChangePasswordActivity extends Activity {
     TextView reset_password_view;
     ImageView back;
 Dialog dialog2;
+    RelativeLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ Dialog dialog2;
     }
 
     public void init() {
+        main_layout=(RelativeLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         back = (ImageView) findViewById(R.id.back);
         old_password_ed = (EditText) findViewById(R.id.old_password_ed);
         new_password_ed = (EditText) findViewById(R.id.new_password_ed);

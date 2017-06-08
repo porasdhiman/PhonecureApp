@@ -97,7 +97,7 @@ public class MapBoxActivity extends Activity {
     public TourGuide mTutorialHandler, mTutorialHandler2;
     SharedPreferences sp, sp1;
     SharedPreferences.Editor ed, ed1;
-
+ImageView cross_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +131,7 @@ public class MapBoxActivity extends Activity {
 
 
                     } else {
-
+                        Toast.makeText(MapBoxActivity.this, "Technicians not Available", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception c) {
 
@@ -150,6 +150,13 @@ public class MapBoxActivity extends Activity {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
         book_layout = (LinearLayout) findViewById(R.id.book_layout);
+        cross_img=(ImageView)findViewById(R.id.cross_img);
+        cross_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                book_layout.setVisibility(View.GONE);
+            }
+        });
        /* horizontal_view_list = (TwoWayView) findViewById(R.id.horizontal_view_list);
         horizontal_view_list.setAdapter(new HorizontalViewAdapter(this));
         horizontal_view_list.setItemMargin(20);*/
@@ -282,14 +289,11 @@ public class MapBoxActivity extends Activity {
                     Double longt = Double.parseDouble(global.getDateList().get(i).get(GlobalConstant.longitude));
 
 
-                    mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                            .target(new LatLng(lat, longt))
-                            .zoom(10)
-                            .build());
+
                     if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.sccoteerhome);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
 
@@ -300,7 +304,7 @@ public class MapBoxActivity extends Activity {
 
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.home_repair);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
@@ -310,7 +314,7 @@ public class MapBoxActivity extends Activity {
 
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.scooter);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 140, 140, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
@@ -324,7 +328,21 @@ public class MapBoxActivity extends Activity {
                             .title("Cape Town Harbour")
                             .snippet("One of the busiest ports in South Africa")
                             .icon(icon));*/
-                    map.put(String.valueOf(i), i);
+                    if (i == 0) {
+                        IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+                        mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                                .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
+                                .zoom(12)
+                                .build());
+                        final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
+                        markers.add(new MarkerOptions()
+                                .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
+                                .icon(icon));
+                        map.put(String.valueOf(i), i);
+                    } else {
+                        map.put(String.valueOf(i), i);
+                    }
+
 
                 }
                 mapboxMap.addMarkers(markers);
@@ -332,72 +350,79 @@ public class MapBoxActivity extends Activity {
                     @Override
                     public boolean onMarkerClick(@NonNull com.mapbox.mapboxsdk.annotations.Marker marker) {
                         Log.e("marker id", String.valueOf(marker.getId()));
-                        pos = map.get(String.valueOf(marker.getId()));
+                        if (marker.getId() != 0) {
+                            long p = marker.getId() - 1;
+                            pos = map.get(String.valueOf(p));
 
-                        book_layout.setVisibility(View.VISIBLE);
-                        book_layout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                global.setEstimated_travel_time(global.getDateList().get(pos).get(GlobalConstant.estimated_travel_time));
-                                Intent intent = new Intent(MapBoxActivity.this, TechniciansDetailActivity.class);
-                                intent.putExtra("pos", String.valueOf(pos));
-                                //intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-                                intent.putExtra("type", "0");
-                                startActivity(intent);
+
+                            book_layout.setVisibility(View.VISIBLE);
+                            book_layout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    global.setEstimated_travel_time(global.getDateList().get(pos).get(GlobalConstant.estimated_travel_time));
+                                    Intent intent = new Intent(MapBoxActivity.this, TechniciansDetailActivity.class);
+                                    intent.putExtra("pos", String.valueOf(pos));
+                                    //intent.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+                                    intent.putExtra("type", "0");
+                                    startActivity(intent);
+                                }
+                            });
+                            technicians_name_txtView.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
+
+
+                            average_rating_txt.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
+
+                            String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
+                            if (url != null && !url.equalsIgnoreCase("null")
+                                    && !url.equalsIgnoreCase("")) {
+                                imageLoader.displayImage(url, tech_img, options,
+                                        new SimpleImageLoadingListener() {
+                                            @Override
+                                            public void onLoadingComplete(String imageUri,
+                                                                          View view, Bitmap loadedImage) {
+                                                super.onLoadingComplete(imageUri, view,
+                                                        loadedImage);
+
+                                            }
+                                        });
+                            } else {
+                                tech_img.setImageResource(R.drawable.user_back);
                             }
-                        });
-                        technicians_name_txtView.setText(cap(global.getDateList().get(pos).get(GlobalConstant.name)));
+                            book_appointment.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    global.setEstimated_travel_time(global.getDateList().get(pos).get(GlobalConstant.estimated_travel_time));
+                                    Intent i = new Intent(MapBoxActivity.this, BookAppoinmentActivity.class);
+                                    i.putExtra("pos", String.valueOf(pos));
+                                    // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
+
+                                    startActivity(i);
 
 
-                        average_rating_txt.setText(global.getDateList().get(pos).get(GlobalConstant.average_rating));
+                                }
+                            });
 
-                        String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(pos).get(GlobalConstant.image);
-                        if (url != null && !url.equalsIgnoreCase("null")
-                                && !url.equalsIgnoreCase("")) {
-                            imageLoader.displayImage(url, tech_img, options,
-                                    new SimpleImageLoadingListener() {
-                                        @Override
-                                        public void onLoadingComplete(String imageUri,
-                                                                      View view, Bitmap loadedImage) {
-                                            super.onLoadingComplete(imageUri, view,
-                                                    loadedImage);
+                            try {
+                                JSONObject obj = global.getCartData().getJSONObject(pos);
+                                JSONArray servicesArr = obj.getJSONArray("technician_services");
+                                f = 0;
+                                for (int j = 0; j < servicesArr.length(); j++) {
+                                    JSONObject serviceObj = servicesArr.getJSONObject(j);
 
-                                        }
-                                    });
-                        } else {
-                            tech_img.setImageResource(R.drawable.user_back);
-                        }
-                        book_appointment.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                global.setEstimated_travel_time(global.getDateList().get(pos).get(GlobalConstant.estimated_travel_time));
-                                Intent i = new Intent(MapBoxActivity.this, BookAppoinmentActivity.class);
-                                i.putExtra("pos", String.valueOf(pos));
-                                // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
-
-                                startActivity(i);
+                                    f = f + Float.parseFloat(serviceObj.getString(GlobalConstant.price));
 
 
+                                }
+                                price_txt.setText("You will be charged €" + String.valueOf(f));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        });
-                        try {
-                            JSONObject obj = global.getCartData().getJSONObject(pos);
-                            JSONArray servicesArr = obj.getJSONArray("technician_services");
-                            f = 0;
-                            for (int j = 0; j < servicesArr.length(); j++) {
-                                JSONObject serviceObj = servicesArr.getJSONObject(j);
-
-                                f = f + Float.parseFloat(serviceObj.getString(GlobalConstant.price));
-
-
-                            }
-                            price_txt.setText("You will be charged €" + String.valueOf(f));
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
                         return false;
+
                     }
+
                 });
             }
         });
@@ -437,10 +462,18 @@ public class MapBoxActivity extends Activity {
                                     mapView.getMapAsync(new OnMapReadyCallback() {
                                         @Override
                                         public void onMapReady(MapboxMap mapboxMap) {
-                                            CameraPosition cameraPosition = new CameraPosition.Builder()
-                                                    .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))) // Sets the center of the map to Chicago
-                                                    .zoom(10)                            // enable zoom feature
-                                                    .build();
+                                            IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
+
+                                            final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
+                                            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                                                    .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
+                                                    .zoom(12)
+
+                                                    .build());
+
+
+                                            mapboxMap.addMarker(new MarkerOptions()
+                                                    .position(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong()))).icon(icon));
 
 
                                         }
@@ -473,8 +506,8 @@ public class MapBoxActivity extends Activity {
                                         map.put(favorite, objArr.getString(favorite));
                                         map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));
                                         map.put(GlobalConstant.average_rating, objArr.getString(GlobalConstant.average_rating));
-                                        map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.latitude));
-                                        map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.longitude));
+                                        map.put(GlobalConstant.latitude, objArr.getString(GlobalConstant.address_latitude));
+                                        map.put(GlobalConstant.longitude, objArr.getString(GlobalConstant.address_longitude));
                                         /*JSONArray servicesArr = objArr.getJSONArray("technician_services");
                                         for (int j = 0; j < servicesArr.length(); j++) {
                                             JSONObject serviceObj = servicesArr.getJSONObject(j);

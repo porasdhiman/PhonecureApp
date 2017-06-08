@@ -614,11 +614,28 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
 
                         finish();
                     } else {
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        if (sp.getString(GlobalConstant.type, "technician").equalsIgnoreCase("user")) {
+                            ed1.putString("type","login");
+                            ed1.commit();
+                            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                        finish();
+                            finish();
+                        } else {
+                            ed1.putString("type", "login");
+                            ed1.putString("techDevice","1");
+                            ed1.putString("techShowDevice","1");
+                            ed1.putString("techService","1");
+                            ed1.putString("techProduct","1");
+                            ed1.putString("techOtherDevice","1");
+                            ed1.commit();
+                            Intent intent = new Intent(SplashActivity.this, TechniciansHomeActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+                            finish();
+                        }
                     }
                 }
             }, 2000);

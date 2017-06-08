@@ -534,7 +534,7 @@ public class TechniciansRegisterProduct extends Activity {
                     holder = (Holder) v.getTag();
                     holder.select_img.setVisibility(View.VISIBLE);
                     holder.unselect_img.setVisibility(View.GONE);
-                    String id = String.valueOf(serviceID.charAt(0));
+                    String id = String.valueOf(serviceID.split(",")[0]);
 
                     if (serviceID.contains(",")) {
                         if (id.equalsIgnoreCase(color_name_list.get(i).get(GlobalConstant.color_id))) {

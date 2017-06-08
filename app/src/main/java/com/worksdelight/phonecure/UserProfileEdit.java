@@ -70,7 +70,7 @@ public class UserProfileEdit extends FragmentActivity  {
     String message;
     String lat, lng;
     boolean clickValue = false;
-
+LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +83,8 @@ public class UserProfileEdit extends FragmentActivity  {
     }
 
     public void init() {
-
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         // getToken();
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();

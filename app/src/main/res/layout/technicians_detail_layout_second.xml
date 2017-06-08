@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
 
     <RelativeLayout
         android:id="@+id/header_view"
@@ -126,7 +127,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="3dp"
                                         android:layout_gravity="center_vertical"
-                                        android:text="5"
+                                        android:text=""
                                         android:textColor="@color/main_color"
                                         android:textSize="@dimen/main_txt" />
 
@@ -260,7 +261,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
-                android:text="Book appointment"
+                android:text="Book Appointment"
                 android:textColor="#fff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -394,7 +395,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Pickup service"
+                                android:text="Repair at Shop"
                                 android:textColor="@color/main_color"
 
                                 android:textSize="@dimen/header_txt" />
@@ -437,7 +438,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:text="Dropoff service"
+                            android:text="Repair at location"
                             android:textColor="@color/main_color"
                             android:textSize="@dimen/header_txt" />
 
@@ -476,21 +477,24 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/working_view_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Working hours"
-                    android:textColor="#000"
-                    android:textSize="@dimen/header_txt" />
+                    android:textColor="@color/mainTextColor"
+                    android:textSize="@dimen/header_txt"
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:id="@+id/sun_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/sun_txt"
@@ -510,11 +514,12 @@
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/mon_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/mon_txt"
@@ -535,11 +540,12 @@
 
                 <LinearLayout
                     android:id="@+id/tue_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/tue_txt"
@@ -560,11 +566,12 @@
 
                 <LinearLayout
                     android:id="@+id/wed_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/wed_txt"
@@ -585,11 +592,12 @@
 
                 <LinearLayout
                     android:id="@+id/thu_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/thu_txt"
@@ -610,11 +618,12 @@
 
                 <LinearLayout
                     android:id="@+id/fri_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/fri_txt"
@@ -635,11 +644,12 @@
 
                 <LinearLayout
                     android:id="@+id/sat_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
 
                     <TextView
                         android:id="@+id/sat_txt"
@@ -664,7 +674,7 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+           <!-- <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
@@ -698,7 +708,7 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/forward" />
             </RelativeLayout>
-
+-->
 
             <View
                 android:layout_width="match_parent"

@@ -71,6 +71,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     Global global;
 SharedPreferences sp;
     SharedPreferences.Editor ed;
+    LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +95,8 @@ SharedPreferences sp;
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -111,7 +111,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
-
+RelativeLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +132,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
 
     public void init() {
 
-
+        main_layout=(RelativeLayout)findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         adapter = new SocialAuthAdapter(new ResponseListener());
         callbackManager = CallbackManager.Factory.create();
         Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
@@ -173,6 +174,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
         sign_up_btn = (TextView) findViewById(R.id.sign_up_btn);
         sign_up_user = (TextView) findViewById(R.id.sign_up_user);
         forgot_view = (TextView) findViewById(R.id.forgot_view);
+        Fonts.overrideFonts1(this, forgot_view);
         facebook_layout.setOnClickListener(this);
         twitter_layout.setOnClickListener(this);
         twitter_layout.setVisibility(View.GONE);
@@ -476,6 +478,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                         ed.putString(GlobalConstant.address, shipping_address.getString("ship_address"));
 
                                         ed.putString(GlobalConstant.phone, shipping_address.getString("ship_phone"));
+                                        ed.putString("ship_lat", shipping_address.getString("ship_latitude"));
+                                        ed.putString("ship_long", shipping_address.getString("ship_longitude"));
                                     }
 
                                     ed.commit();
@@ -591,6 +595,8 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                         ed.putString(GlobalConstant.address, shipping_address.getString("ship_address"));
 
                                         ed.putString(GlobalConstant.phone, shipping_address.getString("ship_phone"));
+                                        ed.putString("ship_lat", shipping_address.getString("ship_latitude"));
+                                        ed.putString("ship_long", shipping_address.getString("ship_longitude"));
                                     }
 
                                     ed.commit();
@@ -616,7 +622,7 @@ public class LoginActivity extends FragmentActivity implements OnClickListener, 
                                     ed1.putString("techProduct", "1");
                                     ed1.putString("techOtherDevice", "1");
                                     ed1.commit();
-                                    Intent s = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent s = new Intent(LoginActivity.this, TechniciansHomeActivity.class);
                                     startActivity(s);
                                     finish();
                                 }

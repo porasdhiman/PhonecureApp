@@ -64,8 +64,8 @@ ImageView back;
     LinearLayout sun_layout,mon_layout,tue_layout,wed_layout,thu_layout,fri_layout,sat_layout,working_layout;
     TextView sun_txt,mon_txt,tue_txt,wed_txt,thu_txt,fri_txt,sat_txt;
 
-    TextView sun_time,mon_time,tue_time,wed_time,thu_time,fri_time,sat_time,wish_list_count_value;
-
+    TextView sun_time,mon_time,tue_time,wed_time,thu_time,fri_time,sat_time,wish_list_count_value,working_view_txt;
+LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +81,8 @@ ImageView back;
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         imageLoader = com.nostra13.universalimageloader.core.ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -91,6 +93,8 @@ ImageView back;
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
         back=(ImageView)findViewById(R.id.back);
+        working_view_txt=(TextView)findViewById(R.id.working_view_txt);
+        Fonts.overrideFonts1(this, working_view_txt);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -230,6 +234,16 @@ ImageView back;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 global.getDateList().get(pos).put(GlobalConstant.favorite, favorite);
+                                if(global.getDateList().get(pos).get(GlobalConstant.favorite).equalsIgnoreCase("0")){
+                                    int l=Integer.parseInt(global.getDateList().get(pos).get(GlobalConstant.favorite_count))-1;
+                                    wish_list_count_value.setText(String.valueOf(l));
+                                    global.getDateList().get(pos).put(GlobalConstant.favorite_count,String.valueOf(l));
+                                }else{
+                                    int l=Integer.parseInt(global.getDateList().get(pos).get(GlobalConstant.favorite_count))+1;
+                                    wish_list_count_value.setText(String.valueOf(l));
+                                    global.getDateList().get(pos).put(GlobalConstant.favorite_count,String.valueOf(l));
+                                }
+
                                 wishMethod();
                             } else {
                                 Toast.makeText(TechniciansDetailActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

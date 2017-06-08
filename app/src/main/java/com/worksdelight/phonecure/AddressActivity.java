@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +77,7 @@ String lat,lng;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     TextView edit_txt;
+    RelativeLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,8 @@ String lat,lng;
     }
 
     public void init() {
+        main_layout=(RelativeLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         buildGoogleApiClient();
         back = (ImageView) findViewById(R.id.back);
         //-------------------------------Call AutocompleteTxtView-----------------
@@ -145,8 +149,8 @@ String lat,lng;
         if (!sp.getString(GlobalConstant.address, "").equalsIgnoreCase("")) {
             mAutocompleteView.setText(cap(sp.getString(GlobalConstant.address, "")));
         }
-        lat=sp.getString(GlobalConstant.latitude,"");
-        lng=sp.getString(GlobalConstant.longitude,"");
+        lat=sp.getString("ship_lat","");
+        lng=sp.getString("ship_long","");
         /*if (!sp.getString("city", "").equalsIgnoreCase("")) {
             city_ed.setText(sp.getString("city", ""));
         }
@@ -215,8 +219,8 @@ String lat,lng;
                                 ed.putString("first name", first_name_ed.getText().toString());
                                 ed.putString("last name", last_name_ed.getText().toString());
                                 ed.putString(GlobalConstant.address, mAutocompleteView.getText().toString());
-                               ed.putString(GlobalConstant.latitude,lat);
-                                ed.putString(GlobalConstant.longitude,lng);
+                               ed.putString("ship_lat",lat);
+                                ed.putString("ship_long",lng);
                                 ed.putString(GlobalConstant.phone, phone_ed.getText().toString());
                                 ed.commit();
                                 Toast.makeText(AddressActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();

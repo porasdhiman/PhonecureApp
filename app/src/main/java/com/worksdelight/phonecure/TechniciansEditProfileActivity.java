@@ -91,7 +91,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TechniciansEditProfileActivity extends FragmentActivity implements GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
     ImageView back;
-    RelativeLayout main_layout;
+
 
     EditText name_ed, email_ed, vat_ed;
     TextView org_ed, address_ed;
@@ -116,6 +116,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     boolean clickValue = false;
+    RelativeLayout main_layout,work_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +129,8 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
         buildGoogleApiClient();
+        main_layout=(RelativeLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         //-------------------------------Call AutocompleteTxtView-----------------
         mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.address_ed);
 
@@ -156,8 +159,8 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 finish();
             }
         });
-        main_layout = (RelativeLayout) findViewById(R.id.main_layout);
-        main_layout.setOnClickListener(new View.OnClickListener() {
+        work_layout = (RelativeLayout) findViewById(R.id.work_layout);
+        work_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent w = new Intent(TechniciansEditProfileActivity.this, WorkingHoursUpdateActivity.class);
@@ -231,7 +234,17 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 mAutocompleteView.setSelection(mAutocompleteView.getText().length());
+                lat="";
+                lng="";
                 return false;
+            }
+        });
+        mAutocompleteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAutocompleteView.setSelection(mAutocompleteView.getText().length());
+                lat="";
+                lng="";
             }
         });
         edit_txt.setOnClickListener(new View.OnClickListener() {
@@ -304,12 +317,16 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 } else if (vat_ed.getText().length() == 0) {
                     Toast.makeText(TechniciansEditProfileActivity.this, "Please enter vat no.", Toast.LENGTH_SHORT).show();
                 } else if (mAutocompleteView.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this, "your vat no. is invalid", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter address", Toast.LENGTH_SHORT).show();
 
                 } else if (org_ed.getText().length() == 0) {
                     Toast.makeText(TechniciansEditProfileActivity.this, "your vat no. is invalid", Toast.LENGTH_SHORT).show();
 
-                } else {
+                }else if (lat.equalsIgnoreCase("")) {
+                    Toast.makeText(TechniciansEditProfileActivity.this, "please select valid address", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
                     dialogWindow();
                     //editprofile();
                     new Thread(null, address_request, "")

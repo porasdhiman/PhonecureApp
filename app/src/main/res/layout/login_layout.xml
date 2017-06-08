@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -164,7 +165,8 @@
                     android:gravity="center"
                     android:text="Forgot Password?"
                     android:textColor="@color/mainTextColor"
-                    android:textSize="@dimen/header_txt" />
+                    android:textStyle="bold"
+                    android:textSize="12sp" />
 
 
                 <RelativeLayout
@@ -202,7 +204,7 @@
                     android:layout_height="wrap_content"
 
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <TextView

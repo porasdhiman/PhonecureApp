@@ -34,6 +34,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/main_layout_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"

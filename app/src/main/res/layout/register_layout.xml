@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -90,6 +91,7 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/or_using"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

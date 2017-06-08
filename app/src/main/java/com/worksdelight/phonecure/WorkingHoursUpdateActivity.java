@@ -71,7 +71,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     Dialog dialog2;
     String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     int o = 0;
-
+LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +95,8 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,7 +107,7 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     String lat, lng;
-
+LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +118,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
         }
         global = (Global) getApplicationContext();
         buildGoogleApiClient();
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         // getToken();
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
@@ -170,8 +173,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
         if (!sp.getString(GlobalConstant.phone, "").equalsIgnoreCase("")) {
             phone_ed.setText(sp.getString(GlobalConstant.phone, ""));
         }
-        lat = sp.getString(GlobalConstant.latitude, "");
-        lng = sp.getString(GlobalConstant.longitude, "");
+        lat = sp.getString("ship_lat", "");
+        lng = sp.getString("ship_long", "");
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -453,8 +456,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                                 ed.putString(GlobalConstant.address, mAutocompleteView.getText().toString());
 
                                 ed.putString(GlobalConstant.phone, phone_ed.getText().toString());
-                                ed.putString(GlobalConstant.latitude, lat);
-                                ed.putString(GlobalConstant.longitude, lng);
+                                ed.putString("ship_lat", lat);
+                                ed.putString("ship_long", lng);
                                 ed.commit();
                                 global.setDateList(null);
 

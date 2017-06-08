@@ -62,7 +62,7 @@ import static com.worksdelight.phonecure.GlobalConstant.twitter_id;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     RelativeLayout facebook_layout, twitter_layout;
-    TextView sign_up_btn;
+    TextView sign_up_btn, or_using;
     LinearLayout sign_in_btn;
     Dialog dialog2;
     EditText password_view, name_view, email_view;
@@ -72,16 +72,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     LoginButton Login_TV;
     String token;
     Button facebook_btn;
-    String username_mString = "", email_mString = "", id_mString = "",user_image="";
+    String username_mString = "", email_mString = "", id_mString = "", user_image = "";
     SocialAuthAdapter adapter;
     Profile profileMap;
     int REQUEST_CHECK_SETTINGS = 100;
-SharedPreferences sp,sp1;
-    SharedPreferences.Editor ed,ed1;
-
+    SharedPreferences sp, sp1;
+    SharedPreferences.Editor ed, ed1;
+    RelativeLayout main_layout;
     ImageView img;
-    int i=0;
-    int imgArray[]={R.drawable.line1,R.drawable.line2,R.drawable.line3,R.drawable.line4,R.drawable.line5,R.drawable.line6,R.drawable.line7,R.drawable.line8,R.drawable.line9,R.drawable.line10,R.drawable.line11,R.drawable.line12};
+    int i = 0;
+    int imgArray[] = {R.drawable.line1, R.drawable.line2, R.drawable.line3, R.drawable.line4, R.drawable.line5, R.drawable.line6, R.drawable.line7, R.drawable.line8, R.drawable.line9, R.drawable.line10, R.drawable.line11, R.drawable.line12};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,34 +93,39 @@ SharedPreferences sp,sp1;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
-        ed=sp.edit();
-        sp1=getSharedPreferences("register", Context.MODE_PRIVATE);
-        ed1=sp1.edit();
+        sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed = sp.edit();
+        sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed1 = sp1.edit();
         global = (Global) getApplicationContext();
         init();
     }
 
     public void init() {
+        main_layout = (RelativeLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         adapter = new SocialAuthAdapter(new ResponseListener());
         callbackManager = CallbackManager.Factory.create();
         Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();
-        img=(ImageView) findViewById(R.id.logo_img);
-        new CountDownTimer(100,10) {
+        img = (ImageView) findViewById(R.id.logo_img);
+        new CountDownTimer(100, 10) {
 
             @Override
-            public void onTick(long millisUntilFinished) {}
+            public void onTick(long millisUntilFinished) {
+            }
 
             @Override
             public void onFinish() {
                 img.setImageResource(imgArray[i]);
                 i++;
-                if(i== imgArray.length-1) i=0;
+                if (i == imgArray.length - 1) i = 0;
                 start();
             }
         }.start();
+        or_using = (TextView) findViewById(R.id.or_using);
+        Fonts.overrideFonts1(this, or_using);
         password_view = (EditText) findViewById(R.id.password_view);
         name_view = (EditText) findViewById(R.id.name_view);
 
@@ -270,7 +276,7 @@ SharedPreferences sp,sp1;
                             //gender = object.getString("gender");
                             //birthday = object.getString("birthday");
                             dialogWindow();
-                            FacebooksocialMethod();
+                            FacebookRegistersocialMethod();
 
 
                         } catch (JSONException e) {
@@ -332,13 +338,13 @@ SharedPreferences sp,sp1;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
-                                ed.putString(GlobalConstant.USERID,data.getString(GlobalConstant.id));
-                                ed.putString("type","app");
-                                ed.putString(GlobalConstant.name,data.getString(GlobalConstant.name));
-                                ed.putString(GlobalConstant.email,data.getString(GlobalConstant.email));
-                                ed.putString(GlobalConstant.type,data.getString(GlobalConstant.type));
-                                ed.putString(GlobalConstant.image,data.getString(GlobalConstant.image));
+                                JSONObject data = obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString("type", "app");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
                                 ed.commit();
                                 ed1.clear();
                                 ed1.commit();
@@ -346,7 +352,7 @@ SharedPreferences sp,sp1;
 
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
-                                ed1.putString("type","register");
+                                ed1.putString("type", "register");
                                 ed1.commit();
                                 finish();
                             } else {
@@ -447,7 +453,7 @@ SharedPreferences sp,sp1;
     private void FacebooksocialMethod() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_REGISTER_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -459,7 +465,7 @@ SharedPreferences sp,sp1;
 
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                                JSONObject data=obj.getJSONObject("data");
+                                JSONObject data = obj.getJSONObject("data");
                                 ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
                                 ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
                                 ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
@@ -473,12 +479,9 @@ SharedPreferences sp,sp1;
                                 ed1.commit();
 
 
-
-
-
                                 Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
                                 startActivity(s);
-                                ed1.putString("type","register");
+                                ed1.putString("type", "register");
                                 ed1.commit();
                                 finish();
                             } else {
@@ -525,6 +528,90 @@ SharedPreferences sp,sp1;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    //--------------------Facebook Social api method---------------------------------
+    private void FacebookRegistersocialMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.FACEBOOK_REGISTER_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject data = obj.getJSONObject("data");
+                                ed.putString(GlobalConstant.USERID, data.getString(GlobalConstant.id));
+                                ed.putString(GlobalConstant.image, data.getString(GlobalConstant.image));
+                                ed.putString(GlobalConstant.latitude, data.getString(GlobalConstant.latitude));
+                                ed.putString(GlobalConstant.longitude, data.getString(GlobalConstant.longitude));
+                                ed.putString("type", "facebook");
+                                ed.putString(GlobalConstant.name, data.getString(GlobalConstant.name));
+                                ed.putString(GlobalConstant.email, data.getString(GlobalConstant.email));
+                                ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
+                                ed.commit();
+                                ed1.clear();
+                                ed1.commit();
+
+
+                                Intent s = new Intent(RegisterActivity.this, WalkThroughtOneActivity.class);
+                                startActivity(s);
+                                ed1.putString("type", "register");
+                                ed1.commit();
+                                finish();
+                            } else {
+                                LoginManager.getInstance().logOut();
+                                dialogWindow();
+                                FacebooksocialMethod();
+                                //Toast.makeText(RegisterActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.name, username_mString);
+                params.put(GlobalConstant.email, email_mString);
+                params.put(facebook_id, id_mString);
+                params.put(GlobalConstant.device_token, global.getDeviceToken());
+                params.put(GlobalConstant.type, "user");
+                params.put(GlobalConstant.latitude, global.getLat());
+                params.put(GlobalConstant.longitude, global.getLong());
+                params.put(GlobalConstant.device_type, "android");
+                params.put(GlobalConstant.image, user_image);
+
+
+                Log.e("Parameter for social", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
     //--------------------Facebook Social api method---------------------------------
     private void twittersocialMethod() {

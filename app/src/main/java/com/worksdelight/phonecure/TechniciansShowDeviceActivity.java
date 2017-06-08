@@ -144,9 +144,8 @@ SharedPreferences sp;
         if (requestCode == 0) {
             ed.putString("techShowDevice","1");
             ed.commit();
-            list.clear();
-            dialogWindow();
-            showDeviceMethod();
+            finish();
+            startActivity(getIntent());
         } else {
 
         }
@@ -214,6 +213,7 @@ SharedPreferences sp;
                                 if (list.size() > 0) {
                                     global.setAllDeviceList(list);
                                     Log.e("listing", list.toString());
+                                    device_view.clearFocus();
                                     device_view.setAdapter(new DeviceAdapter(TechniciansShowDeviceActivity.this, list));
                                     Log.e("image name", String.valueOf(convertToHashMap(list.get(0).get(GlobalConstant.color_images))));
                                 }

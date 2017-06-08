@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
 
     <RelativeLayout
         android:id="@+id/header_view"
@@ -144,26 +145,27 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@null"
+                    android:background="#fff"
                     android:gravity="center_vertical"
                     android:hint="First name"
                     android:padding="10dp"
                     android:textColor="#000"
+
                     android:textColorHint="@android:color/darker_gray"
                     android:textCursorDrawable="@drawable/cursore_color"
                     android:textSize="16sp" />
 
                 <View
-                    android:layout_width="0.5dp"
+                    android:layout_width="2dp"
                     android:layout_height="match_parent"
-                    android:background="#e6e4e4" />
+                     />
 
                 <EditText
                     android:id="@+id/last_name_ed"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@null"
+                    android:background="#fff"
                     android:gravity="center_vertical"
                     android:hint="Last name"
                     android:padding="10dp"
@@ -172,11 +174,16 @@
                     android:textCursorDrawable="@drawable/cursore_color"
                     android:textSize="16sp" />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e6e4e4" />
+                android:background="#e6e4e4"
+               />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4"
+                android:layout_marginTop="10dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -184,12 +191,12 @@
                 <EditText
                     android:id="@+id/phone_ed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_weight="1"
-                    android:background="@null"
+                    android:background="#fff"
                     android:gravity="center_vertical"
                     android:hint="Phone"
                     android:inputType="number"
@@ -202,11 +209,17 @@
                     android:textSize="16sp"/>
 
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4"
+                />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e6e4e4" />
+                android:background="#e6e4e4"
+                android:layout_marginTop="10dp"/>
 
             <!--<LinearLayout
                 android:layout_width="match_parent"
@@ -255,19 +268,19 @@
 -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp">
 
                 <AutoCompleteTextView
 
                     android:id="@+id/address_ed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_weight="1"
 
-                    android:background="#f5f5f5"
+                    android:background="#fff"
                     android:gravity="center_vertical"
                     android:hint="Address"
 
@@ -281,11 +294,16 @@
 
 
             </RelativeLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e6e4e4" />
+                android:background="#e6e4e4"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#e6e4e4"
+                android:layout_marginTop="10dp"/>
 
 
           <!--  <RelativeLayout
@@ -323,7 +341,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:background="#fff"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -331,7 +351,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_weight="1"
-
                     android:gravity="center_vertical"
                     android:padding="10dp"
                     android:text="Total:"
