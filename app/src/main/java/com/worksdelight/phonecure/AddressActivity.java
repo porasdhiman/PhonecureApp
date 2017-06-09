@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +153,23 @@ String lat,lng;
         }
         lat=sp.getString("ship_lat","");
         lng=sp.getString("ship_long","");
+        mAutocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lat = "";
+                lng = "";
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         /*if (!sp.getString("city", "").equalsIgnoreCase("")) {
             city_ed.setText(sp.getString("city", ""));
         }
@@ -176,7 +195,10 @@ String lat,lng;
                     zip_ed.setError("Please enter Zip");
                 }*/ else if (phone_ed.length() == 0) {
                     phone_ed.setError("Please enter Phone number");
-                } else {
+                }
+                else if (lat.equalsIgnoreCase("")) {
+                    phone_ed.setError("Please enter valid address");
+                }else {
                     dialogWindow();
                     profileMethod();
                 }

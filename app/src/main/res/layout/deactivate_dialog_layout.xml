@@ -31,7 +31,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:gravity="center"
-            android:text="Are you sure to de-activate your PhoneCure \naccount. if yes? thend send confirmation\ncode to your registered email"
+            android:text="Are you sure to de-activate your Phonecure \naccount. if yes? thend send confirmation\ncode to your registered email"
             android:textColor="@color/mainTextColor"
             android:textSize="12sp" />
         <View

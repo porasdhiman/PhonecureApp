@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -173,7 +174,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     String openTime = "", popenTime = "", closeTime = "", pclosetime = "";
     LinearLayout dropoff_layout, pickup_layout;
     int dayOfWeek;
-
+TextView est_time,time_info_txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,7 +202,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         initImageLoader();
         pickup_layout = (LinearLayout) findViewById(R.id.pickup_layout);
         dropoff_layout = (LinearLayout) findViewById(R.id.dropoff_layout);
-
+        time_info_txt=(TextView)findViewById(R.id.time_info_txt);
         pickUp_img = (ImageView) findViewById(R.id.pickUp_img);
         dropoff_img = (ImageView) findViewById(R.id.dropoff_img);
         back = (ImageView) findViewById(R.id.back);
@@ -212,6 +213,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
             }
         });
         book_btn = (TextView) findViewById(R.id.book_btn);
+        est_time=(TextView)findViewById(R.id.est_time);
         distance_shop = (TextView) findViewById(R.id.distance_shop);
         technicians_name = (TextView) findViewById(R.id.user_name);
         time_layout = (RelativeLayout) findViewById(R.id.time_layout);
@@ -219,6 +221,15 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         pos = getIntent().getExtras().getString("pos");
         technicians_name.setText(cap(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name)));
         distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance) + " Km away");
+        float dis=Float.parseFloat(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance));
+
+        float t=dis/40;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        t = Float.valueOf(decimalFormat.format(t));
+        String time=String.valueOf(t);
+        time=time.replace(".",":");
+        est_time.setText("Est. time "+time+" hour");
+
         user_img = (CircleImageView) findViewById(R.id.user_img);
         String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
         if (url != null && !url.equalsIgnoreCase("null")
@@ -619,7 +630,7 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
         mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
 
-
+        time_info_txt.setText("Today's timing is: "+openTime+" - "+closeTime);
     }
 
     public void timePicker() {

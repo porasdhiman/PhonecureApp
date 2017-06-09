@@ -23,8 +23,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -228,6 +230,23 @@ LinearLayout main_layout;
                 return false;
             }
         });
+        mAutocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lat = "";
+                lng = "";
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
             type = "facebook";
             id_mString = getIntent().getExtras().getString("fb_id");
@@ -310,6 +329,8 @@ LinearLayout main_layout;
                         Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
                     } else if (isVat == false) {
                         Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
+                    }else if (lat.equalsIgnoreCase("")) {
+                        Toast.makeText(TechniciansRegister.this, "Please enter valid address", Toast.LENGTH_SHORT).show();
                     } else {
 
                         dialogWindow();

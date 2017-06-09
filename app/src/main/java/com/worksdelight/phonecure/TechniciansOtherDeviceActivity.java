@@ -358,6 +358,7 @@ SharedPreferences sp;
 
 
             url = GlobalConstant.IMAGE_URL + global.getDeviceId() + "/" + deviceList.get(i).get(GlobalConstant.sub_category_id) + "/" + deviceList.get(i).get(GlobalConstant.icon);
+            Log.e("url",url);
             if (url != null && !url.equalsIgnoreCase("null")
                     && !url.equalsIgnoreCase("")) {
                 imageLoader.displayImage(url, holder.device_image, options,

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f5f5f5"
@@ -141,7 +142,7 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
 
-                    android:text="Mode of service"
+                    android:text="Mode of Service"
 
 
                     android:textColor="@android:color/darker_gray"
@@ -175,11 +176,11 @@
                             android:layout_height="wrap_content"
 
                             android:layout_centerInParent="true"
-                            android:text="Repair at service point"
+                            android:text="Repair at Service Point"
 
 
                             android:textColor="#000"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
 
                     </RelativeLayout>
@@ -213,7 +214,7 @@
 
                             android:text="Est. Travel Time"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
                         <TextView
                             android:id="@+id/estimate_travel_txt"
@@ -226,7 +227,7 @@
 
 
                             android:textColor="#000"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
 
                     </LinearLayout>
@@ -293,7 +294,7 @@
 
 
                             android:textColor="#000"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
 
                     </RelativeLayout>
@@ -326,7 +327,7 @@
 
                             android:text="Est. Service Time"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
                         <TextView
                             android:id="@+id/total_est_time"
@@ -339,7 +340,7 @@
 
 
                             android:textColor="#000"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
 
                     </LinearLayout>
@@ -405,7 +406,7 @@
 
 
                             android:textColor="#000"
-                            android:textSize="@dimen/sab_txt" />
+                            android:textSize="@dimen/main_txt" />
 
 
                     </RelativeLayout>
@@ -454,7 +455,7 @@
 
 
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="@dimen/header_txt"
+                        android:textSize="@dimen/sab_txt"
 
                         />
 
@@ -484,8 +485,8 @@
                         android:orientation="vertical"
                         android:weightSum="2">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
@@ -493,40 +494,36 @@
 
                             <TextView
                                 android:id="@+id/othertxt"
-                                android:layout_width="match_parent"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
 
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_weight="1"
+                                android:layout_marginRight="10dp"
+
+                                android:layout_toLeftOf="@+id/other_price"
                                 android:text="Travel fee"
-
-
                                 android:textColor="#000"
-                                android:textSize="@dimen/sab_txt"
+                                android:textSize="@dimen/main_txt"
 
                                 />
 
                             <TextView
                                 android:id="@+id/other_price"
-                                android:layout_width="match_parent"
+                                android:layout_width="60dp"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_marginLeft="10dp"
-
-                                android:layout_weight="1"
                                 android:gravity="right"
                                 android:paddingRight="10dp"
 
-                                android:text="$0"
+                                android:text="€0"
                                 android:textColor="@color/main_color"
-                                android:textSize="@dimen/sab_txt"
+                                android:textSize="@dimen/main_txt"
 
                                 />
-                        </LinearLayout>
+                        </RelativeLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="20dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
@@ -534,56 +531,77 @@
 
                             <TextView
                                 android:id="@+id/totaltxt"
-                                android:layout_width="match_parent"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
 
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_toLeftOf="@+id/total_price"
                                 android:layout_weight="1"
                                 android:text="Total"
 
                                 android:textColor="#000"
-                                android:textSize="@dimen/sab_txt"
+                                android:textSize="@dimen/main_txt"
 
                                 />
 
                             <TextView
                                 android:id="@+id/total_price"
-                                android:layout_width="match_parent"
+                                android:layout_width="60dp"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="10dp"
 
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10dp"
                                 android:layout_weight="1"
                                 android:gravity="right"
-                                android:paddingRight="10dp"
 
-                                android:text="$70"
+                                android:text="€0"
                                 android:textColor="@color/main_color"
                                 android:textSize="@dimen/sab_txt"
 
                                 />
-                        </LinearLayout>
+                        </RelativeLayout>
 
 
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/cancel_request_txt"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/green_btn"
-                android:gravity="center"
-                android:text="Cancel Request"
-                android:textAllCaps="true"
-                android:textColor="#fff"
-                android:textSize="16dp"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/complete_request_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/green_btn"
+                    android:gravity="center"
+                    android:text="Submit order"
+                    android:textColor="#fff"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cancel_request_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/red_btn_back"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textColor="#fff"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

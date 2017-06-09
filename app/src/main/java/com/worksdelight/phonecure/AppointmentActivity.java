@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -76,11 +77,12 @@ public class AppointmentActivity extends Activity {
     ImageView navigation_img, service_img;
     //String sourceLatitude="30.7046",sourceLongitude="76.7179",destinationLatitude="30.7398339",destinationLongitude="76.78270199999997";
     String sourceLatitude = "30.7046", sourceLongitude = "76.7179", destinationLatitude = "", destinationLongitude = "";
-    String com_star = "0", time_star = "0", service_star = "0", skill_star = "0", user_id;
+    String com_star = "1", time_star = "1", service_star = "1", skill_star = "1", user_id;
     TextView service_name,device_name,total_est_time,othertxt,estimate_travel_txt;
 String home_repair="",scoter_repair="";
     String device_model_name,total_expected_time,other_charges,estimated_travel_time;
-
+    LinearLayout main_layout;
+TextView complete_request_txt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,8 @@ String home_repair="",scoter_repair="";
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         navigation_img = (ImageView) findViewById(R.id.navigation_img);
         service_img = (ImageView) findViewById(R.id.service_img);
@@ -113,6 +117,7 @@ String home_repair="",scoter_repair="";
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
+        complete_request_txt=(TextView) findViewById(R.id.complete_request_txt);
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
@@ -133,8 +138,7 @@ String home_repair="",scoter_repair="";
                 other_charges=obj.getString("other_charges");
                 estimated_travel_time=obj.getString("estimated_travel_time");
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
-                destinationLatitude = objUser.getString(GlobalConstant.latitude);
-                destinationLongitude = objUser.getString(GlobalConstant.longitude);
+
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -183,6 +187,8 @@ String home_repair="",scoter_repair="";
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            complete_request_txt.setVisibility(View.GONE);
+            cancel_request_txt.setBackgroundResource(R.drawable.green_btn);
             cancel_request_txt.setText("Download Invoice");
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -224,6 +230,7 @@ String home_repair="",scoter_repair="";
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 destinationLatitude = shipping_address.getString("ship_latitude");
                 destinationLongitude = shipping_address.getString("ship_longitude");
+
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
@@ -265,7 +272,7 @@ String home_repair="",scoter_repair="";
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         dialogWindow();
-                                        ComAdnDelMethod();
+                                        ComAdnDelMethod("cancelled");
                                         builder.dismiss();
                                     }
 
@@ -280,8 +287,34 @@ String home_repair="",scoter_repair="";
                                 }).show();
                     }
                 });
+                complete_request_txt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        builder = new AlertDialog.Builder(AppointmentActivity.this).setMessage("Do You Want To Mark as Done?")
+                                .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        dialogWindow();
+                                        ComAdnDelMethod("completed");
+                                        builder.dismiss();
+                                    }
+
+                                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // TODO Auto-generated method stub
+
+                                        builder.dismiss();
+                                    }
+                                }).show();
+                    }
+                });
+
             } else {
+                complete_request_txt.setVisibility(View.GONE);
                 navigation_img.setVisibility(View.GONE);
+                cancel_request_txt.setBackgroundResource(R.drawable.green_btn);
                 cancel_request_txt.setText("Order " + statusValue);
             }
             if(home_repair.equalsIgnoreCase("1")){
@@ -432,7 +465,7 @@ String home_repair="",scoter_repair="";
     }*/
 
     //--------------------DEL And COMPLETED api method---------------------------------
-    private void ComAdnDelMethod() {
+    private void ComAdnDelMethod(final String status) {
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.COM_AND_DEL_URL,
@@ -475,7 +508,7 @@ String home_repair="",scoter_repair="";
 
                 params.put(GlobalConstant.id, booking_id);
                 params.put(GlobalConstant.USERID, CommonUtils.UserID(AppointmentActivity.this));
-                params.put(GlobalConstant.status, "cancelled");
+                params.put(GlobalConstant.status, status);
 
 
                 Log.e("Parameter for cancel", params.toString());

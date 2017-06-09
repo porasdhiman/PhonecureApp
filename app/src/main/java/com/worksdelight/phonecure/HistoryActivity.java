@@ -109,6 +109,8 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
     private void categoryMethod() {
 
 // Request a string response from the provided URL.
+
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(HistoryActivity.this),
                 new Response.Listener<String>() {
                     @Override

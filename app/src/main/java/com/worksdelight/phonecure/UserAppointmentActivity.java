@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -84,12 +85,13 @@ public class UserAppointmentActivity extends Activity {
     File pdfFile;
     AlertDialog builder;
 ImageView navigation_img,service_img;
-    String com_star = "0", time_star = "0", service_star = "0", skill_star = "0",user_id;
+    String com_star = "1", time_star = "1", service_star = "1", skill_star = "1",user_id;
     String sourceLatitude = "30.7046", sourceLongitude = "76.7179", destinationLatitude = "", destinationLongitude = "";
 
     TextView service_name,device_name,total_est_time,othertxt,estimate_travel_txt;
     String home_repair="",scoter_repair="";
     String device_model_name,total_expected_time,other_charges,estimated_travel_time;
+    LinearLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +105,8 @@ ImageView navigation_img,service_img;
     }
 
     public void init() {
+        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        Fonts.overrideFonts(this, main_layout);
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         service_img = (ImageView) findViewById(R.id.service_img);
         service_name = (TextView) findViewById(R.id.service_name);
@@ -318,7 +322,7 @@ ImageView navigation_img,service_img;
 
         estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
 
-Toast.makeText(UserAppointmentActivity.this,sourceLatitude+sourceLongitude+global.getLat()+global.getLong(),Toast.LENGTH_SHORT);
+
         navigation_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

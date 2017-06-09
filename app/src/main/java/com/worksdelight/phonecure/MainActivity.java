@@ -114,34 +114,34 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         // create menu items;
         itemHome = new ResideMenuItem(this, "HOME");
-        // drug = new ResideMenuItem(this, "Drug");
+         drug = new ResideMenuItem(this, "Share");
         technicians = new ResideMenuItem(this, "MY ORDERS");
         services = new ResideMenuItem(this, "TECHNICIANS");
         dashboard = new ResideMenuItem(this, "PRIVACY POLICY");
         itemProfile = new ResideMenuItem(this, "PROFILE");
-       // new_cure = new ResideMenuItem(this, "ABOUT US");
+        new_cure = new ResideMenuItem(this, "FEEDBACK");
        // logout = new ResideMenuItem(this, "LOGOUT");
 
 
         itemHome.setOnClickListener(this);
         itemProfile.setOnClickListener(this);
-        // drug.setOnClickListener(this);
+        drug.setOnClickListener(this);
         technicians.setOnClickListener(this);
         services.setOnClickListener(this);
         dashboard.setOnClickListener(this);
-       // new_cure.setOnClickListener(this);
+        new_cure.setOnClickListener(this);
         //logout.setOnClickListener(this);
 
 
         resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_LEFT);
-        //resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
+
 
         resideMenu.addMenuItem(services, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(technicians, ResideMenu.DIRECTION_LEFT);
-       // resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(drug, ResideMenu.DIRECTION_LEFT);
         resideMenu.addMenuItem(dashboard, ResideMenu.DIRECTION_LEFT);
-
+        resideMenu.addMenuItem(new_cure, ResideMenu.DIRECTION_LEFT);
 
         //resideMenu.addMenuItem(logout, ResideMenu.DIRECTION_LEFT);
         resideMenu.setDirectionDisable(ResideMenu.DIRECTION_RIGHT);
@@ -216,9 +216,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         } else if (view == itemProfile) {
             changeFragment(new ProfileFragment(), "Profile");
-        } /*else if (view == drug) {
-            changeFragment(new DrugFragment(), "Drug");
-        }*/ /*else if (view == technicians) {
+        } else if (view == drug) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app! http://google.com");
+            startActivity(shareIntent);
+        } /*else if (view == technicians) {
             changeFragment(new TechniciansFragment(), "Technicians");
         }*/ else if (view == services) {
             changeFragment(new FavoriteFragment(), "Favorites");
@@ -228,9 +232,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             resideMenu.clearIgnoredViewList();
         } else if (view == dashboard) {
             changeFragment(new DashBoradFragment(), "Privacy Policy");
-        } /*else if (view == new_cure) {
-            changeFragment(new NewCureFragment(), "About us");
-        }*/ /*else if (view == logout) {
+        } else if (view == new_cure) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/html");
+
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{ "info@phonecure.be"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            intent.putExtra(Intent.EXTRA_TEXT, "");
+
+            startActivity(Intent.createChooser(intent, "Send Email"));
+
+          /*  Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+            sendIntent.setType("plain/text");
+            sendIntent.setData(Uri.parse("info@phonecure.be"));
+            sendIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "info@phonecure.be" });
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "");
+            startActivityForResult(sendIntent,0);*/
+
+        } /*else if (view == logout) {
             //global.getSocialAuthAdpater().signOut(this,SocialAuthAdapter.Provider.TWITTER.toString());
             if (sp.getString("type", "app").equalsIgnoreCase("app")) {
                 ed.clear();

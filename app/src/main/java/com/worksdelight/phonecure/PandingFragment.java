@@ -3,7 +3,6 @@ package com.worksdelight.phonecure;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -59,7 +58,7 @@ public class PandingFragment extends Fragment {
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     Dialog dialog2,ratingDialog;
     ImageView back_img;
-    String com_star = "0", time_star = "0", service_star = "0", skill_star = "0",user_id;
+    String com_star = "1", time_star = "1", service_star = "1", skill_star = "1",user_id;
 
     @Nullable
     @Override
@@ -167,8 +166,8 @@ public class PandingFragment extends Fragment {
             final View v = LayoutInflater.from(mContext).inflate(R.layout.pending_layout_item, null);
             SwipeLayout swipeLayout = (SwipeLayout) v.findViewById(getSwipeLayoutResourceId(position));
             if (list.get(position).get(GlobalConstant.status).equalsIgnoreCase("pending")) {
-
-                swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
+                swipeLayout.setRightSwipeEnabled(false);
+                /*swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                     @Override
                     public void onStartOpen(SwipeLayout layout) {
 
@@ -223,7 +222,7 @@ public class PandingFragment extends Fragment {
                     public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
 
                     }
-                });
+                });*/
             } else {
                 swipeLayout.setRightSwipeEnabled(false);
             }

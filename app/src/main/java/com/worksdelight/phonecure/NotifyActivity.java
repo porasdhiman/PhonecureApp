@@ -191,4 +191,5 @@ public class NotifyActivity extends Activity {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
 }

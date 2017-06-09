@@ -38,9 +38,11 @@ import org.json.JSONObject;
 
 import java.sql.Time;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -69,9 +71,13 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     int o = 0;
     String errorInfo;
     Global global;
-SharedPreferences sp;
+    SharedPreferences sp;
     SharedPreferences.Editor ed;
-    LinearLayout main_layout;
+    LinearLayout main_layout, hours_layout;
+    TextView always_open_txt;
+    ImageView select_img;
+    int i = 0,always_open=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +87,8 @@ SharedPreferences sp;
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
         global = (Global) getApplicationContext();
-        sp=getSharedPreferences("register", Context.MODE_PRIVATE);
-        ed=sp.edit();
+        sp = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed = sp.edit();
         init();
         for (int i = 0; i < 7; i++) {
             HashMap<String, String> map = new HashMap<>();
@@ -95,7 +101,7 @@ SharedPreferences sp;
     }
 
     public void init() {
-        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        main_layout = (LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +110,9 @@ SharedPreferences sp;
                 finish();
             }
         });
+        select_img = (ImageView) findViewById(R.id.select_img);
+        hours_layout = (LinearLayout) findViewById(R.id.hours_layout);
+        always_open_txt = (TextView) findViewById(R.id.always_open_txtView);
         sun_openning = (TextView) findViewById(R.id.sun_openning);
         sun_clossing = (TextView) findViewById(R.id.sun_clossing);
 
@@ -191,14 +200,59 @@ SharedPreferences sp;
         dropoff_img.setOnClickListener(this);
         submit_txt = (TextView) findViewById(R.id.submit_txt);
         submit_txt.setOnClickListener(this);
+        always_open_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (i == 0) {
+                    always_open=1;
+                    i = 1;
+                    hours_layout.setVisibility(View.GONE);
+                    if (list.size() > 0) {
+                        list.clear();
+                    }
+                    for (int i = 0; i < 7; i++) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(GlobalConstant.day, daysNAme[i]);
+                        map.put(GlobalConstant.opening_time, "00:00");
+                        map.put(GlobalConstant.closing_time, "24:00");
+                        map.put(GlobalConstant.status, "open");
+                        list.add(map);
+                    }
+                    select_img.setImageResource(R.drawable.toogle2);
+                } else {
+                    i = 0;
+                    always_open=0;
+                    hours_layout.setVisibility(View.VISIBLE);
+                    if (list.size() > 0) {
+                        list.clear();
+                    }
+                    for (int i = 0; i < 7; i++) {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(GlobalConstant.day, daysNAme[i]);
+                        map.put(GlobalConstant.opening_time, "");
+                        map.put(GlobalConstant.closing_time, "");
+                        map.put(GlobalConstant.status, "closed");
+                        list.add(map);
+                    }
+                    select_img.setImageResource(R.drawable.toggle);
+                }
 
+            }
+        });
     }
 
     public void timePickerOpen(TextView time_txt_open) {
         // Get Current Time
         o = 0;
         this.time_txt_open = time_txt_open;
-        final Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:ss");
+        Date date = null;
+        try {
+            date = sdf.parse(time_txt_open.getText().toString());
+        } catch (ParseException e) {
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
@@ -215,7 +269,14 @@ SharedPreferences sp;
         // Get Current Time
         o = 1;
         this.time_txt_closs = time_txt_closs;
-        final Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:ss");
+        Date date = null;
+        try {
+            date = sdf.parse(time_txt_closs.getText().toString());
+        } catch (ParseException e) {
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
         mHour = c.get(Calendar.HOUR_OF_DAY);
         mMinute = c.get(Calendar.MINUTE);
 
@@ -230,7 +291,7 @@ SharedPreferences sp;
     private String getTime(int hr, int min) {
         Time tme = new Time(hr, min, 0);//seconds by default set to zero
         Format formatter;
-        formatter = new SimpleDateFormat("h:mm a");
+        formatter = new SimpleDateFormat("hh:mm a");
         return formatter.format(tme);
     }
 
@@ -238,14 +299,39 @@ SharedPreferences sp;
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         if (o == 0) {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_open.setText(hourOfDay+":"+minute);
-            list.get(pos).put(GlobalConstant.opening_time, hourOfDay+":"+minute);
+            if(hourOfDay<=9){
+                if(minute<=9){
+                    time_txt_open.setText("0"+hourOfDay + ":0" + minute);
+                }else {
+                    time_txt_open.setText("0" + hourOfDay + ":" + minute);
+                }
+            }else{
+                if(minute<=9){
+                    time_txt_open.setText(hourOfDay + ":0" + minute);
+                }else {
+                    time_txt_open.setText(hourOfDay + ":" + minute);
+                }
+
+            }
+
+            list.get(pos).put(GlobalConstant.opening_time, hourOfDay + ":" + minute);
         } else {
             Log.e("postion value", String.valueOf(pos));
-            time_txt_closs.setText(hourOfDay+":"+minute);
-            list.get(pos).put(GlobalConstant.closing_time, hourOfDay+":"+minute);
-        }
+            if (hourOfDay <= 9) {
+                if (minute <= 9) {
+                    time_txt_closs.setText("0" + hourOfDay + ":0" + minute);
+                } else {
+                    time_txt_closs.setText("0" + hourOfDay + ":" + minute);
+                }
+            } else {
+                if (minute <= 9) {
+                    time_txt_closs.setText(hourOfDay + ":0" + minute);
+                } else {
+                    time_txt_closs.setText(hourOfDay + ":" + minute);
+                }
 
+            }
+        }
     }
 
     @Override
@@ -558,12 +644,12 @@ SharedPreferences sp;
             dialog2.dismiss();
             if (res.equalsIgnoreCase("true")) {
                 // terms_dialog.dismiss();
-               ed.clear();
+                ed.clear();
                 ed.commit();
                 Intent f = new Intent(WoorkingHourSecondActivity.this, TechniciansDevice.class);
 
                 startActivity(f);
-                ed.putString("type","register");
+                ed.putString("type", "register");
                 ed.commit();
                 finish();
                 // Toast.makeText(WoorkingHourSecondActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -629,7 +715,7 @@ SharedPreferences sp;
 
             reqEntity.addPart(GlobalConstant.repair_at_shop, new StringBody(String.valueOf(p)));
             reqEntity.addPart(GlobalConstant.repair_on_location, new StringBody(String.valueOf(d)));
-
+            reqEntity.addPart("always_open", new StringBody(String.valueOf(always_open)));
                /* reqEntity.addPart("event_dates[0][event_end_date]", new StringBody("2017-10-3"));
                 Log.e("event_dates[0][event_end_date]", "2017-10-3");*/
 

@@ -98,6 +98,7 @@ public class MapBoxActivity extends Activity {
     SharedPreferences sp, sp1;
     SharedPreferences.Editor ed, ed1;
 ImageView cross_img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -293,7 +294,7 @@ ImageView cross_img;
                     if (global.getDateList().get(i).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(i).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.sccoteerhome);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 90, 90, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
 
@@ -304,7 +305,7 @@ ImageView cross_img;
 
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.home_repair);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 90, 90, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
@@ -314,7 +315,7 @@ ImageView cross_img;
 
                         BitmapDrawable bitmapDrawable = (BitmapDrawable) ContextCompat.getDrawable(MapBoxActivity.this, R.drawable.scooter);
                         Bitmap originalBitmap = bitmapDrawable.getBitmap();
-                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 100, 100, false);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 90, 90, false);
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         Icon icon = iconFactory.fromBitmap(resizedBitmap);
                         markers.add(new MarkerOptions()
@@ -332,7 +333,7 @@ ImageView cross_img;
                         IconFactory iconFactory = IconFactory.getInstance(MapBoxActivity.this);
                         mapboxMap.setCameraPosition(new CameraPosition.Builder()
                                 .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
-                                .zoom(12)
+                                .zoom(10)
                                 .build());
                         final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
                         markers.add(new MarkerOptions()
@@ -467,7 +468,7 @@ ImageView cross_img;
                                             final Icon icon = iconFactory.fromResource(R.drawable.map_icon);
                                             mapboxMap.setCameraPosition(new CameraPosition.Builder()
                                                     .target(new LatLng(Double.parseDouble(global.getLat()), Double.parseDouble(global.getLong())))
-                                                    .zoom(12)
+                                                    .zoom(10)
 
                                                     .build());
 

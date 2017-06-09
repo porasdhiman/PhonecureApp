@@ -123,7 +123,6 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
 
     //--------------------Category api method---------------------------------
     private void categoryMethod() {
-
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(TechniciansHistory.this),
                 new Response.Listener<String>() {

@@ -22,8 +22,10 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -230,23 +232,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 return false;
             }
         });
-        mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mAutocompleteView.setSelection(mAutocompleteView.getText().length());
-                lat="";
-                lng="";
-                return false;
-            }
-        });
-        mAutocompleteView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAutocompleteView.setSelection(mAutocompleteView.getText().length());
-                lat="";
-                lng="";
-            }
-        });
+
         edit_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -273,13 +259,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
 
             }
         });*/
-        mAutocompleteView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                return false;
-            }
-        });
 
         org_ed.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -307,7 +287,23 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                 return false;
             }
         });
+        mAutocompleteView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                lat = "";
+                lng = "";
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
