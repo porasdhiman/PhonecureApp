@@ -49,6 +49,7 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
     Dialog dialog2;
     Global global;
     ViewPager viewPager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +108,7 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
             if (i == pos) {
                 tv.setTextColor(Color.WHITE);
             } else {
-                tv.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
+                tv.setTextColor(getResources().getColor(R.color.headerText));
             }
         }
     }

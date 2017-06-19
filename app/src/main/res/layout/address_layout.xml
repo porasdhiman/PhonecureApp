@@ -62,15 +62,28 @@
         android:background="#e6e4e4"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:weightSum="2">
-
-        <EditText
-            android:id="@+id/first_name_ed"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_weight="1"
+            android:background="#fff"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:text="First name"
+                android:paddingLeft="10dp"
+                android:textSize="12sp"
+                android:background="#fff"/>
+        <EditText
+            android:id="@+id/first_name_ed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:hint="First name"
             android:textColor="#000"
             android:textColorHint="@android:color/darker_gray"
@@ -78,15 +91,32 @@
             android:gravity="center_vertical"
             android:background="#fff"
             android:textCursorDrawable="@drawable/cursore_color"
-            android:padding="10dp"/>
+            android:paddingLeft="10dp"
+            />
+            </LinearLayout>
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#e6e4e4"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:background="#fff"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:text="Last name"
+                android:paddingLeft="10dp"
+                android:textSize="12sp"
+                android:background="#fff"/>
 
         <EditText
             android:id="@+id/last_name_ed"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="Last name"
@@ -95,8 +125,10 @@
             android:background="#fff"
             android:textCursorDrawable="@drawable/cursore_color"
             android:textSize="16sp"
+            android:paddingLeft="10dp"
             android:gravity="center_vertical"
-            android:padding="10dp"/>
+            />
+            </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -107,17 +139,26 @@
             android:layout_height="1dp"
             android:background="#e6e4e4"
             android:layout_marginTop="10dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-           >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:background="#fff"
+        >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:text="Phone"
+        android:paddingLeft="10dp"
+        android:textSize="12sp"
+        android:background="#fff"/>
 
             <EditText
                 android:id="@+id/phone_ed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="Phone"
+               android:hint="Phone"
                 android:textColor="#000"
                 android:textColorHint="@android:color/darker_gray"
                 android:textSize="16sp"
@@ -132,7 +173,7 @@
                 android:textCursorDrawable="@drawable/cursore_color"
 
                 />
-        </RelativeLayout>
+        </LinearLayout>
 
     <!--<View
         android:layout_width="match_parent"

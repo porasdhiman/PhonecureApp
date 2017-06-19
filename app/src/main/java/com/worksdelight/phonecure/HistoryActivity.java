@@ -100,7 +100,7 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
             if (i == pos) {
                 tv.setTextColor(Color.WHITE);
             } else {
-                tv.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
+                tv.setTextColor(getResources().getColor(R.color.headerText));
             }
         }
     }

@@ -11,4 +11,13 @@
     <color name="tw_back">#5EA5E4</color>
     <color name="un_available">#ff0000</color>
     <color name="mainTextColor">#767676</color>
+
+
+    <color name="spinnerItem">#AAAAAA</color>
+    <color name="editText">#AAAAAA</color>
+    <color name="buttonText">#EEEEEE</color>
+    <color name="headerText">#e4e3e3</color>
+    <color name="underline">#5458DF</color>
+    <color name="fadedBlue">#AA5458DF</color>
+
 </resources>

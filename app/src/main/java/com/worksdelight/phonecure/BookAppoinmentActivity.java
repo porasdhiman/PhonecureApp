@@ -442,7 +442,7 @@ TextView est_time,time_info_txt;
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         boolean value = false;
-
+        time_info_txt.setVisibility(View.GONE);
 
         if (isValidFormat(getSelectedDatesString())) {
             // Toast.makeText(BookAppoinmentActivity.this, formatdate(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
@@ -629,8 +629,8 @@ TextView est_time,time_info_txt;
         mCalendarClosingTime = Calendar.getInstance();
         mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
         mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
-
-        time_info_txt.setText("Today's timing is: "+openTime+" - "+closeTime);
+        time_info_txt.setVisibility(View.VISIBLE);
+        time_info_txt.setText("Shop timing is: "+openTime+" - "+closeTime);
     }
 
     public void timePicker() {

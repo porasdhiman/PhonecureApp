@@ -26,7 +26,7 @@ public class GcmIntentService extends IntentService {
     String datamessage, senderid, userreply, reciverid, identity_type = "0";
     Global global;
     Context context;
-    SharedPreferences mSharedPreferences;
+    SharedPreferences mSharedPreferences,spNotify;
     Editor mEditor;
     boolean isapp_inbackground_boolean;
     Bundle extras;
@@ -42,6 +42,7 @@ public class GcmIntentService extends IntentService {
         global = (Global) getApplicationContext();
         mSharedPreferences = getSharedPreferences("chat", Context.MODE_PRIVATE);
         extras = intent.getExtras();
+        spNotify=getSharedPreferences("NotifyType",Context.MODE_PRIVATE);
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         NOTIFICATION_ID = (int) System.currentTimeMillis();
         String messageType = gcm.getMessageType(intent);
@@ -85,7 +86,11 @@ public class GcmIntentService extends IntentService {
                 } else {
                     sendNotification("Envago App", extras.getString("content_title"));
                 }*/
-                sendNotification("PhoneCure App", extras.getString("content_title"));
+                if(spNotify.getBoolean("isEnabled",false)==false) {
+                    sendNotification("PhoneCure App", extras.getString("content_title"));
+                }else{
+
+                }
 
             }
         }

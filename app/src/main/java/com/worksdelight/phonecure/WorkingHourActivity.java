@@ -207,8 +207,8 @@ public class WorkingHourActivity extends Activity implements View.OnClickListene
                 wed_txt.setTextColor(Color.parseColor("#ffffff"));
                 thu_txt.setTextColor(Color.parseColor("#ffffff"));
                 fri_txt.setTextColor(Color.parseColor("#ffffff"));
-                sat_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
-                sun_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
+                sat_txt.setTextColor(getResources().getColor(R.color.headerText));
+                sun_txt.setTextColor(getResources().getColor(R.color.headerText));
 
                 weekMstring = "mon,tue,wed,thu,fri";
                 break;
@@ -223,11 +223,11 @@ public class WorkingHourActivity extends Activity implements View.OnClickListene
                 fri_txt.setBackgroundResource(R.drawable.default_circle_background);
                 sat_txt.setBackgroundResource(R.drawable.circle_background);
                 sun_txt.setBackgroundResource(R.drawable.circle_background);
-                mon_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
-                tue_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
-                wed_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
-                thu_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
-                fri_txt.setTextColor(getResources().getColor(R.color.bt_very_light_gray));
+                mon_txt.setTextColor(getResources().getColor(R.color.headerText));
+                tue_txt.setTextColor(getResources().getColor(R.color.headerText));
+                wed_txt.setTextColor(getResources().getColor(R.color.headerText));
+                thu_txt.setTextColor(getResources().getColor(R.color.headerText));
+                fri_txt.setTextColor(getResources().getColor(R.color.headerText));
                 sat_txt.setTextColor(Color.parseColor("#ffffff"));
                 sun_txt.setTextColor(Color.parseColor("#ffffff"));
                 weekMstring = "sat,sun";

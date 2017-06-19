@@ -348,6 +348,25 @@ public class Global extends Application {
 
     ArrayList<JSONObject> objArray=new ArrayList<>();
 
+    public String getPaymentToken() {
+        return paymentToken;
+    }
+
+    public void setPaymentToken(String paymentToken) {
+        this.paymentToken = paymentToken;
+    }
+
+    String paymentToken;
+
+    public String getBackType() {
+        return backType;
+    }
+
+    public void setBackType(String backType) {
+        this.backType = backType;
+    }
+
+    String backType="0";
     @Override
     public void onCreate() {
         super.onCreate();

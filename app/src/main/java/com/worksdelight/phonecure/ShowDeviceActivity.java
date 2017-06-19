@@ -68,7 +68,7 @@ public class ShowDeviceActivity extends Activity {
     TextView next_txtView;
     int valueof_selected_item = 1, pos;
     ArrayList<String> value = new ArrayList<>();
-    int j=7;
+    int j = 7;
     Global global;
     int measuredWidth = 0;
     int measuredHeight = 0;
@@ -108,9 +108,9 @@ public class ShowDeviceActivity extends Activity {
         next_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(j==7){
-                    Toast.makeText(ShowDeviceActivity.this,"Please select device color",Toast.LENGTH_SHORT).show();
-                }else {
+                if (j == 7) {
+                    Toast.makeText(ShowDeviceActivity.this, "Please select device color", Toast.LENGTH_SHORT).show();
+                } else {
                     ArrayList<HashMap<String, String>> color = convertToHashMapForModelId(list.get(valueof_selected_item).get(GlobalConstant.color_images));
 
                     Intent iPhone = new Intent(ShowDeviceActivity.this, iPhoneServiceActivity.class);
@@ -1085,7 +1085,7 @@ public class ShowDeviceActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     valueof_selected_item = i;
-
+                    j = 7;
                     for (int p = 0; p < value.size(); p++) {
                         if (p == i) {
                             value.set(i, "true");
@@ -1094,10 +1094,10 @@ public class ShowDeviceActivity extends Activity {
 
                         }
                     }
-                   // notifyDataSetChanged();
+                    // notifyDataSetChanged();
                     device_view.setAdapter(new DeviceAdapter(ShowDeviceActivity.this, list));
 
-                                device_view.setSelection(valueof_selected_item);
+                    device_view.setSelection(valueof_selected_item);
 
 
                 }

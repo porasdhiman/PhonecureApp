@@ -1,6 +1,5 @@
 package com.worksdelight.phonecure;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,11 +40,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.braintreepayments.api.BraintreeFragment;
-import com.braintreepayments.api.PayPal;
-import com.braintreepayments.api.dropin.DropInActivity;
-import com.braintreepayments.api.dropin.DropInRequest;
-import com.braintreepayments.api.dropin.DropInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -58,8 +52,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.wallet.Cart;
-import com.google.android.gms.wallet.LineItem;
+import com.stripe.wrap.pay.AndroidPayConfiguration;
+import com.stripe.wrap.pay.activity.StripeAndroidPayActivity;
+import com.stripe.wrap.pay.utils.CartContentException;
+import com.stripe.wrap.pay.utils.CartManager;
 import com.wang.avi.AVLoadingIndicatorView;
+import com.worksdelight.phonecure.activity.AndroidPayActivity;
+import com.worksdelight.phonecure.activity.PaymentActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +67,6 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,7 +88,7 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
     TextView btn_start;
     EditText first_name_ed, last_name_ed, address_ed, city_ed, zip_ed, phone_ed;
     TextView total_txt;
-    BraintreeFragment mBraintreeFragment;
+    //BraintreeFragment mBraintreeFragment;
     Dialog dialog2;
     Global global;
     String payment_method_nonce = "";
@@ -110,7 +108,12 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     String lat, lng;
     LinearLayout main_layout;
+TextView android_start;
 
+    //-------------- strip payment key-----
+    private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY =
+            "pk_test_NqFmtDXfFDZrhVOBGvL7LtYe";
+    //private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY ="pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +164,7 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
 
         phone_ed = (EditText) findViewById(R.id.phone_ed);
         btn_start = (TextView) findViewById(R.id.btn_start);
+        android_start= (TextView) findViewById(R.id.android_start);
         total_txt = (TextView) findViewById(R.id.total_txt);
         total_txt.setText("€" + getIntent().getExtras().getString("total_price"));
         if (!sp.getString("first name", "").equalsIgnoreCase("")) {
@@ -195,6 +199,43 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
 
             }
         });
+        android_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (first_name_ed.length() == 0) {
+                    first_name_ed.setError("Please enter first name");
+                } else if (last_name_ed.length() == 0) {
+                    last_name_ed.setError("Please enter last name");
+                } else if (mAutocompleteView.length() == 0) {
+                    mAutocompleteView.setError("Please enter address");
+                } else if (phone_ed.length() == 0) {
+                    phone_ed.setError("Please enter Phone number");
+                } else if (lat.equalsIgnoreCase("")) {
+                    Toast.makeText(AlmostdoneActivity.this, "Please enter valid location name", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    global.setBackType("0");
+                    AndroidPayConfiguration.init(FUNCTIONAL_SOURCE_PUBLISHABLE_KEY, "USD");
+                    AndroidPayConfiguration androidPayConfiguration = AndroidPayConfiguration.getInstance();
+                    androidPayConfiguration.setShippingAddressRequired(true);
+                    CartManager cartManager = new CartManager("USD");
+                    cartManager.addLineItem("Llama Food", 5000L);
+                    cartManager.addLineItem("Llama Shoes", 4, 2000L);
+                    cartManager.addShippingLineItem("Domestic shipping estimate", 1000L);
+
+                    try {
+                        Cart cart = cartManager.buildCart();
+                        Intent intent = new Intent(AlmostdoneActivity.this, AndroidPayActivity.class)
+                                .putExtra(StripeAndroidPayActivity.EXTRA_CART, cart);
+                        startActivity(intent);
+                    } catch (CartContentException unexpected) {
+                        // Ignore for now.
+                    }
+
+
+                }
+            }
+        });
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,15 +251,18 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                     Toast.makeText(AlmostdoneActivity.this, "Please enter valid location name", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    global.setBackType("0");
+                    Intent intent = new Intent(AlmostdoneActivity.this, PaymentActivity.class);
+                    startActivityForResult(intent, 0);
 
-                    DropInRequest dropInRequest = new DropInRequest()
+                   /* DropInRequest dropInRequest = new DropInRequest()
                             .tokenizationKey("sandbox_dgtkrsvt_szxk5km2k4fmrx4t")
                             .amount("€" + getIntent().getExtras().getString("total_price"))
                             .androidPayCart(getAndroidPayCart())
                             .paypalAdditionalScopes(Collections.singletonList(PayPal.SCOPE_ADDRESS));
                     //.clientToken("eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiIyZTY4MzZhOTU5MTk1NTNjOWY5YzZiZGY0YWIwMWIxOGJhMmFmYWE5MTA4M2I5YTJhYTdhMWU4MTIyMjAyNmEwfGNyZWF0ZWRfYXQ9MjAxNy0wMy0yOFQwNDo1NzoyNi44MDgwNjM5NjArMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=");
                     startActivityForResult(dropInRequest.getIntent(AlmostdoneActivity.this), REQUEST_CODE);
-                   /* PaymentRequest paymentRequest = new PaymentRequest()
+                    PaymentRequest paymentRequest = new PaymentRequest()
                             .tokenizationKey("sandbox_dgtkrsvt_szxk5km2k4fmrx4t")
                            // .clientToken("eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiIzNDliMmMzMTYyODI1NDEwZGFjZWZiNDlmNzY5YmQ1YmZiZTk5YTA5Y2M0MzJlMDRhOWMzOWMxMmJkNjZjYTJmfGNyZWF0ZWRfYXQ9MjAxNy0wMy0yM1QwNTowOTo1MC43ODc0ODMyMDIrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=")
                             .amount("€" + getIntent().getExtras().getString("total_price"))
@@ -234,7 +278,7 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
         });
     }
 
-    private Cart getAndroidPayCart() {
+    /*private Cart getAndroidPayCart() {
         return Cart.newBuilder()
                 .setCurrencyCode("USD")
                 .setTotalPrice(getIntent().getExtras().getString("total_price"))
@@ -246,21 +290,24 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
                         .setTotalPrice(getIntent().getExtras().getString("total_price"))
                         .build())
                 .build();
-    }
-
+    }*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == 0) {
+            if(global.getBackType().equalsIgnoreCase("0")) {
+                dialogWindow();
+                bookingMethod();
+            }
+            /*if (resultCode == Activity.RESULT_OK) {
                 DropInResult result = data.getParcelableExtra(DropInResult.EXTRA_DROP_IN_RESULT);
                 // use the result to update your UI and send the payment method nonce to your server
                 payment_method_nonce = result.getPaymentMethodNonce().getNonce();
 
                 second_count_img.setBackgroundResource(R.drawable.step_one_right_light);
-                /*ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
+                *//*ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
                 params1.height = 50;
                 params1.height = 50;
-                third_count_img.setLayoutParams(params1);*/
+                third_count_img.setLayoutParams(params1);*//*
                 third_count_img.setBackgroundResource(R.drawable.step_one_right_light);
                 second_line.setBackgroundResource(R.drawable.linew_white);
 
@@ -272,69 +319,11 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
             } else {
                 // handle errors here, an exception may be available in
                 Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
-            }
+            }*/
+        }
         }
 
-      /*  if (resultCode == BraintreePaymentActivity.RESULT_OK) {
-            PaymentMethodNonce paymentMethodNonce = data.getParcelableExtra(BraintreePaymentActivity.EXTRA_PAYMENT_METHOD_NONCE);
-            payment_method_nonce = paymentMethodNonce.getNonce();
-            dialogWindow();
-            bookingMethod();
-            *//*RequestParams requestParams = new RequestParams();
-            requestParams.put("payment_method_nonce", paymentMethodNonce.getNonce());
-            requestParams.put("amount", "10.00");
 
-            client.post(SERVER_BASE + "/payment", requestParams, new TextHttpResponseHandler() {
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                   // Toast.makeText(PaymentInfoActivity.this, responseString, Toast.LENGTH_LONG).show();
-                    Log.e("respnse string",responseString);
-                }
-
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                   // Toast.makeText(PaymentInfoActivity.this, responseString, Toast.LENGTH_LONG).show();
-                    Log.e("respnse string",responseString);
-                }
-            });*//*
-        }*/
-
-    }
-
-    /*private void getToken() {
-        client.get(SERVER_BASE + "/token", new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                // findViewById(R.id.btn_start).setEnabled(false);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                clientToken = responseString;
-                //findViewById(R.id.btn_start).setEnabled(true);
-            }
-        });
-    }*/
-
-    /*void postNonceToServer(String nonce) {
-        AsyncHttpClient client = new AsyncHttpClient();
-        RequestParams params = new RequestParams();
-        params.put("payment_method_nonce", nonce);
-        client.post(SERVER_BASE + "/payment", params, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(AlmostdoneActivity.this, responseString, Toast.LENGTH_LONG).show();
-                Log.e("respnse string", responseString);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Toast.makeText(AlmostdoneActivity.this, "1", Toast.LENGTH_LONG).show();
-                Log.e("respnse string", responseString);
-            }
-        });
-    }
-*/
     //--------------------search api method---------------------------------
     private void profileMethod() {
 
@@ -430,7 +419,8 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
             params.put(GlobalConstant.estimated_travel_time, global.getEstimated_travel_time());
 
             params.put(GlobalConstant.total_amount, getIntent().getExtras().getString("total_price"));
-            params.put(GlobalConstant.payment_method_nonce, payment_method_nonce);
+            params.put(GlobalConstant.payment_gateway, "stripe");
+            params.put(GlobalConstant.payment_token, global.getPaymentToken());
             JSONArray installedList = new JSONArray();
 //ArrayList<HashMap<String,String>> installedList=new ArrayList<>();
 

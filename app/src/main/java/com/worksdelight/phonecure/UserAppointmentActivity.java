@@ -92,6 +92,9 @@ ImageView navigation_img,service_img;
     String home_repair="",scoter_repair="";
     String device_model_name,total_expected_time,other_charges,estimated_travel_time;
     LinearLayout main_layout;
+    TextView complete_request_txt;
+    String userName_mString="",imageName_mString="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +118,8 @@ ImageView navigation_img,service_img;
         total_est_time= (TextView) findViewById(R.id.total_est_time);
         estimate_travel_txt=(TextView) findViewById(R.id.estimate_travel_txt);
         navigation_img=(ImageView)findViewById(R.id.navigation_img);
-
+        complete_request_txt=(TextView) findViewById(R.id.complete_request_txt);
+        complete_request_txt.setVisibility(View.GONE);
         back_img = (ImageView) findViewById(R.id.back_img);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +144,7 @@ ImageView navigation_img,service_img;
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
+
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
@@ -147,6 +152,7 @@ ImageView navigation_img,service_img;
         service_list = (ListView) findViewById(R.id.service_list);
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
             navigation_img.setVisibility(View.GONE);
+
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
@@ -160,7 +166,7 @@ ImageView navigation_img,service_img;
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.technician_detail);
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
-
+                userName_mString=name_txt.getText().toString();
                 String url = GlobalConstant.TECHNICIANS_IMAGE_URL + objUser.getString(GlobalConstant.image);
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
@@ -173,6 +179,7 @@ ImageView navigation_img,service_img;
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
+                imageName_mString=objUser.getString(GlobalConstant.image);
 
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
@@ -206,6 +213,7 @@ ImageView navigation_img,service_img;
                 e.printStackTrace();
             }
             cancel_request_txt.setText("Download Invoice");
+            cancel_request_txt.setBackgroundResource(R.drawable.green_btn);
             cancel_request_txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -231,6 +239,7 @@ ImageView navigation_img,service_img;
                 destinationLongitude = objUser.getString("address_longitude");
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
                 address_txt.setText(objUser.getString(GlobalConstant.address));
+                userName_mString=name_txt.getText().toString();
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
                 if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
@@ -242,7 +251,7 @@ ImageView navigation_img,service_img;
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
-
+                imageName_mString=objUser.getString(GlobalConstant.image);
                 JSONArray booking_item_arr = obj.getJSONArray(GlobalConstant.booking_items);
                 for (int i = 0; i < booking_item_arr.length(); i++) {
                     JSONObject bookinObj = booking_item_arr.getJSONObject(i);
@@ -301,6 +310,9 @@ ImageView navigation_img,service_img;
                 });
             } else {
                 cancel_request_txt.setText("Order " + statusValue);
+                navigation_img.setVisibility(View.GONE);
+                cancel_request_txt.setBackgroundResource(R.drawable.green_btn);
+
             }
         }
 
@@ -467,7 +479,10 @@ ImageView navigation_img,service_img;
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                               ratingWindow();
+                              // ratingWindow();
+                                Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
+                                startActivity(i);
+                                finish();
                             } else {
                                 Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
@@ -685,6 +700,23 @@ ImageView navigation_img,service_img;
                 ratingMethod();
             }
         });
+
+        ImageView user_image=(ImageView)ratingDialog.findViewById(R.id.user_img) ;
+        TextView user_txt=(TextView)ratingDialog.findViewById(R.id.user_txt);
+
+        user_txt.setText(userName_mString);
+
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(user_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+        if (imageName_mString.equalsIgnoreCase("")) {
+
+            user_image.setImageDrawable(drawable);
+        } else {
+            Picasso.with(this).load(GlobalConstant.TECHNICIANS_IMAGE_URL + imageName_mString).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+
+
+            //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+        }
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         ratingDialog.show();
     }
@@ -961,6 +993,7 @@ ImageView navigation_img,service_img;
                                 Intent i = new Intent(UserAppointmentActivity.this, HistoryActivity.class);
                                 startActivity(i);
                                 finish();
+                                Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(UserAppointmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }

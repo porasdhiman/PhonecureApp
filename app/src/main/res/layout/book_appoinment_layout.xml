@@ -91,11 +91,7 @@
 
                         app:mcv_weekDayTextAppearance="@style/CustomDayTextAppearance" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginTop="3dp"
-                        android:background="@color/mainTextColor" />
+
 
                     <RelativeLayout
                         android:id="@+id/time_view_layout"
@@ -156,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
-                    android:text="Time"
+                    android:text="TIME"
                     android:textColor="#000"
                     android:textSize="@dimen/header_txt" />
 

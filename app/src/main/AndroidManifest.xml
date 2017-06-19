@@ -116,12 +116,6 @@
 
             />
         <activity
-            android:name=".PaymentInfoActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-
-            />
-        <activity
             android:name=".MapBoxActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
@@ -161,7 +155,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        //--------------Android pay------------------
+       <!-- //&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;Android pay&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;
         <meta-data android:name="com.google.android.gms.wallet.api.enabled" android:value="true"/>
 
         <activity android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
@@ -172,7 +166,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
-        </activity>
+        </activity>-->
         <activity
         android:name=".ServiceActivity"
         android:screenOrientation="portrait"></activity>
@@ -321,6 +315,69 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="554ef2077694defe3f304217687a150a944de5f2" />
+
+
+        //--------------------Payment
+
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+
+        <activity
+            android:name=".activity.PaymentActivity"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.TokenIntentService"
+            android:exported="false"/>
+
+
+
+        <activity
+            android:name=".activity.LauncherActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat">
+
+        </activity>
+
+        <activity android:name=".activity.AndroidPayActivity"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.PollingActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="async"
+                    android:scheme="stripe"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="sync"
+                    android:scheme="stripe"/>
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>

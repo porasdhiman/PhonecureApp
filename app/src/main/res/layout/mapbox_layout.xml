@@ -232,8 +232,8 @@
             android:gravity="center"
             android:text="Book Appointment"
             android:textColor="#fff"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:textSize="14dp"
+            />
     </LinearLayout>
 
 </RelativeLayout>

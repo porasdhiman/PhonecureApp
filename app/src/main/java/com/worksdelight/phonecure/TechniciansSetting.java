@@ -31,12 +31,14 @@ import com.facebook.login.LoginManager;
 public class TechniciansSetting extends Activity {
     ImageView back;
     RelativeLayout sign_out_layout, change_password_layout, share_layout, deactivate_layout;
-    SharedPreferences sp;
-    SharedPreferences.Editor ed;
+    SharedPreferences sp,spNotify;
+    SharedPreferences.Editor ed,edNotify;
     Global global;
     Dialog dialog2;
     CallbackManager callbackManager;
     LinearLayout main_layout;
+    ImageView notify_on_off;
+    boolean isEnabled=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,33 @@ public class TechniciansSetting extends Activity {
         }
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
+        spNotify=getSharedPreferences("NotifyType",Context.MODE_PRIVATE);
+        edNotify=spNotify.edit();
+        isEnabled=spNotify.getBoolean("isEnabled",false);
+        notify_on_off=(ImageView)findViewById(R.id.notify_on_off);
+        if(isEnabled==false){
+            notify_on_off.setImageResource(R.drawable.toogle2);
+        }else{
+            notify_on_off.setImageResource(R.drawable.toggle);
+        }
         global = (Global) getApplicationContext();
+
+        notify_on_off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isEnabled==false){
+                    edNotify.putBoolean("isEnabled",true);
+                    isEnabled=true;
+                    edNotify.commit();
+                    notify_on_off.setImageResource(R.drawable.toggle);
+                }else{
+                    isEnabled=false;
+                    edNotify.putBoolean("isEnabled",false);
+                    edNotify.commit();
+                    notify_on_off.setImageResource(R.drawable.toogle2);
+                }
+            }
+        });
         main_layout=(LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
         back = (ImageView) findViewById(R.id.back);

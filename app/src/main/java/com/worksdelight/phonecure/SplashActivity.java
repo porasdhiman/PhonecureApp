@@ -84,6 +84,8 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        /*String locale = getResources().getConfiguration().locale.getDisplayCountry();
+        Toast.makeText(this,locale,Toast.LENGTH_SHORT).show();*/
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         global = (Global) getApplicationContext();
         sp1 = getSharedPreferences("register", Context.MODE_PRIVATE);
@@ -105,7 +107,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         Locale current = getResources().getConfiguration().locale;
         global.setCurencySymbol(Currency.getInstance(current).getSymbol(current));
         Log.e("locale", Currency.getInstance(current).getSymbol(current));
-    /*    global.setLat("30.701990");
+       /* global.setLat("30.701990");
         global.setLong("76.682625");*/
         //-----------------Permission value----------------------
         String locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;

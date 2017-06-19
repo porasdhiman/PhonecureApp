@@ -87,7 +87,7 @@ public class GlobalConstant {
 
     public static String BOOKINGINFO_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/bookings/get?";
     public static String PDF_DOWNLOAD_URL="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/uploads/invoices/";
-
+    public static String IF_RATING_PENDING="http://ec2-52-15-185-48.us-east-2.compute.amazonaws.com/index.php/api/wishlist/ifRatingPending?user_id=";
 
     public static String technician_id="technician_id";
     public static String firstname="firstname";
@@ -152,4 +152,8 @@ public class GlobalConstant {
     public static String address_longitude="address_longitude";
     public static String other_charges="other_charges";
     public static String favorite_count="favorite_count";
+    public static String payment_gateway="payment_gateway";
+    public static String payment_token="payment_token";
+
+
 }

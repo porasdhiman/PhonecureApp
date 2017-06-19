@@ -1,1 +1,1 @@
-include ':app', ':ResideMenu', ':android-pdf-viewer'
+include ':app', ':ResideMenu', ':android-pdf-viewer', ':stripe'

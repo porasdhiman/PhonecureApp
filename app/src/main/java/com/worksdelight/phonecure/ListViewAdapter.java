@@ -29,7 +29,7 @@ public class ListViewAdapter extends BaseSwipeAdapter {
 
     @Override
     public View generateView(int position, ViewGroup parent) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.list_item_layout, null);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.app_list_item_layout, null);
         SwipeLayout swipeLayout = (SwipeLayout)v.findViewById(getSwipeLayoutResourceId(position));
 
         swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
