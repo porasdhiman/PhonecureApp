@@ -249,6 +249,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 global.setColorId(sp.getString("id", ""));
                 bottome_layout.setVisibility(View.GONE);
                 Intent home = new Intent(getActivity(), ServiceActivity.class);
+                home.putExtra("device",global.getDeviceName());
                 startActivity(home);
                 break;
             case R.id.cancel_txtView:

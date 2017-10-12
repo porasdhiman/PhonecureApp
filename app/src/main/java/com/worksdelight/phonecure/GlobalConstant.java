@@ -160,4 +160,8 @@ public class GlobalConstant {
     public static String average_rating_count="average_rating_count";
     public static String GET_TIME_SLOT_URL="http://m.phonecure.eu/index.php/api/technicians/timeslots?";
     public static String start="start";
+    public static String Demo_booking_url="http://m.phonecure.eu/index.php/api/bookings/generate";
+
+
+
 }

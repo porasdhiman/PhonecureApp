@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -106,6 +107,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         } else {
             Log.e(TAG, "No valid Google Play Services APK found.");
         }
+        Locale current = getResources().getConfiguration().locale;
+        global.setCurencySymbol(Currency.getInstance(current).getSymbol(current));
+        Log.e("locale", Currency.getInstance(current).getSymbol(current));
         Log.e("current language", Locale.getDefault().getLanguage());
 
 
@@ -132,9 +136,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             getBaseContext().getResources().updateConfiguration(config,
                     getBaseContext().getResources().getDisplayMetrics());
         }
-       /* Locale current = getResources().getConfiguration().locale;
-        global.setCurencySymbol(Currency.getInstance(current).getSymbol(current));
-        Log.e("locale", Currency.getInstance(current).getSymbol(current));*/
+
        /* global.setLat("30.701990");
         global.setLong("76.682625");*/
         //-----------------Permission value----------------------

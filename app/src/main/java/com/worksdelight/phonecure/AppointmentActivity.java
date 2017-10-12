@@ -190,7 +190,7 @@ public class AppointmentActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                total_price.setText("€" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
+                total_price.setText(global.getCurencySymbol() + String.valueOf(obj.getString(GlobalConstant.total_amount)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -336,7 +336,7 @@ public class AppointmentActivity extends Activity {
             }
             device_name.setText(device_model_name);
             total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time)) + " Hours");
-            othertxt.setText("€" + String.valueOf(Float.parseFloat(other_charges)));
+            othertxt.setText(global.getCurencySymbol() + String.valueOf(Float.parseFloat(other_charges)));
             estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time)) + " Hours");
 
         }

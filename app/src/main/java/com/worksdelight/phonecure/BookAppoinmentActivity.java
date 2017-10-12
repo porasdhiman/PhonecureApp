@@ -260,8 +260,11 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sendDate.equalsIgnoreCase("")&&global.getTimeSlot().equalsIgnoreCase("")) {
+                if (sendDate.equalsIgnoreCase("") ) {
                     Toast.makeText(BookAppoinmentActivity.this, getResources().getString(R.string.booking_date_time_valid), Toast.LENGTH_SHORT).show();
+                }else if(global.getTimeSlot().equalsIgnoreCase("")){
+                    Toast.makeText(BookAppoinmentActivity.this, getResources().getString(R.string.booking_date_time_valid), Toast.LENGTH_SHORT).show();
+
                 }
                 else if (global.getPickUp().equalsIgnoreCase("0") && global.getDropOff().equalsIgnoreCase("0")) {
                     Toast.makeText(BookAppoinmentActivity.this, getResources().getString(R.string.repair_option_valid), Toast.LENGTH_SHORT).show();

@@ -250,7 +250,7 @@ public class PandingFragment extends Fragment {
 
             }
 
-            price_txt.setText("€" + list.get(position).get(GlobalConstant.total_amount));
+            price_txt.setText(global.getCurencySymbol() + list.get(position).get(GlobalConstant.total_amount));
 
             delivered_date_txt.setText(formatdate2(list.get(position).get(GlobalConstant.date)));
 
