@@ -1,8 +1,12 @@
 package com.worksdelight.phonecure;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -54,6 +58,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.rampo.updatechecker.UpdateChecker;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -102,18 +107,23 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
 
     protected LocationRequest locationRequest;
     int REQUEST_CHECK_SETTINGS = 100;
-
+AlertDialog builder;
     //-------------Guide text-----------
     RelativeLayout guide_layout;
     //------------rating variable --------
     String com_star = "1", time_star = "1", service_star = "1", skill_star = "1", user_id;
-    String userName_mString = "", imageName_mString = "", id_mString;
+    String userName_mString = "", imageName_mString = "", id_mString,booking_id;
+    SharedPreferences notiSp;
+    SharedPreferences.Editor noti_ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this, "pk.eyJ1IjoicG9yYXMiLCJhIjoiY2owdWxrdThlMDR4ODJ3andqam94cm8xMCJ9.q7NNGKPgyZ-Vq1R80eJCxg");
 
         setContentView(R.layout.technicians_home_layout);
+        UpdateChecker checker = new UpdateChecker(this); // If you are in a Activity or a FragmentActivity
+        checker.setSuccessfulChecksRequired(5);
+        checker.start();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
@@ -122,6 +132,7 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
 
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
+
       /*  Login_TV = (LoginButton) parentView.findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();*/
@@ -248,18 +259,51 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        this.registerReceiver(mMessageReceiver, new IntentFilter("unique_name"));
+
+        ed.putBoolean("isResume",true);
+        ed.commit();
         if (mAdView != null) {
             mAdView.resume();
         }
     }
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+            builder = new AlertDialog.Builder(TechniciansHomeActivity.this).setMessage(global.getContent())
+                    .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            global.setSendNotify("0");
+                            dialogWindow();
+                            showDeviceMethod();
+                            ratingPendingMethod();
+                            builder.dismiss();
+                        }
+
+                    }).show();
+
+        }
+    };
+    public void CallAPI(Context context) {
+
+        Intent intent = new Intent("unique_name");
+
+        // put whatever data you want to send, if any
+
+        // send broadcast
+        context.sendBroadcast(intent);
+    }
     @Override
     public void onPause() {
         super.onPause();
+        this.unregisterReceiver(mMessageReceiver);
         mapView.onPause();
         if (mAdView != null) {
             mAdView.pause();
         }
+        ed.putBoolean("isResume",false);
+        ed.commit();
     }
 
     @Override
@@ -317,7 +361,7 @@ public class TechniciansHomeActivity extends FragmentActivity implements View.On
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data = obj.getJSONObject("data");
                                 // techniciansName_txtView.setText("Hi, " + data.getString("name"));
-                                booking_txt.setText(data.getString("booking_count") + " Scheduled");
+                                booking_txt.setText(data.getString("booking_count") + " Schedules");
 
                                 service_txt.setText(data.getString("services_count") + " Services");
 
@@ -449,6 +493,7 @@ private void ratingPendingMethod() {
                         String status = obj.getString("status");
                         if (status.equalsIgnoreCase("1")) {
                             JSONObject data = obj.getJSONObject("data");
+                            booking_id=data.getString(GlobalConstant.id);
                             JSONObject techDetails = data.getJSONObject("user_detail");
                             id_mString=techDetails.getString(GlobalConstant.id);
                             userName_mString=techDetails.getString(GlobalConstant.name);
@@ -816,6 +861,7 @@ private void ratingPendingMethod() {
 
                 params.put(GlobalConstant.USERID, CommonUtils.UserID(TechniciansHomeActivity.this));
                 params.put(GlobalConstant.favorite_user_id, id_mString);
+                params.put("booking_id", booking_id);
                 params.put("rating", com_star);
                 params.put("rating1", service_star);
                 params.put("rating2", time_star);

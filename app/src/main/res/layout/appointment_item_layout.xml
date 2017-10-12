@@ -35,7 +35,21 @@
                 android:textSize="14dp"
 
                 />
+            <TextView
+                android:id="@+id/service_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_centerInParent="true"
+
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+
+                android:text=""
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12dp"
+
+                />
             <TextView
                 android:id="@+id/service_time"
                 android:layout_width="wrap_content"

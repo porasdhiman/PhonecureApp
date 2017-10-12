@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -82,6 +83,7 @@ public class TechniciansOtherDeviceActivity extends Activity implements View.OnC
     public TourGuide mTutorialHandler, mTutorialHandler2;
 SharedPreferences sp;
     SharedPreferences.Editor ed;
+    AlertDialog builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,7 @@ SharedPreferences sp;
     public void init() {
         device_name = (TextView) findViewById(R.id.device_name);
         back_img = (ImageView) findViewById(R.id.back_img);
-        device_name.setText("Please add devices");
+        device_name.setText(getResources().getString(R.string.device_added));
         // types_txtView = (TextView) findViewById(R.id.types_txtView);
         device_listView = (ListView) findViewById(R.id.device_listView);
         //types_listView = (ListView) findViewById(R.id.types_listView);
@@ -330,7 +332,7 @@ SharedPreferences sp;
                                 .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                                 .setToolTip(new ToolTip()
 
-                                        .setDescription("ADD ALL DEVICES YOU ABLE TO REPAIR")
+                                        .setDescription(getResources().getString(R.string.add_all_device))
                                         .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -378,12 +380,12 @@ SharedPreferences sp;
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.select_img.setVisibility(View.GONE);
                 holder.unselect_img.setVisibility(View.VISIBLE);
-                holder.device_count.setText(deviceList.get(i).get(GlobalConstant.services_count) + " Devices Added");
+                holder.device_count.setText(deviceList.get(i).get(GlobalConstant.services_count) + " "+getResources().getString(R.string.device_added));
             } else {
 
                 holder.select_img.setVisibility(View.VISIBLE);
                 holder.unselect_img.setVisibility(View.GONE);
-                holder.device_count.setText("No devices added yet");
+                holder.device_count.setText(getResources().getString(R.string.no_device_added));
                 holder.device_count.setTextColor(Color.parseColor("#ff0000"));
             }
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));

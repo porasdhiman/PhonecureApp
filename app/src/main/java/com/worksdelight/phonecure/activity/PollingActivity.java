@@ -45,8 +45,8 @@ public class PollingActivity extends AppCompatActivity {
      *
      * You can get your key here: https://dashboard.stripe.com/account/apikeys
      */
-    private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY =
-            "pk_test_NqFmtDXfFDZrhVOBGvL7LtYe";
+    private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY = "pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
+   // private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY = "pk_live_C1cXigL187bmBE5E4y8Y1gX3";
     private static final String RETURN_SCHEMA = "stripe://";
     private static final String RETURN_HOST_ASYNC = "async";
     private static final String RETURN_HOST_SYNC = "sync";

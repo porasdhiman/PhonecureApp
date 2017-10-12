@@ -5,11 +5,14 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,14 +41,26 @@ public class ForgotActivity extends Activity {
     TextView reset_password_view;
     EditText email_view;
     LinearLayout sign_up_btn_layout;
+    ImageView back_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.forgot_layout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+        }
         init();
 
     }
 public void init(){
+    back_img=(ImageView)findViewById(R.id.back_img);
+    back_img.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            finish();
+        }
+    });
     sign_up_btn_layout=(LinearLayout)findViewById(R.id.sign_up_btn_layout);
     reset_password_view=(TextView)findViewById(R.id.reset_password_view);
     email_view=(EditText)findViewById(R.id.email_view);
@@ -53,10 +68,10 @@ public void init(){
         @Override
         public void onClick(View view) {
             if(email_view.getText().length()==0){
-                Toast.makeText(ForgotActivity.this,"Please enter email",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotActivity.this,getResources().getString(R.string.email_blank),Toast.LENGTH_SHORT).show();
 
             }else if(!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                Toast.makeText(ForgotActivity.this,"Please enter valid email",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForgotActivity.this,getResources().getString(R.string.email_valid),Toast.LENGTH_SHORT).show();
             }
             else{
                 dialogWindow();

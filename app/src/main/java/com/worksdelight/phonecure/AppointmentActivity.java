@@ -78,13 +78,14 @@ public class AppointmentActivity extends Activity {
     //String sourceLatitude="30.7046",sourceLongitude="76.7179",destinationLatitude="30.7398339",destinationLongitude="76.78270199999997";
     String sourceLatitude = "30.7046", sourceLongitude = "76.7179", destinationLatitude = "", destinationLongitude = "";
     String com_star = "1", time_star = "1", service_star = "1", skill_star = "1", user_id;
-    TextView service_name,device_name,total_est_time,othertxt,estimate_travel_txt;
-String home_repair="",scoter_repair="";
-    String device_model_name,total_expected_time,other_charges,estimated_travel_time;
+    TextView service_name, device_name, total_est_time, othertxt, estimate_travel_txt;
+    String home_repair = "", scoter_repair = "";
+    String device_model_name, total_expected_time, other_charges, estimated_travel_time;
     LinearLayout main_layout;
-TextView complete_request_txt;
+    TextView complete_request_txt;
 
-    String userName_mString="",imageName_mString="";
+    String userName_mString = "", imageName_mString = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,51 +99,53 @@ TextView complete_request_txt;
     }
 
     public void init() {
-        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        main_layout = (LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         navigation_img = (ImageView) findViewById(R.id.navigation_img);
         service_img = (ImageView) findViewById(R.id.service_img);
         service_name = (TextView) findViewById(R.id.service_name);
-        device_name= (TextView) findViewById(R.id.device_name);
-        othertxt=(TextView) findViewById(R.id.other_price);
-        total_est_time= (TextView) findViewById(R.id.total_est_time);
-        estimate_travel_txt=(TextView) findViewById(R.id.estimate_travel_txt);
+        device_name = (TextView) findViewById(R.id.device_name);
+        othertxt = (TextView) findViewById(R.id.other_price);
+        total_est_time = (TextView) findViewById(R.id.total_est_time);
+        estimate_travel_txt = (TextView) findViewById(R.id.estimate_travel_txt);
         back_img = (ImageView) findViewById(R.id.back_img);
         user_view = (ImageView) findViewById(R.id.user_view);
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i=new Intent(AppointmentActivity.this,TechniciansHistory.class);
+                startActivity(i);
                 finish();
             }
         });
         total_price = (TextView) findViewById(R.id.total_price);
         // back_img.setColorFilter(back_img.getContext().getResources().getColor(R.color.main_color), PorterDuff.Mode.SRC_ATOP);
         cancel_request_txt = (TextView) findViewById(R.id.cancel_request_txt);
-        complete_request_txt=(TextView) findViewById(R.id.complete_request_txt);
+        complete_request_txt = (TextView) findViewById(R.id.complete_request_txt);
         name_txt = (TextView) findViewById(R.id.name_txt);
         address_txt = (TextView) findViewById(R.id.address_txt);
         date_txt = (TextView) findViewById(R.id.date_txt);
         // close_date_txt = (TextView) findViewById(R.id.close_date_txt);
         service_list = (ListView) findViewById(R.id.service_list);
-        sourceLatitude=global.getLat();
-        sourceLongitude=global.getLong();
+        sourceLatitude = global.getLat();
+        sourceLongitude = global.getLong();
         if (getIntent().getExtras().getString("type").equalsIgnoreCase("0")) {
             navigation_img.setVisibility(View.GONE);
             try {
                 JSONObject obj = global.getCompletedaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
                 invoice = obj.getString(GlobalConstant.invoice);
-                home_repair=obj.getString(GlobalConstant.repair_at_shop);
-                scoter_repair=obj.getString(GlobalConstant.repair_on_location);
-                device_model_name=obj.getString("device_model_name");
-                total_expected_time=obj.getString("total_expected_time");
-                other_charges=obj.getString("other_charges");
-                estimated_travel_time=obj.getString("estimated_travel_time");
+                home_repair = obj.getString(GlobalConstant.repair_at_shop);
+                scoter_repair = obj.getString(GlobalConstant.repair_on_location);
+                device_model_name = obj.getString("device_model_name");
+                total_expected_time = obj.getString("total_expected_time");
+                other_charges = obj.getString("other_charges");
+                estimated_travel_time = obj.getString("estimated_travel_time");
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
 
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
-                userName_mString=name_txt.getText().toString();
+                userName_mString = name_txt.getText().toString();
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
                 if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
@@ -154,7 +157,7 @@ TextView complete_request_txt;
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
-imageName_mString=objUser.getString(GlobalConstant.image);
+                imageName_mString = objUser.getString(GlobalConstant.image);
 
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 address_txt.setText(shipping_address.getString(GlobalConstant.ship_address) + "," + shipping_address.getString(GlobalConstant.ship_city));
@@ -164,6 +167,7 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                     HashMap<String, String> map = new HashMap<>();
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.quantity, bookinObj.getString(GlobalConstant.quantity));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
                     map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
 
@@ -207,19 +211,18 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                 JSONObject obj = global.getPendingaar().getJSONObject(Integer.parseInt(getIntent().getExtras().getString("pos")));
                 booking_id = obj.getString(GlobalConstant.id);
                 statusValue = obj.getString(GlobalConstant.status);
-                home_repair=obj.getString(GlobalConstant.repair_at_shop);
-                scoter_repair=obj.getString(GlobalConstant.repair_on_location);
-                device_model_name=obj.getString("device_model_name");
-                total_expected_time=obj.getString("total_expected_time");
-                other_charges=obj.getString("other_charges");
-                estimated_travel_time=obj.getString("estimated_travel_time");
+                home_repair = obj.getString(GlobalConstant.repair_at_shop);
+                scoter_repair = obj.getString(GlobalConstant.repair_on_location);
+                device_model_name = obj.getString("device_model_name");
+                total_expected_time = obj.getString("total_expected_time");
+                other_charges = obj.getString("other_charges");
+                estimated_travel_time = obj.getString("estimated_travel_time");
                 JSONObject objUser = obj.getJSONObject(GlobalConstant.user_detail);
                 user_id = objUser.getString(GlobalConstant.id);
 
 
-
                 name_txt.setText(cap(objUser.getString(GlobalConstant.name)));
-                userName_mString=name_txt.getText().toString();
+                userName_mString = name_txt.getText().toString();
                 TextDrawable drawable = TextDrawable.builder()
                         .buildRound(name_txt.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
                 if (objUser.getString(GlobalConstant.image).equalsIgnoreCase("")) {
@@ -231,7 +234,7 @@ imageName_mString=objUser.getString(GlobalConstant.image);
 
                     //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
                 }
-                imageName_mString=objUser.getString(GlobalConstant.image);
+                imageName_mString = objUser.getString(GlobalConstant.image);
                 JSONObject shipping_address = objUser.getJSONObject("shipping_address");
                 destinationLatitude = shipping_address.getString("ship_latitude");
                 destinationLongitude = shipping_address.getString("ship_longitude");
@@ -243,6 +246,7 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                     HashMap<String, String> map = new HashMap<>();
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.quantity, bookinObj.getString(GlobalConstant.quantity));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
                     map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
                     list.add(map);
@@ -322,18 +326,18 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                 cancel_request_txt.setBackgroundResource(R.drawable.green_btn);
                 cancel_request_txt.setText("Order " + statusValue);
             }
-            if(home_repair.equalsIgnoreCase("1")){
+            if (home_repair.equalsIgnoreCase("1")) {
                 service_img.setImageResource(R.drawable.home_repair);
                 service_name.setText("Repair at service point");
             }
-            if(scoter_repair.equalsIgnoreCase("1")){
+            if (scoter_repair.equalsIgnoreCase("1")) {
                 service_img.setImageResource(R.drawable.scooter);
                 service_name.setText("Repair at your location");
             }
             device_name.setText(device_model_name);
-            total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" Hours");
-            othertxt.setText("€"+String.valueOf(Float.parseFloat(other_charges)));
-            estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
+            total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time)) + " Hours");
+            othertxt.setText("€" + String.valueOf(Float.parseFloat(other_charges)));
+            estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time)) + " Hours");
 
         }
 
@@ -420,6 +424,7 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                 view = inflatore.inflate(R.layout.appointment_item_layout, null);
                 holder.service_name = (TextView) view.findViewById(R.id.service_name);
                 holder.service_time = (TextView) view.findViewById(R.id.service_time);
+                holder.service_quantity=(TextView) view.findViewById(R.id.service_quantity);
                 holder.service_price = (TextView) view.findViewById(R.id.service_price);
 
                 view.setTag(holder);
@@ -429,17 +434,19 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
+            holder.service_quantity.setText("Quantity "+list.get(i).get(GlobalConstant.quantity));
             holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
-            holder.service_time.setText("Expected time "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" Hours");
+            holder.service_time.setText("Expected time " + getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time))) + " Hours");
             return view;
         }
 
         public class Holder {
 
-            TextView service_name, service_time, service_price;
+            TextView service_name, service_time, service_price,service_quantity;
 
         }
     }
+
     private String getDurationString(int seconds) {
 
         int hours = seconds / 3600;
@@ -486,9 +493,9 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                             String status1 = obj.getString("status");
                             if (status1.equalsIgnoreCase("1")) {
                                 //JSONObject data=obj.getJSONObject("data");
-                                if(status.equalsIgnoreCase("completed")){
+                                if (status.equalsIgnoreCase("completed")) {
                                     ratingWindow();
-                                }else{
+                                } else {
                                     Intent i = new Intent(AppointmentActivity.this, TechniciansHistory.class);
                                     startActivity(i);
                                     finish();
@@ -567,8 +574,8 @@ imageName_mString=objUser.getString(GlobalConstant.image);
                 ratingMethod();
             }
         });
-        ImageView user_image=(ImageView)ratingDialog.findViewById(R.id.user_img) ;
-        TextView user_txt=(TextView)ratingDialog.findViewById(R.id.user_txt);
+        ImageView user_image = (ImageView) ratingDialog.findViewById(R.id.user_img);
+        TextView user_txt = (TextView) ratingDialog.findViewById(R.id.user_txt);
 
         user_txt.setText(userName_mString);
 
@@ -1008,6 +1015,7 @@ imageName_mString=objUser.getString(GlobalConstant.image);
 
                 params.put(GlobalConstant.USERID, CommonUtils.UserID(AppointmentActivity.this));
                 params.put(GlobalConstant.favorite_user_id, user_id);
+                params.put("booking_id", booking_id);
                 params.put("rating", com_star);
                 params.put("rating1", service_star);
                 params.put("rating2", time_star);

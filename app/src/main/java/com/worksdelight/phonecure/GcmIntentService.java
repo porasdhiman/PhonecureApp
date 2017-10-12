@@ -26,7 +26,7 @@ public class GcmIntentService extends IntentService {
     String datamessage, senderid, userreply, reciverid, identity_type = "0";
     Global global;
     Context context;
-    SharedPreferences mSharedPreferences,spNotify;
+    SharedPreferences mSharedPreferences, spNotify;
     Editor mEditor;
     boolean isapp_inbackground_boolean;
     Bundle extras;
@@ -40,9 +40,9 @@ public class GcmIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d("in gcm", "we are in pushnotification");
         global = (Global) getApplicationContext();
-        mSharedPreferences = getSharedPreferences("chat", Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         extras = intent.getExtras();
-        spNotify=getSharedPreferences("NotifyType",Context.MODE_PRIVATE);
+        spNotify = getSharedPreferences("NotifyType", Context.MODE_PRIVATE);
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         NOTIFICATION_ID = (int) System.currentTimeMillis();
         String messageType = gcm.getMessageType(intent);
@@ -61,10 +61,10 @@ public class GcmIntentService extends IntentService {
                     }
                 }
                 try {
-                    JSONObject obj=new JSONObject(extras.getString("data"));
+                    JSONObject obj = new JSONObject(extras.getString("data"));
                     global.setPushValue("1");
                     global.setPushNotificationType(obj.getString("push_notification_type"));
-                    Log.e("data",obj.toString());
+                    Log.e("data", obj.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -86,9 +86,36 @@ public class GcmIntentService extends IntentService {
                 } else {
                     sendNotification("Envago App", extras.getString("content_title"));
                 }*/
-                if(spNotify.getBoolean("isEnabled",false)==false) {
-                    sendNotification("PhoneCure App", extras.getString("content_title"));
-                }else{
+                if (spNotify.getBoolean("isEnabled", false) == false) {
+                    if (mSharedPreferences.getBoolean("isResume", false) == true) {
+                       if(mSharedPreferences.getString(GlobalConstant.type,"user").equalsIgnoreCase("user")){
+                           if(global.getSendNotify().equalsIgnoreCase("1")){
+
+                           }else{
+                               global.setSendNotify("1");
+                               global.setContent(extras.getString("content_title"));
+                               MainActivity act=new MainActivity();
+                               act.CallAPI(this);
+                           }
+
+                       }else{
+                           if(global.getSendNotify().equalsIgnoreCase("1")){
+
+                           }else{
+                               global.setSendNotify("1");
+                               global.setContent(extras.getString("content_title"));
+                               TechniciansHomeActivity act=new TechniciansHomeActivity();
+                               act.CallAPI(this);
+                           }
+
+                       }
+
+                    } else {
+
+                        sendNotification("PhoneCure App", extras.getString("content_title"));
+                    }
+
+                } else {
 
                 }
 
@@ -105,8 +132,7 @@ public class GcmIntentService extends IntentService {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
 
-            contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SplashActivity.class), 0);
-
+        contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, SplashActivity.class), 0);
 
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)

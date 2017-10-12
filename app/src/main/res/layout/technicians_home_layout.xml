@@ -145,9 +145,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
-                            android:text="Appointments"
+                            android:text="@string/appointment"
                             android:textColor="#fff"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
 
                             android:textStyle="bold" />
 
@@ -196,9 +196,9 @@
                             android:id="@+id/services_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Services"
+                            android:text="@string/services"
                             android:textColor="#fff"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
 
                             android:textStyle="bold" />
 
@@ -257,21 +257,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/cure_img"
-                            android:text="Settings"
+                            android:text="@string/setting"
                             android:textColor="#fff"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/cure_txt"
-                            android:text="Adjust settings"
+                            android:text="@string/adjust_setting"
 
                             android:textColor="#fff"
 
 
-                            android:textSize="14dp" />
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                 </RelativeLayout>
@@ -306,18 +306,18 @@
                             android:id="@+id/scan_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Profile"
+                            android:text="@string/profile_small"
                             android:textColor="#fff"
 
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Update Profile"
+                            android:text="@string/update_profile"
                             android:textColor="#fff"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
 
 
                             />
@@ -370,7 +370,7 @@
                             android:layout_below="@+id/cure_img"
                             android:text="@string/guide_txt"
                             android:textColor="#fff"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -378,12 +378,12 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/cure_txt"
 
-                            android:text="Technical assistance in service repairs"
+                            android:text="@string/tech_assist_info"
 
                             android:textColor="#fff"
 
 
-                            android:textSize="14dp" />
+                            android:textSize="12dp" />
                     </LinearLayout>
 
 

@@ -344,7 +344,7 @@ SharedPreferences sp;
                                 .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                                 .setToolTip(new ToolTip()
 
-                                        .setDescription("ADD SERVICABLE MODEL(S)")
+                                        .setDescription(getResources().getString(R.string.add_service_model))
                                         .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -381,10 +381,10 @@ SharedPreferences sp;
 
             holder.color_layout.setVisibility(View.GONE);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
-                holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count) + " Services added");
+                holder.status.setText(deviceList.get(i).get(GlobalConstant.services_count) + " "+getResources().getString(R.string.services_added));
                 holder.status.setTextColor(Color.parseColor("#47c63d"));
             } else {
-                holder.status.setText("No service added yet");
+                holder.status.setText(getResources().getString(R.string.no_services_added));
                 holder.status.setTextColor(Color.parseColor("#ff0000"));
             }
 

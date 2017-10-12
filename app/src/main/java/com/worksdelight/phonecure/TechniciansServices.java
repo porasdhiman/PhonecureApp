@@ -2,6 +2,7 @@ package com.worksdelight.phonecure;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +62,7 @@ import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 import static com.worksdelight.phonecure.GlobalConstant.technician_service_id;
+import static com.worksdelight.phonecure.R.id.price_ed;
 import static com.worksdelight.phonecure.R.id.time_ed;
 
 /**
@@ -82,9 +84,10 @@ public class TechniciansServices extends Activity {
     String serviceID = "";
     Global global;
     public TourGuide mTutorialHandler, mTutorialHandler2;
-SharedPreferences sp;
+    SharedPreferences sp;
     SharedPreferences.Editor ed;
-    int p=0;
+    int p = 0;
+AlertDialog builder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +96,8 @@ SharedPreferences sp;
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
-        sp=getSharedPreferences("register",Context.MODE_PRIVATE);
-        ed=sp.edit();
+        sp = getSharedPreferences("register", Context.MODE_PRIVATE);
+        ed = sp.edit();
         global = (Global) getApplicationContext();
         init();
 
@@ -119,25 +122,25 @@ SharedPreferences sp;
         service_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(TechniciansServices.this,"service",Toast.LENGTH_SHORT).show();
-                if(sp.getString("techService","").equalsIgnoreCase("")) {
+                Toast.makeText(TechniciansServices.this, "service", Toast.LENGTH_SHORT).show();
+                if (sp.getString("techService", "").equalsIgnoreCase("")) {
                     if (i == 0) {
                         mTutorialHandler.cleanUp();
                         Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
                         map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
                         map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
                         map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                        map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                        map.putExtra("service name", list.get(i).get(GlobalConstant.name));
                         map.putExtra("pos", String.valueOf(i));
 
                         startActivityForResult(map, 0);
                     }
-                }else{
+                } else {
                     Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
                     map.putExtra(GlobalConstant.id, list.get(i).get(GlobalConstant.id));
                     map.putExtra(GlobalConstant.service_id, list.get(i).get(GlobalConstant.service_id));
                     map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                    map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                    map.putExtra("service name", list.get(i).get(GlobalConstant.name));
                     map.putExtra("pos", String.valueOf(i));
 
                     startActivityForResult(map, 0);
@@ -170,7 +173,7 @@ SharedPreferences sp;
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-          ed.putString("techService","1");
+            ed.putString("techService", "1");
             ed.commit();
             list.clear();
             dialogWindow();
@@ -182,7 +185,8 @@ SharedPreferences sp;
 
     //--------------------Category api method---------------------------------
     private void subcategoryMethod() {
-
+        String url = GlobalConstant.SUB_CATEGORY_URL + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(this);
+        Log.e("service url", url);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.SUB_CATEGORY_URL + getIntent().getExtras().getString("id") + "&user_id=" + CommonUtils.UserID(this),
                 new Response.Listener<String>() {
@@ -205,7 +209,12 @@ SharedPreferences sp;
                                     map.put(GlobalConstant.id, arryObj.getString(GlobalConstant.id));
 
                                     map.put(GlobalConstant.device_model_id, arryObj.getString(GlobalConstant.device_model_id));
-                                    map.put(GlobalConstant.technician_service_id, arryObj.getString(GlobalConstant.technician_service_id));
+                                    if (arryObj.getString(GlobalConstant.technician_service_id).length() == 0 || arryObj.getString(GlobalConstant.technician_service_id).equalsIgnoreCase("")) {
+                                        map.put(GlobalConstant.technician_service_id, "");
+                                    } else {
+                                        map.put(GlobalConstant.technician_service_id, arryObj.getString(GlobalConstant.technician_service_id));
+                                    }
+
                                     map.put(GlobalConstant.enabled_status, arryObj.getString(GlobalConstant.enabled_status));
 
 
@@ -335,54 +344,54 @@ SharedPreferences sp;
                 view = inflator.inflate(R.layout.device_service_with_price_layout, null);
                 holder.device_image = (ImageView) view.findViewById(R.id.device_icon);
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
-                holder.price_ed = (TextView) view.findViewById(R.id.price_ed);
+                holder.price_ed = (TextView) view.findViewById(price_ed);
                 holder.time_ed = (TextView) view.findViewById(time_ed);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
-                holder.main_layout=(RelativeLayout)view.findViewById(R.id.main_layout);
+                holder.main_layout = (RelativeLayout) view.findViewById(R.id.main_layout);
 
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
                 holder.main_layout.setTag(holder);
                 view.setTag(holder);
-                if(sp.getString("techService","").equalsIgnoreCase("")){
-                if(i==0){
-                    Animation enterAnimation = new AlphaAnimation(0f, 1f);
-                    enterAnimation.setDuration(600);
-                    enterAnimation.setFillAfter(true);
+                if (sp.getString("techService", "").equalsIgnoreCase("")) {
+                    if (i == 0) {
+                        Animation enterAnimation = new AlphaAnimation(0f, 1f);
+                        enterAnimation.setDuration(600);
+                        enterAnimation.setFillAfter(true);
 
-                    Animation exitAnimation = new AlphaAnimation(1f, 0f);
-                    exitAnimation.setDuration(600);
-                    exitAnimation.setFillAfter(true);
+                        Animation exitAnimation = new AlphaAnimation(1f, 0f);
+                        exitAnimation.setDuration(600);
+                        exitAnimation.setFillAfter(true);
 
 
-                    mTutorialHandler = TourGuide.init(TechniciansServices.this).with(TourGuide.Technique.Click)
-                            .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
-                            .setToolTip(new ToolTip()
+                        mTutorialHandler = TourGuide.init(TechniciansServices.this).with(TourGuide.Technique.Click)
+                                .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
+                                .setToolTip(new ToolTip()
 
-                                    .setDescription("SELECT THE ISSUE(S)")
-                                    .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
+                                        .setDescription(getResources().getString(R.string.select_the_issue))
+                                        .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
 
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            )
-                            .setOverlay(new Overlay()
-                                    .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
-                                    .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            mTutorialHandler.cleanUp();
-                                        }
-                                    })
-                            );
-                    mTutorialHandler.playOn(holder.main_layout);
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                )
+                                .setOverlay(new Overlay()
+                                        .setEnterAnimation(enterAnimation).setStyle(Overlay.Style.Rectangle)
+                                        .setExitAnimation(exitAnimation).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                mTutorialHandler.cleanUp();
+                                            }
+                                        })
+                                );
+                        mTutorialHandler.playOn(holder.main_layout);
 
+                    }
                 }
-                 }
 
             } else {
                 holder = (Holder) view.getTag();
@@ -393,37 +402,37 @@ SharedPreferences sp;
             holder.main_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(sp.getString("techService","").equalsIgnoreCase("")) {
+                    if (sp.getString("techService", "").equalsIgnoreCase("")) {
                         if (i == 0) {
                             mTutorialHandler.cleanUp();
                             Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
                             map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
                             map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
                             map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                            map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                            map.putExtra("service name", list.get(i).get(GlobalConstant.name));
                             map.putExtra("pos", String.valueOf(i));
                             startActivityForResult(map, 0);
                         }
-                    }else{
+                    } else {
                         Intent map = new Intent(TechniciansServices.this, TechniciansRegisterProduct.class);
                         map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
                         map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
                         map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                        map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                        map.putExtra("service name", list.get(i).get(GlobalConstant.name));
                         map.putExtra("pos", String.valueOf(i));
                         startActivityForResult(map, 0);
                     }
 
                 }
             });
-            holder.price_ed.setText("€"+deviceList.get(i).get(GlobalConstant.price));
-            holder.time_ed.setText("Estimate time: "+getDurationString(Integer.parseInt(deviceList.get(i).get(GlobalConstant.expected_time)))+" Hours");
+            holder.price_ed.setText("€" + deviceList.get(i).get(GlobalConstant.price));
+            holder.time_ed.setText(getResources().getString(R.string.est_time)+": " + getDurationString(Integer.parseInt(deviceList.get(i).get(GlobalConstant.expected_time))) + " "+getResources().getString(R.string.hours));
             holder.select_img.setImageResource(R.drawable.toggle);
             holder.unselect_img.setImageResource(R.drawable.toogle2);
             if (deviceList.get(i).get(GlobalConstant.status).equalsIgnoreCase("1")) {
                 holder.select_img.setVisibility(View.GONE);
                 holder.unselect_img.setVisibility(View.VISIBLE);
-                p=i;
+                p = i;
             } else {
 
                 holder.select_img.setVisibility(View.VISIBLE);
@@ -436,7 +445,7 @@ SharedPreferences sp;
                         map.putExtra(GlobalConstant.id, deviceList.get(i).get(GlobalConstant.id));
                         map.putExtra(GlobalConstant.service_id, deviceList.get(i).get(GlobalConstant.service_id));
                         map.putExtra("device_type", getIntent().getExtras().getString("device_type"));
-                        map.putExtra("service name",list.get(i).get(GlobalConstant.name));
+                        map.putExtra("service name", list.get(i).get(GlobalConstant.name));
                         map.putExtra("pos", String.valueOf(i));
                         startActivityForResult(map, 0);
                     }
@@ -462,17 +471,17 @@ SharedPreferences sp;
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
 
 
-                if (deviceList.get(i).get(GlobalConstant.enabled_status).equalsIgnoreCase("1")) {
-                    holder.select_img.setVisibility(View.GONE);
-                    holder.unselect_img.setVisibility(View.VISIBLE);
+            if (deviceList.get(i).get(GlobalConstant.enabled_status).equalsIgnoreCase("1")) {
+                holder.select_img.setVisibility(View.GONE);
+                holder.unselect_img.setVisibility(View.VISIBLE);
 
-                } else {
+            } else {
 
-                    holder.select_img.setVisibility(View.VISIBLE);
-                    holder.unselect_img.setVisibility(View.GONE);
+                holder.select_img.setVisibility(View.VISIBLE);
+                holder.unselect_img.setVisibility(View.GONE);
 
 
-                }
+            }
 
             holder.unselect_img.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -480,7 +489,7 @@ SharedPreferences sp;
                     holder = (Holder) view.getTag();
                     holder.select_img.setVisibility(View.VISIBLE);
                     holder.unselect_img.setVisibility(View.GONE);
-                    deviceList.get(i).put(GlobalConstant.enabled_status,"0");
+                    deviceList.get(i).put(GlobalConstant.enabled_status, "0");
                     enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "0");
 
                 }
@@ -491,11 +500,10 @@ SharedPreferences sp;
                     holder = (Holder) view.getTag();
                     holder.select_img.setVisibility(View.GONE);
                     holder.unselect_img.setVisibility(View.VISIBLE);
-                    deviceList.get(i).put(GlobalConstant.enabled_status,"1");
+                    deviceList.get(i).put(GlobalConstant.enabled_status, "1");
                     enableMethod(deviceList.get(i).get(GlobalConstant.technician_service_id), String.valueOf(i), "1");
                 }
             });
-
 
 
             return view;
@@ -503,10 +511,11 @@ SharedPreferences sp;
 
         class Holder {
             ImageView device_image, select_img, unselect_img;
-            TextView device_name,price_ed,time_ed;
+            TextView device_name, price_ed, time_ed;
             RelativeLayout main_layout;
         }
     }
+
     private String getDurationString(int seconds) {
 
         int hours = seconds / 3600;
@@ -523,11 +532,12 @@ SharedPreferences sp;
         }
 
         if (number % 10 == 0) {
-            return ""+number;
+            return "" + number;
         }
 
         return String.valueOf(number);
     }
+
     private void initImageLoader() {
         int memoryCacheSize;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
@@ -557,21 +567,56 @@ SharedPreferences sp;
     private void enableMethod(final String id, final String pos, final String isValue) {
         //Map<String, String> params = new HashMap<String, String>();
 
+
         JSONObject params = new JSONObject();
 
         try {
             params.put(GlobalConstant.USERID, CommonUtils.UserID(TechniciansServices.this));
-            params.put(technician_service_id, id);
+
             params.put("enabled_status", isValue);
 
-            Log.e("params valye", params.toString());
+
+            if (id.equalsIgnoreCase("") || id.length() == 0) {
+                JSONArray installedList = new JSONArray();
+
+
+                JSONObject installedPackage = new JSONObject();
+
+                // HashMap<String,String> installedPackage = new HashMap<>();
+                try {
+                    installedPackage.put(GlobalConstant.category_id, global.getAllDeviceList().get(global.getPostion()).get(GlobalConstant.category_id));
+                    installedPackage.put(GlobalConstant.sub_category_id, global.getAllDeviceList().get(global.getPostion()).get(GlobalConstant.sub_category_id));
+                    installedPackage.put(GlobalConstant.device_model_id, global.getAllDeviceList().get(global.getPostion()).get(GlobalConstant.id));
+                    installedPackage.put(GlobalConstant.service_id, list.get(Integer.parseInt(pos)).get(GlobalConstant.service_id));
+                    installedPackage.put("dm_service_id", list.get(Integer.parseInt(pos)).get(GlobalConstant.id));
+                    installedPackage.put("model_color", list.get(Integer.parseInt(pos)).get(GlobalConstant.available_colors));
+                    installedPackage.put("price", list.get(Integer.parseInt(pos)).get(GlobalConstant.price));
+                    installedPackage.put(GlobalConstant.expected_time, list.get(Integer.parseInt(pos)).get(GlobalConstant.expected_time));
+
+
+                    installedList.put(installedPackage);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                // String dataToSend = installedList.toString();
+                params.put(GlobalConstant.services, installedList);
+
+
+            } else {
+                params.put(technician_service_id, id);
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        Log.e("params valye", params.toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Request.Method.POST, GlobalConstant.SERVICE_ENABLE_URL, params,
+                Request.Method.POST, GlobalConstant.SERVICEADD_URL, params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -582,8 +627,8 @@ SharedPreferences sp;
 
                             String status = response.getString("status");
                             if (status.equalsIgnoreCase("1")) {
-                              //  list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
-                               // service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
+                                //  list.get(Integer.parseInt(pos)).put(GlobalConstant.enabled_status, isValue);
+                                // service_list.setAdapter(new DeviceAdapter(TechniciansServices.this, list));
                                 //service_list.setSelection(p);
                               /*  CommonUtils.getListViewSize(service_list);
                                 main_scrollView.smoothScrollTo(0, 0);*/

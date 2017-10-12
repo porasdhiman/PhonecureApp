@@ -1,0 +1,271 @@
+<resources>
+    <string name="app_name">Phonecure</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="user_sign_up_xt">Enregistrez comme utilisateur</string>
+    <string name="tech_sign_up_xt">Enregistrez comme partenaire</string>
+    <string name="facebook_app_id">353765961480835</string>
+    <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
+
+    <string name="current_name">My postion</string>
+    <string name="changedevice_color_txt"><u>Changer couleur d\'appareil</u></string>
+    <string name="banner_home_footer">ca-app-pub-5937028232593341/3218372514</string>
+    <string name="interstitial_full_screen">ca-app-pub-5937028232593341/3218372514</string>
+    <string name="guide_txt">Guides de formation et de réparation</string>
+
+//---------------Payment
+    <string name="addPayment">Add Payment Method</string>
+    <string name="addThreeDSecureCard">Add Source</string>
+    <string name="addThreeDSecureCardSync">Add Source Rx</string>
+    <string name="paymentMethods">Payment Methods</string>
+
+    <string name="endingIn">Card ending in </string>
+    <string name="progressMessage">Creating Token&#8230;</string>
+    <string name="validationErrors">Validation Errors</string>
+
+    <string name="createAndroidPayTokens">Create Android Pay Tokens</string>
+    <string name="createCardTokens">Create Card Tokens</string>
+    <string name="createThreeDSecure">Create 3DS Sources</string>
+    <string name="cardNumber">Card Number</string>
+    <string name="createSource">Creating source&#8230;</string>
+    <string name="confirmPayment">Confirm payment details</string>
+    <string name="changeDetails">Change payment details</string>
+    <string name="pollingSource">Polling for source changes&#8230;</string>
+    <string name="save">Sauvegarder</string>
+    <string name="saverx">Save Rx</string>
+    <string name="saveService">Save with Service</string>
+    <string name="selectSampleActivity">Select Payment</string>
+    <string name="startPolling">Start polling</string>
+    <string name="tryThreeDSecure">Try 3DS</string>
+    <string name="verify">Verify</string>
+    <string name="updatedSources">Source results</string>
+    <string name="cvc">CVC</string>
+
+    <string name="ok">OK</string>
+
+    <string name="label_source_type">Type</string>
+    <string name="label_3ds_status">3DS status</string>
+    <string name="label_source_state">Status</string>
+    <string name="label_source_id">ID Last 6</string>
+
+    <string name="sample_card_requiring_3ds">4000 0000 0000 3063</string>
+
+    <string-array name="currency_array">
+        <item>Currency (optional)</item>
+        <item>Unspecified</item>
+        <item>USD</item>
+    </string-array>
+
+
+
+    //-----------------------------------------Translation word-----------
+
+    <string name="sign_in_with_facebook">Connectez avec Facebook</string>
+    <string name="email">e-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="sign_in">Se connecter</string>
+    <string name="forgot">Oublié mot de passe?</string>
+    <string name="forgot_text">Oublié mot de passe</string>
+    <string name="account_not">Vous n\'avez pas de compte? </string>
+    <string name="forgot_text_info">Vous pouvez récupérer un nouveau mot de passe \nen entrant votre adresse e-mail</string>
+
+    //-----------------------------------Register screen word---------------------
+    <string name="sign_up_with_facebook">S\'inscrivez avec Facebook</string>
+    <string name="or">Ou utiliser</string>
+    <string name="name">Nom</string>
+    <string name="sign_up">S\'inscrire</string>
+    <string name="already_acc">Vous avez déjà un compte? </string>
+
+    //------------------------Technicians registeer screen words-------------
+    <string name="vat">Numéro de TVA</string>
+    <string name="org">Organisation</string>
+    <string name="address">Adresse</string>
+    <string name="no_of_emp">Nombre d\'employés</string>
+    <string name="reg">S\'inscrire</string>
+    <string name="shop">Magasin</string>
+    <string name="ind">Individuel</string>
+
+    //-------------------Side menu----------------------
+    <string name="home_cap">ACCUEIL</string>
+    <string name="share_cap">PARTAGER</string>
+    <string name="my_orders_cap">MES RENDEZ-VOUS</string>
+    <string name="favorite_cap">FAVORIS</string>
+    <string name="privacy_cap">POLITIQUE DE CONFIDENTIALITÉ</string>
+    <string name="profile_cap">PROFIL</string>
+    <string name="feed_cap">COMMENTAIRES</string>
+
+    <string name="profile_small">Profil</string>
+    <string name="favorite_service_partner">Partenaires de service favoris</string>
+
+    <string name="privacy_small">Privacy Policy</string>
+    <string name="current_device">APPAREIL ACTUEL:</string>
+    <string name="select_other_device">CHOISIR UN AUTRE APPAREIL</string>
+    <string name="message_info"> Nous n\'offrons actuellement aucune réparation \npour cet appareil. \nVous pouvez nous envoyer un e-mail à: devices@curespot.co</string>
+    <string name="exit_mes">Voulez-vous sortir?</string>
+    <string name="yes">Oui</string>
+    <string name="no">non</string>
+    <string name="rate_partner">Évaluer le partenaire de service</string>
+    //--------------Profile screen words-------------
+    <string name="gernal">GÉNÉRAL</string>
+    <string name="change_password">Changer le mot de passe</string>
+    <string name="sign_out">Se déconnecter</string>
+    //--------------user profile edit screen words-----------
+    <string name="edit_profile">Editer le profil</string>
+    <string name="edit">Modifier</string>
+    <string name="update">Personnalisé votre profil</string>
+
+    //---------------User address screen words---------
+    <string name="first_name">Prénom</string>
+    <string name="last_name">Nom de famille</string>
+    <string name="phone">Téléphone</string>
+    <string name="submit">Soumettre</string>
+
+    //--------Validation text word----------------
+    <string name="email_blank">Entrez l\'adresse e-mail.</string>
+    <string name="password_blank">Entrez votre mot de passe</string>
+    <string name="email_valid">Mettez une adresse e-mail valide</string>
+    <string name="password_valid">Le nouveau mot de passe et le mot de passe confirmé ne sont pas identiques</string>
+    <string name="name_blank">Entrez le nom</string>
+    <string name="no_of_emp_blank">Entrez le nombre d\'employés</string>
+    <string name="select_device_color_valid">Sélectionnez la couleur de l\'appareil pour continuer</string>
+    <string name="image_valid">Sélectionnez une image de profil</string>
+    <string name="repair_option_valid">Sélectionnez l\'option de localisation de réparation.</string>
+    <string name="booking_date_time_valid">Sélectionnez la date et l\'heure de réservation</string>
+
+    <string name="vat_valid">Veuillez entrer le numéro de TVA</string>
+    <string name="address_blank">Veuillez entrer l\'adresse</string>
+    <string name="address_valid">Veuillez entrer une adresse valide</string>
+    <string name="first_name_blank">Veuillez entrer votre prénom</string>
+    <string name="last_name_blank">Veuillez entrer votre nom de famille</string>
+    <string name="phone_no_blank">Veuillez entrer le numéro de téléphone</string>
+
+    <string name="select_working_day">Sélectionnez au moins un jour ouvrable</string>
+
+    //------------favotite screen words-----------------
+    <string name="service_partner">Partenaire de service</string>
+
+    //-------------History screen words-------------------
+    <string name="pending">Pendant</string>
+    <string name="completed">Complété</string>
+
+    //---------------------Device screen--------------
+    <string name="devices">Appareils</string>
+
+    //-------------After current device screen-----------
+    <string name="services">Services</string>
+
+    //--------------Select your model and color---------------
+    <string name="select_model">Choisizer votre modèle et couleur</string>
+    <string name="next">Suivant</string>
+
+    //------------Maps screen words-----------
+    <string name="map">Carte</string>
+
+    //------------------Tech profile words------------
+    <string name="tech_profile">Profil du partenaire de service</string>
+    <string name="book_repair">Prenez rendez-vous</string>
+    <string name="no_of_repair">Nombre de réparation</string>
+    <string name="reviews">Évaluation</string>
+    <string name="repir_point">Réparation au point de service</string>
+    <string name="repir_at_loc">Réparation sur place</string>
+    <string name="working_hours">Heures de travail</string>
+    <string name="sunday">Dimanche</string>
+    <string name="monday">Lundi</string>
+    <string name="tuesday">Mardi</string>
+    <string name="wednesday">Mercredi</string>
+    <string name="thursday">Jeudi</string>
+    <string name="friday">Vendredi</string>
+    <string name="saturday">Samedi</string>
+
+    //---------------Book appointment screen---------------
+    <string name="time">Temps</string>
+    <string name="select_time">Choisir le temps</string>
+    <string name="book_now">RESERVE MAINTENANT</string>
+
+    <string name="km_away">km loin</string>
+
+    //------------cart screen words-------------
+    <string name="cart">Résumé de la réservation</string>
+    <string name="clear">Effacer</string>
+    <string name="cart_value">service sélectionné / services sélectionnés</string>
+    <string name="confirm">Confirmer</string>
+    <string name="clear_mes">Voulez-vous effacer les données du panier?</string>
+
+    <string name="less_then_mes">Moins d\'un permis non autorisé</string>
+
+    //------------Additional address for repair screen words---
+    <string name="additional_address">Adresse supplémentaire pour la réparation</string>
+    <string name="total">Total:</string>
+    <string name="pay_with_card">Payer avec la carte</string>
+    <string name="location_name_valid">Veuillez entrer un nom d\'emplacement valide</string>
+
+
+    //-----------------------------Technicians working hours screen--------------
+    <string name="closed">Fermé</string>
+    <string name="open">Ouvert</string>
+    <string name="always_open">Toujours ouvert</string>
+
+    //----------------------------Technicians home screen----------------
+    <string name="appointment">Rendezvous</string>
+    <string name="setting">Paramétres</string>
+    <string name="adjust_setting">Ajuster les réglages</string>
+    <string name="update_profile">Personnalisé votre profil</string>
+    <string name="tech_assist_info">Assistance technique en réparation</string>
+
+    //-------------Add service screens words-----------------
+    <string name="add_device">Veuillez ajouter des appareilles</string>
+    <string name="device_added">Appareils ajoutés</string>
+
+
+    //------------------Add service screen words----------------
+    <string name="services_added">Services ajoutés</string>
+    <string name="no_services_added">Aucun service ajouté</string>
+    <string name="est_time">Temps estimé</string>
+    <string name="hours">heurs</string>
+    <string name="select_the_issue">Sélectionner le(s) problème(s)</string>
+
+    //-------------------select product screen price and time screen---------------
+    <string name="select_colors">Sélectionner des couleurs pour</string>
+    <string name="update_service">Sauver le service</string>
+    <string name="add_service">Ajouter un service</string>
+    <string name="mins">mins</string>
+
+    //-----------------App share text-----------
+    <string name="share_text">Hey, téléchargez cette application</string>
+    <string name="share_small">Partager</string>
+
+    //------------------Notification screen words------------
+    <string name="notify">Notifications</string>
+    //-----------------repair_guide screen word------------
+    <string name="repair_guide">Guides de formation et de réparation</string>
+    <string name="search_key">Recherche par mot clé, nom de l\'appareil</string>
+
+    //------------------After register pager screen--------------------
+    <string name="precision_tools">OUTILS DE PRÉCISION</string>
+    <string name="always_available">ALWAYS AVAILABLE</string>
+    <string name="diagnose">Diagnosis</string>
+    <string name="trained_service">Nous ne voulons que des services de réparation entraînés</string>
+    <string name="invest_txt">Qui investissent en eux-mêmes.</string>
+    <string name="device_feature_reco">Le reconnaissant du appareil facile</string>
+    <string name="put_an_end">met la fin à vos doutes</string>
+    <string name="tech_exp">Les techniciens sont évalués par le quartier</string>
+    <string name="to_take_on">tpour faire face à n\'importe quelle situation</string>
+
+    //-------------------Service addion validation text----------------------
+    <string name="price_blank">Entrez un prix pour ce service</string>
+    <string name="select_color">Veuillez sélectionner au moins une couleur pour ce service</string>
+    <string name="estimated_time_service">Veuillez sélectionner le temps estimé pour ce service</string>
+
+    <string name="price_above_zero">Veuillez entrer le prix au-dessus de zéro pour ce service</string>
+    <string name="estimated_time_service_valid">Veuillez sélectionner le temps estimé valide pour ce service</string>
+
+    //---------------------instruction words--------------
+    <string name="add_all_device">Ajouter tous les appareille que vous pouvez reparer</string>
+    <string name="add_service_model">Ajouter un (des) modèles réparable</string>
+    <string name="set_up_service">Configurer le prix du réparation et le temps de service pour toutes les couleurs</string>
+
+
+</resources>

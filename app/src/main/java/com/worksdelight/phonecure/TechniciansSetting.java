@@ -1,8 +1,10 @@
 package com.worksdelight.phonecure;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -30,7 +32,7 @@ import com.facebook.login.LoginManager;
 
 public class TechniciansSetting extends Activity {
     ImageView back;
-    RelativeLayout sign_out_layout, change_password_layout, share_layout, deactivate_layout;
+    RelativeLayout sign_out_layout, change_password_layout, share_layout;
     SharedPreferences sp,spNotify;
     SharedPreferences.Editor ed,edNotify;
     Global global;
@@ -39,6 +41,8 @@ public class TechniciansSetting extends Activity {
     LinearLayout main_layout;
     ImageView notify_on_off;
     boolean isEnabled=false;
+    AlertDialog builder;
+    RelativeLayout notification_layout,deactivate_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,9 @@ public class TechniciansSetting extends Activity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+
+        notification_layout=(RelativeLayout)findViewById(R.id.notification_layout) ;
+        notification_layout.setVisibility(View.GONE);
         sp = getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
         ed = sp.edit();
         spNotify=getSharedPreferences("NotifyType",Context.MODE_PRIVATE);
@@ -67,21 +74,58 @@ public class TechniciansSetting extends Activity {
             @Override
             public void onClick(View view) {
                 if(isEnabled==false){
-                    edNotify.putBoolean("isEnabled",true);
-                    isEnabled=true;
-                    edNotify.commit();
-                    notify_on_off.setImageResource(R.drawable.toggle);
+                    builder = new AlertDialog.Builder(TechniciansSetting.this).setMessage("Do You Want To Disable Notification?")
+                            .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    edNotify.putBoolean("isEnabled",true);
+                                    isEnabled=true;
+                                    edNotify.commit();
+                                    notify_on_off.setImageResource(R.drawable.toggle);
+                                    builder.dismiss();
+                                }
+
+                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+
+                                    builder.dismiss();
+                                }
+                            }).show();
+
+
+
+
                 }else{
-                    isEnabled=false;
-                    edNotify.putBoolean("isEnabled",false);
-                    edNotify.commit();
-                    notify_on_off.setImageResource(R.drawable.toogle2);
+                    builder = new AlertDialog.Builder(TechniciansSetting.this).setMessage("Do You Want To Enable Notification?")
+                            .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    isEnabled=false;
+                                    edNotify.putBoolean("isEnabled",false);
+                                    edNotify.commit();
+                                    notify_on_off.setImageResource(R.drawable.toogle2);
+                                }
+
+                            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // TODO Auto-generated method stub
+
+                                    builder.dismiss();
+                                }
+                            }).show();
+
+
                 }
             }
         });
         main_layout=(LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
-        back = (ImageView) findViewById(R.id.back);
+        back = (ImageView) findViewById(R.id.back_img);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,13 +136,14 @@ public class TechniciansSetting extends Activity {
         change_password_layout = (RelativeLayout) findViewById(R.id.change_password_layout);
         share_layout = (RelativeLayout) findViewById(R.id.share_layout);
         deactivate_layout = (RelativeLayout) findViewById(R.id.deactivate_layout);
+        deactivate_layout.setVisibility(View.GONE);
         share_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app! http://google.com");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, getResources().getString(R.string.share_text)+" https://play.google.com/store/apps/details?id=com.worksdelight.phonecure&hl=en");
                 startActivity(shareIntent);
             }
         });
@@ -176,8 +221,8 @@ public class TechniciansSetting extends Activity {
             @Override
             public void onClick(View view) {
                 dialog2.dismiss();
-                Intent i = new Intent(TechniciansSetting.this, DeactivationActivity.class);
-                startActivity(i);
+            /*    Intent i = new Intent(TechniciansSetting.this, DeactivationActivity.class);
+                startActivity(i);*/
             }
         });
         no_txtView.setOnClickListener(new View.OnClickListener() {

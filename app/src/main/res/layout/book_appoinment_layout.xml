@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Technicians profile"
+            android:text="@string/tech_profile"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -50,9 +50,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/header_view"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/header_view">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -63,27 +63,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="10dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/calender_back"
+                    android:layout_marginTop="10dp"
+
                     android:orientation="vertical">
 
                     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                         android:id="@+id/calendarView"
                         android:layout_width="match_parent"
-                        android:layout_height="345dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="65dp"
-                        android:paddingLeft="12dp"
 
-                        android:paddingRight="12dp"
+
                         app:mcv_arrowColor="@color/main_color"
                         app:mcv_headerTextAppearance="@style/CustomDayTextAppearance"
                         app:mcv_selectionColor="@color/main_color"
@@ -92,55 +90,15 @@
                         app:mcv_weekDayTextAppearance="@style/CustomDayTextAppearance" />
 
 
-
-                    <RelativeLayout
-                        android:id="@+id/time_view_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_below="@+id/calender_layout"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/time_info_txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:text=""
-
-                            android:textColor="@color/main_color"
-                            android:textSize="@dimen/sab_txt" />
-
-
-                    </RelativeLayout>
                 </LinearLayout>
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_img"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_centerHorizontal="true"
-                    android:src="@drawable/user_back" />
 
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_img"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="5dp"
-                    android:text=""
-                    android:textColor="#000"
-                    android:textSize="@dimen/header_txt" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/time_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/calender_layout"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -148,36 +106,32 @@
                 android:background="@drawable/item_back">
 
                 <TextView
+                    android:id="@+id/time_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:text="TIME"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Available time slot"
                     android:textColor="#000"
                     android:textSize="@dimen/header_txt" />
 
-                <TextView
-                    android:id="@+id/time_txtView"
-                    android:layout_width="wrap_content"
+                <com.worksdelight.phonecure.FlowLayout
+
+                    android:id="@+id/time_slot_flowView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/forward_img"
 
-                    android:hint="Select time"
-                    android:textColor="@color/main_color"
-                    android:textColorHint="@android:color/darker_gray"
-                    android:textSize="@dimen/header_txt" />
+                    android:layout_below="@+id/time_txt"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp">
 
-                <ImageView
-                    android:id="@+id/forward_img"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/forward" />
+                </com.worksdelight.phonecure.FlowLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_below="@+id/time_slot_flowView" />
 
             </RelativeLayout>
 
@@ -225,7 +179,7 @@
                         android:layout_marginLeft="10dp"
 
 
-                        android:text="Repair at Service Point"
+                        android:text="@string/repir_point"
                         android:textColor="#000"
                         android:textSize="12dp"
 
@@ -283,7 +237,7 @@
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
 
-                        android:text="Repair at your location"
+                        android:text="@string/repir_at_loc"
                         android:textColor="#000"
                         android:textSize="12dp" />
 
@@ -317,7 +271,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
-                android:text="Book now"
+                android:text="@string/book_now"
                 android:textAllCaps="true"
                 android:textColor="#fff"
                 android:textSize="@dimen/header_txt"

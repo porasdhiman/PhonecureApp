@@ -116,7 +116,7 @@ public class TechniciansRegisterProduct extends Activity {
         time_ed = (TextView) findViewById(R.id.time_ed);
         done = (TextView) findViewById(R.id.done);
         service_txtView.setText(getIntent().getExtras().getString("service name"));
-        available_txt.setText("Select Colours for " + getIntent().getExtras().getString("device_type"));
+        available_txt.setText(getResources().getString(R.string.select_colors)+" " + getIntent().getExtras().getString("device_type"));
         /*all_select_layout = (RelativeLayout) findViewById(R.id.all_select_layout);
         all_select_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,28 +159,31 @@ public class TechniciansRegisterProduct extends Activity {
             secondValue(time_ed.getText().toString());
         }
         if (global.getServiceList().get(p).get(GlobalConstant.status).equalsIgnoreCase("1")) {
-            done.setText("Update Service");
+            done.setText(getResources().getString(R.string.update_service));
         } else {
-            done.setText("Add Service");
+            done.setText(getResources().getString(R.string.add_service));
         }
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (price_ed.getText().toString().length() == 0) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.price_blank), Toast.LENGTH_SHORT).show();
                 } else if (time_ed.getText().toString().length() == 0) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please estimated time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.estimated_time_service), Toast.LENGTH_SHORT).show();
 
 
                 } else if (serviceID.equalsIgnoreCase("")) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please select atleast one color", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.select_colors), Toast.LENGTH_SHORT).show();
 
                 } else if (price_ed.getText().toString().equalsIgnoreCase("€")) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please enter price", Toast.LENGTH_SHORT).show();
-                } else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length() - 1)).equalsIgnoreCase(".")) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please enter valid price", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.price_blank), Toast.LENGTH_SHORT).show();
+                }else if (price_ed.getText().toString().contains("€0")) {
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.price_above_zero), Toast.LENGTH_SHORT).show();
+                }
+                else if (String.valueOf(price_ed.getText().toString().charAt(price_ed.getText().toString().length() - 1)).equalsIgnoreCase(".")) {
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.price_blank), Toast.LENGTH_SHORT).show();
                 } else if (time_ed.getText().toString().contains("0:00")) {
-                    Toast.makeText(TechniciansRegisterProduct.this, "Please select valid estimated time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansRegisterProduct.this, getResources().getString(R.string.estimated_time_service_valid), Toast.LENGTH_SHORT).show();
 
 
                 } else {
@@ -437,7 +440,7 @@ public class TechniciansRegisterProduct extends Activity {
                                 .setPointer(new Pointer().setColor(getResources().getColor(R.color.main_color)))
                                 .setToolTip(new ToolTip()
 
-                                        .setDescription("SETUP SERVICE PRICE & SERVICE TIME FOR ALL COLOR(S)")
+                                        .setDescription(getResources().getString(R.string.set_up_service))
                                         .setGravity(Gravity.BOTTOM).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View view) {
@@ -772,7 +775,7 @@ public class TechniciansRegisterProduct extends Activity {
         ArrayList<String> list1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
 
-            list1.add("hour:" + i);
+            list1.add(getResources().getString(R.string.hours)+":" + i);
         }
         return list1;
     }
@@ -781,10 +784,10 @@ public class TechniciansRegisterProduct extends Activity {
         ArrayList<String> list1 = new ArrayList<>();
 
 
-        list1.add("00:min");
-        list1.add("15:min");
-        list1.add("30:min");
-        list1.add("45:min");
+        list1.add("00:"+getResources().getString(R.string.mins));
+        list1.add("15:"+getResources().getString(R.string.mins));
+        list1.add("30:"+getResources().getString(R.string.mins));
+        list1.add("45:"+getResources().getString(R.string.mins));
 
         return list1;
     }

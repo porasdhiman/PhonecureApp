@@ -52,6 +52,7 @@ Global global;
         map.put("last4", endingIn + " " + last4);
         map.put("tokenId", tokenId);
         mCardTokens.add(map);
+
         mAdatper.notifyDataSetChanged();
 
 

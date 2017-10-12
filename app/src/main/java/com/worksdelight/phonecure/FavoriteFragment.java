@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -66,7 +67,7 @@ public class FavoriteFragment extends Fragment {
     RelativeLayout header_view;
     Dialog dialog2;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
-
+ImageView map_img;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,6 +85,8 @@ public class FavoriteFragment extends Fragment {
                 .cacheInMemory()
                 .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
         initImageLoader();
+        map_img=(ImageView)v.findViewById(R.id.map_img);
+        map_img.setVisibility(View.GONE);
         header_view = (RelativeLayout) v.findViewById(R.id.header_view);
         header_view.setVisibility(View.GONE);
         repair_listView = (ListView) v.findViewById(R.id.repair_listView);

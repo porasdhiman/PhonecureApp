@@ -335,14 +335,14 @@ RelativeLayout main_layout;
             case R.id.sign_in_btn:
 
                 if (email_view.getText().length() == 0) {
-                    email_view.setError("Please enter email");
+                    email_view.setError(getResources().getString(R.string.email_blank));
 
                 } else if (password_view.getText().length() == 0) {
-                    password_view.setError("Please enter password");
+                    password_view.setError(getResources().getString(R.string.password_blank));
 
 
                 } else if (!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                    email_view.setError("Please enter valid email");
+                    email_view.setError(getResources().getString(R.string.email_valid));
 
                 } else {
 

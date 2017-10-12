@@ -5,15 +5,14 @@
     android:background="#F2F2F2"
     android:orientation="vertical"
     android:id="@+id/main_layout">
-
     <RelativeLayout
-        android:id="@+id/header_view"
+
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#000">
 
         <ImageView
-            android:id="@+id/back"
+            android:id="@+id/back_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -24,10 +23,8 @@
             android:src="@drawable/white_back" />
 
         <TextView
-            android:id="@+id/service_txtView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="Settings"
@@ -36,17 +33,17 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/search_img"
+            android:id="@+id/navigation_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
 
-            android:padding="8dp"
-            android:src="@drawable/search_img"
-            android:visibility="gone" />
-    </RelativeLayout>
 
+            android:padding="8dp"
+            />
+
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -98,7 +95,7 @@
                     android:textSize="16dp" />
 
                 <ImageView
-android:id="@+id/notify_on_off"
+                    android:id="@+id/notify_on_off"
                     android:layout_width="50dp"
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
@@ -134,7 +131,7 @@ android:id="@+id/notify_on_off"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/change_view"
                     android:gravity="center"
-                    android:text="Change Password"
+                    android:text="@string/change_password"
                     android:textColor="#373737"
                     android:textSize="16dp" />
 
@@ -244,7 +241,7 @@ android:id="@+id/notify_on_off"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/share_view"
                     android:gravity="center"
-                    android:text="Share"
+                    android:text="@string/share_small"
                     android:textColor="#373737"
                     android:textSize="16dp" />
 
@@ -294,7 +291,7 @@ android:id="@+id/notify_on_off"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/logout_view"
                     android:gravity="center"
-                    android:text="Logout"
+                    android:text="@string/sign_out"
                     android:textColor="#373737"
                     android:textSize="16dp" />
 
@@ -312,4 +309,46 @@ android:id="@+id/notify_on_off"
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/header_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#000">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
+        <TextView
+            android:id="@+id/service_txtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="Settings"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+
+            android:padding="8dp"
+            android:src="@drawable/search_img"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 </LinearLayout>

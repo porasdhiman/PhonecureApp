@@ -42,6 +42,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.rampo.updatechecker.UpdateChecker;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout select_device_layout;
     MapView mapView;
     RelativeLayout select_color, bottome_layout;
-    Dialog dialog2,messageDialog;
+    Dialog dialog2, messageDialog;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
     LoopView loopView;
     SharedPreferences sp;
@@ -87,6 +88,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
       /*  Login_TV = (LoginButton) parentView.findViewById(R.id.Fb_Login);
         Login_TV.setReadPermissions(Arrays.asList("public_profile, email"));
         fbMethod();*/
+        UpdateChecker checker = new UpdateChecker(getActivity()); // If you are in a Activity or a FragmentActivity
+        checker.setSuccessfulChecksRequired(5);
+        checker.start();
         WindowManager w = getActivity().getWindowManager();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
@@ -214,16 +218,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.select_color:
                 // dialogWindow();
-                if(list.size()>0) {
+                if (list.size() > 0) {
                     if (sp.getBoolean("pos", false) != true) {
                         bottome_layout.setVisibility(View.VISIBLE);
                         loopView.setDataList(getList());
                     } else {
                         global.setColorId(sp.getString("id", ""));
                         Intent home = new Intent(getActivity(), ServiceActivity.class);
+                        home.putExtra("device",global.getDeviceName());
                         startActivity(home);
                     }
-                }else{
+                } else {
                     messageWindow();
                 }
                 break;
@@ -378,6 +383,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
     //---------------------------Progrees Dialog-----------------------
     public void messageWindow() {
         messageDialog = new Dialog(getActivity());
@@ -386,16 +392,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         messageDialog.setCanceledOnTouchOutside(false);
         messageDialog.setCancelable(false);
         messageDialog.setContentView(R.layout.messagenot_support_layout);
-TextView ok_txtView=(TextView)messageDialog.findViewById(R.id.ok_txtView);
+        TextView ok_txtView = (TextView) messageDialog.findViewById(R.id.ok_txtView);
         ok_txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 messageDialog.dismiss();
             }
         });
-TextView phonecure_txt=(TextView)messageDialog.findViewById(R.id.phonecure_txt);
-        phonecure_txt.setText("We currently doesn’t offer rapair for \n"+global.getDeviceName()+"\n We have registered your device with \n" +
-                "us and will contact you soon.");
+        TextView phonecure_txt = (TextView) messageDialog.findViewById(R.id.phonecure_txt);
+        phonecure_txt.setText(getResources().getString(R.string.message_info));
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         messageDialog.show();
     }

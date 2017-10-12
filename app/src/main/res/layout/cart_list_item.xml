@@ -94,7 +94,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/minus"
+                        android:id="@+id/plus"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentRight="true"
@@ -102,9 +102,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:padding="5dp"
-
-                        android:src="@drawable/minus" />
-
+                        android:src="@drawable/plus" />
 
                     <TextView
                         android:id="@+id/person_count"
@@ -117,10 +115,8 @@
                         android:text="1"
                         android:textColor="#000"
                         android:textSize="@dimen/header_txt"  />
-
-
                     <ImageView
-                        android:id="@+id/plus"
+                        android:id="@+id/minus"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentLeft="true"
@@ -128,7 +124,11 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:padding="5dp"
-                        android:src="@drawable/plus" />
+
+                        android:src="@drawable/minus" />
+
+
+
                 </RelativeLayout>
 
                 <TextView

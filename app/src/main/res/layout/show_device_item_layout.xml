@@ -111,9 +111,11 @@
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/device_view_layout"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_marginTop="2dp"
         />
     <View

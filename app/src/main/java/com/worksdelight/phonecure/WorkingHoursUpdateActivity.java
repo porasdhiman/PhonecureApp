@@ -76,7 +76,7 @@ public class WorkingHoursUpdateActivity extends Activity implements View.OnClick
     String daysNAme[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     int o = 0;
 LinearLayout main_layout, hours_layout;
-    TextView always_open_txt;
+    LinearLayout always_open_txt;
     ImageView select_img;
     int i = 0,always_open=0;
     String alwaysValue;
@@ -115,7 +115,7 @@ LinearLayout main_layout, hours_layout;
         });
         select_img = (ImageView) findViewById(R.id.select_img);
         hours_layout = (LinearLayout) findViewById(R.id.hours_layout);
-        always_open_txt = (TextView) findViewById(R.id.always_open_txtView);
+        always_open_txt = (LinearLayout) findViewById(R.id.always_open_txtView);
 
         sun_openning = (TextView) findViewById(R.id.sun_openning);
         sun_clossing = (TextView) findViewById(R.id.sun_clossing);
@@ -220,7 +220,7 @@ LinearLayout main_layout, hours_layout;
                         HashMap<String, String> map = new HashMap<>();
                         map.put(GlobalConstant.day, daysNAme[i]);
                         map.put(GlobalConstant.opening_time, "00:00");
-                        map.put(GlobalConstant.closing_time, "24:00");
+                        map.put(GlobalConstant.closing_time, "23:59");
                         map.put(GlobalConstant.status, "open");
                         list.add(map);
                     }
@@ -528,12 +528,12 @@ LinearLayout main_layout, hours_layout;
                 if (flag == true) {
                     Toast.makeText(WorkingHoursUpdateActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }else if (closed == false) {
-                    Toast.makeText(WorkingHoursUpdateActivity.this, "Please select Working Hours", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkingHoursUpdateActivity.this, getResources().getString(R.string.select_working_day), Toast.LENGTH_SHORT).show();
 
                 }
 
                 else if(p==0&&d==0){
-                    Toast.makeText(WorkingHoursUpdateActivity.this, "Please select any Delivery/Dropoff service", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WorkingHoursUpdateActivity.this, getResources().getString(R.string.repair_option_valid), Toast.LENGTH_SHORT).show();
 
                 }
                 else {

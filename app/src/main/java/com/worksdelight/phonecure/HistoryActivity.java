@@ -109,7 +109,8 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
     private void categoryMethod() {
 
 // Request a string response from the provided URL.
-
+String url=GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(HistoryActivity.this);
+        Log.e("response", url);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, GlobalConstant.BOOKINGINFO_URL + "&" + GlobalConstant.USERID + "=" + CommonUtils.UserID(HistoryActivity.this),
                 new Response.Listener<String>() {
@@ -136,7 +137,7 @@ public class HistoryActivity extends FragmentActivity implements ViewPager.OnPag
                             }
 
 
-                            viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager()));
+                            viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),HistoryActivity.this));
 
                             tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
 

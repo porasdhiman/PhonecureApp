@@ -162,17 +162,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.sign_up_btn:
                 if (email_view.getText().length() == 0) {
-                    email_view.setError("Please enter email");
+                    email_view.setError(getResources().getString(R.string.email_blank));
 
                 } else if (password_view.getText().length() == 0) {
-                    password_view.setError("Please enter password");
+                    password_view.setError(getResources().getString(R.string.password_blank));
 
 
                 } else if (name_view.getText().length() == 0) {
-                    name_view.setError("Please enter name");
+                    name_view.setError(getResources().getString(R.string.name_blank));
 
                 } else if (!CommonUtils.isEmailValid(email_view.getText().toString())) {
-                    email_view.setError("Please enter valid email");
+                    email_view.setError(getResources().getString(R.string.email_valid));
 
                 } else {
                     dialogWindow();

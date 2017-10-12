@@ -34,7 +34,8 @@ public class ProfileFragment extends Fragment {
     Global global;
     CallbackManager callbackManager;
     ImageView user_image;
-LinearLayout main_layout;
+    LinearLayout main_layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
@@ -50,10 +51,10 @@ LinearLayout main_layout;
     }
 
     public void init(View v) {
-        main_layout=(LinearLayout)v.findViewById(R.id.main_layout);
+        main_layout = (LinearLayout) v.findViewById(R.id.main_layout);
         Fonts.overrideFonts(getActivity(), main_layout);
         user_name = (TextView) v.findViewById(R.id.user_name);
-       // user_phone = (TextView) v.findViewById(R.id.user_phone);
+        // user_phone = (TextView) v.findViewById(R.id.user_phone);
         user_email = (TextView) v.findViewById(R.id.user_email);
         user_image = (ImageView) v.findViewById(R.id.user_img);
         location_name_txtView = (TextView) v.findViewById(R.id.location_name_txtView);
@@ -64,22 +65,21 @@ LinearLayout main_layout;
         profile_layout = (RelativeLayout) v.findViewById(R.id.profile_layout);
         user_name.setText(cap(sp.getString(GlobalConstant.name, "")));
 
-            TextDrawable drawable = TextDrawable.builder()
-                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
         if (sp.getString(GlobalConstant.image, "").contains("storage")) {
-            if(sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")){
+            if (sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")) {
                 user_image.setImageDrawable(drawable);
-            }else{
+            } else {
                 Picasso.with(getActivity()).load(new File(sp.getString(GlobalConstant.image, ""))).placeholder(drawable).transform(new CircleTransform()).into(user_image);
 
             }
         } else {
-            Picasso.with(getActivity()).load(GlobalConstant.TECHNICIANS_IMAGE_URL+sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+            Picasso.with(getActivity()).load(GlobalConstant.TECHNICIANS_IMAGE_URL + sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(user_image);
 
 
             //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
         }
-
 
 
         location_name_txtView.setText(sp.getString(GlobalConstant.address, ""));
@@ -91,14 +91,14 @@ LinearLayout main_layout;
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), UserProfileEdit.class);
-                startActivityForResult(i,1);
+                startActivityForResult(i, 1);
             }
         });
         address_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), AddressActivity.class);
-                startActivityForResult(i,0);
+                startActivityForResult(i, 0);
             }
         });
         change_password_layout.setOnClickListener(new View.OnClickListener() {
@@ -135,35 +135,32 @@ LinearLayout main_layout;
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-if(requestCode==0) {
+        if (requestCode == 0) {
 
-    location_name_txtView.setText(sp.getString(GlobalConstant.address, ""));
+            location_name_txtView.setText(sp.getString(GlobalConstant.address, ""));
 
 
+        } else if (requestCode == 1) {
+            user_name.setText(cap(sp.getString(GlobalConstant.name, "")));
 
-}else if(requestCode==1) {
-    user_name.setText(cap(sp.getString(GlobalConstant.name, "")));
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
+            if (sp.getString(GlobalConstant.image, "").contains("storage")) {
+                if (sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")) {
+                    user_image.setImageDrawable(drawable);
+                } else {
+                    Picasso.with(getActivity()).load(new File(sp.getString(GlobalConstant.image, ""))).placeholder(drawable).transform(new CircleTransform()).into(user_image);
 
-    TextDrawable drawable = TextDrawable.builder()
-            .buildRound(user_name.getText().toString().substring(0, 1).toUpperCase(), Color.parseColor("#F94444"));
-    if (sp.getString(GlobalConstant.image, "").contains("storage")) {
-        if (sp.getString(GlobalConstant.image, "").equalsIgnoreCase("")) {
-            user_image.setImageDrawable(drawable);
-        } else {
-            Picasso.with(getActivity()).load(new File(sp.getString(GlobalConstant.image, ""))).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+                }
+            } else {
+                Picasso.with(getActivity()).load(GlobalConstant.TECHNICIANS_IMAGE_URL + sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(user_image);
+
+
+                //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
+            }
+
 
         }
-    } else {
-        Picasso.with(getActivity()).load(GlobalConstant.TECHNICIANS_IMAGE_URL + sp.getString(GlobalConstant.image, "")).placeholder(drawable).transform(new CircleTransform()).into(user_image);
-
-
-        //profilepic.setImageURI(Uri.fromFile(new File(preferences.getString(GlobalConstants.IMAGE, ""))));
-    }
-
-
-
-
-}
     }
 
     public String cap(String name) {

@@ -71,7 +71,7 @@ Dialog dialog2;
                     confirm_password_ed.setError("Please Enter Your Confirm Password");
                 } else if (!confirm_password_ed.getText().toString().equalsIgnoreCase(new_password_ed.getText().toString())) {
 
-                    Toast.makeText(getApplicationContext(), "Password Do Not Match", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_valid), Toast.LENGTH_SHORT).show();
                 } else {
                     dialogWindow();
                     changePassMethod();

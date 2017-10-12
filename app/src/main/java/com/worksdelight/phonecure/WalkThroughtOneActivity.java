@@ -23,9 +23,9 @@ public class WalkThroughtOneActivity extends Activity implements ViewPager.OnPag
     ImageView next_btn, back_btn;
     ViewPager pager;
     int img[] = {R.drawable.first_screen_logo, R.drawable.second_screen_logo, R.drawable.courier};
-    String tech_txt[] = {"PRECISION TOOLS", "DIAGNOSE", "ALWAYS AVAILABLE"};
-    String exper_info[] = {"WE ONLY FIND CERTIFIED REPAIR SERVICES", "THE EASY \"CAUSE LACTORE\"", "OUR TECHNICIANS ARE EXPERIENCED"};
-    String expet_info_two[] = {"THAT INVEST IN THEMSELVES", "WILL SHOW YOU THE RIGHT SOLUTION", "TO TAKE ON ANY SITUATION"};
+    String tech_txt[] = {getResources().getString(R.string.precision_tools), getResources().getString(R.string.diagnose), getResources().getString(R.string.always_available)};
+    String exper_info[] = {getResources().getString(R.string.trained_service), getResources().getString(R.string.device_feature_reco), getResources().getString(R.string.tech_exp)};
+    String expet_info_two[] = {getResources().getString(R.string.invest_txt), getResources().getString(R.string.put_an_end), "TO TAKE ON ANY SITUATION"};
     RelativeLayout bottom_back_started_layout, bottom_back_layout;
     TextView get_started_txt;
     ImageView indicatore_img;

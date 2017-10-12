@@ -203,15 +203,15 @@ TextView android_start;
             @Override
             public void onClick(View view) {
                 if (first_name_ed.length() == 0) {
-                    first_name_ed.setError("Please enter first name");
+                    first_name_ed.setError(getResources().getString(R.string.first_name_blank));
                 } else if (last_name_ed.length() == 0) {
-                    last_name_ed.setError("Please enter last name");
+                    last_name_ed.setError(getResources().getString(R.string.last_name_blank));
                 } else if (mAutocompleteView.length() == 0) {
-                    mAutocompleteView.setError("Please enter address");
+                    mAutocompleteView.setError(getResources().getString(R.string.address_blank));
                 } else if (phone_ed.length() == 0) {
-                    phone_ed.setError("Please enter Phone number");
+                    phone_ed.setError(getResources().getString(R.string.phone_no_blank));
                 } else if (lat.equalsIgnoreCase("")) {
-                    Toast.makeText(AlmostdoneActivity.this, "Please enter valid location name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlmostdoneActivity.this, getResources().getString(R.string.location_name_valid), Toast.LENGTH_SHORT).show();
 
                 } else {
                     global.setBackType("0");
@@ -240,15 +240,15 @@ TextView android_start;
             @Override
             public void onClick(View view) {
                 if (first_name_ed.length() == 0) {
-                    first_name_ed.setError("Please enter first name");
+                    first_name_ed.setError(getResources().getString(R.string.first_name_blank));
                 } else if (last_name_ed.length() == 0) {
-                    last_name_ed.setError("Please enter last name");
+                    last_name_ed.setError(getResources().getString(R.string.last_name_blank));
                 } else if (mAutocompleteView.length() == 0) {
-                    mAutocompleteView.setError("Please enter address");
+                    mAutocompleteView.setError(getResources().getString(R.string.address_blank));
                 } else if (phone_ed.length() == 0) {
-                    phone_ed.setError("Please enter Phone number");
+                    phone_ed.setError(getResources().getString(R.string.phone_no_blank));
                 } else if (lat.equalsIgnoreCase("")) {
-                    Toast.makeText(AlmostdoneActivity.this, "Please enter valid location name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AlmostdoneActivity.this, getResources().getString(R.string.location_name_valid), Toast.LENGTH_SHORT).show();
 
                 } else {
                     global.setBackType("0");
@@ -295,6 +295,14 @@ TextView android_start;
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
             if(global.getBackType().equalsIgnoreCase("0")) {
+                second_count_img.setBackgroundResource(R.drawable.step_one_right_light);
+               /* ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
+                params1.height = 50;
+                params1.height = 50;
+                third_count_img.setLayoutParams(params1);*/
+                third_count_img.setBackgroundResource(R.drawable.step_one_right_light);
+                second_line.setBackgroundResource(R.drawable.linew_white);
+
                 dialogWindow();
                 bookingMethod();
             }
@@ -414,7 +422,7 @@ TextView android_start;
             params.put(GlobalConstant.repair_on_location, global.getDropOff());
 
             params.put(GlobalConstant.date, global.getSendDate());
-            params.put(GlobalConstant.time, global.getSendTime());
+            params.put(GlobalConstant.time, global.getTimeSlot());
             params.put(GlobalConstant.selected_color_id, global.getColor_id());
             params.put(GlobalConstant.estimated_travel_time, global.getEstimated_travel_time());
 

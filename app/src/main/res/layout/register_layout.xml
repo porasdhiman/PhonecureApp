@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_back"
-    android:orientation="vertical"
-    android:id="@+id/main_layout">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -96,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
-                    android:text="Or using"
+                    android:text="@string/or"
                     android:textColor="@color/mainTextColor"
                     android:textSize="12sp" />
 
@@ -114,13 +117,16 @@
                         android:id="@+id/name_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-
                         android:background="@null"
-                        android:hint="Name"
+                        android:layout_marginLeft="10dp"
+                        android:hint="@string/name"
+                        android:inputType="textEmailAddress"
                         android:textColor="#000"
                         android:textColorHint="@android:color/darker_gray"
-                        android:textSize="@dimen/main_txt" />
+                        android:textSize="@dimen/main_txt"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -140,7 +146,7 @@
                         android:layout_marginLeft="10dp"
 
                         android:background="@null"
-                        android:hint="E-mail"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress"
                         android:textColor="#000"
                         android:textColorHint="@android:color/darker_gray"
@@ -164,7 +170,7 @@
                         android:layout_marginLeft="10dp"
 
                         android:background="@null"
-                        android:hint="Password"
+                        android:hint="@string/password"
                         android:inputType="textPassword"
                         android:textColor="#000"
                         android:textColorHint="@android:color/darker_gray"
@@ -181,7 +187,7 @@
                     android:layout_marginTop="15dp"
                     android:background="@drawable/register_user_back"
                     android:gravity="center"
-                    android:text="Sign up"
+                    android:text="@string/sign_up"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/header_txt"
                     android:textStyle="bold" />
@@ -240,7 +246,7 @@
                         android:id="@+id/sign_in_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sign in"
+                        android:text="@string/sign_in"
 
                         android:textColor="@color/main_color"
                         android:textSize="@dimen/sab_txt" />

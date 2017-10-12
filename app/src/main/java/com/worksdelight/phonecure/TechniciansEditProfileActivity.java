@@ -119,7 +119,6 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     boolean clickValue = false;
     RelativeLayout main_layout,work_layout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -308,18 +307,18 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
             @Override
             public void onClick(View view) {
                 if (name_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, getResources().getString(R.string.name_blank), Toast.LENGTH_SHORT).show();
 
                 } else if (vat_ed.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter vat no.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, getResources().getString(R.string.vat_valid), Toast.LENGTH_SHORT).show();
                 } else if (mAutocompleteView.getText().length() == 0) {
-                    Toast.makeText(TechniciansEditProfileActivity.this, "Please enter address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, getResources().getString(R.string.address_blank), Toast.LENGTH_SHORT).show();
 
                 } else if (org_ed.getText().length() == 0) {
                     Toast.makeText(TechniciansEditProfileActivity.this, "your vat no. is invalid", Toast.LENGTH_SHORT).show();
 
                 }else if (lat.equalsIgnoreCase("")) {
-                    Toast.makeText(TechniciansEditProfileActivity.this, "please select valid address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TechniciansEditProfileActivity.this, getResources().getString(R.string.address_valid), Toast.LENGTH_SHORT).show();
 
                 }
                 else {
@@ -701,7 +700,7 @@ public class TechniciansEditProfileActivity extends FragmentActivity implements 
                                 locationAddress.getAddressFromLocation(mAutocompleteView.getText().toString(),
                                         getApplicationContext(), new GeocoderHandler());
                             } else {
-                                vat_ed.setError("Please enter valid VAT no.");
+                                vat_ed.setError(getResources().getString(R.string.vat_valid));
                                 org_ed.setText("");
                                 mAutocompleteView.setText("");
                                 isVat = false;

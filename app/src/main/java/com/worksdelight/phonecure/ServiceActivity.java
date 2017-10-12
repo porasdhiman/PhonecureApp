@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +66,7 @@ public class ServiceActivity extends Activity {
     String serviceID = "";
     Global global;
     String device_model_id, category_id,sub_catgory_id;
-
+ArrayList<String> typeList=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +109,7 @@ public class ServiceActivity extends Activity {
                     Toast.makeText(ServiceActivity.this, "Please select services", Toast.LENGTH_SHORT).show();
                 } else {
                     global.setSubCatId(sub_catgory_id);
-                    Intent map = new Intent(ServiceActivity.this, MapBoxActivity.class);
+                    Intent map = new Intent(ServiceActivity.this, RepairActivity.class);
                     map.putExtra("device_id", category_id);
                     map.putExtra("id", device_model_id);
                     map.putExtra("selected_id", serviceID);
@@ -118,12 +119,15 @@ public class ServiceActivity extends Activity {
 
             }
         });
-        //service_txtView.setText(getIntent().getExtras().getString("device_type"));
+        service_txtView.setText(getIntent().getExtras().getString("device")+" "+getResources().getString(R.string.services));
     }
 
     //--------------------Category api method---------------------------------
     private void subcategoryMethod() {
         String url = GlobalConstant.ACCORDING_TO_NAME_URL + global.getDeviceName();
+        if(url.contains(" ")){
+            url=url.replace(" ","%20");
+        }
         Log.e("url", url);
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -211,7 +215,7 @@ public class ServiceActivity extends Activity {
         Holder holder = null;
         String url = "";
         ArrayList<HashMap<String, String>> deviceList = new ArrayList<>();
-
+ArrayList<String> typeList=new ArrayList<>();
 
         DeviceAdapter(Context c, ArrayList<HashMap<String, String>> deviceList) {
             this.c = c;
@@ -226,7 +230,18 @@ public class ServiceActivity extends Activity {
                     .cacheInMemory()
                     .cacheOnDisc().bitmapConfig(Bitmap.Config.RGB_565).build();
             initImageLoader();
+for (int i=0;i<deviceList.size();i++){
+    typeList.add("false");
+}
+        }
+        @Override
+        public int getViewTypeCount() {
+            return deviceList.size();
+        }
 
+        @Override
+        public int getItemViewType(int position) {
+            return position;
         }
 
         @Override
@@ -254,10 +269,13 @@ public class ServiceActivity extends Activity {
                 holder.device_name = (TextView) view.findViewById(R.id.device_name);
                 holder.select_img = (ImageView) view.findViewById(R.id.select_img);
                 holder.unselect_img = (ImageView) view.findViewById(R.id.unselect_img);
+                holder.main_layout=(RelativeLayout)view.findViewById(R.id.main_layout);
+
                 view.setTag(holder);
                 holder.select_img.setTag(holder);
                 holder.unselect_img.setTag(holder);
                 holder.device_name.setTag(holder);
+                holder.main_layout.setTag(holder);
             } else {
                 holder = (Holder) view.getTag();
             }
@@ -279,10 +297,56 @@ public class ServiceActivity extends Activity {
             }
 
             holder.device_name.setText(deviceList.get(i).get(GlobalConstant.name));
+            holder.main_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder = (Holder) view.getTag();
+                    for (int k = 0; k < typeList.size(); k++) {
+                        if (k == i) {
+                            if (typeList.get(i).equalsIgnoreCase("false")) {
+                                typeList.add(i, "true");
+                                holder.select_img.setVisibility(View.GONE);
+                                holder.unselect_img.setVisibility(View.VISIBLE);
+                                if (serviceID.equalsIgnoreCase("")) {
+                                    serviceID = deviceList.get(i).get(GlobalConstant.id);
+                                } else {
+                                    if (!serviceID.contains(deviceList.get(i).get(GlobalConstant.id))) {
+                                        serviceID = serviceID + "," + deviceList.get(i).get(GlobalConstant.id);
+                                    }
+                                }
+                                Log.e("service id minus", serviceID);
+                                submit_btn.setVisibility(View.VISIBLE);
+                            } else {
+
+
+                                typeList.add(i, "false");
+                                holder.select_img.setVisibility(View.VISIBLE);
+                                holder.unselect_img.setVisibility(View.GONE);
+                                String id = String.valueOf(serviceID.split(",")[0]);
+
+                                if (serviceID.contains(",")) {
+                                    if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
+                                        serviceID = serviceID.replace(deviceList.get(i).get(GlobalConstant.id) + ",", "");
+
+                                    } else {
+                                        serviceID = serviceID.replace("," + deviceList.get(i).get(GlobalConstant.id), "");
+
+                                    }
+                                } else {
+                                    serviceID = "";
+
+                                }
+                                Log.e("service id", serviceID);
+                            }
+                        }
+                    }
+                }
+            });
             holder.select_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     holder = (Holder) v.getTag();
+                    typeList.add(i,"true");
                     holder.select_img.setVisibility(View.GONE);
                     holder.unselect_img.setVisibility(View.VISIBLE);
                     if (serviceID.equalsIgnoreCase("")) {
@@ -301,9 +365,10 @@ public class ServiceActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     holder = (Holder) v.getTag();
+                    typeList.add(i,"false");
                     holder.select_img.setVisibility(View.VISIBLE);
                     holder.unselect_img.setVisibility(View.GONE);
-                    String id = String.valueOf(serviceID.charAt(0));
+                    String id = String.valueOf(serviceID.split(",")[0]);
 
                     if (serviceID.contains(",")) {
                         if (id.equalsIgnoreCase(deviceList.get(i).get(GlobalConstant.id))) {
@@ -329,6 +394,8 @@ public class ServiceActivity extends Activity {
         class Holder {
             ImageView device_image, select_img, unselect_img;
             TextView device_name;
+            RelativeLayout main_layout;
+
         }
     }
 

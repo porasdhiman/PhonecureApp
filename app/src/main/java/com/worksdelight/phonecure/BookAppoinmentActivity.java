@@ -24,6 +24,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bruce.pickerview.LoopScrollListener;
 import com.bruce.pickerview.LoopView;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -34,11 +41,13 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +55,6 @@ import org.json.JSONObject;
 
 import java.sql.Time;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,9 +62,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -68,11 +78,11 @@ import static com.worksdelight.phonecure.R.id.calendarView;
 
 public class BookAppoinmentActivity extends Activity implements OnDateSelectedListener, OnMonthChangedListener, TimePickerDialog.OnTimeSetListener {
     MaterialCalendarView mcv;
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-    TextView book_btn, technicians_name;
+
+    TextView book_btn;
     List<CalendarDay> calenderlist = new ArrayList<CalendarDay>();
     CalendarDay selectDate;
-    Dialog PickerDialog;
+
     private Collection<CalendarDay> calendarDays = new Collection<CalendarDay>() {
         @Override
         public boolean add(CalendarDay object) {
@@ -145,45 +155,44 @@ public class BookAppoinmentActivity extends Activity implements OnDateSelectedLi
     Global global;
     List<String> list = new ArrayList<>();
     RelativeLayout time_layout;
-    TextView time_txtView;
+
     String sendDate = "";
-    CircleImageView user_img;
+
     String pos;
     com.nostra13.universalimageloader.core.ImageLoader imageLoader;
     DisplayImageOptions options;
     String minTimehour, minTimeminute, maxTimehour, maxTimeminute;
     TimePickerDialog timePickerDialog;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mHour, mMinute;
 
-    int hour, minutes;
     ImageView back;
-    NumberPicker minutePicker;
-    private int TIME_PICKER_INTERVAL = 15;
+
     ImageView pickUp_img, dropoff_img;
     int p = 0;
     TextView distance_shop;
     int monthsDayes[] = {Calendar.JANUARY, Calendar.FEBRUARY, Calendar.MARCH, Calendar.APRIL, Calendar.MAY, Calendar.JUNE, Calendar.JULY, Calendar.AUGUST, Calendar.SEPTEMBER, Calendar.OCTOBER, Calendar.NOVEMBER, Calendar.DECEMBER};
     String weekDayes[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     ArrayList<String> availList = new ArrayList<>();
-    String output = "";
-    int item1, item2;
-    ArrayList<String> hours = new ArrayList<>();
-    ArrayList<String> minute = new ArrayList<>();
+
     Calendar mCalendarOpeningTime, mCalendarClosingTime, finalTime;
-    String openTimeMode, closeTimeMode;
     String openTime = "", popenTime = "", closeTime = "", pclosetime = "";
     LinearLayout dropoff_layout, pickup_layout;
     int dayOfWeek;
-TextView est_time,time_info_txt;
+    TextView est_time;
+    int y;
+    Dialog dialog2;
+    String formattedDate;
+    TimeZone tz;
+    FlowLayout time_slot_flowView;
+    ArrayList<HashMap<String, String>> timeSlotArr = new ArrayList<>();
+    int k=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* Locale locale = new Locale("es_US");
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getApplicationContext().getResources().updateConfiguration(config, null);*/
+        //  String languageToLoad  = "fa"; // your language
+
         setContentView(R.layout.book_appoinment_layout);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
@@ -202,7 +211,7 @@ TextView est_time,time_info_txt;
         initImageLoader();
         pickup_layout = (LinearLayout) findViewById(R.id.pickup_layout);
         dropoff_layout = (LinearLayout) findViewById(R.id.dropoff_layout);
-        time_info_txt=(TextView)findViewById(R.id.time_info_txt);
+        time_slot_flowView = (FlowLayout) findViewById(R.id.time_slot_flowView);
         pickUp_img = (ImageView) findViewById(R.id.pickUp_img);
         dropoff_img = (ImageView) findViewById(R.id.dropoff_img);
         back = (ImageView) findViewById(R.id.back);
@@ -213,73 +222,50 @@ TextView est_time,time_info_txt;
             }
         });
         book_btn = (TextView) findViewById(R.id.book_btn);
-        est_time=(TextView)findViewById(R.id.est_time);
+        est_time = (TextView) findViewById(R.id.est_time);
         distance_shop = (TextView) findViewById(R.id.distance_shop);
-        technicians_name = (TextView) findViewById(R.id.user_name);
-        time_layout = (RelativeLayout) findViewById(R.id.time_layout);
-        time_txtView = (TextView) findViewById(R.id.time_txtView);
+
+
         pos = getIntent().getExtras().getString("pos");
-        technicians_name.setText(cap(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.name)));
-        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance) + " Km away");
-        float dis=Float.parseFloat(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance));
 
-        float t=dis/40;
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        t = Float.valueOf(decimalFormat.format(t));
-        String time=String.valueOf(t);
-        time=time.replace(".",":");
-        est_time.setText("Est. time "+time+" hour");
+        distance_shop.setText(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.distance) + " " + getResources().getString(R.string.km_away));
 
-        user_img = (CircleImageView) findViewById(R.id.user_img);
-        String url = GlobalConstant.TECHNICIANS_IMAGE_URL + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.image);
-        if (url != null && !url.equalsIgnoreCase("null")
-                && !url.equalsIgnoreCase("")) {
-            imageLoader.displayImage(url, user_img, options,
-                    new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingComplete(String imageUri,
-                                                      View view, Bitmap loadedImage) {
-                            super.onLoadingComplete(imageUri, view,
-                                    loadedImage);
+        est_time.setText(getDurationString(Integer.parseInt(global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.estimated_travel_time))) + " " + getResources().getString(R.string.hours));
 
-                        }
-                    });
-        } else {
-            user_img.setImageResource(R.drawable.user_back);
-        }
+
+        tz = TimeZone.getDefault();
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
 
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String formattedDate = df.format(c.getTime());
-
-        String date = formattedDate.split("-")[0];
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        formattedDate = df.format(c.getTime());
+        sendDate = formattedDate;
+        String date = formattedDate.split("-")[2];
         final String month = formattedDate.split("-")[1];
-        String year = formattedDate.split("-")[2];
+        String year = formattedDate.split("-")[0];
 
         // Toast.makeText(this,date+"-"+month+"-"+year,Toast.LENGTH_SHORT).show();
         mcv = (MaterialCalendarView) findViewById(calendarView);
         mcv.setOnDateChangedListener(this);
         mcv.setOnMonthChangedListener(this);
-
+        y = Integer.parseInt(year);
+        mcv.setSelectedDate(c.getTime());
         mcv.state().edit()
 
                 .setMinimumDate(CalendarDay.from(Integer.parseInt(year), Integer.parseInt(month) - 1, Integer.parseInt(date)))
                 .setMaximumDate(CalendarDay.from(Integer.parseInt(year), 12, 31))
-
+                .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
 
         book_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sendDate.equalsIgnoreCase("")) {
-                    Toast.makeText(BookAppoinmentActivity.this, "Please select date", Toast.LENGTH_SHORT).show();
-                } else if (time_txtView.getText().length() == 0) {
-                    Toast.makeText(BookAppoinmentActivity.this, "Please select time", Toast.LENGTH_SHORT).show();
-                }else if (global.getPickUp().equalsIgnoreCase("0")&&global.getDropOff().equalsIgnoreCase("0")) {
-                    Toast.makeText(BookAppoinmentActivity.this, "Please select service", Toast.LENGTH_SHORT).show();
+                if (sendDate.equalsIgnoreCase("")&&global.getTimeSlot().equalsIgnoreCase("")) {
+                    Toast.makeText(BookAppoinmentActivity.this, getResources().getString(R.string.booking_date_time_valid), Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else if (global.getPickUp().equalsIgnoreCase("0") && global.getDropOff().equalsIgnoreCase("0")) {
+                    Toast.makeText(BookAppoinmentActivity.this, getResources().getString(R.string.repair_option_valid), Toast.LENGTH_SHORT).show();
+                } else {
                     Intent i = new Intent(BookAppoinmentActivity.this, ShoppingcartActivity.class);
                     // i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                     i.putExtra("pos", String.valueOf(pos));
@@ -309,6 +295,7 @@ TextView est_time,time_info_txt;
 
                         list.addAll(getDayNameInYear(l, k + 1));
 
+
                     }
                 }
             }
@@ -333,28 +320,7 @@ TextView est_time,time_info_txt;
         Log.e("calender list", calenderlist.toString());
         mcv.addDecorators(new EventDecorator(calenderlist));
 
-        time_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePicker();
-                time_txtView.setText("");
-                /*SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
-                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-
-
-                Date convertedDate = null;
-                try {
-                    convertedDate = inputFormat.parse(global.getSendDate());
-                    String s = formatter.format(convertedDate);
-                    dialogWindow1(s);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }*/
-                // dialogWindow1();
-
-            }
-        });
         if (global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_at_shop).equalsIgnoreCase("1") && global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.repair_on_location).equalsIgnoreCase("1")) {
 
             pickUp_img.setOnClickListener(new View.OnClickListener() {
@@ -401,25 +367,50 @@ TextView est_time,time_info_txt;
 
 
         }
-
+        dialogWindow();
+        slotMethod();
         //  Log.e("monday date",getMondaysOfJanuary().toString());
     }
 
-    public String dayName(String date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("EEEE");
-        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public String formatdate2(String fdate) {
+        String datetime = null;
+        DateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        String s = "";
-        Date convertedDate = null;
+        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            convertedDate = inputFormat.parse(date);
-            s = formatter.format(convertedDate);
+            Date convertedDate = inputFormat.parse(fdate);
+            datetime = d.format(convertedDate);
 
         } catch (ParseException e) {
-            e.printStackTrace();
+
         }
-        return s;
+        return datetime;
+
+
     }
+
+    private String getDurationString(int seconds) {
+
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        seconds = seconds % 60;
+
+        return twoDigitString(hours) + " : " + twoDigitString(minutes);
+    }
+
+    private String twoDigitString(int number) {
+
+        if (number == 0) {
+            return "00";
+        }
+
+        if (number % 10 == 0) {
+            return "" + number;
+        }
+
+        return String.valueOf(number);
+    }
+
 
     private List<String> getDayNameInYear(int months, int days) {
         ArrayList<String> d = new ArrayList<>();
@@ -427,6 +418,7 @@ TextView est_time,time_info_txt;
 
         cal.set(Calendar.MONTH, months); // month starts by 0 = january
         cal.set(Calendar.DAY_OF_WEEK, days);
+
         cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
         int month = cal.get(Calendar.MONTH);
 
@@ -442,22 +434,19 @@ TextView est_time,time_info_txt;
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         boolean value = false;
-        time_info_txt.setVisibility(View.GONE);
 
-        if (isValidFormat(getSelectedDatesString())) {
-            // Toast.makeText(BookAppoinmentActivity.this, formatdate(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
-            sendDate = getSelectedDatesString();
-            global.setSendDate(formatdate(sendDate));
+        //Toast.makeText(BookAppoinmentActivity.this, getSelectedDatesString(), Toast.LENGTH_SHORT).show();
 
-            setOpeningAndClosingTimes(dayOfWeek - 1);
-        } else {
-            // Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
-            sendDate = getSelectedDatesString();
-            global.setSendDate(formatdate2(sendDate));
+        // Toast.makeText(BookAppoinmentActivity.this, formatdate2(getSelectedDatesString()), Toast.LENGTH_SHORT).show();
+        sendDate = getSelectedDatesString();
+        global.setSendDate(sendDate);
 
-            setOpeningAndClosingTimes(dayOfWeek - 1);
-
+        setOpeningAndClosingTimes(dayOfWeek - 1);
+        if(timeSlotArr.size()>0){
+            timeSlotArr.clear();
         }
+        dialogWindow();
+        slotMethod();
 
 
     }
@@ -473,84 +462,23 @@ TextView est_time,time_info_txt;
 
     }
 
-    public boolean isValidFormat(String value) {
-        Date date = null;
-        boolean isTrue = false;
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-            date = sdf.parse(value);
-
-            if (value.equals(sdf.format(date))) {
-                isTrue = true;
-            }
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        return isTrue;
-    }
-
-    public String formatdate2(String fdate) {
-        String datetime = null;
-
-        DateFormat inputFormat = new SimpleDateFormat("dd-MMM-yyyy");
-
-        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date convertedDate = inputFormat.parse(fdate);
-            datetime = d.format(convertedDate);
-            Calendar c = Calendar.getInstance();
-            c.setTime(convertedDate);
-            dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-
-        } catch (ParseException e) {
-
-        }
-        return datetime;
-
-
-    }
-
-    public String formatdate(String fdate) {
-        String datetime = null;
-
-        DateFormat inputFormat = new SimpleDateFormat("MMM dd, yyyy");
-
-        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date convertedDate = inputFormat.parse(fdate);
-            datetime = d.format(convertedDate);
-            Calendar c = Calendar.getInstance();
-            c.setTime(convertedDate);
-            dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        } catch (ParseException e) {
-
-        }
-        return datetime;
-
-
-    }
 
     private String getSelectedDatesString() {
-
+        String datetime = null;
         CalendarDay date1 = mcv.getSelectedDate();
+        SimpleDateFormat d = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(date1.getDate());
+        dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        datetime = d.format(date1.getDate());
 
-        return FORMATTER.format(date1.getDate());
+        return datetime;
     }
 
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         String fDate = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
-
-        if (isTimeWith_in_Interval(fDate, closeTime, openTime)) {
-
-            time_txtView.setText(hourOfDay + ":" + minute);
-            global.setSendTime(time_txtView.getText().toString());
-        } else {
-            Toast.makeText(BookAppoinmentActivity.this, "Technician Available between " + popenTime + " to " + pclosetime, Toast.LENGTH_SHORT).show();
-
-        }
 
 
     }
@@ -592,6 +520,7 @@ TextView est_time,time_info_txt;
         @Override
         public void decorate(DayViewFacade view) {
             view.setDaysDisabled(true);
+
             // view.addSpan(new DotSpan(7, color));
 
         }
@@ -616,7 +545,7 @@ TextView est_time,time_info_txt;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        Log.e("time", openTime + " " + closeTime);
         minTimehour = openTime.split(":")[0];
         minTimeminute = openTime.split(":")[1];
         mCalendarOpeningTime = Calendar.getInstance();
@@ -629,8 +558,7 @@ TextView est_time,time_info_txt;
         mCalendarClosingTime = Calendar.getInstance();
         mCalendarClosingTime.set(Calendar.HOUR, Integer.parseInt(maxTimehour));
         mCalendarClosingTime.set(Calendar.MINUTE, Integer.parseInt(maxTimeminute));
-        time_info_txt.setVisibility(View.VISIBLE);
-        time_info_txt.setText("Shop timing is: "+openTime+" - "+closeTime);
+
     }
 
     public void timePicker() {
@@ -646,12 +574,6 @@ TextView est_time,time_info_txt;
 
     }
 
-    private String getTime(int hr, int min) {
-        Time tme = new Time(hr, min, 0);//seconds by default set to zero
-        Format formatter;
-        formatter = new SimpleDateFormat("hh:mm a");
-        return formatter.format(tme);
-    }
 
     private void initImageLoader() {
         int memoryCacheSize;
@@ -677,120 +599,151 @@ TextView est_time,time_info_txt;
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(config);
     }
 
-    public static String convertTo24Hour(String Time) {
-        DateFormat f1 = new SimpleDateFormat("hh:mm a"); //11:00 pm
-        Date d = null;
+    //--------------------Category api method---------------------------------
+    private void slotMethod() {
+        int calculateEstimateTime = 0;
         try {
-            d = f1.parse(Time);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        DateFormat f2 = new SimpleDateFormat("HH:mm");
-        String x = f2.format(d); // "23:00"
+            JSONObject obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
+            JSONArray techServiceArr = obj.getJSONArray("technician_services");
+            for (int i = 0; i < techServiceArr.length(); i++) {
+                JSONObject obj1 = techServiceArr.getJSONObject(i);
+                calculateEstimateTime = calculateEstimateTime + Integer.parseInt(obj1.getString(GlobalConstant.expected_time));
 
-        return x;
-    }
-
-    public void dialogWindow1() {
-        PickerDialog = new Dialog(this);
-        PickerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        PickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
-        PickerDialog.setContentView(R.layout.wheel_dialog);
-       /* int value = 0;
-        for (int i=0;i<availList.size();i++){
-            if(availList.get(i).equalsIgnoreCase(dayName)){
-                value=i;
             }
-        }
-        JSONObject obj = null;
-        try {
-            obj = global.getCartData().getJSONObject(Integer.parseInt(pos));
-            JSONArray avail_arr = obj.getJSONArray(GlobalConstant.availability);
-
-                JSONObject sun_obj = avail_arr.getJSONObject(value);
-                String openTime=convertTo24Hour(sun_obj.getString(GlobalConstant.opening_time));
-            String closeTime=convertTo24Hour(sun_obj.getString(GlobalConstant.closing_time));
-
-                int h = Integer.parseInt(openTime.split(":")[0]);
-            int m = Integer.parseInt(openTime.split(":")[1]);
-            int h1 = Integer.parseInt(closeTime.split(":")[0]);
-            int m1 = Integer.parseInt(closeTime.split(":")[1]);
-            for (int k=0;k<h;k++)
-
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
-        TextView cancel_txtView = (TextView) PickerDialog.findViewById(R.id.cancel_txtView);
-        TextView done_txtView = (TextView) PickerDialog.findViewById(R.id.done_txtView);
-        final LoopView loopView = (LoopView) PickerDialog.findViewById(R.id.loop_view);
-        final LoopView loopView1 = (LoopView) PickerDialog.findViewById(R.id.loop_view1);
+        }
 
-        loopView.setCanLoop(false);
+        String url = GlobalConstant.GET_TIME_SLOT_URL + GlobalConstant.id + "=" + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.id) + "&" + GlobalConstant.date + "=" + sendDate +
+                "&" + GlobalConstant.expected_time + "=" + String.valueOf(calculateEstimateTime) +
+                "&" + GlobalConstant.estimated_travel_time + "=" + global.getDateList().get(Integer.parseInt(pos)).get(GlobalConstant.estimated_travel_time) + "&timezone=" + tz.getID();
+        Log.e("url", url);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        dialog2.dismiss();
 
-        loopView.setTextSize(16);
+                        Log.e("response", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
 
-        hours = getListHour();
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONArray data = obj.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject timeObj = data.getJSONObject(i);
+                                    HashMap<String, String> map = new HashMap<>();
+                                    map.put(GlobalConstant.start, timeObj.getString(GlobalConstant.start));
+                                    map.put(GlobalConstant.status, timeObj.getString(GlobalConstant.status));
 
-        loopView.setDataList(hours);
+                                    timeSlotArr.add(map);
+                                }
+                                addLayouts(timeSlotArr);
 
 
-        loopView1.setCanLoop(false);
+                            } else {
+                                Toast.makeText(BookAppoinmentActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
 
-        loopView1.setTextSize(16);
-        minute = getListMinute();
-        loopView1.setDataList(minute);
-        Log.e("value", hours.toString() + " " + minute.toString());
-        loopView.setLoopListener(new LoopScrollListener() {
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onItemSelect(int item) {
-                item1 = item;
+            public void onErrorResponse(VolleyError error) {
+
             }
         });
-        loopView1.setLoopListener(new LoopScrollListener() {
-            @Override
-            public void onItemSelect(int item) {
-                item2 = item;
-            }
-        });
-        done_txtView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PickerDialog.dismiss();
-                time_txtView.setText(getTime(Integer.parseInt(hours.get(item1).split(":")[1]), Integer.parseInt(minute.get(item2).split(":")[0])));
-                global.setSendTime(time_txtView.getText().toString());
 
-            }
-        });
-        cancel_txtView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PickerDialog.dismiss();
-            }
-        });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+    public void dialogWindow() {
+        dialog2 = new Dialog(this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setCancelable(false);
+        dialog2.setContentView(R.layout.progrees_login);
+        AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
+        loaderView.show();
+
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
-        PickerDialog.show();
+        dialog2.show();
     }
 
-    public ArrayList<String> getListHour() {
-        ArrayList<String> list1 = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
-            int l = i + 1;
-            list1.add("hour:" + l);
+    //-------------------------------------Time slot dyanmic view------------------------------------
+    private void addLayouts(final ArrayList<HashMap<String, String>> list) {
+
+        time_slot_flowView.removeAllViews();
+
+        for (k=0; k < list.size(); k++) {
+
+
+            View view = this.getLayoutInflater().inflate(R.layout.time_slot_item, null);
+            final TextView textView = (TextView) view.findViewById(R.id.time_txt);
+            // final ImageView cancel_img = (ImageView) view.findViewById(R.id.cancel_img);
+            textView.setId(k);
+            textView.setTag(k);
+            time_slot_flowView.addView(view);
+            textView.setText(list.get(k).get(GlobalConstant.start));
+            if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("0")) {
+                textView.setTextColor(getResources().getColor(R.color.LightGrey));
+                textView.setBackgroundResource(R.drawable.dark_grey_border);
+
+            } else {
+                textView.setTextColor(getResources().getColor(R.color.Black));
+                textView.setBackgroundResource(R.drawable.black_border);
+
+            }
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (list.get((Integer) view.getTag()).get(GlobalConstant.status).equalsIgnoreCase("0")) {
+
+
+                    } else {
+
+
+                        global.setTimeSlot(list.get((Integer) view.getTag()).get(GlobalConstant.start));
+                        Log.e("time slot", global.getTimeSlot());
+                        for (k=0; k < list.size(); k++) {
+                            if((Integer) view.getTag()==k){
+                                Log.e("view postion", "" + (Integer) view.getTag());
+                                ((TextView) findViewById((Integer) view.getTag())).setTextColor(getResources().getColor(R.color.main_color));
+                                ((TextView) findViewById((Integer) view.getTag())).setBackgroundResource(R.drawable.green_border);
+                            }else{
+                                if (list.get(k).get(GlobalConstant.status).equalsIgnoreCase("0")) {
+                                    ((TextView) findViewById(k)).setTextColor(getResources().getColor(R.color.LightGrey));
+                                    ((TextView) findViewById(k)).setBackgroundResource(R.drawable.dark_grey_border);
+
+                                }
+                                else {
+                                    ((TextView) findViewById(k)).setTextColor(getResources().getColor(R.color.Black));
+                                    ((TextView) findViewById(k)).setBackgroundResource(R.drawable.black_border);
+
+                                }
+                            }
+
+                        }
+                    }
+
+
+                }
+            });
+
+
         }
-        return list1;
     }
 
-    public ArrayList<String> getListMinute() {
-        ArrayList<String> list1 = new ArrayList<>();
-        for (int i = 0; i < 60; i++) {
-            int l = i + 1;
-            list1.add(l + ":min");
-        }
-
-
-        return list1;
-    }
 }

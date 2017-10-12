@@ -30,7 +30,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Edit profile"
+            android:text="@string/edit_profile"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="Edit"
+            android:text="@string/edit"
             android:textColor="#fff"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -106,13 +106,13 @@
 
                     <TextView
                         android:id="@+id/name_txt"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:textColor="@android:color/darker_gray" />
 
                     <EditText
@@ -122,7 +122,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="Enter Name"
+                        android:hint="@string/name"
                         android:textColor="#000"
                         android:textColorHint="#000"
                         android:textSize="@dimen/sab_txt" />
@@ -150,7 +150,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Email"
+                        android:text="@string/email"
                         android:textColor="@android:color/darker_gray" />
 
                     <EditText
@@ -163,7 +163,7 @@
                         android:layout_toRightOf="@+id/email_txt"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="Enter Email"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress"
                         android:textColor="#000"
                         android:textColorHint="#000"
@@ -185,13 +185,13 @@
 
                     <TextView
                         android:id="@+id/vat_txt"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Vat number"
+                        android:text="@string/vat"
                         android:textColor="@android:color/darker_gray" />
 
                     <EditText
@@ -203,7 +203,7 @@
                         android:layout_toRightOf="@+id/vat_txt"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="Enter Vat number"
+                        android:hint="@string/vat"
                         android:inputType="textEmailAddress"
                         android:textColor="#000"
                         android:textColorHint="#000"
@@ -231,7 +231,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Organization"
+                        android:text="@string/org"
                         android:textColor="@android:color/darker_gray" />
 
                     <TextView
@@ -264,13 +264,13 @@
 
                     <TextView
                         android:id="@+id/address_txt"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        android:text="Address"
+                        android:text="@string/address"
                         android:textColor="@android:color/darker_gray" />
 
                     <AutoCompleteTextView
@@ -282,7 +282,7 @@
                         android:layout_toRightOf="@+id/address_txt"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="Enter address"
+                        android:hint="@string/address"
                         android:popupBackground="#fff"
 
                         android:textColor="#000"
@@ -337,13 +337,15 @@
                     android:id="@+id/device_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/view"
+                    android:layout_marginLeft="9dp"
                     android:gravity="center"
-                    android:text="Working hours"
+                    android:text="@string/working_hours"
                     android:textColor="#373737"
-                    android:textSize="@dimen/header_txt" />
+                    android:textSize="@dimen/header_txt"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/view"
+                    android:layout_toEndOf="@+id/view"
+                    android:layout_marginStart="9dp" />
 
                 <ImageView
                     android:id="@+id/select_img"
@@ -365,7 +367,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
-                android:text="Update"
+                android:text="@string/update"
                 android:textColor="#fff"
                 android:textSize="@dimen/header_txt"
                 android:textStyle="bold"

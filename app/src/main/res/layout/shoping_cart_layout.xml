@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Shopping cart"
+            android:text="@string/cart"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -120,8 +120,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="3 Item in Your Cart"
-                    android:textColor="#000" />
+                    android:text=""
+                    android:textColor="#000"
+                    android:textSize="10sp"/>
 
                 <TextView
                     android:id="@+id/clear"
@@ -130,7 +131,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="Clear"
+                    android:text="@string/clear"
                     android:textColor="#0000ff" />
             </RelativeLayout>
 
@@ -258,8 +259,8 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
-                android:text="Checkout"
-                android:textAllCaps="true"
+                android:text="@string/confirm"
+
                 android:textColor="#fff"
                 android:textSize="@dimen/header_txt"
                 android:textStyle="bold" />

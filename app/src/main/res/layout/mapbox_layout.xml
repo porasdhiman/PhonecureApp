@@ -45,7 +45,8 @@
 
 
             android:padding="9dp"
-            android:src="@drawable/titlebar_menu_selector" />
+            android:src="@drawable/titlebar_menu_selector"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <com.mapbox.mapboxsdk.maps.MapView
@@ -97,13 +98,13 @@
     <LinearLayout
         android:id="@+id/book_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="220dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:background="#f5f5f5"
         android:orientation="vertical"
-
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:visibility="gone">
@@ -138,15 +139,15 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="38dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="12dp"
                 android:layout_marginTop="10dp">
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/tech_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/user_back" />
 
 
@@ -205,15 +206,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
 
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text=""
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#373737"
             android:textSize="@dimen/main_txt" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
 
@@ -222,18 +222,17 @@
         <TextView
 
             android:id="@+id/book_appointment"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/green_btn"
             android:gravity="center"
             android:text="Book Appointment"
             android:textColor="#fff"
-            android:textSize="14dp"
-            />
+            android:textSize="14dp" />
     </LinearLayout>
 
 </RelativeLayout>

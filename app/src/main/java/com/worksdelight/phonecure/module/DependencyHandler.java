@@ -27,7 +27,7 @@ public class DependencyHandler {
      *
      * You can get your key here: https://dashboard.stripe.com/account/apikeys
      */
-    private static final String PUBLISHABLE_KEY = "pk_test_NqFmtDXfFDZrhVOBGvL7LtYe";
+    private static final String PUBLISHABLE_KEY = "pk_live_C1cXigL187bmBE5E4y8Y1gX3";
     //private static final String PUBLISHABLE_KEY = "pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
 
     private AsyncTaskTokenController mAsyncTaskController;

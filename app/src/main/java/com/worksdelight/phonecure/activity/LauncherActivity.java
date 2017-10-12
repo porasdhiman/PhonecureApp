@@ -22,9 +22,8 @@ public class LauncherActivity extends Activity {
      *
      * You can get your key here: https://dashboard.stripe.com/account/apikeys
      */
-    private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY =
-            "pk_test_NqFmtDXfFDZrhVOBGvL7LtYe";
-    //private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY ="pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
+    //private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY = "pk_live_C1cXigL187bmBE5E4y8Y1gX3";
+    private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY ="pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
     Global global;
 
     @Override

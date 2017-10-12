@@ -2,15 +2,18 @@ package com.worksdelight.phonecure;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -99,7 +102,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     //------------rating variable --------
     String com_star = "1", time_star = "1", service_star = "1", skill_star = "1", user_id;
-    String userName_mString = "", imageName_mString = "", id_mString;
+    String userName_mString = "", imageName_mString = "", id_mString, booking_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,7 +121,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         global = (Global) getApplicationContext();
         setUpMenu();
         if (savedInstanceState == null)
-            changeFragment(new HomeFragment(), "Phonecure");
+            changeFragment(new HomeFragment(), getResources().getString(R.string.app_name));
         ratingPendingMethod();
     }
 
@@ -137,13 +140,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         resideMenu.setScaleValue(0.6f);
 
         // create menu items;
-        itemHome = new ResideMenuItem(this, "HOME");
-        drug = new ResideMenuItem(this, "SHARE");
-        technicians = new ResideMenuItem(this, "MY ORDERS");
-        services = new ResideMenuItem(this, "TECHNICIANS");
-        dashboard = new ResideMenuItem(this, "PRIVACY POLICY");
-        itemProfile = new ResideMenuItem(this, "PROFILE");
-        new_cure = new ResideMenuItem(this, "FEEDBACK");
+        itemHome = new ResideMenuItem(this, getResources().getString(R.string.home_cap));
+        drug = new ResideMenuItem(this, getResources().getString(R.string.share_cap));
+        technicians = new ResideMenuItem(this, getResources().getString(R.string.my_orders_cap));
+        services = new ResideMenuItem(this, getResources().getString(R.string.favorite_cap));
+        dashboard = new ResideMenuItem(this, getResources().getString(R.string.privacy_cap));
+        itemProfile = new ResideMenuItem(this, getResources().getString(R.string.profile_cap));
+        new_cure = new ResideMenuItem(this, getResources().getString(R.string.feed_cap));
         // logout = new ResideMenuItem(this, "LOGOUT");
 
 
@@ -236,35 +239,43 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View view) {
 
         if (view == itemHome) {
-            changeFragment(new HomeFragment(), "Phonecure");
+            changeFragment(new HomeFragment(), getResources().getString(R.string.app_name));
 
         } else if (view == itemProfile) {
-            changeFragment(new ProfileFragment(), "Profile");
+            changeFragment(new ProfileFragment(), getResources().getString(R.string.profile_small));
         } else if (view == drug) {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, download this app! http://google.com");
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, getResources().getString(R.string.share_text)+" https://play.google.com/store/apps/details?id=com.worksdelight.phonecure");
             startActivity(shareIntent);
         } /*else if (view == technicians) {
             changeFragment(new TechniciansFragment(), "Technicians");
         }*/ else if (view == services) {
-            changeFragment(new FavoriteFragment(), "Favorite Technicians");
+            changeFragment(new FavoriteFragment(), getResources().getString(R.string.favorite_service_partner));
         } else if (view == technicians) {
             Intent i = new Intent(MainActivity.this, HistoryActivity.class);
             startActivity(i);
             resideMenu.clearIgnoredViewList();
         } else if (view == dashboard) {
-            changeFragment(new DashBoradFragment(), "Privacy Policy");
+            changeFragment(new DashBoradFragment(), getResources().getString(R.string.privacy_small));
         } else if (view == new_cure) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
+
+                String mailto = "mailto:info@phonecure.be?subject=Feedback&body=" + Uri.encode("");
+
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse(mailto));
+                startActivity(Intent.createChooser(emailIntent, "Send Email"));
+
+
+          /*  Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/html");
 
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@phonecure.be"});
             intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
             intent.putExtra(Intent.EXTRA_TEXT, "");
 
-            startActivity(Intent.createChooser(intent, "Send Email"));
+            startActivity(Intent.createChooser(intent, "Send Email"));*/
 
           /*  Intent sendIntent = new Intent(Intent.ACTION_VIEW);
             sendIntent.setType("plain/text");
@@ -362,15 +373,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
 
-        builder = new AlertDialog.Builder(MainActivity.this).setMessage("Do You Want To Exit?")
-                .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder = new AlertDialog.Builder(MainActivity.this).setMessage(getResources().getString(R.string.exit_mes))
+                .setCancelable(false).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         finish();
 
                     }
 
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -463,10 +474,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             String status = obj.getString("status");
                             if (status.equalsIgnoreCase("1")) {
                                 JSONObject data = obj.getJSONObject("data");
+                                booking_id = data.getString(GlobalConstant.id);
                                 JSONObject techDetails = data.getJSONObject("technician_detail");
-                                id_mString=techDetails.getString(GlobalConstant.id);
-                                userName_mString=techDetails.getString(GlobalConstant.name);
-                                imageName_mString=techDetails.getString(GlobalConstant.image);
+                                id_mString = techDetails.getString(GlobalConstant.id);
+                                userName_mString = techDetails.getString(GlobalConstant.name);
+                                imageName_mString = techDetails.getString(GlobalConstant.image);
 
                                 ratingWindow();
                             } else {
@@ -501,6 +513,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         ratingDialog.setCanceledOnTouchOutside(false);
         ratingDialog.setCancelable(false);
         ratingDialog.setContentView(R.layout.rateing_dialog_layout);
+        TextView rate_txt = (TextView) ratingDialog.findViewById(R.id.rate_txt);
+        rate_txt.setText(getResources().getString(R.string.rate_partner));
         TextView submit_rating = (TextView) ratingDialog.findViewById(R.id.submit_rating);
         ratingStarinit(ratingDialog);
         submit_rating.setOnClickListener(new View.OnClickListener() {
@@ -530,6 +544,49 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         ratingDialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.registerReceiver(mMessageReceiver, new IntentFilter("unique_name"));
+
+        ed.putBoolean("isResume", true);
+        ed.commit();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.unregisterReceiver(mMessageReceiver);
+        ed.putBoolean("isResume", false);
+        ed.commit();
+    }
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+                builder = new AlertDialog.Builder(MainActivity.this).setMessage(global.getContent())
+                        .setCancelable(false).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                global.setSendNotify("0");
+                                ratingPendingMethod();
+                                builder.dismiss();
+                            }
+
+                        }).show();
+
+        }
+
+    };
+    public void CallAPI(Context context) {
+
+        Intent intent = new Intent("unique_name");
+
+        // put whatever data you want to send, if any
+
+        // send broadcast
+        context.sendBroadcast(intent);
+    }
     public void ratingStarinit(Dialog d) {
         final ImageView com_star1 = (ImageView) d.findViewById(R.id.com_star1);
         final ImageView com_star2 = (ImageView) d.findViewById(R.id.com_star2);
@@ -827,6 +884,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 params.put(GlobalConstant.USERID, CommonUtils.UserID(MainActivity.this));
                 params.put(GlobalConstant.favorite_user_id, id_mString);
+                params.put("booking_id", booking_id);
                 params.put("rating", com_star);
                 params.put("rating1", service_star);
                 params.put("rating2", time_star);
@@ -857,4 +915,5 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
         dialog2.show();
     }
+
 }

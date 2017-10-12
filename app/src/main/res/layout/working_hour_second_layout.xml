@@ -30,7 +30,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Working hours"
+            android:text="@string/working_hours"
             android:textColor="#fff"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -132,7 +132,7 @@
                                 android:layout_marginLeft="10dp"
 
 
-                                android:text="Repair at Service Point"
+                                android:text="@string/repir_point"
                                 android:textColor="#000"
                                 android:textSize="12dp"
 
@@ -171,7 +171,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center"
 
-                                android:text="Repair at your location"
+                                android:text="@string/repir_at_loc"
                                 android:textColor="#000"
                                 android:textSize="12dp"
 
@@ -212,7 +212,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="10dp"
                             android:gravity="center"
-                            android:text="Working hours"
+                            android:text="@string/working_hours"
 
 
                             android:textColor="#373737"
@@ -220,20 +220,28 @@
                             android:textStyle="bold"
 
                             />
-
+<LinearLayout
+    android:id="@+id/always_open_txtView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal"
+    >
                         <TextView
-                            android:id="@+id/always_open_txtView"
+
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
 
-                            android:layout_marginRight="10dp"
-                            android:layout_toLeftOf="@+id/select_img"
                             android:gravity="center"
 
-                            android:text="Always Open"
+                            android:text="@string/always_open"
                             android:textColor="#373737"
                             android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_alignParentTop="true"
+                            android:layout_toLeftOf="@+id/select_img"
+                            android:layout_toStartOf="@+id/select_img" />
 
                         <ImageView
                             android:id="@+id/select_img"
@@ -244,7 +252,7 @@
 
                             android:src="@drawable/toggle" />
 
-
+</LinearLayout>
                     </RelativeLayout>
 
                     <LinearLayout
@@ -273,7 +281,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Sunday"
+                                    android:text="@string/sunday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -346,7 +354,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp"
 
@@ -374,7 +382,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Monday"
+                                    android:text="@string/monday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -396,7 +404,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp"
 
@@ -478,7 +486,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Tuesday"
+                                    android:text="@string/tuesday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -500,7 +508,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp"
 
@@ -580,7 +588,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Wednesday"
+                                    android:text="@string/wednesday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -601,7 +609,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp" />
 
@@ -684,7 +692,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Thursday"
+                                    android:text="@string/thursday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -706,7 +714,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp"
 
@@ -788,7 +796,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Friday"
+                                    android:text="@string/friday"
                                     android:textColor="@color/mainTextColor"
                                     android:textSize="12sp" />
 
@@ -810,7 +818,7 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
                                 android:gravity=""
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp" />
 
@@ -890,7 +898,7 @@
                                     android:layout_width="70dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:text="Saturday"
+                                    android:text="@string/saturday"
                                     android:textColor="@color/mainTextColor"
 
                                     android:textSize="12sp" />
@@ -913,7 +921,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="1"
-                                android:text="Closed"
+                                android:text="@string/closed"
                                 android:textColor="#000"
                                 android:textSize="12sp" />
 
@@ -994,7 +1002,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/green_btn"
                 android:gravity="center"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:textColor="#fff"
                 android:textSize="16dp" />
 

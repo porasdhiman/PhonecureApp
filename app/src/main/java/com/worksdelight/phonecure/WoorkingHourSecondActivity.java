@@ -74,7 +74,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
     SharedPreferences sp;
     SharedPreferences.Editor ed;
     LinearLayout main_layout, hours_layout;
-    TextView always_open_txt;
+    LinearLayout always_open_txt;
     ImageView select_img;
     int i = 0,always_open=0;
 
@@ -112,7 +112,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
         });
         select_img = (ImageView) findViewById(R.id.select_img);
         hours_layout = (LinearLayout) findViewById(R.id.hours_layout);
-        always_open_txt = (TextView) findViewById(R.id.always_open_txtView);
+        always_open_txt = (LinearLayout) findViewById(R.id.always_open_txtView);
         sun_openning = (TextView) findViewById(R.id.sun_openning);
         sun_clossing = (TextView) findViewById(R.id.sun_clossing);
 
@@ -214,7 +214,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                         HashMap<String, String> map = new HashMap<>();
                         map.put(GlobalConstant.day, daysNAme[i]);
                         map.put(GlobalConstant.opening_time, "00:00");
-                        map.put(GlobalConstant.closing_time, "24:00");
+                        map.put(GlobalConstant.closing_time, "23:59");
                         map.put(GlobalConstant.status, "open");
                         list.add(map);
                     }
@@ -505,7 +505,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 boolean flag = false;
                 boolean closed = false;
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase(getResources().getString(R.string.open))) {
                         if (list.get(i).get(GlobalConstant.opening_time).equalsIgnoreCase("") || list.get(i).get(GlobalConstant.closing_time).equalsIgnoreCase("")) {
                             errorInfo = "Please Enter " + list.get(i).get(GlobalConstant.day) + "Time";
                             flag = true;
@@ -514,7 +514,7 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
 
                 }
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase("open")) {
+                    if (list.get(i).get(GlobalConstant.status).equalsIgnoreCase(getResources().getString(R.string.open))) {
 
 
                         closed = true;
@@ -525,10 +525,10 @@ public class WoorkingHourSecondActivity extends Activity implements View.OnClick
                 if (flag == true) {
                     Toast.makeText(WoorkingHourSecondActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 } else if (closed == false) {
-                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select Working Hours", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WoorkingHourSecondActivity.this, getResources().getString(R.string.select_working_day), Toast.LENGTH_SHORT).show();
 
                 } else if (p == 0 && d == 0) {
-                    Toast.makeText(WoorkingHourSecondActivity.this, "Please select any Delivery/Dropoff service", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WoorkingHourSecondActivity.this, getResources().getString(R.string.repair_option_valid), Toast.LENGTH_SHORT).show();
 
                 } else {
                     dialogWindow();

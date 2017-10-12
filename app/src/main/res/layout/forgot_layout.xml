@@ -9,16 +9,38 @@
         android:id="@+id/header_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#fff">
+        android:background="#000">
 
         <ImageView
+            android:id="@+id/back_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
 
-            android:padding="10dp"
-            android:src="@drawable/back_shape" />
+
+            android:padding="8dp"
+            android:src="@drawable/white_back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/setting"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/navigation_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+
+
+            android:padding="8dp" />
 
     </RelativeLayout>
 
@@ -43,7 +65,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="40dp"
             android:gravity="center"
-            android:text="Forgot password"
+            android:text="@string/forgot_text"
             android:textAllCaps="true"
             android:textColor="#000"
             android:textSize="18dp"
@@ -60,7 +82,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
 
-            android:text="We just need your registerd email to \nsend you password reset intruction"
+            android:text="@string/forgot_text_info"
             android:textColor="@android:color/darker_gray"
 
             android:textSize="16dp"
@@ -93,9 +115,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/email_img"
                 android:background="@null"
-                android:hint="Email"
-                android:textColorHint="@android:color/darker_gray"
+                android:hint="@string/email"
                 android:textColor="@android:color/darker_gray"
+                android:textColorHint="@android:color/darker_gray"
                 android:textSize="@dimen/main_txt" />
         </RelativeLayout>
 
@@ -109,7 +131,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/btn_back"
             android:gravity="center"
-            android:text="RESET PASSWORD"
+            android:text="@string/reset"
             android:textColor="#fff"
             android:textSize="@dimen/header_txt"
             android:textStyle="bold" />
@@ -127,16 +149,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account? "
+            android:text="@string/account_not"
             android:textColor="@android:color/darker_gray"
             android:textSize="@dimen/sab_txt" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="@string/sign_up"
             android:textAllCaps="true"
-            android:textColor="#0000ff"
+            android:textColor="@color/main_color"
             android:textSize="@dimen/sab_txt" />
     </LinearLayout>
 </RelativeLayout>

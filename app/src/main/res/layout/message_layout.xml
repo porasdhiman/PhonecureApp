@@ -27,7 +27,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="Message"
+            android:text="@string/notify"
             android:textColor="#fff"
             android:textSize="18sp"
             android:textStyle="bold" />

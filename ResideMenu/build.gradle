@@ -6,7 +6,7 @@ repositories {
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 24
@@ -31,6 +31,8 @@ dependencies {
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.squareup.picasso:picasso:2.4.0'
 
+
+    compile 'com.nineoldandroids:library:2.4.0'
 }
 
 

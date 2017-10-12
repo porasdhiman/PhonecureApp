@@ -118,7 +118,7 @@ ImageView cross_img;
         average_rating_txt = (TextView) findViewById(R.id.average_rating_txt);
         book_appointment = (TextView) findViewById(R.id.book_appointment);
         tech_img = (CircleImageView) findViewById(R.id.tech_img);
-        search_img = (ImageView) findViewById(R.id.search_img);
+        /*search_img = (ImageView) findViewById(R.id.search_img);
         search_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +139,7 @@ ImageView cross_img;
                 }
 
             }
-        });
+        });*/
         back = (ImageView) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,8 +176,8 @@ ImageView cross_img;
         MarkerViewOptions opt = new MarkerViewOptions();
 
 
-        dialogWindow();
-        SearchMethod();
+       /* dialogWindow();
+        SearchMethod();*/
         service_type_layout = (LinearLayout) findViewById(R.id.service_type_layout);
         repair_shop_image = (ImageView) findViewById(R.id.repair_shop_image);
         repair_location_image = (ImageView) findViewById(R.id.repair_location_image);
@@ -232,6 +232,7 @@ ImageView cross_img;
             });
             mTutorialHandler.playOn(repair_shop_image);
         }
+        eventLocOnMap();
     }
 
     @Override

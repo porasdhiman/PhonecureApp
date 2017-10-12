@@ -187,6 +187,7 @@ ImageView navigation_img,service_img;
                     HashMap<String, String> map = new HashMap<>();
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.quantity, bookinObj.getString(GlobalConstant.quantity));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
                     map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
                     list.add(map);
@@ -258,6 +259,7 @@ ImageView navigation_img,service_img;
                     HashMap<String, String> map = new HashMap<>();
                     map.put(GlobalConstant.id, bookinObj.getString(GlobalConstant.id));
                     map.put(GlobalConstant.price, bookinObj.getString(GlobalConstant.price));
+                    map.put(GlobalConstant.quantity, bookinObj.getString(GlobalConstant.quantity));
                     map.put(GlobalConstant.name, bookinObj.getString(GlobalConstant.name));
                     map.put(GlobalConstant.expected_time, bookinObj.getString(GlobalConstant.expected_time));
                     list.add(map);
@@ -414,6 +416,7 @@ ImageView navigation_img,service_img;
                 view = inflatore.inflate(R.layout.appointment_item_layout, null);
                 holder.service_name = (TextView) view.findViewById(R.id.service_name);
                 holder.service_time = (TextView) view.findViewById(R.id.service_time);
+                holder.service_quantity=(TextView) view.findViewById(R.id.service_quantity);
                 holder.service_price = (TextView) view.findViewById(R.id.service_price);
 
                 view.setTag(holder);
@@ -423,6 +426,7 @@ ImageView navigation_img,service_img;
                 holder = (Holder) view.getTag();
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
+            holder.service_quantity.setText("Quantity "+list.get(i).get(GlobalConstant.quantity));
             holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
             holder.service_time.setText("Expected time "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" Hours");
             return view;
@@ -430,7 +434,7 @@ ImageView navigation_img,service_img;
 
         public class Holder {
 
-            TextView service_name, service_time, service_price;
+            TextView service_name, service_time, service_price,service_quantity;
 
         }
     }

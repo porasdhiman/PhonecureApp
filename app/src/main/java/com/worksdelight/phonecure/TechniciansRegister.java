@@ -107,11 +107,12 @@ import static com.worksdelight.phonecure.GlobalConstant.facebook_id;
 
 public class TechniciansRegister extends FragmentActivity implements View.OnClickListener, View.OnTouchListener, GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
-    EditText name_ed, email_ed, vat_ed, password_ed;
+    EditText name_ed, email_ed, vat_ed, password_ed, no_of_emp_ed;
     RoundedImageView tech_img;
     Dialog camgllry, dialog2;
     String selectedImagePath = "", message;
-    TextView see_text, register_txtView, org_ed;
+    TextView see_text, register_txtView;
+    EditText org_ed;
     Global global;
     SharedPreferences sp;
     SharedPreferences.Editor ed;
@@ -123,7 +124,7 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     String token;
     Button facebook_btn;
     String username_mString = "", email_mString = "", id_mString = "", user_image = "";
-    String type = "app";
+    String type = "app",selectedType="shop";
     RelativeLayout facebook_layout;
 
     String lat, lng;
@@ -135,7 +136,11 @@ public class TechniciansRegister extends FragmentActivity implements View.OnClic
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
-LinearLayout main_layout;
+    LinearLayout main_layout, individual_layout, shop_layout;
+    RelativeLayout number_of_layout;
+    ImageView individual_selected_img, shop_selected_img;
+    int s = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +158,7 @@ LinearLayout main_layout;
     }
 
     public void init() {
-        main_layout=(LinearLayout) findViewById(R.id.main_layout);
+        main_layout = (LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
         callbackManager = CallbackManager.Factory.create();
         Login_TV = (LoginButton) findViewById(R.id.Fb_Login);
@@ -161,6 +166,12 @@ LinearLayout main_layout;
         fbMethod();
         buildGoogleApiClient();
         //-------------------------------Call AutocompleteTxtView-----------------
+        individual_selected_img = (ImageView) findViewById(R.id.individual_selected_img);
+        shop_selected_img = (ImageView) findViewById(R.id.shop_selected_img);
+        individual_layout = (LinearLayout) findViewById(R.id.individual_layout);
+        shop_layout = (LinearLayout) findViewById(R.id.shop_layout);
+        no_of_emp_ed = (EditText) findViewById(R.id.no_of_emp_ed);
+        number_of_layout = (RelativeLayout) findViewById(R.id.number_of_layout);
         mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.address_ed);
 
         mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
@@ -184,7 +195,7 @@ LinearLayout main_layout;
         name_ed = (EditText) findViewById(R.id.name_ed);
         email_ed = (EditText) findViewById(R.id.email_ed);
         vat_ed = (EditText) findViewById(R.id.vat_ed);
-        org_ed = (TextView) findViewById(R.id.org_ed);
+        org_ed = (EditText) findViewById(R.id.org_ed);
         password_ed = (EditText) findViewById(R.id.password_ed);
         see_text = (TextView) findViewById(R.id.see_text);
         // address_ed = (TextView) findViewById(R.id.address_ed);
@@ -252,17 +263,37 @@ LinearLayout main_layout;
             id_mString = getIntent().getExtras().getString("fb_id");
             name_ed.setText(getIntent().getExtras().getString("name"));
             email_ed.setText(getIntent().getExtras().getString("email"));
-            username_mString=getIntent().getExtras().getString("name");
-            email_mString=getIntent().getExtras().getString("email");
+            username_mString = getIntent().getExtras().getString("name");
+            email_mString = getIntent().getExtras().getString("email");
             password_ed.setHint("Not required");
             Picasso.with(TechniciansRegister.this).load(getIntent().getExtras().getString("image")).into(tech_img);
-            user_image=getIntent().getExtras().getString("image");
+            user_image = getIntent().getExtras().getString("image");
             name_ed.setEnabled(false);
             email_ed.setEnabled(false);
             password_ed.setEnabled(false);
 
             tech_img.setEnabled(false);
         }
+        individual_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                s = 1;
+                shop_selected_img.setImageResource(R.drawable.unselected_radio);
+                individual_selected_img.setImageResource(R.drawable.selected_radio);
+                number_of_layout.setVisibility(View.GONE);
+                selectedType="technician";
+            }
+        });
+        shop_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                s = 0;
+                shop_selected_img.setImageResource(R.drawable.selected_radio);
+                individual_selected_img.setImageResource(R.drawable.unselected_radio);
+                number_of_layout.setVisibility(View.VISIBLE);
+                selectedType="shop";
+            }
+        });
     }
 
     @Override
@@ -296,8 +327,9 @@ LinearLayout main_layout;
                 default:
                     locationAddress = null;
             }
-            lat = locationAddress.split(" ")[0];
-            lng = locationAddress.split(" ")[1];
+            // Toast.makeText(TechniciansRegister.this,locationAddress.toString(),Toast.LENGTH_SHORT).show();
+            //lat = locationAddress.split(" ")[0];
+            // lng = locationAddress.split(" ")[1];
 
 
         }
@@ -308,39 +340,101 @@ LinearLayout main_layout;
         switch (view.getId()) {
             case R.id.register_txtView:
                 if (type.equalsIgnoreCase("app")) {
-                    if (name_ed.getText().length() == 0) {
-                        name_ed.setError("Please enter name");
-                    } else if (email_ed.getText().length() == 0) {
-                        email_ed.setError("Please enter email");
+                    if(s==0){
+                        if (name_ed.getText().length() == 0) {
+                            name_ed.setError(getResources().getString(R.string.name_blank));
+                        } else if (email_ed.getText().length() == 0) {
+                            email_ed.setError(getResources().getString(R.string.email_blank));
 
 
-                    } else if (password_ed.getText().length() == 0) {
-                        password_ed.setError("Please enter password");
+                        } else if (password_ed.getText().length() == 0) {
+                            password_ed.setError(getResources().getString(R.string.password_blank));
 
-                    } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
-                        email_ed.setError("Please enter valid email");
-                    } else if (vat_ed.getText().length() == 0) {
-                        vat_ed.setError("Please enter vat number");
-                    } else if (org_ed.getText().length() == 0) {
-                        org_ed.setError("Please enter organization");
-                    } else if (mAutocompleteView.getText().length() == 0) {
-                        mAutocompleteView.setError("Please enter address");
-                    } else if (selectedImagePath.equalsIgnoreCase("")) {
-                        Toast.makeText(TechniciansRegister.this, "Please select image", Toast.LENGTH_SHORT).show();
-                    } else if (isVat == false) {
-                        Toast.makeText(TechniciansRegister.this, "Please enter valid VAT no.", Toast.LENGTH_SHORT).show();
-                    }else if (lat.equalsIgnoreCase("")) {
-                        Toast.makeText(TechniciansRegister.this, "Please enter valid address", Toast.LENGTH_SHORT).show();
-                    } else {
+                        } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
+                            email_ed.setError(getResources().getString(R.string.email_valid));
+                        } else if (vat_ed.getText().length() == 0) {
+                            vat_ed.setError(getResources().getString(R.string.vat_valid));
+                        } else if (org_ed.getText().length() == 0) {
+                            org_ed.setError("Please enter organization");
+                        } else if (mAutocompleteView.getText().length() == 0) {
+                            mAutocompleteView.setError(getResources().getString(R.string.address_blank));
+                        } else if (selectedImagePath.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.image_valid), Toast.LENGTH_SHORT).show();
+                        }  else if (lat.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.address_valid), Toast.LENGTH_SHORT).show();
+                        }else if (no_of_emp_ed.getText().toString().length()==0) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.no_of_emp_blank), Toast.LENGTH_SHORT).show();
+                        } else {
 
-                        dialogWindow();
-                        //editprofile();
-                        new Thread(null, address_request, "")
-                                .start();
+                            dialogWindow();
+                            //editprofile();
+                            new Thread(null, address_request, "")
+                                    .start();
+                        }
+                    }else{
+                        if (name_ed.getText().length() == 0) {
+                            name_ed.setError(getResources().getString(R.string.name_blank));
+                        } else if (email_ed.getText().length() == 0) {
+                            email_ed.setError(getResources().getString(R.string.email_blank));
+
+
+                        } else if (password_ed.getText().length() == 0) {
+                            password_ed.setError(getResources().getString(R.string.password_blank));
+
+                        } else if (!CommonUtils.isEmailValid(email_ed.getText().toString())) {
+                            email_ed.setError(getResources().getString(R.string.email_valid));
+                        } else if (vat_ed.getText().length() == 0) {
+                            vat_ed.setError(getResources().getString(R.string.vat_valid));
+                        } else if (org_ed.getText().length() == 0) {
+                            org_ed.setError("Please enter organization");
+                        } else if (mAutocompleteView.getText().length() == 0) {
+                            mAutocompleteView.setError(getResources().getString(R.string.address_blank));
+                        } else if (selectedImagePath.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.image_valid), Toast.LENGTH_SHORT).show();
+                        } else if (lat.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.address_valid), Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            dialogWindow();
+                            //editprofile();
+                            new Thread(null, address_request, "")
+                                    .start();
+                        }
                     }
+
                 } else {
-                    dialogWindow();
-                    FacebooksocialMethod();
+                    if(s==0){
+                         if (vat_ed.getText().length() == 0) {
+                             vat_ed.setError(getResources().getString(R.string.vat_valid));
+                        } else if (org_ed.getText().length() == 0) {
+                            org_ed.setError("Please enter organization");
+                        } else if (mAutocompleteView.getText().length() == 0) {
+                             mAutocompleteView.setError(getResources().getString(R.string.address_blank));
+                        } else if (lat.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.address_valid), Toast.LENGTH_SHORT).show();
+                        }else if (no_of_emp_ed.getText().toString().length()==0) {
+                             Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.no_of_emp_blank), Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            dialogWindow();
+                            FacebooksocialMethod();
+                        }
+                    }else{
+                        if (vat_ed.getText().length() == 0) {
+                            vat_ed.setError(getResources().getString(R.string.vat_valid));
+                        } else if (org_ed.getText().length() == 0) {
+                            org_ed.setError("Please enter organization");
+                        } else if (mAutocompleteView.getText().length() == 0) {
+                            mAutocompleteView.setError(getResources().getString(R.string.address_blank));
+                        }  else if (lat.equalsIgnoreCase("")) {
+                            Toast.makeText(TechniciansRegister.this, getResources().getString(R.string.address_valid), Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            dialogWindow();
+                            FacebooksocialMethod();
+                        }
+                    }
+
                 }
                 break;
             case R.id.tech_img:
@@ -657,8 +751,9 @@ LinearLayout main_layout;
                                 locationAddress.getAddressFromLocation(mAutocompleteView.getText().toString(),
                                         getApplicationContext(), new GeocoderHandler());
                             } else {
-                                vat_ed.setFocusable(true);
-                                see_text.setVisibility(View.VISIBLE);
+                                org_ed.setFocusable(true);
+                                //see_text.setVisibility(View.VISIBLE);
+                                org_ed.setEnabled(true);
                                 isVat = false;
                             }
 
@@ -758,9 +853,14 @@ LinearLayout main_layout;
             reqEntity.addPart("address_latitude", new StringBody(lat));
             reqEntity.addPart("address_longitude", new StringBody(lng));
             reqEntity.addPart(GlobalConstant.device_token, new StringBody(global.getDeviceToken()));
-            reqEntity.addPart(GlobalConstant.type, new StringBody("technician"));
+            reqEntity.addPart(GlobalConstant.type, new StringBody(selectedType));
             reqEntity.addPart(GlobalConstant.latitude, new StringBody(global.getLat()));
             reqEntity.addPart(GlobalConstant.longitude, new StringBody(global.getLong()));
+
+            if(s==0){
+                reqEntity.addPart(GlobalConstant.number_of_employees, new StringBody(no_of_emp_ed.getText().toString()));
+
+            }
             reqEntity.addPart(GlobalConstant.device_type, new StringBody("android"));
 
             post.setEntity(reqEntity);
@@ -802,6 +902,7 @@ LinearLayout main_layout;
 
             }
         } catch (Exception ex) {
+            dialog2.dismiss();
         }
         return success;
     }
@@ -833,6 +934,7 @@ LinearLayout main_layout;
                                 ed.putString(GlobalConstant.type, data.getString(GlobalConstant.type));
                                 ed.putString(GlobalConstant.vat_number, data.getString(GlobalConstant.vat_number));
                                 ed.putString(GlobalConstant.organization, data.getString(GlobalConstant.organization));
+
                                 ed.putString(address, data.getString(address));
 
                                 ed.commit();
@@ -875,6 +977,9 @@ LinearLayout main_layout;
                 params.put(GlobalConstant.vat_number, vat_ed.getText().toString());
                 params.put(GlobalConstant.organization, org_ed.getText().toString());
                 params.put(GlobalConstant.address, mAutocompleteView.getText().toString());
+                if(s==0){
+                    ed.putString(GlobalConstant.number_of_employees, no_of_emp_ed.getText().toString());
+                }
                 params.put("address_latitude", lat);
                 params.put("address_longitude", lng);
 

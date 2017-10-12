@@ -367,6 +367,36 @@ public class Global extends Application {
     }
 
     String backType="0";
+
+    public String getSendNotify() {
+        return sendNotify;
+    }
+
+    public void setSendNotify(String sendNotify) {
+        this.sendNotify = sendNotify;
+    }
+
+    String sendNotify="0";
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    String content;
+
+    public String getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(String timeSlot) {
+        this.timeSlot = timeSlot;
+    }
+
+    String timeSlot="";
     @Override
     public void onCreate() {
         super.onCreate();

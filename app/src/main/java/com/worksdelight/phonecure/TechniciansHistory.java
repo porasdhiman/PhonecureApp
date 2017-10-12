@@ -1,6 +1,8 @@
 package com.worksdelight.phonecure;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -49,7 +51,7 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
     Dialog dialog2;
     Global global;
     ViewPager viewPager;
-
+AlertDialog builder;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,8 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             getWindow().setStatusBarColor(getResources().getColor(R.color.black));
         }
+        sp=getSharedPreferences(GlobalConstant.PREF_NAME, Context.MODE_PRIVATE);
+        ed=sp.edit();
         global=(Global)getApplicationContext();
         dialogWindow();
         categoryMethod();
@@ -67,7 +71,7 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
 
         //tabsStrip.setTextColorResource(R.drawable.selectore);
         header_txt=(TextView)findViewById(R.id.header_txt);
-        header_txt.setText("Appointments");
+        header_txt.setText(getResources().getString(R.string.appointment));
 
         back=(ImageView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +153,7 @@ public class TechniciansHistory extends FragmentActivity implements ViewPager.On
                                 Toast.makeText(TechniciansHistory.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
-                            viewPager.setAdapter(new FragmentPageAdapterForTechnicians(getSupportFragmentManager()));
+                            viewPager.setAdapter(new FragmentPageAdapterForTechnicians(getSupportFragmentManager(),TechniciansHistory.this));
 
                             tabsStrip.setViewPager(viewPager);
                             tabsStrip.setOnPageChangeListener(TechniciansHistory.this);

@@ -184,20 +184,20 @@ String lat,lng;
             @Override
             public void onClick(View view) {
                 if (first_name_ed.length() == 0) {
-                    first_name_ed.setError("Please enter first name");
+                    first_name_ed.setError(getResources().getString(R.string.first_name_blank));
                 } else if (last_name_ed.length() == 0) {
-                    last_name_ed.setError("Please enter last name");
+                    last_name_ed.setError(getResources().getString(R.string.last_name_blank));
                 } else if (mAutocompleteView.length() == 0) {
-                    mAutocompleteView.setError("Please enter address");
+                    mAutocompleteView.setError(getResources().getString(R.string.address_blank));
                 } /*else if (city_ed.length() == 0) {
                     city_ed.setError("Please enter city");
                 } else if (zip_ed.length() == 0) {
                     zip_ed.setError("Please enter Zip");
                 }*/ else if (phone_ed.length() == 0) {
-                    phone_ed.setError("Please enter Phone number");
+                    phone_ed.setError(getResources().getString(R.string.phone_no_blank));
                 }
                 else if (lat.equalsIgnoreCase("")) {
-                    phone_ed.setError("Please enter valid address");
+                    phone_ed.setError(getResources().getString(R.string.address_valid));
                 }else {
                     dialogWindow();
                     profileMethod();

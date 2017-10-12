@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -25,18 +26,19 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.cast.CastRemoteDisplay;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.jaredrummler.android.device.DeviceName;
 
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -75,7 +77,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
     int REQUEST_CHECK_SETTINGS = 100;
     SharedPreferences sp, sp1;
     SharedPreferences.Editor ed1;
-
+    String deviceName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,9 +106,35 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         } else {
             Log.e(TAG, "No valid Google Play Services APK found.");
         }
-        Locale current = getResources().getConfiguration().locale;
+        Log.e("current language", Locale.getDefault().getLanguage());
+
+
+        if(Locale.getDefault().getLanguage().equalsIgnoreCase("de")){
+
+           Locale locale = new Locale(Locale.getDefault().getLanguage());
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }else if(Locale.getDefault().getLanguage().equalsIgnoreCase("fr")){
+            Locale locale = new Locale(Locale.getDefault().getLanguage());
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }else{
+            Locale locale = new Locale(Locale.getDefault().getLanguage());
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+       /* Locale current = getResources().getConfiguration().locale;
         global.setCurencySymbol(Currency.getInstance(current).getSymbol(current));
-        Log.e("locale", Currency.getInstance(current).getSymbol(current));
+        Log.e("locale", Currency.getInstance(current).getSymbol(current));*/
        /* global.setLat("30.701990");
         global.setLong("76.682625");*/
         //-----------------Permission value----------------------
@@ -199,8 +227,19 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                         }
                     }, 3000);
 
-                    global.setDeviceName(getDeviceName());
-                    Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                    DeviceName.with(SplashActivity.this).request(new DeviceName.Callback() {
+
+                        @Override public void onFinished(DeviceName.DeviceInfo info, Exception error) {
+                            //String manufacturer = info.manufacturer;  // "Samsung"
+                           deviceName = info.marketName;            // "Galaxy S7 Edge"
+                            // String model = info.model;                // "SAMSUNG-SM-G935A"
+                            // String codename = info.codename;          // "hero2lte"
+                            //deviceName = info.getName();       // "Galaxy S7 Edge"
+                            // FYI: We are on the UI thread.
+                            global.setDeviceName(deviceName);
+                        }
+                    });
+                   // Log.e("device info", getDeviceName());
 
                     /*} else {
                         Handler splashhandler = new Handler();
@@ -240,8 +279,19 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         } else {
 
             if (checkGPSStatus()) {
-                global.setDeviceName(getDeviceName());
-                Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                DeviceName.with(SplashActivity.this).request(new DeviceName.Callback() {
+
+                    @Override public void onFinished(DeviceName.DeviceInfo info, Exception error) {
+                        //String manufacturer = info.manufacturer;  // "Samsung"
+                        deviceName = info.marketName;            // "Galaxy S7 Edge"
+                        // String model = info.model;                // "SAMSUNG-SM-G935A"
+                        // String codename = info.codename;          // "hero2lte"
+                       // deviceName = info.getName();       // "Galaxy S7 Edge"
+                        // FYI: We are on the UI thread.
+                        global.setDeviceName(deviceName);
+                    }
+                });
+               // Log.e("device info", getDeviceName());
                 Handler splashhandler = new Handler();
                 splashhandler.postDelayed(new Runnable() {
                     @Override
@@ -317,8 +367,20 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
                     // All Permissions Granted
 
                     if (checkGPSStatus()) {
-                        global.setDeviceName(getDeviceName());
-                        Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
+                        DeviceName.with(SplashActivity.this).request(new DeviceName.Callback() {
+
+                            @Override public void onFinished(DeviceName.DeviceInfo info, Exception error) {
+                                //String manufacturer = info.manufacturer;  // "Samsung"
+                                deviceName = info.marketName;            // "Galaxy S7 Edge"
+                                // String model = info.model;                // "SAMSUNG-SM-G935A"
+                                // String codename = info.codename;          // "hero2lte"
+                                //deviceName = info.getName();       // "Galaxy S7 Edge"
+                                // FYI: We are on the UI thread.
+                                global.setDeviceName(deviceName);
+                            }
+                        });
+
+                       // Log.e("device info", getDeviceName() );
                         Handler splashhandler = new Handler();
                         splashhandler.postDelayed(new Runnable() {
                             @Override
@@ -504,6 +566,9 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
     //-------device info---------------
     public String getDeviceName() {
 
+
+        return deviceName;
+/*
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
 
@@ -511,7 +576,7 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
             return capitalize(model);
         } else {
             return capitalize(manufacturer) + " " + model;
-        }
+        }*/
     }
 
     private String getAndroidVersion() {
@@ -599,7 +664,18 @@ public class SplashActivity extends Activity implements GoogleApiClient.Connecti
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             locatioMethod();
-            global.setDeviceName(getDeviceName());
+            DeviceName.with(SplashActivity.this).request(new DeviceName.Callback() {
+
+                @Override public void onFinished(DeviceName.DeviceInfo info, Exception error) {
+                    //String manufacturer = info.manufacturer;  // "Samsung"
+                    deviceName = info.marketName;            // "Galaxy S7 Edge"
+                    // String model = info.model;                // "SAMSUNG-SM-G935A"
+                    // String codename = info.codename;          // "hero2lte"
+                    //deviceName = info.getName();       // "Galaxy S7 Edge"
+                    // FYI: We are on the UI thread.
+                    global.setDeviceName(deviceName);
+                }
+            });
             Log.e("device info", getDeviceName() + " , " + getAndroidVersion() + " " + getDeviceId());
             locatioMethod();
             Handler splashhandler = new Handler();

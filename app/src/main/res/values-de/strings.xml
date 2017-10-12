@@ -1,0 +1,273 @@
+<resources>
+    <string name="app_name">Phonecure</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="user_sign_up_xt">Registreer als gebruiker</string>
+    <string name="tech_sign_up_xt">Registreer als service partner</string>
+    <string name="facebook_app_id">353765961480835</string>
+    <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
+
+    <string name="current_name">My postion</string>
+    <string name="changedevice_color_txt"><u>Wijzig toestel kleur</u></string>
+    <string name="banner_home_footer">ca-app-pub-5937028232593341/3218372514</string>
+    <string name="interstitial_full_screen">ca-app-pub-5937028232593341/3218372514</string>
+    <string name="guide_txt">Opleiding- en herstelhandleidingen</string>
+
+//---------------Payment
+    <string name="addPayment">Add Payment Method</string>
+    <string name="addThreeDSecureCard">Add Source</string>
+    <string name="addThreeDSecureCardSync">Add Source Rx</string>
+    <string name="paymentMethods">Payment Methods</string>
+
+    <string name="endingIn">Card ending in</string>
+    <string name="progressMessage">Creating Token&#8230;</string>
+    <string name="validationErrors">Validation Errors</string>
+
+    <string name="createAndroidPayTokens">Create Android Pay Tokens</string>
+    <string name="createCardTokens">Create Card Tokens</string>
+    <string name="createThreeDSecure">Create 3DS Sources</string>
+    <string name="cardNumber">Card Number</string>
+    <string name="createSource">Creating source&#8230;</string>
+    <string name="confirmPayment">Confirm payment details</string>
+    <string name="changeDetails">Change payment details</string>
+    <string name="pollingSource">Polling for source changes&#8230;</string>
+    <string name="save">Opslaan</string>
+    <string name="saverx">Save Rx</string>
+    <string name="saveService">Save with Service</string>
+    <string name="selectSampleActivity">Select Payment</string>
+    <string name="startPolling">Start polling</string>
+    <string name="tryThreeDSecure">Try 3DS</string>
+    <string name="verify">Verify</string>
+    <string name="updatedSources">Source results</string>
+    <string name="cvc">CVC</string>
+
+    <string name="ok">OK</string>
+
+    <string name="label_source_type">Type</string>
+    <string name="label_3ds_status">3DS status</string>
+    <string name="label_source_state">Status</string>
+    <string name="label_source_id">ID Last 6</string>
+
+    <string name="sample_card_requiring_3ds">4000 0000 0000 3063</string>
+
+    <string-array name="currency_array">
+        <item>Currency (optional)</item>
+        <item>Unspecified</item>
+        <item>USD</item>
+    </string-array>
+
+    //-----------------------------------------Translation word-----------
+
+    <string name="sign_in_with_facebook">Aanmelden via Facebook</string>
+    <string name="email">E-mail</string>
+    <string name="password">Wachtwoord</string>
+    <string name="sign_in">Aanmelden</string>
+    <string name="forgot">Wachtwoord vergeten?</string>
+    <string name="forgot_text">Wachtwoord vergeten</string>
+    <string name="account_not">Heb je geen account? </string>
+    <string name="forgot_text_info">U kunt een nieuw wachtwoord ophalen door \nuw e-mailadres in te vullen</string>
+
+    //-----------------------------------Register screen word---------------------
+    <string name="sign_up_with_facebook">Registreren via Facebook</string>
+    <string name="or">Of gebruik</string>
+    <string name="name">Naam</string>
+    <string name="sign_up">Aanmelden</string>
+    <string name="already_acc">Heeft u al een account? </string>
+
+    //------------------------Technicians registeer screen words-------------
+    <string name="vat">Btw nummer</string>
+    <string name="org">Organisatie</string>
+    <string name="address">Adres</string>
+    <string name="no_of_emp">Aantal werknemers</string>
+    <string name="reg">Registreren</string>
+    <string name="shop">Winkel</string>
+    <string name="ind">Individu</string>
+
+    //-------------------Side menu----------------------
+    <string name="home_cap">HOME</string>
+    <string name="share_cap">DEEL</string>
+    <string name="my_orders_cap">MIJN AFSPRAKEN</string>
+    <string name="favorite_cap">FAVORIETEN</string>
+    <string name="privacy_cap">PRIVACYBELEID</string>
+    <string name="profile_cap">PROFIEL</string>
+    <string name="feed_cap">FEEDBACK</string>
+
+    <string name="profile_small">Profiel</string>
+    <string name="favorite_service_partner">Favoriete service partners</string>
+
+    <string name="privacy_small">Privacy Policy</string>
+    <string name="current_device">HUIDIG TOESTEL:</string>
+    <string name="select_other_device">SELECTEER ANDER TOESTEL</string>
+
+    <string name="message_info">We bieden momenteel geen herstelling aan \nvoor dit toestel. \nU kunt ons een e-mail sturen op: devices@curespot.co</string>
+    <string name="exit_mes">Wilt u afsluiten?</string>
+    <string name="yes">ja</string>
+    <string name="no">nee</string>
+    <string name="rate_partner">De servicepartner beoordelen</string>
+
+    //--------------Profile screen words-------------
+    <string name="gernal">ALGEMEEN</string>
+    <string name="change_password">Wijzig wachtwoord</string>
+    <string name="sign_out">Afmelden</string>
+
+    //--------------user profile edit screen words-----------
+    <string name="edit_profile">Bewerk profiel</string>
+    <string name="edit">Wijzig</string>
+    <string name="update">Profiel aanpassen</string>
+
+    //---------------User address screen words---------
+    <string name="first_name">Voornaam</string>
+    <string name="last_name">Achternaam</string>
+    <string name="phone">Telefoon</string>
+    <string name="submit">Bevestig</string>
+
+    //--------Validation text word----------------
+    <string name="email_blank">Vul het e-mailadres in.</string>
+    <string name="password_blank">Wachtwoord invoeren</string>
+    <string name="email_valid">Gelieve een geldig e-mailadres in te geven</string>
+    <string name="password_valid">Nieuw wachtwoord en bevestig wachtwoord komen niet overeen</string>
+    <string name="name_blank">Vul de naam in</string>
+    <string name="no_of_emp_blank">Vul aantal werknemers in</string>
+    <string name="select_device_color_valid">Selecteer de kleur van het toestel om verder te gaan</string>
+    <string name="image_valid">Selecteer een profielafbeelding</string>
+    <string name="repair_option_valid">Selecteer de herstel locatie opties.</string>
+
+    <string name="booking_date_time_valid">Selecteer de afspraakdatum en het tijdstip</string>
+    <string name="vat_valid">Veuillez entrer le numéro de TVA</string>
+    <string name="address_blank">Adres invoeren</string>
+    <string name="address_valid">Geldig adres invoeren</string>
+    <string name="first_name_blank">Vul uw voornaam in</string>
+    <string name="last_name_blank">Vul uw achternaam in</string>
+
+    <string name="phone_no_blank">Telefoonnummer invoeren</string>
+
+    <string name="select_working_day">Selecteer tenminste één werkdag</string>
+    //------------favotite screen words-----------------
+    <string name="service_partner">Service partner</string>
+
+    //-------------History screen words-------------------
+    <string name="pending">In afwachting</string>
+    <string name="completed">Uitgevoerd</string>
+
+    //---------------------Device screen--------------
+    <string name="devices">Toestellen</string>
+
+    //-------------After current device screen-----------
+    <string name="services">Diensten</string>
+
+    //--------------Select your model and color---------------
+    <string name="select_model">Selecteer uw model en kleur</string>
+    <string name="next">Volgende</string>
+
+    //------------Maps screen words-----------
+    <string name="map">Kaart</string>
+
+    //------------------Tech profile words------------
+    <string name="tech_profile">Service partner profiel</string>
+    <string name="book_repair">Boek een herstelling</string>
+    <string name="no_of_repair">Aantal herstellingen</string>
+    <string name="reviews">Beoordelingen</string>
+    <string name="repir_point">Herstelling in service punt</string>
+    <string name="repir_at_loc">Herstelling op locatie</string>
+    <string name="working_hours">Werkuren</string>
+    <string name="sunday">Zondag</string>
+    <string name="monday">Maandag</string>
+    <string name="tuesday">Dinsdag</string>
+    <string name="wednesday">Woensdag</string>
+    <string name="thursday">Donderdag</string>
+    <string name="friday">Vrijdag</string>
+    <string name="saturday">Zaterdag</string>
+
+    //---------------Book appointment screen---------------
+    <string name="time">Tijd</string>
+    <string name="select_time">Selecteer tijdstip</string>
+    <string name="book_now">NU BOEKEN</string>
+    <string name="km_away">km verwijderd</string>
+
+    //------------cart screen words-------------
+    <string name="cart">Boekingsoverzicht</string>
+    <string name="clear">Wis</string>
+    <string name="cart_value">geselecteerde dienst / geselecteerde diensten.</string>
+    <string name="confirm">Vastleggen</string>
+    <string name="clear_mes">Wilt u de gegevens van uw winkelwagen wissen?</string>
+    <string name="less_then_mes">Minder dan één niet toegestaan</string>
+
+
+    //------------Additional address for repair screen words---
+    <string name="additional_address">Aanvullend adres voor de herstelling</string>
+    <string name="total">Totaal:</string>
+    <string name="pay_with_card">Betaal met de kaart</string>
+    <string name="location_name_valid">Gelieve een geldige locatienaam in te voeren</string>
+
+
+
+    //-----------------------------Technicians working hours screen--------------
+    <string name="closed">Gesloten</string>
+    <string name="open">Open</string>
+    <string name="always_open">Altijd open</string>
+
+    //----------------------------Technicians home screen----------------
+    <string name="appointment">Afspraken</string>
+    <string name="setting">Instellingen</string>
+    <string name="adjust_setting">instellingen aanpassen</string>
+    <string name="update_profile">Profiel aanpassen</string>
+    <string name="tech_assist_info">Technische bijstand bij herstellingen</string>
+
+    //-------------Add service screens words-----------------
+    <string name="add_device">Voeg toestellen toe</string>
+    <string name="device_added">Toestellen toegevoegd</string>
+    <string name="no_device_added">Nog geen toestel toegevoegd</string>
+    //------------------Add service screen words----------------
+    <string name="services_added">Diensten toegevoegd</string>
+    <string name="no_services_added">Nog geen diensten toegevoegd</string>
+    <string name="est_time">Geschatte tijd</string>
+    <string name="hours">uur</string>
+    <string name="select_the_issue">Selecteer het probleem</string>
+
+    //-------------------select product screen price and time screen---------------
+    <string name="select_colors">Kleuren aanduiden voor</string>
+    <string name="update_service">Dienst aanpassen</string>
+    <string name="add_service">Voeg service toe</string>
+    <string name="mins">mins</string>
+
+
+    //-----------------App share text-----------
+    <string name="share_text">Hey, download deze app</string>
+    <string name="share_small">Deel</string>
+
+    //------------------Notification screen words------------
+    <string name="notify">Notificaties</string>
+
+    //-----------------repair_guide screen word------------
+    <string name="repair_guide">Opleiding- en herstelhandleidingen</string>
+    <string name="search_key">Zoeken op sleutelwoord, toestel naam</string>
+
+    //------------------After register pager screen--------------------
+    <string name="precision_tools">PRECISIE GEREEDSCHAP</string>
+    <string name="always_available">ALTIJD BESCHIKBAAR</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="trained_service">Wij willen alleen getrainde reparatiediensten</string>
+    <string name="invest_txt">die in zichzelf investeren.</string>
+    <string name="device_feature_reco">De eenvoudige apparaatherkenning feature</string>
+    <string name="put_an_end">maakt een einde aan uw twijfels</string>
+    <string name="tech_exp">De technici worden beoordeeld door de buurt</string>
+    <string name="to_take_on">om elke situatie aan te pakken</string>
+
+    //-------------------Service addion validation text----------------------
+    <string name="price_blank">Vul een prijs in voor deze dienst</string>
+    <string name="select_color">Selecteer a. u. b. ten minste één kleur voor deze dienst</string>
+    <string name="estimated_time_service">Selecteer de geschatte tijd voor deze dienst</string>
+    <string name="price_above_zero">Vul voor deze dienst de prijs boven nul in</string>
+    <string name="estimated_time_service_valid">Selecteer geldige geschatte tijd voor deze dienst</string>
+
+    //---------------------instruction words--------------
+    <string name="add_all_device">Voeg alle toestellen toe die u kan herstellen</string>
+    <string name="add_service_model">Voeg herstelbare model(len) toe</string>
+    <string name="set_up_service">Stel de herstelprijs en de hersteltijd in voor alle kleur(en)</string>
+
+    //----------Forgot screen words--------------
+    <string name="reset">WACHTWOORD HERSTELLEN </string>
+</resources>

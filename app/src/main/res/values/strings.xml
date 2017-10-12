@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">PhoneCure</string>
+    <string name="app_name">Phonecure</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="user_sign_up_xt">Register as a user</string>
-    <string name="tech_sign_up_xt"> Register as a technician</string>
+    <string name="user_sign_up_xt">Register as User</string>
+    <string name="tech_sign_up_xt">Register as service partner</string>
     <string name="facebook_app_id">353765961480835</string>
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>
 
@@ -58,5 +58,219 @@
         <item>Unspecified</item>
         <item>USD</item>
     </string-array>
+
+    //-----------------------------------------Translation word-----------
+
+    <string name="sign_in_with_facebook">Sign in with facebook</string>
+    <string name="email">e-mail</string>
+    <string name="password">password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="forgot_text">Forgot Password</string>
+    <string name="account_not">Don\'t have an account? </string>
+    <string name="forgot_text_info">You can retrieve a new password \nby entering your e-mail address</string>
+
+
+    //-----------------------------------Register screen word---------------------
+    <string name="sign_up_with_facebook">Sign up with facebook</string>
+    <string name="or">Or use</string>
+    <string name="name">Name</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_acc">Already have an account? </string>
+//------------------------Technicians registeer screen words-------------
+    <string name="vat">VAT number</string>
+    <string name="org">Organization</string>
+    <string name="address">Address</string>
+    <string name="no_of_emp">Number of employees</string>
+    <string name="reg">Register</string>
+    <string name="shop">Shop</string>
+    <string name="ind">Individual</string>
+
+    //-------------------Side menu----------------------
+    <string name="home_cap">HOME</string>
+    <string name="share_cap">SHARE</string>
+    <string name="my_orders_cap">MY APPOINTMENTS</string>
+    <string name="favorite_cap">FAVOURITE</string>
+    <string name="privacy_cap">PRIVACY POLICY</string>
+    <string name="profile_cap">PROFILE</string>
+    <string name="feed_cap">FEEDBACK</string>
+    <string name="profile_small">Profile</string>
+    <string name="favorite_service_partner">Favourite service partners</string>
+    <string name="privacy_small">Privacy Policy</string>
+
+    //-------------Home screen words---------------
+    <string name="current_device">Current Device:</string>
+    <string name="select_other_device">SELECT ANOTHER DEVICE</string>
+    <string name="message_info"> We currently don’t offer any service \nfor this device. \nYou can send us an e-mail on: devices@curespot.co</string>
+    <string name="exit_mes">Do You Want To Exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="rate_partner">Rate Technician the service partner</string>
+
+
+//--------------Profile screen words-------------
+    <string name="gernal">GENERAL</string>
+    <string name="change_password">Change password</string>
+    <string name="sign_out">Sign out</string>
+//--------------user profile edit screen words-----------
+    <string name="edit_profile">Edit profile</string>
+    <string name="edit">Edit</string>
+    <string name="update">Update profile</string>
+//---------------User address screen words---------
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone">Phone</string>
+    <string name="submit">Submit</string>
+
+    //--------Validation text word----------------
+    <string name="email_blank">Please enter the e-mail address</string>
+    <string name="password_blank">Please enter password</string>
+
+    <string name="email_valid">Please enter a valid e-mail address</string>
+    <string name="password_valid">New password and confirmed password are not same</string>
+    <string name="name_blank">Please enter name</string>
+    <string name="no_of_emp_blank">Please enter number of employees</string>
+    <string name="select_device_color_valid">Please select device color to proceed</string>
+    <string name="image_valid">Please select a profile image</string>
+    <string name="repair_option_valid">Please select repair location options</string>
+    <string name="booking_date_time_valid">Please select booking date and time</string>
+    <string name="vat_valid">Please enter VAT number</string>
+    <string name="address_blank">Please enter address</string>
+    <string name="address_valid">Please enter valid address</string>
+    <string name="first_name_blank">Please enter first name</string>
+    <string name="last_name_blank">Please enter last name</string>
+    <string name="phone_no_blank">Please enter a Phone number</string>
+    <string name="org_blank">Please enter a Phone number</string>
+    <string name="select_working_day">Please select at least one working day</string>
+
+
+//------------favotite screen words-----------------
+    <string name="service_partner">Service partner</string>
+//-------------History screen words-------------------
+    <string name="pending">Pending</string>
+    <string name="completed">Completed</string>
+//---------------------Device screen--------------
+    <string name="devices">Devices</string>
+//-------------After current device screen-----------
+    <string name="services">Services</string>
+
+    //--------------Select your model and color---------------
+    <string name="select_model">Select your model and color</string>
+    <string name="next">Next</string>
+
+//-----------------Select service according to device--------
+    <string name="search_tech">Find service partners</string>
+//------------Maps screen words-----------
+    <string name="map">Map</string>
+//------------------Tech profile words------------
+    <string name="tech_profile">Service partner profile</string>
+    <string name="book_repair">Book a repair</string>
+    <string name="no_of_repair">Number of repairs</string>
+    <string name="reviews">Reviews</string>
+    <string name="repir_point">Repair at service point</string>
+    <string name="repir_at_loc">Repair on location</string>
+    <string name="working_hours">Working hours</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+
+//---------------Book appointment screen---------------
+    <string name="time">TIME</string>
+    <string name="select_time">Select time</string>
+    <string name="book_now">BOOK NOW</string>
+    <string name="km_away">Km away</string>
+
+
+
+    //------------cart screen words-------------
+    <string name="cart">Booking summary</string>
+    <string name="clear">Clear</string>
+    <string name="cart_value">selected service / multiple selected services</string>
+    <string name="confirm">Confirm</string>
+    <string name="clear_mes">Do You Want To Clear Cart Data?</string>
+    <string name="less_then_mes">less then one not allowed</string>
+
+
+
+
+    //------------Additional address for repair screen words---
+    <string name="additional_address">Additional address for repair</string>
+    <string name="total">Total:</string>
+    <string name="pay_with_card">Pay with card</string>
+    <string name="location_name_valid">Please enter a valid location name</string>
+
+
+//-----------------------------Technicians working hours screen--------------
+    <string name="closed">closed</string>
+    <string name="open">open</string>
+    <string name="always_open">Always Open</string>
+
+
+
+//----------------------------Technicians home screen----------------
+    <string name="appointment">Appointments</string>
+    <string name="setting">Settings</string>
+    <string name="adjust_setting">Adjust settings</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="tech_assist_info">Technical assistance in repairs</string>
+
+    //-------------Add device screens words-----------------
+    <string name="add_device">Please add devices</string>
+    <string name="device_added">Devices added</string>
+    <string name="no_device_added">No device Added</string>
+
+//------------------Add service screen words----------------
+    <string name="services_added">Services added</string>
+    <string name="no_services_added">No services Added</string>
+    <string name="est_time">Estimate time</string>
+    <string name="hours">hours</string>
+    <string name="select_the_issue">Select the issue(s)</string>
+
+
+//-------------------select product screen price and time screen---------------
+    <string name="select_colors">Select colors for</string>
+    <string name="update_service">Update Service</string>
+    <string name="add_service">Add Service</string>
+    <string name="mins">mins</string>
+
+//-----------------App share text-----------
+    <string name="share_text">Hey, download this app</string>
+    <string name="share_small">Share</string>
+//------------------Notification screen words------------
+    <string name="notify">Notifications</string>
+//-----------------repair_guide screen word------------
+    <string name="repair_guide">Training &amp; repair guides</string>
+    <string name="search_key">Search by keyword, device name</string>
+
+    //------------------After register pager screen--------------------
+    <string name="precision_tools">PRECISION TOOLS</string>
+    <string name="always_available">ALWAYS AVAILABLE</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="trained_service">We only want trained repair services</string>
+    <string name="invest_txt">that invest in themselves.</string>
+    <string name="device_feature_reco">The easy device recognizer feature</string>
+    <string name="put_an_end">puts an end to your doubts</string>
+    <string name="tech_exp">The technicians are rated by the neighborhood</string>
+    <string name="to_take_on">to take on any situation</string>
+
+
+
+//-------------------Service addion validation text----------------------
+    <string name="price_blank">Please enter price for this service</string>
+    <string name="select_color">Please select at least one color for this service</string>
+    <string name="estimated_time_service">Please select estimated time for this service</string>
+    <string name="price_above_zero">Please enter price above zero for this service</string>
+    <string name="estimated_time_service_valid">Please select valid estimated time for this service</string>
+
+//---------------------instruction words--------------
+    <string name="add_all_device">Add all devices you are able to repair</string>
+    <string name="add_service_model">Add serviceable model(s)</string>
+    <string name="set_up_service">Set up service price &amp; service time for all color(s)</string>
+//----------Forgot screen words--------------
+    <string name="reset">RESET PASSWORD</string>
 
 </resources>
