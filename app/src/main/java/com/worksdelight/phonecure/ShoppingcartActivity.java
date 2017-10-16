@@ -3,26 +3,40 @@ package com.worksdelight.phonecure;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.FIFOLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,6 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +53,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.worksdelight.phonecure.R.id.person_count;
 import static com.worksdelight.phonecure.R.id.service_view;
@@ -47,7 +63,7 @@ import static java.lang.Float.parseFloat;
  * Created by worksdelight on 08/03/17.
  */
 
-public class ShoppingcartActivity extends Activity {
+public class ShoppingcartActivity extends Activity implements View.OnClickListener {
     ListView cart_list;
     ScrollView main_scrollView;
     TextView checkout_btn, total_price, cart_value_info, clear;
@@ -64,8 +80,22 @@ public class ShoppingcartActivity extends Activity {
     ArrayList<HashMap<String, String>> priceList = new ArrayList<>();
     float pricevalue = 0.0f;
     AlertDialog builder;
-    float other_Charges;
+    float other_Charges, vat_price_value;
+    int vat;
     LinearLayout main_layout;
+    TextView travel_price, discount_price, vat_price;
+    float Change_total;
+    Dialog dialog2;
+
+    EditText coupon_editView;
+    RelativeLayout coupon_applied_layout, coupon_layout;
+    TextView discount_txt, add_coupont_txtView;
+
+    ImageView cancel_view_img;
+    String coupon_id = "", user_coupon_id = "";
+    TextView dis_money;
+    String discount_type = "";
+    float discount, flat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +111,19 @@ public class ShoppingcartActivity extends Activity {
     }
 
     public void init() {
+        coupon_applied_layout = (RelativeLayout) findViewById(R.id.coupon_applied_layout);
+        discount_txt = (TextView) findViewById(R.id.discount_txt);
+        add_coupont_txtView = (TextView) findViewById(R.id.appply_txt);
+        cancel_view_img = (ImageView) findViewById(R.id.cancel_view_img);
+        add_coupont_txtView.setOnClickListener(this);
+        cancel_view_img.setOnClickListener(this);
         main_layout = (LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
         cart_list = (ListView) findViewById(R.id.cart_list);
+        coupon_editView = (EditText) findViewById(R.id.coupon_editView);
+        discount_price = (TextView) findViewById(R.id.discount_price);
+        travel_price = (TextView) findViewById(R.id.travel_price);
+        vat_price = (TextView) findViewById(R.id.vat_price);
         other_price = (TextView) findViewById(R.id.other_price);
         cart_value_info = (TextView) findViewById(R.id.cart_value_info);
         main_scrollView = (ScrollView) findViewById(R.id.main_scrollView);
@@ -158,7 +198,7 @@ public class ShoppingcartActivity extends Activity {
             e.printStackTrace();
         }
         Log.e("service_list", serviceList.toString());
-        cart_value_info.setText(serviceList.size() + " "+getResources().getString(R.string.cart_value));
+        cart_value_info.setText(serviceList.size() + " " + getResources().getString(R.string.cart_value));
         for (int i = 0; i < serviceList.size(); i++) {
             HashMap<String, String> priceMap = new HashMap<>();
             priceMap.put("price", serviceList.get(i).get(GlobalConstant.price));
@@ -171,17 +211,22 @@ public class ShoppingcartActivity extends Activity {
 
             }
         }
-
+        other_price.setText(global.getCurencySymbol() + pricevalue);
+        vat = Integer.parseInt(global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.vat));
+        vat_price_value = Float.parseFloat(other_price.getText().toString().replace(global.getCurencySymbol(), ""));
+        vat_price_value = (vat_price_value * vat / 100);
+        vat_price.setText(global.getCurencySymbol() + vat_price_value);
         other_Charges = Float.parseFloat(global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.other_charges));
         if (global.getDropOff().equalsIgnoreCase("1")) {
-            other_price.setText(global.getCurencySymbol() + 20.0);
-            pricevalue = pricevalue + 20.0f;
+            travel_price.setText(global.getCurencySymbol() + 20.0);
+
+            pricevalue = pricevalue + 20.0f + vat_price_value;
 
             total_price.setText(global.getCurencySymbol() + pricevalue);
         }
         if (global.getPickUp().equalsIgnoreCase("1")) {
-            other_price.setText(global.getCurencySymbol() + 0);
-            pricevalue = pricevalue;
+            travel_price.setText(global.getCurencySymbol() + 0);
+            pricevalue = pricevalue + vat_price_value;
 
             total_price.setText(global.getCurencySymbol() + pricevalue);
         }
@@ -189,8 +234,39 @@ public class ShoppingcartActivity extends Activity {
         cart_list.setAdapter(new ShoppingAdapter(this));
         CommonUtils.getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
+        discount_price.setText(global.getCurencySymbol() +"0");
+        Change_total=Float.parseFloat(total_price.getText().toString().replace(global.getCurencySymbol(),""));
     }
 
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+
+            case R.id.appply_txt:
+
+                if (coupon_editView.getText().length() == 0 || coupon_editView.getText().toString().equalsIgnoreCase("")) {
+                    coupon_editView.setError("Please enter coupon/voucher code");
+                } else {
+                    dialogWindow();
+                    getCouponValueMethod();
+                }
+
+                /*add_coupont_txtView.setVisibility(View.GONE);
+                coupon_applied_layout.setVisibility(View.VISIBLE);*/
+                break;
+            case R.id.cancel_view_img:
+
+                add_coupont_txtView.setVisibility(View.VISIBLE);
+
+                coupon_applied_layout.setVisibility(View.GONE);
+                cancel_view_img.setVisibility(View.GONE);
+                coupon_editView.setText("");
+                break;
+        }
+    }
 
     public class ShoppingAdapter extends BaseAdapter {
         private Context mContext;
@@ -304,9 +380,12 @@ public class ShoppingcartActivity extends Activity {
                         pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                     }
                     if (global.getDropOff().equalsIgnoreCase("1")) {
-                        pricevalue = pricevalue + 20.0f;
+                        other_price.setText(global.getCurencySymbol() + pricevalue);
+                        pricevalue = pricevalue + 20.0f + vat_price_value;
                         total_price.setText(global.getCurencySymbol() + pricevalue);
                     } else {
+                        other_price.setText(global.getCurencySymbol() + pricevalue);
+                        pricevalue = pricevalue + vat_price_value;
                         total_price.setText(global.getCurencySymbol() + pricevalue);
                     }
 
@@ -330,10 +409,12 @@ public class ShoppingcartActivity extends Activity {
                             pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
                         if (global.getDropOff().equalsIgnoreCase("1")) {
-
-                            pricevalue = pricevalue + 20.0f;
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + 20.0f + vat_price_value;
                             total_price.setText(global.getCurencySymbol() + pricevalue);
                         } else {
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + vat_price_value;
                             total_price.setText(global.getCurencySymbol() + pricevalue);
                         }
                     } else {
@@ -348,10 +429,12 @@ public class ShoppingcartActivity extends Activity {
                             pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
                         }
                         if (global.getDropOff().equalsIgnoreCase("1")) {
-
-                            pricevalue = pricevalue + 20.0f;
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + 20.0f + vat_price_value;
                             total_price.setText(global.getCurencySymbol() + pricevalue);
                         } else {
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + vat_price_value;
                             total_price.setText(global.getCurencySymbol() + pricevalue);
                         }
 
@@ -417,4 +500,172 @@ public class ShoppingcartActivity extends Activity {
         // print height of adapter on log
         Log.i("height of listItem:", String.valueOf(totalHeight));
     }
+
+
+    //--------------------Coupon apply api method---------------------------------
+    private void getCouponValueMethod() {
+        String url = GlobalConstant.GetCouponDetail + coupon_editView.getText().toString() + "&user_id=" + CommonUtils.UserID(ShoppingcartActivity.this);
+        Log.e("service url", url);
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        dialog2.dismiss();
+                        Log.e("responseddd", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                JSONObject coupon = obj.getJSONObject("data");
+
+
+                                coupon_id = coupon.getString("id");
+                                if (Change_total >= Float.parseFloat(coupon.getString("min_order_value"))) {
+
+                                    discount_type = coupon.getString("discount_type");
+                                    if (discount_type.equalsIgnoreCase("fixed")) {
+
+                                        flat = Float.parseFloat(coupon.getString("discount_value"));
+                                        discount_txt.setText(coupon_editView.getText().toString() + " applied sucessfully, flat "+global.getCurencySymbol() + coupon.getString("discount_value") + " discount");
+
+                                        if (flat > Change_total) {
+                                            float t = flat;
+                                            total_price.setText(global.getCurencySymbol()+"0");
+                                            discount_price.setText(global.getCurencySymbol() + flat);
+
+                                        } else {
+                                            float t = Change_total - flat;
+                                            total_price.setText(global.getCurencySymbol() + String.valueOf(t));
+                                            discount_price.setText(global.getCurencySymbol() + flat);
+
+                                        }
+
+
+                                    } else {
+
+
+                                        discount = Float.parseFloat(coupon.getString("discount_value"));
+                                        discount_txt.setText(coupon_editView.getText().toString() + " applied sucessfully, " + coupon.getString("discount_value") + "% discount");
+
+                                        if (discount == 100) {
+                                            float t = Change_total * discount / 100;
+                                            discount_price.setText(global.getCurencySymbol() + t);
+                                            total_price.setText(global.getCurencySymbol()+"0");
+
+                                        } else {
+                                            float t = Change_total - (Change_total * discount / 100);
+                                            total_price.setText(global.getCurencySymbol() + String.valueOf(t));
+                                            discount_price.setText(global.getCurencySymbol() + t);
+                                        }
+
+                                    }
+
+                                    add_coupont_txtView.setVisibility(View.GONE);
+                                    coupon_applied_layout.setVisibility(View.VISIBLE);
+                                    cancel_view_img.setVisibility(View.VISIBLE);
+                                } else {
+
+                                    coupon_applied_layout.setVisibility(View.VISIBLE);
+                                    discount_txt.setText("Coupon not valid");
+                                    cancel_view_img.setVisibility(View.GONE);
+                                }
+                            } else {
+                                coupon_applied_layout.setVisibility(View.VISIBLE);
+                                discount_txt.setText("Coupon not valid");
+                                cancel_view_img.setVisibility(View.GONE);
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                dialog2.dismiss();
+            }
+        });
+
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+    //-------------------------------cancel  api-------------------------------
+    private void cancelApi() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.cancelCoupon,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+                        Log.e("responseddd", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+
+                            } else {
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("user_discount_coupon_id", coupon_id);
+
+                params.put("user_id", CommonUtils.UserID(ShoppingcartActivity.this));
+
+                Log.e("cancel_applied_coupon", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+    public void dialogWindow() {
+        dialog2 = new Dialog(this);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.setCancelable(false);
+        dialog2.setContentView(R.layout.progrees_login);
+        AVLoadingIndicatorView loaderView = (AVLoadingIndicatorView) dialog2.findViewById(R.id.loader_view);
+        loaderView.setIndicatorColor(getResources().getColor(R.color.main_color));
+        loaderView.show();
+
+        // progress_dialog=ProgressDialog.show(LoginActivity.this,"","Loading...");
+        dialog2.show();
+    }
+
 }

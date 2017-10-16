@@ -183,7 +183,7 @@ public class RepairActivity extends Activity {
                                     map.put(GlobalConstant.closing_time, objArr.getString(GlobalConstant.closing_time));
                                     map.put(GlobalConstant.other_charges, objArr.getString(GlobalConstant.other_charges));
                                     map.put(GlobalConstant.favorite_count, objArr.getString(GlobalConstant.favorite_count));
-
+                                    map.put(GlobalConstant.vat, objArr.getString(GlobalConstant.vat));
 
                                     map.put(favorite, objArr.getString(favorite));
                                     map.put(GlobalConstant.rating, objArr.getString(GlobalConstant.rating));

@@ -163,5 +163,7 @@ public class GlobalConstant {
     public static String Demo_booking_url="http://m.phonecure.eu/index.php/api/bookings/generate";
 
 
-
+    public static String vat="vat";
+    public static String GetCouponDetail="http://m.phonecure.eu/index.php/api/discounts/getone?code=";
+    public static String cancelCoupon="http://m.phonecure.eu/index.php/api/discounts/cancel";
 }
