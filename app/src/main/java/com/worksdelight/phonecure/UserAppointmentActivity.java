@@ -94,7 +94,7 @@ ImageView navigation_img,service_img;
     LinearLayout main_layout;
     TextView complete_request_txt;
     String userName_mString="",imageName_mString="";
-
+TextView discount_price,vat_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +110,9 @@ ImageView navigation_img,service_img;
     public void init() {
         main_layout=(LinearLayout) findViewById(R.id.main_layout);
         Fonts.overrideFonts(this, main_layout);
+        discount_price=(TextView)findViewById(R.id.discount_price);
+        vat_price=(TextView)findViewById(R.id.vat_price);
+
         main_scroll = (ScrollView) findViewById(R.id.main_scroll);
         service_img = (ImageView) findViewById(R.id.service_img);
         service_name = (TextView) findViewById(R.id.service_name);
@@ -159,6 +162,8 @@ ImageView navigation_img,service_img;
                 invoice = obj.getString(GlobalConstant.invoice);
                 home_repair=obj.getString(GlobalConstant.repair_at_shop);
                 scoter_repair=obj.getString(GlobalConstant.repair_on_location);
+                discount_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.discounted_sub_total));
+                vat_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.vat_value));
                 device_model_name=obj.getString("device_model_name");
                 total_expected_time=obj.getString("total_expected_time");
                 other_charges=obj.getString("other_charges");
@@ -229,6 +234,8 @@ ImageView navigation_img,service_img;
                 booking_id = obj.getString(GlobalConstant.id);
                 home_repair=obj.getString(GlobalConstant.repair_at_shop);
                 scoter_repair=obj.getString(GlobalConstant.repair_on_location);
+                discount_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.discounted_sub_total));
+                vat_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.vat_value));
                 device_model_name=obj.getString("device_model_name");
                 total_expected_time=obj.getString("total_expected_time");
                 other_charges=obj.getString("other_charges");
@@ -279,7 +286,7 @@ ImageView navigation_img,service_img;
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("€" + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
+                total_price.setText(global.getCurencySymbol() + String.valueOf(Float.parseFloat(obj.getString(GlobalConstant.total_amount))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -324,17 +331,17 @@ ImageView navigation_img,service_img;
 
         if(home_repair.equalsIgnoreCase("1")){
             service_img.setImageResource(R.drawable.home_repair);
-            service_name.setText("Repair at service point");
+            service_name.setText(getResources().getString(R.string.repir_point));
         }
         if(scoter_repair.equalsIgnoreCase("1")){
             service_img.setImageResource(R.drawable.scooter);
-            service_name.setText("Repair at your location");
+            service_name.setText(getResources().getString(R.string.repir_at_loc));
         }
         device_name.setText(device_model_name);
-        total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" Hours");
+        total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time))+" "+getResources().getString(R.string.hours));
         othertxt.setText(global.getCurencySymbol()+String.valueOf(Float.parseFloat(other_charges)));
 
-        estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" Hours");
+        estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time))+" "+getResources().getString(R.string.hours));
 
 
         navigation_img.setOnClickListener(new View.OnClickListener() {
@@ -427,8 +434,8 @@ ImageView navigation_img,service_img;
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
             holder.service_quantity.setText("Quantity "+list.get(i).get(GlobalConstant.quantity));
-            holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
-            holder.service_time.setText("Expected time "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" Hours");
+            holder.service_price.setText(global.getCurencySymbol() + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
+            holder.service_time.setText(getResources().getString(R.string.est_time)+" "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" "+getResources().getString(R.string.hours));
             return view;
         }
 

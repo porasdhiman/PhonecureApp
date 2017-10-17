@@ -85,6 +85,7 @@ public class AppointmentActivity extends Activity {
     TextView complete_request_txt;
 
     String userName_mString = "", imageName_mString = "";
+    TextView discount_price,vat_price;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +139,8 @@ public class AppointmentActivity extends Activity {
                 invoice = obj.getString(GlobalConstant.invoice);
                 home_repair = obj.getString(GlobalConstant.repair_at_shop);
                 scoter_repair = obj.getString(GlobalConstant.repair_on_location);
+                discount_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.discounted_sub_total));
+                vat_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.vat_value));
                 device_model_name = obj.getString("device_model_name");
                 total_expected_time = obj.getString("total_expected_time");
                 other_charges = obj.getString("other_charges");
@@ -213,6 +216,8 @@ public class AppointmentActivity extends Activity {
                 statusValue = obj.getString(GlobalConstant.status);
                 home_repair = obj.getString(GlobalConstant.repair_at_shop);
                 scoter_repair = obj.getString(GlobalConstant.repair_on_location);
+                discount_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.discounted_sub_total));
+                vat_price.setText(global.getCurencySymbol()+obj.getString(GlobalConstant.vat_value));
                 device_model_name = obj.getString("device_model_name");
                 total_expected_time = obj.getString("total_expected_time");
                 other_charges = obj.getString("other_charges");
@@ -266,7 +271,7 @@ public class AppointmentActivity extends Activity {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                total_price.setText("€" + String.valueOf(obj.getString(GlobalConstant.total_amount)));
+                total_price.setText(global.getCurencySymbol() + String.valueOf(obj.getString(GlobalConstant.total_amount)));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -328,16 +333,16 @@ public class AppointmentActivity extends Activity {
             }
             if (home_repair.equalsIgnoreCase("1")) {
                 service_img.setImageResource(R.drawable.home_repair);
-                service_name.setText("Repair at service point");
+                service_name.setText(getResources().getString(R.string.repir_point));
             }
             if (scoter_repair.equalsIgnoreCase("1")) {
                 service_img.setImageResource(R.drawable.scooter);
-                service_name.setText("Repair at your location");
+                service_name.setText(getResources().getString(R.string.repir_at_loc));
             }
             device_name.setText(device_model_name);
-            total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time)) + " Hours");
+            total_est_time.setText(getDurationString(Integer.parseInt(total_expected_time)) + " "+getResources().getString(R.string.hours));
             othertxt.setText(global.getCurencySymbol() + String.valueOf(Float.parseFloat(other_charges)));
-            estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time)) + " Hours");
+            estimate_travel_txt.setText(getDurationString(Integer.parseInt(estimated_travel_time)) + " "+getResources().getString(R.string.hours));
 
         }
 
@@ -435,8 +440,8 @@ public class AppointmentActivity extends Activity {
             }
             holder.service_name.setText(list.get(i).get(GlobalConstant.name));
             holder.service_quantity.setText("Quantity "+list.get(i).get(GlobalConstant.quantity));
-            holder.service_price.setText("€" + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
-            holder.service_time.setText("Expected time " + getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time))) + " Hours");
+            holder.service_price.setText(global.getCurencySymbol() + String.valueOf(Float.parseFloat(list.get(i).get(GlobalConstant.price))));
+            holder.service_time.setText(getResources().getString(R.string.est_time)+" "+getDurationString(Integer.parseInt(list.get(i).get(GlobalConstant.expected_time)))+" "+getResources().getString(R.string.hours));
             return view;
         }
 

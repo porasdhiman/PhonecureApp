@@ -108,11 +108,12 @@ public class AlmostdoneActivity extends FragmentActivity implements GoogleApiCli
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
     String lat, lng;
     LinearLayout main_layout;
-TextView android_start;
-
+    TextView android_start;
+    String coupon_id="";
     //-------------- strip payment key-----
     private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY =
             "pk_test_NqFmtDXfFDZrhVOBGvL7LtYe";
+
     //private static final String FUNCTIONAL_SOURCE_PUBLISHABLE_KEY ="pk_test_lWrpqiQI2kjjP6eNNGzLzJNX";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ TextView android_start;
                 return view;
             }
         };
-
+        ApplyMethod();
         mAutocompleteView.setThreshold(1);
 
         mAutocompleteView.setAdapter(mAdapter);
@@ -152,7 +153,11 @@ TextView android_start;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (coupon_id.equalsIgnoreCase("")) {
+                    finish();
+                } else {
+                    cancelApi();
+                }
             }
         });
         second_count_img = (TextView) findViewById(R.id.second_count_img);
@@ -164,7 +169,7 @@ TextView android_start;
 
         phone_ed = (EditText) findViewById(R.id.phone_ed);
         btn_start = (TextView) findViewById(R.id.btn_start);
-        android_start= (TextView) findViewById(R.id.android_start);
+        android_start = (TextView) findViewById(R.id.android_start);
         total_txt = (TextView) findViewById(R.id.total_txt);
         total_txt.setText(global.getCurencySymbol() + getIntent().getExtras().getString("total_price"));
         if (!sp.getString("first name", "").equalsIgnoreCase("")) {
@@ -295,7 +300,7 @@ TextView android_start;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
-            if(global.getBackType().equalsIgnoreCase("0")) {
+            if (global.getBackType().equalsIgnoreCase("0")) {
                 second_count_img.setBackgroundResource(R.drawable.step_one_right_light);
                /* ViewGroup.LayoutParams params1 = third_count_img.getLayoutParams();
                 params1.height = 50;
@@ -330,7 +335,7 @@ TextView android_start;
                 Exception error = (Exception) data.getSerializableExtra(DropInActivity.EXTRA_ERROR);
             }*/
         }
-        }
+    }
 
 
     //--------------------search api method---------------------------------
@@ -430,6 +435,12 @@ TextView android_start;
             params.put(GlobalConstant.total_amount, getIntent().getExtras().getString("total_price"));
             params.put(GlobalConstant.payment_gateway, "stripe");
             params.put(GlobalConstant.payment_token, global.getPaymentToken());
+            params.put(GlobalConstant.vat_percentage,getIntent().getExtras().getString(GlobalConstant.vat_percentage));
+            params.put(GlobalConstant.vat_value, getIntent().getExtras().getString(GlobalConstant.vat));
+            params.put(GlobalConstant.sub_total, getIntent().getExtras().getString(GlobalConstant.sub_total));
+            params.put(GlobalConstant.user_discount_coupon_id, coupon_id);
+
+
             JSONArray installedList = new JSONArray();
 //ArrayList<HashMap<String,String>> installedList=new ArrayList<>();
 
@@ -518,6 +529,10 @@ TextView android_start;
         requestQueue.add(jsonObjReq);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 
     //---------------------------Progrees Dialog-----------------------
     public void dialogWindow() {
@@ -666,5 +681,125 @@ TextView android_start;
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
                 .build();
     }
+
+    //--------------------search api method---------------------------------
+    private void ApplyMethod() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.applyCoupon,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        Log.e("responsefff", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+
+                                JSONObject data = obj.getJSONObject("data");
+                                coupon_id = data.getString(GlobalConstant.user_discount_coupon_id);
+                                Log.e("coupon id",coupon_id);
+
+                            } else {
+                                Toast.makeText(AlmostdoneActivity.this, obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put(GlobalConstant.USERID, CommonUtils.UserID(AlmostdoneActivity.this));
+
+                params.put(GlobalConstant.discount_coupon_id, getIntent().getExtras().getString(GlobalConstant.discount_coupon_id));
+                params.put(GlobalConstant.sub_total, getIntent().getExtras().getString(GlobalConstant.sub_total));
+
+                params.put(GlobalConstant.discounted_sub_total, getIntent().getExtras().getString(GlobalConstant.discounted_sub_total));
+                params.put(GlobalConstant.discount, getIntent().getExtras().getString(GlobalConstant.discount));
+
+
+                Log.e("Parameter for apply", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+
+    //-------------------------------cancel  api-------------------------------
+    private void cancelApi() {
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, GlobalConstant.cancelCoupon,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialog2.dismiss();
+                        Log.e("responseddd", response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+
+                            String status = obj.getString("status");
+                            if (status.equalsIgnoreCase("1")) {
+                                finish();
+                            } else {
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialog2.dismiss();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+
+
+                params.put("user_discount_coupon_id", coupon_id);
+
+                params.put("user_id", CommonUtils.UserID(AlmostdoneActivity.this));
+
+                Log.e("cancel_applied_coupon", params.toString());
+                return params;
+            }
+
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    //---------------------------Progrees Dialog-----------------------
+
 
 }

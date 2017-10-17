@@ -161,6 +161,12 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                 global.setNewListing(serviceList);
                 float finalTotel = Float.parseFloat(total_price.getText().toString().replace(global.getCurencySymbol(), ""));
                 Intent i = new Intent(ShoppingcartActivity.this, AlmostdoneActivity.class);
+                i.putExtra(GlobalConstant.discount_coupon_id, coupon_id);
+                i.putExtra(GlobalConstant.sub_total, other_price.getText().toString().replace(global.getCurencySymbol(),""));
+                i.putExtra(GlobalConstant.discounted_sub_total, discount_price.getText().toString().replace(global.getCurencySymbol(),""));
+                i.putExtra(GlobalConstant.discount, String.valueOf(discount));
+                i.putExtra(GlobalConstant.vat, String.valueOf(vat_price_value));
+                i.putExtra(GlobalConstant.vat_percentage, String.valueOf(vat));
                 i.putExtra("pos", getIntent().getExtras().getString("pos"));
                 //  i.putExtra("selected_id", getIntent().getExtras().getString("selected_id"));
                 i.putExtra("total_price", String.valueOf(finalTotel));
@@ -172,7 +178,8 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+               finish();
+
             }
         });
         total_price = (TextView) findViewById(R.id.total_price);
@@ -215,7 +222,7 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
         vat = Integer.parseInt(global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.vat));
         vat_price_value = Float.parseFloat(other_price.getText().toString().replace(global.getCurencySymbol(), ""));
         vat_price_value = (vat_price_value * vat / 100);
-        vat_price.setText(global.getCurencySymbol() + vat_price_value);
+        vat_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", vat_price_value)));
         other_Charges = Float.parseFloat(global.getDateList().get(Integer.parseInt(getIntent().getExtras().getString("pos"))).get(GlobalConstant.other_charges));
         if (global.getDropOff().equalsIgnoreCase("1")) {
             travel_price.setText(global.getCurencySymbol() + 20.0);
@@ -235,7 +242,7 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
         CommonUtils.getListViewSize(cart_list);
         main_scrollView.smoothScrollTo(0, 0);
         discount_price.setText(global.getCurencySymbol() +"0");
-        Change_total=Float.parseFloat(total_price.getText().toString().replace(global.getCurencySymbol(),""));
+
     }
 
 
@@ -250,6 +257,7 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                 if (coupon_editView.getText().length() == 0 || coupon_editView.getText().toString().equalsIgnoreCase("")) {
                     coupon_editView.setError("Please enter coupon/voucher code");
                 } else {
+                    Change_total=Float.parseFloat(other_price.getText().toString().replace(global.getCurencySymbol(),""));
                     dialogWindow();
                     getCouponValueMethod();
                 }
@@ -264,6 +272,22 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                 coupon_applied_layout.setVisibility(View.GONE);
                 cancel_view_img.setVisibility(View.GONE);
                 coupon_editView.setText("");
+                vat_price_value = (vat_price_value * vat / 100);
+                vat_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", vat_price_value)));
+                if (global.getDropOff().equalsIgnoreCase("1")) {
+                    travel_price.setText(global.getCurencySymbol() + 20.0);
+
+                    pricevalue = pricevalue + 20.0f + vat_price_value;
+
+                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                }
+                if (global.getPickUp().equalsIgnoreCase("1")) {
+                    travel_price.setText(global.getCurencySymbol() + 0);
+                    pricevalue = pricevalue + vat_price_value;
+
+                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                }
+                discount_price.setText(global.getCurencySymbol() + "0");
                 break;
         }
     }
@@ -370,25 +394,94 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                     int j = Integer.parseInt(h.person_count.getText().toString());
 
                     j = j + 1;
-                    h.person_count.setText(String.valueOf(j));
-                    serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                    String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
-                    h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) + priceValue));
-                    serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
-                    float pricevalue = 0;
-                    for (int k = 0; k < serviceList.size(); k++) {
-                        pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
-                    }
-                    if (global.getDropOff().equalsIgnoreCase("1")) {
-                        other_price.setText(global.getCurencySymbol() + pricevalue);
-                        pricevalue = pricevalue + 20.0f + vat_price_value;
-                        total_price.setText(global.getCurencySymbol() + pricevalue);
-                    } else {
-                        other_price.setText(global.getCurencySymbol() + pricevalue);
-                        pricevalue = pricevalue + vat_price_value;
-                        total_price.setText(global.getCurencySymbol() + pricevalue);
-                    }
+                    if(discount_type.equalsIgnoreCase("")) {
+                        h.person_count.setText(String.valueOf(j));
+                        serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                        String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                        h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) + priceValue));
+                        serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                        float pricevalue = 0;
+                        for (int k = 0; k < serviceList.size(); k++) {
+                            pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                        }
+                        if (global.getDropOff().equalsIgnoreCase("1")) {
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + 20.0f + vat_price_value;
+                            total_price.setText(global.getCurencySymbol() + pricevalue);
+                        } else {
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+                            pricevalue = pricevalue + vat_price_value;
+                            total_price.setText(global.getCurencySymbol() + pricevalue);
+                        }
+                    }else{
+                        if(discount_type.equalsIgnoreCase("fixed")){
+                            h.person_count.setText(String.valueOf(j));
+                            serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                            String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                            h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) + priceValue));
+                            serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                            float pricevalue = 0;
+                            for (int k = 0; k < serviceList.size(); k++) {
+                                pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                            }
+                            if (global.getDropOff().equalsIgnoreCase("1")) {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + 20.0f + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            } else {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            }
+                        }else{
+                            h.person_count.setText(String.valueOf(j));
+                            serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                            String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                            h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) + priceValue));
+                            serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                            float pricevalue = 0;
+                            for (int k = 0; k < serviceList.size(); k++) {
+                                pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                            }
+                            Change_total=pricevalue;
+                            if (global.getDropOff().equalsIgnoreCase("1")) {
+                                if (discount == 100.0f) {
+                                    float t = Change_total * discount / 100;
+                                    discount_price.setText(global.getCurencySymbol() + t);
+                                    total_price.setText(global.getCurencySymbol()+"0");
 
+                                } else {
+                                    float t = Change_total - (Change_total * discount / 100);
+                                    t=t + 20.0f + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                    discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                }
+                            }else{
+                                if (discount == 100.0f) {
+                                    float t = Change_total * discount / 100;
+                                    discount_price.setText(global.getCurencySymbol() + t);
+                                    total_price.setText(global.getCurencySymbol()+"0");
+
+                                } else {
+                                    float t = Change_total - (Change_total * discount / 100);
+                                    t = t + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                    discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                }
+                            }
+                            other_price.setText(global.getCurencySymbol() + pricevalue);
+
+                           /* if (global.getDropOff().equalsIgnoreCase("1")) {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + 20.0f + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            } else {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            }*/
+                        }
+                    }
 
                 }
             });
@@ -398,49 +491,197 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                     priceValue = parseFloat(priceList.get(position).get(GlobalConstant.price));
                     h = (Holder) view.getTag();
                     int j = Integer.parseInt(h.person_count.getText().toString());
-                    if (j == 1) {
-                        h.person_count.setText(String.valueOf(1));
-                        Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
-                        serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        h.price.setText(global.getCurencySymbol() + priceValue);
-                        serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
-                        float pricevalue = 0;
-                        for (int k = 0; k < serviceList.size(); k++) {
-                            pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
-                        }
-                        if (global.getDropOff().equalsIgnoreCase("1")) {
-                            other_price.setText(global.getCurencySymbol() + pricevalue);
-                            pricevalue = pricevalue + 20.0f + vat_price_value;
-                            total_price.setText(global.getCurencySymbol() + pricevalue);
+                    if(discount_type.equalsIgnoreCase("")) {
+                        if (j == 1) {
+                            h.person_count.setText(String.valueOf(1));
+                            Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
+                            serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                            h.price.setText(global.getCurencySymbol() + priceValue);
+                            serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                            float pricevalue = 0;
+                            for (int k = 0; k < serviceList.size(); k++) {
+                                pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                            }
+                            if (global.getDropOff().equalsIgnoreCase("1")) {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + 20.0f + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            } else {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            }
                         } else {
-                            other_price.setText(global.getCurencySymbol() + pricevalue);
-                            pricevalue = pricevalue + vat_price_value;
-                            total_price.setText(global.getCurencySymbol() + pricevalue);
-                        }
-                    } else {
-                        j = j - 1;
-                        h.person_count.setText(String.valueOf(j));
-                        serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
-                        String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
-                        h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) - priceValue));
-                        serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
-                        float pricevalue = 0;
-                        for (int k = 0; k < serviceList.size(); k++) {
-                            pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
-                        }
-                        if (global.getDropOff().equalsIgnoreCase("1")) {
-                            other_price.setText(global.getCurencySymbol() + pricevalue);
-                            pricevalue = pricevalue + 20.0f + vat_price_value;
-                            total_price.setText(global.getCurencySymbol() + pricevalue);
-                        } else {
-                            other_price.setText(global.getCurencySymbol() + pricevalue);
-                            pricevalue = pricevalue + vat_price_value;
-                            total_price.setText(global.getCurencySymbol() + pricevalue);
-                        }
+                            j = j - 1;
+                            h.person_count.setText(String.valueOf(j));
+                            serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                            String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                            h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) - priceValue));
+                            serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                            float pricevalue = 0;
+                            for (int k = 0; k < serviceList.size(); k++) {
+                                pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                            }
+                            if (global.getDropOff().equalsIgnoreCase("1")) {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + 20.0f + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            } else {
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                                pricevalue = pricevalue + vat_price_value;
+                                total_price.setText(global.getCurencySymbol() + pricevalue);
+                            }
 
 
+                        }
+                    }else{
+                        if(discount_type.equalsIgnoreCase("fixed")) {
+                            if (j == 1) {
+                                h.person_count.setText(String.valueOf(1));
+                                Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
+                                serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                                h.price.setText(global.getCurencySymbol() + priceValue);
+                                serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                                float pricevalue = 0;
+                                for (int k = 0; k < serviceList.size(); k++) {
+                                    pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                                }
+
+                                if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + 20.0f + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                } else {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                }
+                            } else {
+                                j = j - 1;
+                                h.person_count.setText(String.valueOf(j));
+                                serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                                String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                                h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) - priceValue));
+                                serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                                float pricevalue = 0;
+                                for (int k = 0; k < serviceList.size(); k++) {
+                                    pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                                }
+                                if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + 20.0f + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                } else {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                }
+
+
+                            }
+                        }else{
+                            if (j == 1) {
+                                h.person_count.setText(String.valueOf(1));
+                                Toast.makeText(mContext, "less then one not allowed", Toast.LENGTH_SHORT).show();
+                                serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                                h.price.setText(global.getCurencySymbol() + priceValue);
+                                serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                                float pricevalue = 0;
+                                for (int k = 0; k < serviceList.size(); k++) {
+                                    pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                                }
+                                Change_total=pricevalue;
+                                if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    if (discount == 100.0f) {
+                                        float t = Change_total * discount / 100;
+                                        discount_price.setText(global.getCurencySymbol() + t);
+                                        total_price.setText(global.getCurencySymbol()+"0");
+
+                                    } else {
+                                        float t = Change_total - (Change_total * discount / 100);
+                                        t=t + 20.0f + vat_price_value;
+                                        total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                        discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                    }
+                                }else{
+                                    if (discount == 100.0f) {
+                                        float t = Change_total * discount / 100;
+                                        discount_price.setText(global.getCurencySymbol() + t);
+                                        total_price.setText(global.getCurencySymbol()+"0");
+
+                                    } else {
+                                        float t = Change_total - (Change_total * discount / 100);
+                                        t = t + vat_price_value;
+                                        total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                        discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                    }
+                                }
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+                               /* if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + 20.0f + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                } else {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                }*/
+                            } else {
+                                j = j - 1;
+                                h.person_count.setText(String.valueOf(j));
+                                serviceList.get(position).put(GlobalConstant.count, String.valueOf(j));
+                                String priceFirstCat = h.price.getText().toString().replace(global.getCurencySymbol(), "");
+                                h.price.setText(global.getCurencySymbol() + String.valueOf(parseFloat(priceFirstCat) - priceValue));
+                                serviceList.get(position).put(GlobalConstant.price, h.price.getText().toString().replace(global.getCurencySymbol(), ""));
+                                float pricevalue = 0;
+                                for (int k = 0; k < serviceList.size(); k++) {
+                                    pricevalue = pricevalue + parseFloat(serviceList.get(k).get(GlobalConstant.price));
+                                }
+                                Change_total=pricevalue;
+                                if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    if (discount == 100.0f) {
+                                        float t = Change_total * discount / 100;
+                                        discount_price.setText(global.getCurencySymbol() + t);
+                                        t=20.0f + vat_price_value;
+                                        total_price.setText(global.getCurencySymbol()+t);
+
+                                    } else {
+                                        float t = Change_total - (Change_total * discount / 100);
+                                        t=t + 20.0f + vat_price_value;
+                                        total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                        discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                    }
+                                }else{
+                                    if (discount == 100.0f) {
+                                        float t = Change_total * discount / 100;
+                                        discount_price.setText(global.getCurencySymbol() + t);
+                                        t = vat_price_value;
+                                        total_price.setText(global.getCurencySymbol()+t);
+
+                                    } else {
+                                        float t = Change_total - (Change_total * discount / 100);
+                                        t = t + vat_price_value;
+                                        total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                        discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                    }
+                                }
+
+                                other_price.setText(global.getCurencySymbol() + pricevalue);
+
+                               /* if (global.getDropOff().equalsIgnoreCase("1")) {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + 20.0f + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                } else {
+                                    other_price.setText(global.getCurencySymbol() + pricevalue);
+                                    pricevalue = pricevalue + vat_price_value;
+                                    total_price.setText(global.getCurencySymbol() + pricevalue);
+                                }*/
+
+
+                            }
+                        }
                     }
-
                 }
             });
 
@@ -531,35 +772,74 @@ public class ShoppingcartActivity extends Activity implements View.OnClickListen
                                         flat = Float.parseFloat(coupon.getString("discount_value"));
                                         discount_txt.setText(coupon_editView.getText().toString() + " applied sucessfully, flat "+global.getCurencySymbol() + coupon.getString("discount_value") + " discount");
 
-                                        if (flat > Change_total) {
-                                            float t = flat;
-                                            total_price.setText(global.getCurencySymbol()+"0");
-                                            discount_price.setText(global.getCurencySymbol() + flat);
+                                        if (global.getDropOff().equalsIgnoreCase("1")) {
+
+                                            if (flat > Change_total) {
+                                                float t = flat;
+                                                t = t + 20.0f + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol()+"0");
+                                                discount_price.setText(global.getCurencySymbol() + flat);
+
+                                            } else {
+                                                float t = Change_total - flat;
+                                                t = t + 20.0f + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                                discount_price.setText(global.getCurencySymbol() + flat);
+
+                                            }
 
                                         } else {
-                                            float t = Change_total - flat;
-                                            total_price.setText(global.getCurencySymbol() + String.valueOf(t));
-                                            discount_price.setText(global.getCurencySymbol() + flat);
+                                            if (flat > Change_total) {
+                                                float t = flat;
+                                                t = t + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol()+"0");
+                                                discount_price.setText(global.getCurencySymbol() + flat);
+
+                                            } else {
+                                                float t = Change_total - flat;
+                                                t = t + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                                discount_price.setText(global.getCurencySymbol() + flat);
+
+                                            }
+
 
                                         }
-
 
                                     } else {
 
 
                                         discount = Float.parseFloat(coupon.getString("discount_value"));
                                         discount_txt.setText(coupon_editView.getText().toString() + " applied sucessfully, " + coupon.getString("discount_value") + "% discount");
+                                        if (global.getDropOff().equalsIgnoreCase("1")) {
+                                            if (discount == 100.0f) {
+                                                float t = Change_total * discount / 100;
 
-                                        if (discount == 100) {
-                                            float t = Change_total * discount / 100;
-                                            discount_price.setText(global.getCurencySymbol() + t);
-                                            total_price.setText(global.getCurencySymbol()+"0");
+                                                discount_price.setText(global.getCurencySymbol() + t);
+                                                t = 20.0f + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol()+t);
 
-                                        } else {
-                                            float t = Change_total - (Change_total * discount / 100);
-                                            total_price.setText(global.getCurencySymbol() + String.valueOf(t));
-                                            discount_price.setText(global.getCurencySymbol() + t);
+                                            } else {
+                                                float t = Change_total - (Change_total * discount / 100);
+                                                t = t + 20.0f + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                                discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                            }
+                                        }else{
+                                            if (discount == 100.0f) {
+                                                float t = Change_total * discount / 100;
+                                                discount_price.setText(global.getCurencySymbol() + t);
+                                                t = vat_price_value;
+                                                total_price.setText(global.getCurencySymbol()+"0");
+
+                                            } else {
+                                                float t = Change_total - (Change_total * discount / 100);
+                                                t = t + vat_price_value;
+                                                total_price.setText(global.getCurencySymbol() + String.valueOf(String.format("%.2f", t)));
+                                                discount_price.setText(global.getCurencySymbol() + Change_total * discount / 100);
+                                            }
                                         }
+
 
                                     }
 

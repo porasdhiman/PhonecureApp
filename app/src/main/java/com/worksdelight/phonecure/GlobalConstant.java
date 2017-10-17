@@ -166,4 +166,13 @@ public class GlobalConstant {
     public static String vat="vat";
     public static String GetCouponDetail="http://m.phonecure.eu/index.php/api/discounts/getone?code=";
     public static String cancelCoupon="http://m.phonecure.eu/index.php/api/discounts/cancel";
+    public static String applyCoupon="http://m.phonecure.eu/index.php/api/discounts/apply";
+
+    public static String discount_coupon_id="discount_coupon_id";
+    public static String sub_total="sub_total";
+    public static String discounted_sub_total="discounted_sub_total";
+    public static String discount="discount";
+    public static String user_discount_coupon_id="user_discount_coupon_id";
+    public static String vat_percentage="vat_percentage";
+    public static String vat_value="vat_value";
 }
